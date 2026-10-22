@@ -1,0 +1,89 @@
+[{"stream_name":"stdout","time":7269.678627506,"data":"[\n"}
+,{"stream_name":"stdout","time":7269.678693096,"data":" {\n"}
+,{"stream_name":"stdout","time":7269.678697683,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":7269.678700388,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7269.678702753,"data":"   \"kind\": \"train\",\n"}
+,{"stream_name":"stdout","time":7269.678705214,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":7269.678707568,"data":"   \"out\": \"runs/qwen2.5-0.5b-cat\",\n"}
+,{"stream_name":"stdout","time":7269.678709921,"data":"   \"required\": true,\n"}
+,{"stream_name":"stdout","time":7269.678712285,"data":"   \"args\": [\n"}
+,{"stream_name":"stdout","time":7269.678714526,"data":"    \"--epochs\",\n"}
+,{"stream_name":"stdout","time":7269.678716794,"data":"    \"2\",\n"}
+,{"stream_name":"stdout","time":7269.67871899,"data":"    \"--layout\",\n"}
+,{"stream_name":"stdout","time":7269.678721257,"data":"    \"catalogue\"\n"}
+,{"stream_name":"stdout","time":7269.678723519,"data":"   ]\n"}
+,{"stream_name":"stdout","time":7269.678725677,"data":"  },\n"}
+,{"stream_name":"stdout","time":7269.678727816,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678730164,"data":"  \"seconds\": 4033\n"}
+,{"stream_name":"stdout","time":7269.678732415,"data":" },\n"}
+,{"stream_name":"stdout","time":7269.678734566,"data":" {\n"}
+,{"stream_name":"stdout","time":7269.67873671,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":7269.678738981,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7269.678741169,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":7269.67874344,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":7269.678745792,"data":"   \"adapter\": \"runs/qwen2.5-0.5b-cat/best\",\n"}
+,{"stream_name":"stdout","time":7269.678748133,"data":"   \"out\": \"results/ft-qwen2.5-0.5b-cat\",\n"}
+,{"stream_name":"stdout","time":7269.678750404,"data":"   \"layout\": \"catalogue\"\n"}
+,{"stream_name":"stdout","time":7269.67875271,"data":"  },\n"}
+,{"stream_name":"stdout","time":7269.678754829,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678757029,"data":"  \"seconds\": 175\n"}
+,{"stream_name":"stdout","time":7269.678759274,"data":" },\n"}
+,{"stream_name":"stdout","time":7269.678761406,"data":" {\n"}
+,{"stream_name":"stdout","time":7269.678763526,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":7269.678765713,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7269.678767909,"data":"   \"kind\": \"export\",\n"}
+,{"stream_name":"stdout","time":7269.678770191,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":7269.678772456,"data":"   \"adapter\": \"runs/qwen2.5-0.5b-cat/best\",\n"}
+,{"stream_name":"stdout","time":7269.67877475,"data":"   \"name\": \"aerojev-qwen2.5-0.5b-cat\"\n"}
+,{"stream_name":"stdout","time":7269.678777051,"data":"  },\n"}
+,{"stream_name":"stdout","time":7269.67877918,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678781404,"data":"  \"seconds\": 359\n"}
+,{"stream_name":"stdout","time":7269.678783721,"data":" },\n"}
+,{"stream_name":"stdout","time":7269.678785844,"data":" {\n"}
+,{"stream_name":"stdout","time":7269.678787976,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678790146,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7269.678792322,"data":"   \"kind\": \"train\",\n"}
+,{"stream_name":"stdout","time":7269.678794574,"data":"   \"model\": \"Qwen/Qwen3-0.6B\",\n"}
+,{"stream_name":"stdout","time":7269.678797076,"data":"   \"out\": \"runs/qwen3-0.6b-cat\",\n"}
+,{"stream_name":"stdout","time":7269.678803408,"data":"   \"required\": true,\n"}
+,{"stream_name":"stdout","time":7269.678805786,"data":"   \"args\": [\n"}
+,{"stream_name":"stdout","time":7269.678808022,"data":"    \"--epochs\",\n"}
+,{"stream_name":"stdout","time":7269.678810266,"data":"    \"2\",\n"}
+,{"stream_name":"stdout","time":7269.678812476,"data":"    \"--layout\",\n"}
+,{"stream_name":"stdout","time":7269.67881467,"data":"    \"catalogue\"\n"}
+,{"stream_name":"stdout","time":7269.678816874,"data":"   ]\n"}
+,{"stream_name":"stdout","time":7269.678819011,"data":"  },\n"}
+,{"stream_name":"stdout","time":7269.678821136,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678823331,"data":"  \"seconds\": 6852\n"}
+,{"stream_name":"stdout","time":7269.678825534,"data":" },\n"}
+,{"stream_name":"stdout","time":7269.678827661,"data":" {\n"}
+,{"stream_name":"stdout","time":7269.67883005,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7269.67883225,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7269.678834431,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":7269.678836674,"data":"   \"model\": \"Qwen/Qwen3-0.6B\",\n"}
+,{"stream_name":"stdout","time":7269.678838984,"data":"   \"adapter\": \"runs/qwen3-0.6b-cat/best\",\n"}
+,{"stream_name":"stdout","time":7269.678841287,"data":"   \"out\": \"results/ft-qwen3-0.6b-cat\",\n"}
+,{"stream_name":"stdout","time":7269.678843568,"data":"   \"layout\": \"catalogue\"\n"}
+,{"stream_name":"stdout","time":7269.678845846,"data":"  },\n"}
+,{"stream_name":"stdout","time":7269.678847965,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678850159,"data":"  \"seconds\": 275\n"}
+,{"stream_name":"stdout","time":7269.678852368,"data":" },\n"}
+,{"stream_name":"stdout","time":7269.678854494,"data":" {\n"}
+,{"stream_name":"stdout","time":7269.678856632,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678858797,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7269.678860976,"data":"   \"kind\": \"export\",\n"}
+,{"stream_name":"stdout","time":7269.67886324,"data":"   \"model\": \"Qwen/Qwen3-0.6B\",\n"}
+,{"stream_name":"stdout","time":7269.678865525,"data":"   \"adapter\": \"runs/qwen3-0.6b-cat/best\",\n"}
+,{"stream_name":"stdout","time":7269.678867792,"data":"   \"name\": \"aerojev-qwen3-0.6b-cat\"\n"}
+,{"stream_name":"stdout","time":7269.678870084,"data":"  },\n"}
+,{"stream_name":"stdout","time":7269.67887224,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7269.678874421,"data":"  \"seconds\": 73\n"}
+,{"stream_name":"stdout","time":7269.678876742,"data":" }\n"}
+,{"stream_name":"stdout","time":7269.678878877,"data":"]\n"}
+,{"stream_name":"stderr","time":7271.997446183,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":7271.997474547,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":7272.276899255,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":7272.276925761,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":7273.10922119,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":7274.177692481,"data":"[NbConvertApp] Writing 307653 bytes to __results__.html\n"}
+]

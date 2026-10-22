@@ -1,0 +1,21 @@
+# core: data generation, training, evaluation (Python 3.10+)
+torch>=2.4
+transformers==5.20.2
+peft==0.21.2
+accelerate
+numpy
+pandas
+scipy
+scikit-learn
+sentencepiece
+
+# notebook and plots
+jupyterlab
+matplotlib
+
+# CPU inference of GGUF files. On Apple Silicon build it CPU-only for honest CPU numbers:
+#   CMAKE_ARGS="-DGGML_METAL=OFF" pip install --no-cache-dir llama-cpp-python==0.3.16
+llama-cpp-python==0.3.16
+
+# optional baseline (sentence-embedding + logistic regression)
+sentence-transformers

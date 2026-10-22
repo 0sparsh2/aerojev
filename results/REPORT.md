@@ -20,8 +20,11 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3-0.6B | zero-shot readout | branch | 0.632 | 0.498 | 0.570 | 0.583 | 0.000 | 0.224→0.054 |
 | Qwen3-1.7B | zero-shot readout | branch | 0.704 | 0.669 | 0.660 | 0.638 | 0.050 | 0.266→0.122 |
 | Qwen3.5-0.8B | zero-shot readout | branch (unpacked) | 0.518 | 0.472 | 0.568 | 0.570 | 0.000 | 0.086→0.086 |
+| Qwen2.5-0.5B-Instruct | LoRA decision-trained | catalogue | 0.932 | 0.922 | 0.944 | 0.941 | 0.525 | 0.041→0.032 |
+| Qwen3-0.6B | LoRA decision-trained | catalogue | 0.935 | 0.930 | 0.954 | 0.951 | 0.613 | 0.049→0.042 |
 | Qwen2.5-0.5B-Instruct | LoRA decision-trained | branch | 0.896 | 0.879 | 0.933 | 0.911 | 0.475 | 0.068→0.070 |
 | Qwen3-0.6B | LoRA decision-trained | branch | 0.929 | 0.921 | 0.933 | 0.932 | 0.550 | 0.049→0.044 |
+| Qwen/Qwen3-0.6B | gguf | branch | 0.928 | 0.919 | 0.933 | – | 0.537 | 0.050→0.044 |
 | Jev (TypeSafe API) | hosted, zero-shot | questions as-is | 0.869 | 0.864 | 0.817 | 0.816 | 0.300 | 0.049→0.077 |
 | Jev (TypeSafe API) | hosted, zero-shot | + playbook + export definition | 0.918 | 0.917 | 0.882 | 0.893 | 0.500 | 0.040→0.036 |
 | Jev (TypeSafe API) | hosted, zero-shot | + playbook rules | 0.892 | 0.883 | 0.853 | 0.857 | 0.375 | 0.039→0.046 |
@@ -38,8 +41,11 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3-0.6B (zero-shot readout, branch) | 0.65 | 0.66 | 0.42 | 0.60 | 0.40 | 0.82 | 0.97 | 0.89 | 0.26 |
 | Qwen3-1.7B (zero-shot readout, branch) | 0.72 | 0.75 | 0.51 | 0.71 | 0.47 | 0.94 | 0.97 | 0.97 | 0.28 |
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.68 | 0.80 | 0.28 | 0.53 | 0.39 | 0.17 | 0.70 | 0.88 | 0.25 |
+| Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.95 | 0.93 | 0.78 | 0.96 | 0.93 | 0.99 | 1.00 | 1.00 | 0.86 |
+| Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.94 | 0.95 | 0.80 | 0.95 | 0.91 | 0.99 | 1.00 | 1.00 | 0.88 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.88 | 0.95 | 0.70 | 0.88 | 0.81 | 1.00 | 0.99 | 1.00 | 0.86 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.89 | 0.95 | 0.86 | 0.95 | 0.89 | 1.00 | 1.00 | 1.00 | 0.82 |
+| Qwen/Qwen3-0.6B (gguf, branch) | 0.88 | 0.95 | 0.86 | 0.95 | 0.89 | 1.00 | 1.00 | 1.00 | 0.82 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.99 | 0.91 | 0.75 | 0.96 | 0.59 | 0.75 | 1.00 | 1.00 | 0.88 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 0.97 | 0.91 | 0.79 | 0.97 | 0.84 | 1.00 | 1.00 | 1.00 | 0.78 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook rules) | 0.97 | 0.93 | 0.78 | 0.97 | 0.82 | 0.75 | 1.00 | 1.00 | 0.80 |
@@ -54,8 +60,11 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3-0.6B (zero-shot readout, branch) | 0.79 | 0.90 | 0.85 |
 | Qwen3-1.7B (zero-shot readout, branch) | 0.94 | 0.94 | 0.86 |
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.38 | 0.89 | 0.51 |
+| Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.53 | 0.61 | 0.84 |
+| Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.69 | 0.78 | 0.85 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.81 | 0.90 | 0.82 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.75 | 0.88 | 0.84 |
+| Qwen/Qwen3-0.6B (gguf, branch) | 0.78 | 0.88 | 0.84 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.75 | 1.00 | 0.79 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 0.76 | 1.00 | 0.80 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook rules) | 0.75 | 1.00 | 0.79 |
@@ -68,8 +77,11 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3-0.6B (zero-shot readout, branch) | 0.666 | 0.603 |
 | Qwen3-1.7B (zero-shot readout, branch) | 0.816 | 0.691 |
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.662 | 0.556 |
+| Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.831 | 0.794 |
+| Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.894 | 0.894 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.866 | 0.828 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.938 | 0.909 |
+| Qwen/Qwen3-0.6B (gguf, branch) | 0.941 | 0.909 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.994 | 0.816 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 1.000 | 0.872 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook rules) | 0.994 | 0.875 |
@@ -90,5 +102,7 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 
 | Run | best val acc | steps | records | minutes |
 |---|---|---|---|---|
+| qwen3-0.6b-cat | 0.976 | 1500 | 12000 | 114 |
+| qwen2.5-0.5b-cat | 0.971 | 1500 | 12000 | 67 |
 | qwen3-0.6b | 0.966 | 1500 | 12000 | 89 |
 | qwen2.5-0.5b | 0.960 | 1500 | 12000 | 55 |

@@ -114,7 +114,7 @@ def run_job(job, log, env):
         shutil.rmtree(merged, ignore_errors=True)
         return rc
     if k == "cmd":  # free-form command; {OUT} and {PY} are substituted, {GGUF:<name>} finds an input file
-        cmd = job["cmd"].replace("{OUT}", OUT).replace("{PY}", py)
+        cmd = job["cmd"].replace("{OUT}", OUT).replace("{PY}", py).replace("{PROJ}", PROJ)
         for name in set(__import__("re").findall(r"\{GGUF:([^}]+)\}", cmd)):
             hits = glob.glob(f"/kaggle/input/**/{name}", recursive=True)
             if not hits:

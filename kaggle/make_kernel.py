@@ -88,6 +88,14 @@ KERNELS = {
               for base, run in [("qwen3-0.6b", "qwen3-0.6b"), ("qwen2.5-0.5b", "qwen2.5-0.5b"),
                                 ("qwen3-0.6b", "qwen3-0.6b-cat"), ("qwen2.5-0.5b", "qwen2.5-0.5b-cat")]],
     },
+    # execute the end-to-end notebook unchanged (it has no platform-specific code) and keep the executed copy
+    "notebook-exec": {
+        "0": [{"kind": "cmd", "needs_llama": True,
+               "cmd": "cd {PROJ}/notebooks && jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=-1 "
+                      "aerojev_qwen2.5-0.5b_lora.ipynb --output {OUT}/aerojev_qwen2.5-0.5b_lora.executed.ipynb"},
+              {"kind": "cmd", "cmd": "mkdir -p {OUT}/notebook && cp -r {PROJ}/results/notebook/. {OUT}/notebook/ "
+                                     "&& rm -rf {OUT}/notebook/data"}],
+    },
     # x86 CPU latency suite (no GPU); inputs are the training kernels' outputs (adapters + GGUFs)
     "cpu-bench": {
         "_gpu": False,
@@ -104,7 +112,7 @@ def bundle():
     os.makedirs(os.path.join(ROOT, "kaggle/dataset"), exist_ok=True)
     path = os.path.join(ROOT, "kaggle/dataset/aerojev_bundle.tar.gz")
     with tarfile.open(path, "w:gz") as t:
-        for d in ["aerojev", "eval", "train", "data"]:
+        for d in ["aerojev", "eval", "train", "data", "notebooks"]:
             t.add(os.path.join(ROOT, d), arcname=d,
                   filter=lambda ti: None if "__pycache__" in ti.name else ti)
     json.dump({"title": "aerojev-bundle", "id": DATASET, "licenses": [{"name": "CC0-1.0"}]},
@@ -131,25 +139,5 @@ def kernel(name):
     print(f"kernel -> {kdir}")
 
 
-NOTEBOOK = "notebooks/aerojev_qwen2.5-0.5b_lora.ipynb"
-
-
-def notebook_kernel(name, gpu):
-    """Run the end-to-end notebook as a Kaggle notebook kernel (outputs are saved in the run)."""
-    import shutil
-    kdir = os.path.join(ROOT, "kaggle/kernels", name)
-    os.makedirs(kdir, exist_ok=True)
-    slug = f"aerojev-{name}"
-    shutil.copy(os.path.join(ROOT, NOTEBOOK), os.path.join(kdir, f"{slug}.ipynb"))
-    json.dump({
-        "id": f"{USER}/{slug}", "title": slug, "code_file": f"{slug}.ipynb", "language": "python",
-        "kernel_type": "notebook", "is_private": True, "enable_gpu": gpu, "enable_tpu": False,
-        "enable_internet": True, "dataset_sources": [DATASET], "kernel_sources": [],
-        "competition_sources": [], "model_sources": [], **({"machine_shape": "NvidiaTeslaT4"} if gpu else {}),
-    }, open(os.path.join(kdir, "kernel-metadata.json"), "w"), indent=1)
-    print(f"notebook kernel -> {kdir} (gpu={gpu})")
-
-
 if __name__ == "__main__":
-    {"bundle": lambda: bundle(), "kernel": lambda: kernel(sys.argv[2]),
-     "notebook": lambda: notebook_kernel(sys.argv[2], sys.argv[3] == "gpu")}[sys.argv[1]]()
+    {"bundle": lambda: bundle(), "kernel": lambda: kernel(sys.argv[2])}[sys.argv[1]]()

@@ -29,10 +29,14 @@ NAMES = {
 
 def load_llm_results():
     out = {}
-    for f in sorted(glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/results/*/metrics.json")) +
-                    sorted(glob.glob(os.path.join(ROOT, "results/gguf-*/metrics.json"))) +
-                    sorted(glob.glob(os.path.join(ROOT, "results/jev-*/metrics.json"))) +
-                    sorted(glob.glob(os.path.join(ROOT, "results/*-gold2/metrics.json")))):
+    # eval.evaluate / eval.jev runs: local results/<run>/ first (e.g. results/ft-qwen3-0.6b-cat-v2), then runs
+    # downloaded from remote GPU jobs; separate gold2-only runs (<run>-gold2) are merged into their system's row
+    local = [f for f in sorted(glob.glob(os.path.join(ROOT, "results/*/metrics.json")))
+             if not os.path.basename(os.path.dirname(f)).startswith(("gen-", "classical", "notebook", "dashboard"))]
+    files = sorted(glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/results/*/metrics.json"))) + local
+    plain = [f for f in files if not f.endswith("-gold2/metrics.json")]
+    gold2 = [f for f in files if f.endswith("-gold2/metrics.json")]  # merged last, once every row exists
+    for f in plain + gold2:
         key = os.path.basename(os.path.dirname(f))
         m = json.load(open(f))
         if key.endswith("-gold2"):  # a separate gold2-only eval run: merge into the system's row

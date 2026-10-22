@@ -1,0 +1,74 @@
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen3-0.6B --sets gold2 --out /kaggle/working/out/results/ft-qwen3-0.6b-gold2 --dtype float32 --adapter /kaggle/input/notebooks/sparshnagpal/aerojev-train/out/runs/qwen3-0.6b/best
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+model=Qwen/Qwen3-0.6B adapter=/kaggle/input/notebooks/sparshnagpal/aerojev-train/out/runs/qwen3-0.6b/best mode=tree device=cuda
+[gold2] 48 records
+== gold2: core acc 0.921  macroF1 0.888  exact 0.458  ECE 0.054  0.47s/rec
+   event_type           acc=0.854 (maj 0.17) f1=0.842
+   commodity            acc=0.979 (maj 0.21) f1=0.889
+   impact_severity      acc=0.812 (maj 0.29) f1=0.833 mae=0.22
+   line_stop_risk       acc=0.979 (maj 0.62) f1=0.978 auroc=0.994
+   recommended_action   acc=0.875 (maj 0.21) f1=0.905
+   export_controlled    acc=0.979 (maj 0.88) f1=0.949 auroc=0.956
+   counterfeit_suspect  acc=0.979 (maj 0.96) f1=0.828 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.833 (maj 0.38) f1=0.770 mae=0.23
+   supplier_region      acc=0.917 (maj 0.75) f1=0.652
+   mentions_new_date    acc=0.917 (maj 0.92) f1=0.727 auroc=0.852
+   military_program     acc=0.896 (maj 0.88) f1=0.615 auroc=0.940
+[exit 0 after 47s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen2.5-0.5B-Instruct --sets gold2 --out /kaggle/working/out/results/ft-qwen2.5-0.5b-gold2 --dtype float32 --adapter /kaggle/input/notebooks/sparshnagpal/aerojev-train/out/runs/qwen2.5-0.5b/best
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+model=Qwen/Qwen2.5-0.5B-Instruct adapter=/kaggle/input/notebooks/sparshnagpal/aerojev-train/out/runs/qwen2.5-0.5b/best mode=tree device=cuda
+[gold2] 48 records
+== gold2: core acc 0.896  macroF1 0.895  exact 0.438  ECE 0.055  0.29s/rec
+   event_type           acc=0.896 (maj 0.17) f1=0.905
+   commodity            acc=0.958 (maj 0.21) f1=0.863
+   impact_severity      acc=0.729 (maj 0.29) f1=0.756 mae=0.35
+   line_stop_risk       acc=0.875 (maj 0.62) f1=0.867 auroc=0.950
+   recommended_action   acc=0.750 (maj 0.21) f1=0.798
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.854 (maj 0.38) f1=0.867 mae=0.18
+   supplier_region      acc=0.771 (maj 0.75) f1=0.663
+   mentions_new_date    acc=0.917 (maj 0.92) f1=0.478 auroc=0.756
+   military_program     acc=0.875 (maj 0.88) f1=0.467 auroc=0.671
+[exit 0 after 34s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen3-0.6B --sets gold2 --out /kaggle/working/out/results/ft-qwen3-0.6b-cat-gold2 --dtype float32 --adapter /kaggle/input/notebooks/sparshnagpal/aerojev-train-cat/out/runs/qwen3-0.6b-cat/best --layout catalogue
+model=Qwen/Qwen3-0.6B adapter=/kaggle/input/notebooks/sparshnagpal/aerojev-train-cat/out/runs/qwen3-0.6b-cat/best mode=tree device=cuda
+[gold2] 48 records
+== gold2: core acc 0.921  macroF1 0.916  exact 0.521  ECE 0.058  0.08s/rec
+   event_type           acc=0.875 (maj 0.17) f1=0.887
+   commodity            acc=0.938 (maj 0.21) f1=0.855
+   impact_severity      acc=0.729 (maj 0.29) f1=0.789 mae=0.30
+   line_stop_risk       acc=1.000 (maj 0.62) f1=1.000 auroc=1.000
+   recommended_action   acc=0.896 (maj 0.21) f1=0.906
+   export_controlled    acc=0.979 (maj 0.88) f1=0.949 auroc=0.869
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.875 (maj 0.38) f1=0.856 mae=0.17
+   supplier_region      acc=0.708 (maj 0.75) f1=0.458
+   mentions_new_date    acc=0.729 (maj 0.92) f1=0.486 auroc=0.699
+   military_program     acc=0.875 (maj 0.88) f1=0.467 auroc=0.988
+[exit 0 after 18s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen2.5-0.5B-Instruct --sets gold2 --out /kaggle/working/out/results/ft-qwen2.5-0.5b-cat-gold2 --dtype float32 --adapter /kaggle/input/notebooks/sparshnagpal/aerojev-train-cat/out/runs/qwen2.5-0.5b-cat/best --layout catalogue
+model=Qwen/Qwen2.5-0.5B-Instruct adapter=/kaggle/input/notebooks/sparshnagpal/aerojev-train-cat/out/runs/qwen2.5-0.5b-cat/best mode=tree device=cuda
+[gold2] 48 records
+== gold2: core acc 0.933  macroF1 0.921  exact 0.583  ECE 0.046  0.05s/rec
+   event_type           acc=0.896 (maj 0.17) f1=0.905
+   commodity            acc=0.979 (maj 0.21) f1=0.889
+   impact_severity      acc=0.833 (maj 0.29) f1=0.851 mae=0.23
+   line_stop_risk       acc=0.958 (maj 0.62) f1=0.956 auroc=0.993
+   recommended_action   acc=0.896 (maj 0.21) f1=0.910
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.979 (maj 0.88) f1=0.949 auroc=1.000
+   delay_bucket         acc=0.854 (maj 0.38) f1=0.829 mae=0.16
+   supplier_region      acc=0.521 (maj 0.75) f1=0.289
+   mentions_new_date    acc=0.708 (maj 0.92) f1=0.558 auroc=0.761
+   military_program     acc=0.896 (maj 0.88) f1=0.615 auroc=0.869
+[exit 0 after 17s]

@@ -26,6 +26,19 @@ Playbook (shortfall = days late - days of stock coverage):
                                        -> request_recovery_plan
     delivery delay, logistics, short force majeure w/ shortfall -> expedite
     otherwise                          -> monitor
+
+How to extend
+  New decision: declare the Question in aerojev/schema.py, then add its answer to the
+    dict returned by derive_labels(). If it needs a fact the Scenario lacks, add that fact
+    (next point) first. Training and evaluation pick the question up from the schema.
+  New fact: add a field to Scenario, set it in sample_scenario() for the events where it
+    applies, make derive_labels() use it, and make data/gen/render.py state it in the text
+    (a fact the text never states turns its label into noise).
+  New event type: append it to EVENTS / EVENT_WEIGHTS and to the event_type options in the
+    schema, give it a branch in sample_scenario() and derive_labels(), and add its situation
+    sentences in render.situation().
+  Keep draws off decision thresholds (see _sample_delay_and_cover): a label that hinges on
+    one day either way is noise once the text says "about 2 weeks".
 """
 
 import random

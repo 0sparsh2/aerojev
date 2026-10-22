@@ -1,0 +1,82 @@
+[
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/qwen2.5-0.5b-cat",
+   "required": true,
+   "args": [
+    "--epochs",
+    "2",
+    "--layout",
+    "catalogue"
+   ]
+  },
+  "rc": 0,
+  "seconds": 4033
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/qwen2.5-0.5b-cat/best",
+   "out": "results/ft-qwen2.5-0.5b-cat",
+   "layout": "catalogue"
+  },
+  "rc": 0,
+  "seconds": 175
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "export",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/qwen2.5-0.5b-cat/best",
+   "name": "aerojev-qwen2.5-0.5b-cat"
+  },
+  "rc": 0,
+  "seconds": 359
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen3-0.6B",
+   "out": "runs/qwen3-0.6b-cat",
+   "required": true,
+   "args": [
+    "--epochs",
+    "2",
+    "--layout",
+    "catalogue"
+   ]
+  },
+  "rc": 0,
+  "seconds": 6852
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": "runs/qwen3-0.6b-cat/best",
+   "out": "results/ft-qwen3-0.6b-cat",
+   "layout": "catalogue"
+  },
+  "rc": 0,
+  "seconds": 275
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "export",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": "runs/qwen3-0.6b-cat/best",
+   "name": "aerojev-qwen3-0.6b-cat"
+  },
+  "rc": 0,
+  "seconds": 73
+ }
+]

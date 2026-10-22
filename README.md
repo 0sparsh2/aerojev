@@ -69,77 +69,118 @@ The catalogue layout matches cached and uncached logits to 1e-4
 DeltaNet layers carry recurrent state, so neither tree packing nor
 prefix-branch reuse is valid there, and the engine falls back to `unpacked` mode.
 
-## Data
+## Building the dataset
 
-Labels are sampled first, as latent facts: event, commodity, days late, stock
-coverage, sole source, export marking, counterfeit signals and so on. The text
-is then rendered from phrase banks in 7 formats. Every fact the playbook uses
-is stated in the record.
+There is no labelled history of supply-chain records, so the training data is **built** from facts. The order
+matters, because labels must never be guessed from text:
 
-| split | records | how it differs from train |
-|---|---|---|
-| `train` / `val` | 6000 / 500 | training templates, 6 formats (val shares 60% of 8-grams with train) |
-| `test` | 800 | ~25% of every phrase bank held out, plus the test-only `call_notes` format (25% 8-gram overlap) |
-| `injection` | 200 | test templates, each record carries a prompt-injection line |
-| `gold` | 80 | hand-written messy records in formats the generator never produces (0.7% 8-gram overlap); labels from the same playbook |
+1. **World** (`data/gen/world.py`): fictional suppliers (each tied to the commodities it plausibly makes), parts,
+   programs (some military), materials, ports and defect types. Swap in your own supplier and part masters here.
+2. **Facts** (`Scenario` in `data/gen/policy.py`): one record's ground truth: event, commodity, days late, days of
+   stock, line down / AOG, sourcing, export marking, counterfeit signals, months to last-time buy.
+3. **Playbook** (`derive_labels` in `data/gen/policy.py`): the team's rules, written as code, that turn facts into
+   the answer to every question (for example, shortfall = days late − days of stock drives severity, line-stop risk
+   and the action). Writing these down is where the team agrees on the right answers.
+4. **Sampling** (`sample_scenario`): facts are drawn per event, steering toward a balanced mix of regimes (stock covers
+   the delay / short shortfall / long shortfall / no recovery date) and rejecting draws near any rule's threshold.
+5. **Rendering** (`data/gen/render.py`): per-fact phrase banks ("6 weeks late", "40 on hand, 10 a week", "sole source",
+   "ITAR controlled"), per-event situations in formal and informal registers, and 7 formats (supplier email, ERP
+   exception, Teams/Slack message, quality notification, risk alert, portal notice, call notes). About a third of
+   records get distractor sentences, and a few percent get a prompt-injection line with unchanged labels.
+6. **Splits**: each phrase bank is split by a stable hash of the template index, so ~25% of every bank's wording, and
+   the whole `call_notes` format, appear only in test. `scripts/make_data.sh` builds every split deterministically.
+7. **Leakage check**: the share of each evaluation set's 8-grams that also occur in training text.
+8. **Gold sets** (`data/gold/`): records written by hand in real-world styles, facts first, labelled by the same
+   playbook: `gold` (80, used for error analysis) and `gold2` (48, written blind before any data iteration).
 
-All company and program names are fictional.
+| split | records | how it differs from train | 8-gram overlap with train |
+|---|---|---|---|
+| `train` / `val` (v1) | 6000 / 500 | training templates, 6 formats | val 60% |
+| `train` / `val` (v2) | 10000 / 500 | adds early deliveries, equipment outages, supplier-caught defects, more injection styles | |
+| `test` | 800 | held-out templates + the test-only `call_notes` format | 25% |
+| `test_v2` | 800 | held-out templates of the v2 generator | |
+| `injection` | 200 | a prompt-injection line in every record | |
+| `gold` / `gold2` | 80 / 48 | hand-written, formats the generator never produces | 0.7% |
+
+The notebook's section 2 walks through every step above with runnable code. All company and program names are fictional.
 
 ## Reproduce
 
+Everything runs locally. Training needs a CUDA GPU (Qwen3-0.6B takes about 1.5 h for 2 epochs on a T4-class card);
+everything else, including inference, runs on a CPU.
+
 ```bash
-uv venv --python 3.12 .venv && source .venv/bin/activate
-uv pip install torch transformers==5.20.2 peft==0.21.2 accelerate scikit-learn sentence-transformers
-CMAKE_ARGS="-DGGML_METAL=OFF" pip install llama-cpp-python==0.3.16      # CPU GGUF backend
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt     # on Apple Silicon see the llama-cpp-python note inside
 
-python -m data.gen.generate && python -m data.gold.build_gold           # datasets
-python -m eval.classical                                                # TF-IDF / MiniLM baselines
-python -m eval.evaluate --model Qwen/Qwen3-0.6B --sets gold --out results/zs-local   # zero-shot readout
+# 1. data: v1 + v2 splits and both gold sets
+bash scripts/make_data.sh
 
-# GPU work runs as private Kaggle kernels (weights download inside Kaggle)
-python kaggle/make_kernel.py bundle && kaggle datasets version -p kaggle/dataset -m update
-python kaggle/make_kernel.py kernel train && kaggle kernels push -p kaggle/kernels/train
+# 2. baselines
+python -m eval.classical                                             # TF-IDF / MiniLM + logistic regression
+python -m eval.evaluate --model Qwen/Qwen3-0.6B --sets gold,test --out results/zs-qwen3-0.6b   # untrained readout
 
-# CPU serving
-python server.py --gguf models/aerojev-qwen3-0.6b-cat-q8_0.gguf --tokenizer Qwen/Qwen3-0.6B --layout catalogue
+# 3. decision training (GPU)
+python -m train.train --model Qwen/Qwen3-0.6B --layout catalogue --data data/processed_v2 --epochs 2 \
+    --out runs/qwen3-0.6b-cat-v2
+
+# 4. evaluation (fits per-type temperatures on val)
+python -m eval.evaluate --model Qwen/Qwen3-0.6B --adapter runs/qwen3-0.6b-cat-v2/best --layout catalogue \
+    --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out results/ft-qwen3-0.6b-cat-v2
+
+# 5. export for CPU: merge LoRA, GGUF Q8_0 + Q4_K_M (builds llama.cpp's quantizer on first use)
+python -m aerojev.export --model Qwen/Qwen3-0.6B --adapter runs/qwen3-0.6b-cat-v2/best --out models \
+    --name aerojev-qwen3-0.6b-cat-v2
+
+# 6. CPU latency, every system under the same protocol (run on an idle machine)
+python -m eval.latency_suite --out results/latency_local.jsonl
+
+# 7. report and serving
+python scripts/report.py
+python server.py --gguf models/aerojev-qwen3-0.6b-cat-v2-q8_0.gguf --tokenizer Qwen/Qwen3-0.6B --layout catalogue
 curl -s localhost:8080/v1/decide -d '{"state": "Kestrel: 718 disks slip 6 weeks. 2 weeks on hand. Sole source."}'
 ```
 
 ## Weights
 
-Model files are not in git (GGUF files are 0.4–0.6 GB; LoRA adapters ~35–40 MB each). They are produced by
-the private Kaggle kernels: `aerojev-train` (branch layout), `aerojev-train-cat` (catalogue layout),
-`aerojev-train-v2` (data v2, Qwen3-0.6B and Qwen3-1.7B) and `aerojev-notebook`. Fetch them with, for example,
-`kaggle kernels output sparshnagpal/aerojev-train -p kaggle/outputs/train --file-pattern ".*\.(gguf|safetensors)$"`,
-or regenerate them with the `export` job in `kaggle/runner.py`.
+Model files are not in git (GGUF files are 0.4–0.6 GB; LoRA adapters ~35–40 MB each). Steps 3 and 5 above recreate
+them: training writes `runs/<run>/best/` (the LoRA adapter) and the export writes `models/*.gguf`.
 
 ## End-to-end notebook
 
-`notebooks/aerojev_qwen2.5-0.5b_lora.ipynb` runs the whole pipeline for one base model
-(Qwen2.5-0.5B-Instruct + LoRA). It covers the schema, playbook, data generation and leakage check, gold sets,
-prompt layouts, a tree-packing check, baselines, training, evaluation, calibration, GGUF export, CPU latency,
-and usage. Regenerate it with `python scripts/build_notebook.py`.
+`notebooks/aerojev_qwen2.5-0.5b_lora.ipynb` runs and explains the whole pipeline for one base model
+(Qwen2.5-0.5B-Instruct + LoRA): the decisions, building the dataset step by step, the prompt layout and readout,
+tree packing, baselines, training, evaluation, calibration, GGUF export, CPU latency and usage.
+Regenerate it with `python scripts/build_notebook.py`.
 
-* **Kaggle (full run on a T4):** attach the `aerojev-bundle` dataset and run all cells, or
-  `python kaggle/make_kernel.py notebook notebook gpu && kaggle kernels push -p kaggle/kernels/notebook`.
-* **Locally / CPU only:** it switches to FAST mode, a smoke test with a few dozen records per step.
-  Environment overrides: `AEROJEV_NB_MODEL` (another base model), `AEROJEV_NB_FAST=0|1`,
-  `AEROJEV_NB_EXPORT=0` (skip the llama.cpp build).
+* **On a CUDA GPU** it runs the full recipe (about an hour on a T4-class card).
+* **On a CPU only** it switches to FAST mode, the same steps with a few dozen records each.
+* Overrides: `AEROJEV_NB_MODEL` (another base model), `AEROJEV_NB_FAST=0|1`, `AEROJEV_NB_EXPORT=0`
+  (skip the llama.cpp build), `AEROJEV_ROOT` (repo location if Jupyter starts elsewhere).
 
 ## Layout
 
 ```
-aerojev/    schema.py (questions) · prompt.py (layouts, tree packing) · engine.py (HF / GGUF engines) · metrics.py
-data/gen/   world.py · policy.py (playbook) · render.py (7 formats, split-aware phrase banks) · generate.py
-data/gold/  80 hand-written records
+aerojev/    schema.py (questions) · prompt.py (layouts, tree packing) · engine.py (HF / GGUF engines)
+            metrics.py · export.py (merge + GGUF) · benchrec.py (latency record schema)
+data/gen/   world.py · policy.py (facts + playbook) · render.py (7 formats, split-aware phrase banks) · generate.py
+data/gold/  hand-written gold (80) and blind gold2 (48) records
 train/      train.py (LoRA decision training)
-eval/       evaluate.py · classical.py · generative.py · bench_cpu.py · analyze.py
-kaggle/     runner.py (per-GPU job queues) · make_kernel.py (bundle, script and notebook kernels)
-notebooks/  aerojev_qwen2.5-0.5b_lora.ipynb (end-to-end walkthrough, built by scripts/build_notebook.py)
+eval/       evaluate.py · classical.py · generative.py · jev.py · bench_cpu.py · latency_suite.py · analyze.py
+notebooks/  end-to-end walkthrough (built by scripts/build_notebook.py)
+scripts/    make_data.sh · report.py · export_dashboard.py · build_notebook.py
 tests/      tree-pack, catalogue-cache and GGUF parity checks
 server.py   stdlib HTTP API
+kaggle/     optional: how the GPU runs for this report were executed (see below)
 ```
 
 ## Results
 
 See `results/REPORT.md` (generated by `python scripts/report.py`).
+
+## Appendix: running the GPU steps on Kaggle (optional)
+
+The runs in this report were executed as private Kaggle kernels, because the development machine had no CUDA
+GPU and little free disk. `kaggle/` holds that tooling: `runner.py` runs one job queue per GPU (train, eval,
+export, any command) and `make_kernel.py` packs the code and data into a private dataset and writes kernel
+folders. None of the project code depends on it; any machine with a CUDA GPU can run steps 3–5 directly.

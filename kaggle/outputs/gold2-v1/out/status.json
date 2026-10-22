@@ -1,0 +1,52 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter_input": "runs/qwen3-0.6b/best",
+   "out": "results/ft-qwen3-0.6b-gold2",
+   "sets": "gold2"
+  },
+  "rc": 0,
+  "seconds": 48
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter_input": "runs/qwen2.5-0.5b/best",
+   "out": "results/ft-qwen2.5-0.5b-gold2",
+   "sets": "gold2"
+  },
+  "rc": 0,
+  "seconds": 34
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter_input": "runs/qwen3-0.6b-cat/best",
+   "out": "results/ft-qwen3-0.6b-cat-gold2",
+   "sets": "gold2",
+   "layout": "catalogue"
+  },
+  "rc": 0,
+  "seconds": 18
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter_input": "runs/qwen2.5-0.5b-cat/best",
+   "out": "results/ft-qwen2.5-0.5b-cat-gold2",
+   "sets": "gold2",
+   "layout": "catalogue"
+  },
+  "rc": 0,
+  "seconds": 17
+ }
+]

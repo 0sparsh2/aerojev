@@ -15,7 +15,7 @@ import os
 import subprocess
 import sys
 
-ROOTS = ["models", "kaggle/outputs", "/kaggle/input"]
+ROOTS = ["models", "runs", "kaggle/outputs", "/kaggle/input"]  # local first, then downloaded runs
 
 
 def find(name):

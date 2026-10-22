@@ -3,6 +3,24 @@
 Every phrase bank is split by a stable hash: ~25% of each bank's variants are
 reserved for the test split, so test records use wording never seen in
 training. The `call_notes` format is test-only.
+
+Structure
+  fact phrases   delay_phrase, coverage_phrase, sole_phrase, export_phrase: one bank per
+                 way of stating a fact, formal and informal (chat) variants
+  situation()    what is happening, per event and sub-kind, formal and informal
+  fmt_*          the seven formats; each arranges situation + fact phrases + noise
+                 (distractor(), injection()) the way that document type looks
+
+How to extend
+  More wording: append templates to a bank's list. To keep an existing train/test split
+    stable (and an existing test file uncontaminated), put new wording in a NEW bank name
+    rather than growing an old list: the split ranks a bank's template indices by hash.
+  A new fact (see policy.py): add a *_phrase() function and call it from every format,
+    so no format can drop a fact a label depends on.
+  A new format: write fmt_<name>(ctx) returning the text, register it in FORMAT_FNS and
+    FORMATS_TRAIN (or only FORMATS_TEST to hold it out as an unseen format).
+  Arithmetic forms ("40 on hand, 10 per week", "covered through Nov 3") teach the model to
+    compute facts, but keep each quantity exactly recoverable from the text.
 """
 
 import datetime as dt
