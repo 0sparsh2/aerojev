@@ -1,0 +1,43 @@
+
+$ nvidia-smi
+/bin/sh: 1: nvidia-smi: not found
+[exit 127 after 0s]
+
+$ /usr/bin/python3 -m pip install -q 'transformers==5.20.2' 'peft==0.21.2' accelerate sentencepiece sentence-transformers scikit-learn
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+gradio 6.26.0 requires pillow<13.0,>=8.0, but you have pillow 13.0.0 which is incompatible.
+[exit 0 after 26s]
+
+$ /usr/bin/python3 -m pip uninstall -y -q torchao
+[exit 0 after 1s]
+
+$ lscpu | head -20; nproc; free -g
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           46 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  4
+On-line CPU(s) list:                     0-3
+Vendor ID:                               GenuineIntel
+Model name:                              Intel(R) Xeon(R) CPU @ 2.20GHz
+CPU family:                              6
+Model:                                   79
+Thread(s) per core:                      2
+Core(s) per socket:                      2
+Socket(s):                               1
+Stepping:                                0
+BogoMIPS:                                4400.32
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch pti ssbd ibrs ibpb stibp fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt arat md_clear arch_capabilities
+Hypervisor vendor:                       KVM
+Virtualization type:                     full
+L1d cache:                               64 KiB (2 instances)
+L1i cache:                               64 KiB (2 instances)
+4
+               total        used        free      shared  buff/cache   available
+Mem:              31           0          26           0           4          30
+Swap:              0           0           0
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -c 'import torch,transformers,peft;print(torch.__version__,transformers.__version__,peft.__version__,torch.cuda.device_count())'
+2.11.0+cpu 5.20.2 0.21.2 0
+[exit 0 after 36s]

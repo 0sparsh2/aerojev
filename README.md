@@ -149,6 +149,7 @@ them: training writes `runs/<run>/best/` (the LoRA adapter) and the export write
 ## Test UI
 
 **Running on a CPU:** see [`docs/RUN_ON_CPU.md`](docs/RUN_ON_CPU.md) for the recommended setup, install steps and the measurements behind them.
+**Training without a GPU:** see [`docs/TRAIN_ON_CPU.md`](docs/TRAIN_ON_CPU.md) for measured training times on a regular CPU and an M4.
 
 A local page for trying the model on any record, served by `server.py` (standard library only):
 
@@ -186,7 +187,7 @@ eval/       evaluate.py · classical.py · generative.py · jev.py · bench_cpu.
 notebooks/  end-to-end walkthrough (built by scripts/build_notebook.py)
 scripts/    make_data.sh · report.py · export_dashboard.py · build_notebook.py
 tests/      tree-pack, catalogue-cache and GGUF parity checks
-docs/       RUN_ON_CPU.md (CPU inference guide)
+docs/       RUN_ON_CPU.md (CPU inference guide) · TRAIN_ON_CPU.md (training without a GPU)
 server.py   stdlib HTTP API and test page (ui/index.html, ui/examples.py)
 kaggle/     optional: how the GPU runs for this report were executed (see below)
 ```

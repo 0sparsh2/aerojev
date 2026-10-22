@@ -116,6 +116,16 @@ KERNELS = {
               {"kind": "cmd", "cmd": "mkdir -p {OUT}/notebook && cp -r {PROJ}/results/notebook/. {OUT}/notebook/ "
                                      "&& rm -rf {OUT}/notebook/data"}],
     },
+    # CPU training throughput on a small x86 VM (4 vCPU): what training costs without a GPU
+    "cpu-train-bench": {
+        "_gpu": False,
+        "0": [{"kind": "cmd", "cmd": "{PY} scripts/bench_train_cpu.py --model Qwen/Qwen2.5-0.5B-Instruct --records 8 --warmup 2 "
+                                     f"{extra} --out {{OUT}}/train_cpu_x86.jsonl"}
+              for extra in ["--layout catalogue --threads 4",
+                            "--layout catalogue --threads 4 --top-layers 8",
+                            "--layout catalogue --threads 2",
+                            "--layout branch --threads 4"]],
+    },
     # x86 CPU latency suite (no GPU); inputs are the training kernels' outputs (adapters + GGUFs)
     "cpu-bench": {
         "_gpu": False,
@@ -132,7 +142,7 @@ def bundle():
     os.makedirs(os.path.join(ROOT, "kaggle/dataset"), exist_ok=True)
     path = os.path.join(ROOT, "kaggle/dataset/aerojev_bundle.tar.gz")
     with tarfile.open(path, "w:gz") as t:
-        for d in ["aerojev", "eval", "train", "data", "notebooks"]:
+        for d in ["aerojev", "eval", "train", "data", "notebooks", "scripts"]:
             t.add(os.path.join(ROOT, d), arcname=d,
                   filter=lambda ti: None if "__pycache__" in ti.name else ti)
     json.dump({"title": "aerojev-bundle", "id": DATASET, "licenses": [{"name": "CC0-1.0"}]},

@@ -1,0 +1,38 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_train_cpu.py --model Qwen/Qwen2.5-0.5B-Instruct --records 8 --warmup 2 --layout catalogue --threads 4 --out {OUT}/train_cpu_x86.jsonl"
+  },
+  "rc": 0,
+  "seconds": 232
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_train_cpu.py --model Qwen/Qwen2.5-0.5B-Instruct --records 8 --warmup 2 --layout catalogue --threads 4 --top-layers 8 --out {OUT}/train_cpu_x86.jsonl"
+  },
+  "rc": 0,
+  "seconds": 129
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_train_cpu.py --model Qwen/Qwen2.5-0.5B-Instruct --records 8 --warmup 2 --layout catalogue --threads 2 --out {OUT}/train_cpu_x86.jsonl"
+  },
+  "rc": 0,
+  "seconds": 225
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_train_cpu.py --model Qwen/Qwen2.5-0.5B-Instruct --records 8 --warmup 2 --layout branch --threads 4 --out {OUT}/train_cpu_x86.jsonl"
+  },
+  "rc": 0,
+  "seconds": 175
+ }
+]

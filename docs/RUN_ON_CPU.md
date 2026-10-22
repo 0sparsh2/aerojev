@@ -80,7 +80,7 @@ Weights are not in git. The server's presets expect these files in `models/`:
 | `best` | `aerojev-qwen3-0.6b-cat-v2-q8_0.gguf`, `temps-qwen3-0.6b-cat-v2.json` |
 | `fast` | `aerojev-qwen2.5-0.5b-cat-q8_0.gguf`, `temps-qwen2.5-0.5b-cat.json` |
 
-To make them, train the adapter (README, step 3, needs a GPU or about 14 h of CPU), then merge and export:
+To make them, train the adapter (README, step 3; on a GPU in about an hour, or on a CPU as in `docs/TRAIN_ON_CPU.md`), then merge and export:
 
 ```bash
 python -m aerojev.export --model Qwen/Qwen3-0.6B --adapter runs/qwen3-0.6b-cat-v2/best \
