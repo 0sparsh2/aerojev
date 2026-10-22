@@ -18,8 +18,8 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from . import prompt, schema
-from .prompt import (labels_for, materialize, pack, pack_ids, render_branch, render_prefix, render_readout,
-                     render_record, render_static, think_block)
+from .prompt import (MAX_RECORD_TOKENS, fit_state, labels_for, materialize, pack, pack_ids, render_branch,
+                     render_prefix, render_readout, render_record, render_static, think_block)
 
 HYBRID_MODEL_TYPES = {"qwen3_5", "qwen3_5_text", "qwen3_next"}
 
@@ -100,6 +100,7 @@ class DecisionEngine(BaseEngine):
     @torch.no_grad()
     def readout_logits(self, state, qdicts):
         """Return list of 1-D tensors: logits over each question's label tokens."""
+        state = fit_state(self.tok, state, MAX_RECORD_TOKENS)
         if self.layout == "catalogue":
             return self._catalogue_readout(state, qdicts)
         if self.mode == "tree":
@@ -185,6 +186,7 @@ class GGUFEngine(BaseEngine):
 
     def readout_logits(self, state, qdicts):
         enc = lambda t: self.tok.encode(t, add_special_tokens=False)
+        state = fit_state(self.tok, state, MAX_RECORD_TOKENS)  # keep record + catalogue inside n_ctx
         self.llm.n_tokens = self.S  # eval() drops KV entries at positions >= n_tokens
         if self.layout == "catalogue":
             self.llm.eval(enc(render_record(state, self.think)))

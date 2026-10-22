@@ -88,8 +88,11 @@ class Handler(BaseHTTPRequestHandler):
         except (KeyError, ValueError, TypeError, json.JSONDecodeError) as e:
             return self._send(422, {"error": str(e)})
         t0 = time.time()
-        with LOCK:
-            answers = ENGINE.decide(state, qs)
+        try:
+            with LOCK:
+                answers = ENGINE.decide(state, qs)
+        except Exception as e:  # report engine failures instead of dropping the connection
+            return self._send(500, {"error": f"{type(e).__name__}: {e}"})
         self._send(200, {"answers": answers, "latency_ms": round(1000 * (time.time() - t0), 1)})
 
     def log_message(self, fmt, *args):

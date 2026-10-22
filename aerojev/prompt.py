@@ -41,6 +41,20 @@ def think_block(tokenizer):
     return tail  # "" for Qwen2.5, "<think>\n\n</think>\n\n" for Qwen3 / 3.5
 
 
+MAX_RECORD_TOKENS = 2048  # catalogue (~1.1k tokens) + record + readouts stay inside a 4k context
+
+
+def fit_state(tokenizer, state, max_tokens=MAX_RECORD_TOKENS):
+    """Trim a record longer than max_tokens tokens, keeping its beginning (where forwarded notes and
+    headers sit) and marking the cut. Trimming the text, not the rendered ids, keeps the chat tags intact."""
+    if not isinstance(state, str):
+        state = json.dumps(state, ensure_ascii=False, indent=1)
+    ids = tokenizer.encode(state, add_special_tokens=False)
+    if len(ids) <= max_tokens:
+        return state
+    return tokenizer.decode(ids[:max_tokens]) + "\n[record truncated]"
+
+
 def render_prefix(state):
     if not isinstance(state, str):
         state = json.dumps(state, ensure_ascii=False, indent=1)
@@ -165,11 +179,12 @@ def pack(tokenizer, state, questions, think, max_prefix_tokens=1536, layout="bra
     """
     enc = lambda t: tokenizer.encode(t, add_special_tokens=False)
     labs = [label_token_ids(tokenizer, labels_for(q)) for q in questions]
+    state = fit_state(tokenizer, state, max_prefix_tokens)
     if layout == "branch":
-        p_ids = enc(render_prefix(state))[:max_prefix_tokens]
+        p_ids = enc(render_prefix(state))
         b_ids = [enc(render_branch(q, think)) for q in questions]
     else:
-        p_ids = enc(render_static(catalogue or questions)) + enc(render_record(state, think))[:max_prefix_tokens]
+        p_ids = enc(render_static(catalogue or questions)) + enc(render_record(state, think))
         b_ids = [enc(render_readout(q)) for q in questions]
     return pack_ids(p_ids, b_ids, labs)
 
