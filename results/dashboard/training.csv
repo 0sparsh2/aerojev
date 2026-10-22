@@ -19,6 +19,33 @@ qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,8400,0.9667
 qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,9600,0.9704
 qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,10800,0.9733
 qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,12000,0.9756
+qwen2.5-0.5b-cat-v2-4800,"Qwen2.5-0.5B · 4,800 records",1200,0.7259
+qwen2.5-0.5b-cat-v2-4800,"Qwen2.5-0.5B · 4,800 records",2400,0.8741
+qwen2.5-0.5b-cat-v2-4800,"Qwen2.5-0.5B · 4,800 records",3600,0.9059
+qwen2.5-0.5b-cat-v2-4800,"Qwen2.5-0.5B · 4,800 records",4800,0.9185
+qwen2.5-0.5b-cat-v2-top8-4800,"Qwen2.5-0.5B · top 8 blocks, 4,800 records",1200,0.4563
+qwen2.5-0.5b-cat-v2-top8-4800,"Qwen2.5-0.5B · top 8 blocks, 4,800 records",2400,0.5222
+qwen2.5-0.5b-cat-v2-top8-4800,"Qwen2.5-0.5B · top 8 blocks, 4,800 records",3600,0.5733
+qwen2.5-0.5b-cat-v2-top8-4800,"Qwen2.5-0.5B · top 8 blocks, 4,800 records",4800,0.5844
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,1200,0.4459
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,2400,0.5356
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,3600,0.5844
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,4800,0.5896
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,6000,0.6126
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,7200,0.6193
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,8400,0.6274
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,9600,0.6333
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,10800,0.6422
+qwen2.5-0.5b-cat-v2-top8,Qwen2.5-0.5B · LoRA top 8 blocks,12000,0.6422
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,1200,0.8919
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,2400,0.9407
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,3600,0.9341
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,4800,0.9652
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,6000,0.9704
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,7200,0.9726
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,8400,0.9763
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,9600,0.9793
+qwen3-1.7b-cat-v2,Qwen3-1.7B · catalogue · data v2,10000,0.9793
 qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,1200,0.8741
 qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,2400,0.9104
 qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,3600,0.9074

@@ -10,7 +10,9 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Qwen3-0.6B v2 LoRA (fp32) | torch fp32 | catalogue | 0.950 | 0.931 | 0.959 | – | – | 0.494 | 55.34 | – | – | 3561 | – |
 | Qwen3-0.6B v2 LoRA Q8_0 | llama.cpp | catalogue | 0.950 | 0.931 | 0.960 | – | – | 0.491 | 56.46 | – | – | 1961 | 639 |
+| Qwen3-1.7B v2 LoRA Q8_0 | llama.cpp | catalogue | 0.943 | 0.949 | 0.965 | – | – | 1.171 | 140.07 | – | – | 2595 | 1834 |
 | Qwen3-0.6B v2 LoRA Q4_K_M | llama.cpp | catalogue | 0.940 | 0.921 | 0.951 | – | – | 0.510 | 57.46 | – | – | 1723 | 397 |
+| Qwen3-1.7B v2 LoRA Q4_K_M | llama.cpp | catalogue | 0.938 | 0.958 | – | – | – | 1.153 | 130.97 | – | – | 2311 | 1107 |
 | Qwen3-0.6B LoRA (fp32) | torch fp32 | catalogue | 0.935 | 0.921 | 0.954 | – | – | 0.484 | 53.43 | 1.982 | 231.46 | 3359 | – |
 | Qwen3-0.6B LoRA Q8_0 | llama.cpp | catalogue | 0.935 | 0.921 | 0.953 | – | – | 0.498 | 56.55 | 2.834 | 324.25 | 1962 | 639 |
 | Qwen2.5-0.5B LoRA (fp32) | torch fp32 | catalogue | 0.932 | 0.933 | 0.944 | – | – | – | – | 1.264 | 145.55 | – | – |
@@ -34,12 +36,6 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3-0.6B Q8_0 (base): generate JSON (free) | llama.cpp generate | – | 0.590 | – | – | – | – | 1.730 | 199.47 | 6.932 | 817.58 | 1274 | 639 |
 | Qwen3.5-0.8B zero-shot | torch fp32 | branch | 0.518 | 0.512 | 0.568 | – | – | – | – | 27.313 | 3166.52 | – | – |
 | Qwen2.5-0.5B-Instruct zero-shot | torch fp32 | branch | 0.508 | 0.532 | 0.445 | – | – | – | – | 8.517 | 974.34 | – | – |
-| record of ~110 tokens | llama.cpp | – | –* | – | – | – | – | 0.615 | 67.71 | – | – | 1882 | – |
-| record of ~326 tokens | llama.cpp | – | –* | – | – | – | – | 1.131 | 126.72 | – | – | 1882 | – |
-| record of ~650 tokens | llama.cpp | – | –* | – | – | – | – | 2.239 | 248.74 | – | – | 1882 | – |
-| record of ~1244 tokens | llama.cpp | – | –* | – | – | – | – | 4.701 | 527.4 | – | – | 1882 | – |
-| record of ~2000 tokens | llama.cpp | – | –* | – | – | – | – | 8.188 | 906.63 | – | – | 1882 | – |
-| record of ~5024 tokens | llama.cpp | – | –* | – | – | – | – | 9.018 | 995.63 | – | – | 1882 | – |
 
 ## Accuracy (core questions)
 
@@ -66,6 +62,8 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen/Qwen3-0.6B | gguf | catalogue | 0.950 | 0.945 | 0.960 | – | 0.650 | 0.035→0.034 |
 | Qwen/Qwen3-0.6B | gguf | branch | 0.910 | 0.899 | 0.932 | – | 0.487 | 0.058→0.054 |
 | Qwen/Qwen3-0.6B | gguf | branch | 0.928 | 0.919 | 0.933 | – | 0.537 | 0.050→0.044 |
+| Qwen/Qwen3-1.7B | gguf | catalogue | 0.938 | 0.932 | – | – | 0.562 | 0.038→0.036 |
+| Qwen/Qwen3-1.7B | gguf | catalogue | 0.943 | 0.938 | 0.965 | – | 0.613 | 0.034→0.033 |
 | Jev (TypeSafe API) | hosted, zero-shot | questions as-is | 0.869 | 0.864 | 0.817 | 0.816 | 0.300 | 0.049→0.077 |
 | Jev (TypeSafe API) | hosted, zero-shot | + playbook + export definition | 0.918 | 0.917 | 0.882 | 0.893 | 0.500 | 0.040→0.036 |
 | Jev (TypeSafe API) | hosted, zero-shot | + playbook rules | 0.892 | 0.883 | 0.853 | 0.857 | 0.375 | 0.039→0.046 |
@@ -99,6 +97,8 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen/Qwen3-0.6B (gguf, catalogue) | 0.93 | 0.96 | 0.82 | 1.00 | 0.95 | 1.00 | 1.00 | 1.00 | 0.89 |
 | Qwen/Qwen3-0.6B (gguf, branch) | 0.86 | 0.95 | 0.76 | 0.93 | 0.89 | 1.00 | 1.00 | 1.00 | 0.80 |
 | Qwen/Qwen3-0.6B (gguf, branch) | 0.88 | 0.95 | 0.86 | 0.95 | 0.89 | 1.00 | 1.00 | 1.00 | 0.82 |
+| Qwen/Qwen3-1.7B (gguf, catalogue) | 0.97 | 0.96 | 0.80 | 0.97 | 0.91 | 0.99 | 1.00 | 1.00 | 0.82 |
+| Qwen/Qwen3-1.7B (gguf, catalogue) | 0.99 | 0.95 | 0.84 | 0.96 | 0.93 | 0.99 | 1.00 | 0.99 | 0.85 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.99 | 0.91 | 0.75 | 0.96 | 0.59 | 0.75 | 1.00 | 1.00 | 0.88 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 0.97 | 0.91 | 0.79 | 0.97 | 0.84 | 1.00 | 1.00 | 1.00 | 0.78 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook rules) | 0.97 | 0.93 | 0.78 | 0.97 | 0.82 | 0.75 | 1.00 | 1.00 | 0.80 |
@@ -130,6 +130,8 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen/Qwen3-0.6B (gguf, catalogue) | 0.56 | 0.90 | 0.94 |
 | Qwen/Qwen3-0.6B (gguf, branch) | 0.79 | 0.88 | 0.84 |
 | Qwen/Qwen3-0.6B (gguf, branch) | 0.78 | 0.88 | 0.84 |
+| Qwen/Qwen3-1.7B (gguf, catalogue) | 0.85 | 0.89 | 0.81 |
+| Qwen/Qwen3-1.7B (gguf, catalogue) | 0.85 | 0.79 | 0.82 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.75 | 1.00 | 0.79 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 0.76 | 1.00 | 0.80 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook rules) | 0.75 | 1.00 | 0.79 |

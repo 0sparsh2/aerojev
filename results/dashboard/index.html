@@ -1,0 +1,627 @@
+<style>
+.ax { display: grid; gap: var(--cds-gap-xl); max-width: 1180px; margin-inline: auto; font-family: var(--font-anthropic-sans); }
+.ax-head { display: grid; gap: var(--cds-gap-sm); }
+.ax-title { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); text-wrap: balance; }
+.ax-take { margin: 0; max-width: 74ch; line-height: 1.55; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); }
+.ax .ax-take b { color: var(--color-fg); font-weight: 600; }
+.ax-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: var(--cds-gap-md); }
+.ax-tile, .ax-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.ax-tile { display: grid; gap: var(--cds-gap-xs); align-content: start; }
+.ax-tile-label, .ax-tile-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.ax-tile-value { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.1; }
+.ax-card { display: grid; gap: var(--cds-gap-md); align-content: start; }
+.ax-card h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.ax-note { margin: 0; max-width: 82ch; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.5; }
+.ax-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--cds-gap-md); }
+.ax-bar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm) var(--cds-gap-lg); align-items: center; justify-content: space-between; }
+.ax-seg { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; }
+.ax-seg button { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 0; background: transparent; color: var(--color-fg-muted); cursor: pointer; }
+.ax-seg button + button { border-left: 1px solid var(--color-border-line); }
+.ax-seg button[aria-pressed="true"] { background: var(--color-bg); color: var(--color-fg); }
+.ax-seg button:focus-visible, .ax-th:focus-visible, .ax-search:focus-visible { outline: 2px solid var(--cds-chart-reference); outline-offset: 1px; }
+.ax-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs) var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.ax-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.ax-key { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.ax-key-line { width: 16px; height: 0; border-top: 2px solid; display: inline-block; }
+.ax-key-dash { width: 16px; height: 0; border-top: 2px dashed var(--cds-chart-reference); display: inline-block; }
+.ax-chart { position: relative; min-width: 0; }
+.ax-chart svg { display: block; overflow: visible; }
+.ax-chart text { font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-caption); }
+.ax-tip { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 3; max-width: 290px; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); line-height: 1.45; }
+.ax-tip .ax-tip-head { color: var(--cds-text-secondary); }
+.ax-tip .ax-tip-row { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+.ax-tip .ax-tip-row strong { font-weight: 600; font-variant-numeric: tabular-nums; }
+.ax-fail { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: inherit; height: 100%; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.ax-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+.ax-table-tools { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; justify-content: space-between; }
+.ax-search { font: inherit; font-size: var(--cds-font-size-caption); width: min(100%, 18rem); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); }
+.ax-table-wrap { max-height: 560px; overflow: auto; }
+table.ax-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.ax-table th { position: sticky; top: 0; z-index: 1; background: var(--color-panel); text-align: left; font-weight: var(--cds-font-weight-medium); border-bottom: 1px solid var(--color-border-line); padding: 6px 8px; white-space: nowrap; }
+.ax-th { font: inherit; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+.ax-table td { padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.ax-table .num { text-align: right; }
+.ax-table tbody tr:hover td { background: var(--color-bg); }
+.ax-foot { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.55; max-width: 90ch; }
+.ax-foot p { margin: 0 0 var(--cds-gap-xs); }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+@media (prefers-reduced-motion: no-preference) {
+  .ax-fade { animation: ax-in var(--cds-dur-slow) var(--cds-ease-out) both; }
+  @keyframes ax-in { from { opacity: 0; } to { opacity: 1; } }
+}
+</style>
+
+<div class="ax">
+  <header class="ax-head" id="summary">
+    <h1 class="ax-title">AeroJev benchmarks</h1>
+    <p class="ax-take">
+      A small model trained to read decisions straight off its label logits answers nine supply-chain questions about a
+      record in <b><span class="dash-skeleton" data-source="headline" data-field="best_mac_s" data-row="0">—</span> s</b>
+      on a laptop CPU, with <b><span class="dash-skeleton" data-source="headline" data-field="best_gold" data-row="0">—</span></b>
+      accuracy on hand-written records. That is above the hosted Jev API
+      (<span class="dash-skeleton" data-source="headline" data-field="jev_gold" data-row="0">—</span>) and a TF-IDF
+      classifier trained on the same data (<span class="dash-skeleton" data-source="headline" data-field="tfidf_gold" data-row="0">—</span>).
+    </p>
+  </header>
+
+  <section class="ax-tiles" id="headline" aria-label="Headline figures">
+    <div class="ax-tile">
+      <div class="ax-tile-label">Best accuracy, hand-written records</div>
+      <div class="ax-tile-value dash-skeleton" data-source="headline" data-field="best_gold" data-row="0">—</div>
+      <div class="ax-tile-note dash-skeleton" data-source="headline" data-field="best_system" data-row="0">—</div>
+    </div>
+    <div class="ax-tile">
+      <div class="ax-tile-label">Its CPU time per decision (Apple M4)</div>
+      <div class="ax-tile-value"><span class="dash-skeleton" data-source="headline" data-field="best_mac_ms" data-row="0">—</span> ms</div>
+      <div class="ax-tile-note">nine decisions in one pass over the record</div>
+    </div>
+    <div class="ax-tile">
+      <div class="ax-tile-label">Hosted Jev API, best variant</div>
+      <div class="ax-tile-value dash-skeleton" data-source="headline" data-field="jev_gold" data-row="0">—</div>
+      <div class="ax-tile-note">on GPUs over the network: <span data-source="headline" data-field="jev_api_s" data-row="0">—</span> s per record</div>
+    </div>
+    <div class="ax-tile">
+      <div class="ax-tile-label">TF-IDF + logistic regression</div>
+      <div class="ax-tile-value dash-skeleton" data-source="headline" data-field="tfidf_gold" data-row="0">—</div>
+      <div class="ax-tile-note">fast, but cannot answer a question it has no labels for</div>
+    </div>
+  </section>
+
+  <section class="ax-card" id="tradeoff">
+    <div class="ax-bar">
+      <h2>Accuracy vs CPU time</h2>
+      <div class="ax-seg" role="group" aria-label="CPU">
+        <button type="button" data-host="mac" aria-pressed="true">Apple M4 laptop</button>
+        <button type="button" data-host="x86" aria-pressed="false">x86 server, 4 vCPU</button>
+      </div>
+    </div>
+    <p class="ax-note">Each point is one system: accuracy on the hand-written gold records against milliseconds per decision on the chosen CPU
+      (one record at a time, nine decisions per record, warm process, four threads). Systems not timed on a CPU are not plotted; the hosted Jev API
+      runs on GPUs, so it appears as a reference line.</p>
+    <div class="ax-legend" aria-hidden="true">
+      <span><i class="ax-key" id="key-trained"></i>Decision-trained (this project)</span>
+      <span><i class="ax-key" style="background: var(--cds-chart-muted)"></i>Other approaches</span>
+      <span><i class="ax-key-dash"></i>Hosted Jev API, best variant</span>
+    </div>
+    <div class="ax-chart dash-skeleton" id="tradeoff-chart" data-source="systems" style="min-height: 420px"></div>
+  </section>
+
+  <section class="ax-grid">
+    <div class="ax-card" id="questions">
+      <h2>What training fixed, question by question</h2>
+      <p class="ax-note">Accuracy on the hand-written records for each of the nine decisions. The line joins the untrained model to the same
+        model after decision training.</p>
+      <div class="ax-legend" id="questions-legend" aria-hidden="true"></div>
+      <div class="ax-chart dash-skeleton" id="questions-chart" data-source="per_question" style="min-height: 360px"></div>
+    </div>
+    <div class="ax-card" id="costs">
+      <h2>Where the CPU time goes</h2>
+      <p class="ax-note">The same trained Qwen3-0.6B in two prompt layouts and three precisions. Caching the question catalogue
+        (catalogue layout) cuts the work per record far more than quantization does.</p>
+      <div class="ax-chart dash-skeleton" id="costs-chart" data-source="systems" style="min-height: 240px"></div>
+    </div>
+  </section>
+
+  <section class="ax-grid">
+    <div class="ax-card" id="training">
+      <h2>Validation accuracy while training</h2>
+      <p class="ax-note">Mean accuracy over the nine questions on a fixed validation sample, by training records seen.</p>
+      <div class="ax-legend" id="training-legend" aria-hidden="true"></div>
+      <div class="ax-chart dash-skeleton" id="training-chart" data-source="training" style="min-height: 300px"></div>
+    </div>
+    <div class="ax-card" id="calibration">
+      <h2>Are the probabilities honest?</h2>
+      <p class="ax-note">Decisions from the best model, grouped by confidence after temperature scaling, against how often they were right.
+        Points on the diagonal are perfectly calibrated; point size is the number of decisions.</p>
+      <div class="ax-chart dash-skeleton" id="calibration-chart" data-source="reliability" style="min-height: 300px"></div>
+    </div>
+  </section>
+
+  <section class="ax-card" id="systems">
+    <div class="ax-table-tools">
+      <h2>Every system</h2>
+      <input class="ax-search" id="systems-search" type="search" placeholder="Filter systems" aria-label="Filter systems">
+    </div>
+    <p class="ax-note">Accuracy is the mean over the nine trained questions. Gold and gold2 are hand-written records (gold2 written blind);
+      test uses wording held out from training. Quantized rows without their own evaluation repeat the fp32 accuracy.</p>
+    <div class="ax-table-wrap">
+      <table class="ax-table" data-source="systems" data-row-key="id">
+        <thead><tr>
+          <th data-field="system"><button type="button" class="ax-th" data-sort="system">System</button></th>
+          <th data-field="family"><button type="button" class="ax-th" data-sort="family">Approach</button></th>
+          <th data-field="layout"><button type="button" class="ax-th" data-sort="layout">Layout</button></th>
+          <th data-field="precision"><button type="button" class="ax-th" data-sort="precision">Precision</button></th>
+          <th class="num" data-field="gold_acc"><button type="button" class="ax-th" data-sort="gold_acc">Gold</button></th>
+          <th class="num" data-field="gold2_acc"><button type="button" class="ax-th" data-sort="gold2_acc">Gold2</button></th>
+          <th class="num" data-field="test_acc"><button type="button" class="ax-th" data-sort="test_acc">Test</button></th>
+          <th class="num" data-field="mac_ms_per_decision"><button type="button" class="ax-th" data-sort="mac_ms_per_decision">M4 ms/decision</button></th>
+          <th class="num" data-field="x86_ms_per_decision"><button type="button" class="ax-th" data-sort="x86_ms_per_decision">x86 ms/decision</button></th>
+          <th class="num" data-field="peak_rss_mb"><button type="button" class="ax-th" data-sort="peak_rss_mb">Peak RAM MB</button></th>
+          <th class="num" data-field="file_mb"><button type="button" class="ax-th" data-sort="file_mb">File MB</button></th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="ax-foot" id="method">
+    <p><b>Task.</b> Each record (supplier email, ERP exception, chat message, quality notification, risk alert, portal notice or call
+      notes) gets nine decisions: event type, commodity, impact severity, line-stop risk, recommended action, export control, counterfeit
+      suspicion, sole source and delay bucket. Labels follow a written playbook applied to each record's facts.</p>
+    <p><b>Model.</b> Qwen base models with LoRA trained on the label-token logits only (RFDT-style). The answer is the softmax over each
+      question's allowed label tokens at a single readout position, so nothing is generated. Training data is synthetic and template-split;
+      the gold sets are written by hand in formats the generator never produces.</p>
+    <p><b>Hosts.</b> An Apple M4 laptop (four threads used) and a four-vCPU x86 cloud VM with an Intel Xeon. llama.cpp ran
+      CPU-only. The hosted Jev API latency is the client-side median round trip.</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+  // ---------------------------------------------------------------- helpers
+  const n = (v) => (v === '' || v == null || Number.isNaN(Number(v)) ? null : Number(v));
+  const pct = d3.format('.1%');
+  const ms = (v) => (v == null ? '–' : v >= 100 ? d3.format(',.0f')(v) : v >= 10 ? d3.format('.1f')(v) : v >= 1 ? d3.format('.2f')(v) : d3.format('.3f')(v));
+  const sec = (v) => (v == null ? '–' : v >= 10 ? d3.format('.1f')(v) : v >= 0.1 ? d3.format('.2f')(v) : d3.format('.3f')(v));
+  const QUESTIONS = {
+    event_type: 'Event type', commodity: 'Commodity', impact_severity: 'Impact severity', line_stop_risk: 'Line-stop risk',
+    recommended_action: 'Recommended action', export_controlled: 'Export controlled', counterfeit_suspect: 'Counterfeit suspect',
+    sole_source: 'Sole source', delay_bucket: 'Delay bucket',
+  };
+  const HOST_NAME = { mac: 'Apple M4 laptop', x86: 'x86 server, 4 vCPU' };
+  const TRAINED = 'Decision-trained (this project)';
+  const C = () => dash.colors;
+
+  function failed(el) {
+    el.classList.remove('dash-skeleton');
+    el.replaceChildren(Object.assign(document.createElement('div'), { className: 'ax-fail', textContent: 'Failed to load' }));
+  }
+  function svgIn(el, h) {
+    el.classList.remove('dash-skeleton');
+    el.replaceChildren();
+    const w = Math.max(280, el.clientWidth);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${w} ${h}`).attr('height', h);
+    return { svg, w, h };
+  }
+  function measure(svg, strings) {
+    const t = svg.append('text').attr('opacity', 0);
+    let max = 0;
+    for (const s of strings) { t.text(s); max = Math.max(max, t.node().getComputedTextLength()); }
+    t.remove();
+    return max;
+  }
+  function cleanAxis(g) {
+    g.attr('font-size', null).attr('font-family', null);
+    g.selectAll('.domain').attr('stroke', 'var(--cds-chart-axis)');
+    g.selectAll('.tick line').attr('stroke', 'var(--cds-chart-grid)');
+    g.selectAll('.tick text').attr('fill', 'var(--color-fg-muted)');
+  }
+  function tooltip(el) {
+    let tip = el.querySelector('.ax-tip');
+    if (!tip) { tip = document.createElement('div'); tip.className = 'ax-tip'; tip.hidden = true; el.appendChild(tip); }
+    return {
+      show(x, y, head, rows) {
+        tip.replaceChildren();
+        const h = document.createElement('div'); h.className = 'ax-tip-head'; h.textContent = head; tip.appendChild(h);
+        for (const [label, value, color] of rows) {
+          const r = document.createElement('div'); r.className = 'ax-tip-row';
+          const l = document.createElement('span');
+          if (color) { const k = document.createElement('i'); k.className = 'ax-key-line'; k.style.borderColor = color; k.style.marginRight = '6px'; l.appendChild(k); }
+          l.appendChild(document.createTextNode(label));
+          const v = document.createElement('strong'); v.textContent = value;
+          r.append(l, v); tip.appendChild(r);
+        }
+        tip.hidden = false;
+        const bw = tip.offsetWidth, bh = tip.offsetHeight, W = el.clientWidth;
+        let left = x + 14; if (left + bw > W) left = Math.max(0, x - bw - 14);
+        let top = y - bh - 10; if (top < 0) top = y + 14;
+        tip.style.transform = `translate(${left}px, ${top}px)`;
+      },
+      hide() { tip.hidden = true; },
+    };
+  }
+
+  // ---------------------------------------------------------------- computed figures
+  dash.calc('headline', {
+    inputs: ['systems'],
+    title: 'Headline figures',
+    description: 'The decision-trained system with the best gold accuracy among those timed on the M4, the best hosted Jev variant, and the TF-IDF baseline.',
+    fn: (systems) => {
+      const num = (v) => (v === '' || v == null ? null : Number(v));
+      const byGold = (a, b) => num(b.gold_acc) - num(a.gold_acc);
+      const best = systems.filter((r) => r.family === 'Decision-trained (this project)' && num(r.mac_ms_per_decision) != null).sort(byGold)[0];
+      const jev = systems.filter((r) => r.family === 'Hosted Jev API').sort(byGold)[0];
+      const tfidf = systems.find((r) => r.system === 'tfidf + logistic regression');
+      return [{
+        best_system: best.system, best_gold: num(best.gold_acc), best_mac_ms: num(best.mac_ms_per_decision),
+        best_mac_s: num(best.mac_p50_s), jev_gold: num(jev.gold_acc), jev_api_s: num(jev.api_p50_s),
+        tfidf_gold: num(tfidf.gold_acc),
+      }];
+    },
+  });
+
+  // ---------------------------------------------------------------- host toggle
+  const seg = document.querySelectorAll('.ax-seg button');
+  seg.forEach((b) => b.addEventListener('click', () => dash.setParams({ host: b.dataset.host })));
+  const host = () => (dash.params().host === 'x86' ? 'x86' : 'mac');
+
+  // ---------------------------------------------------------------- headline
+  function drawHeadline() {
+    const h = dash.data('headline');
+    const fields = document.querySelectorAll('[data-source="headline"]');
+    if (h.status !== 'ok' || !h.data.length) {
+      if (h.status === 'error') fields.forEach((el) => el.classList.remove('dash-skeleton'));
+      return;
+    }
+    const r = h.data[0];
+    const show = { best_gold: pct(r.best_gold), jev_gold: pct(r.jev_gold), tfidf_gold: pct(r.tfidf_gold),
+      best_mac_ms: ms(r.best_mac_ms), best_mac_s: sec(r.best_mac_s), jev_api_s: sec(r.jev_api_s), best_system: r.best_system };
+    fields.forEach((el) => { el.textContent = show[el.dataset.field] ?? '—'; el.classList.remove('dash-skeleton'); });
+  }
+
+  // ---------------------------------------------------------------- accuracy vs CPU time
+  function drawTradeoff() {
+    const el = document.getElementById('tradeoff-chart');
+    const d = dash.data('systems');
+    if (d.status === 'error') return failed(el);
+    if (d.status !== 'ok') return;
+    const hk = host();
+    const pts = d.data.map((r) => ({ r, x: n(r[`${hk}_ms_per_decision`]), y: n(r.gold_acc), trained: r.family === TRAINED }))
+      .filter((p) => p.x != null && p.y != null);
+    const jev = d.data.filter((r) => r.family === 'Hosted Jev API').map((r) => n(r.gold_acc)).filter((v) => v != null);
+    const jevBest = jev.length ? Math.max(...jev) : null;
+    const { svg, w, h } = svgIn(el, 420);
+    const yTicks = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+    const m = { top: 16, right: 18, bottom: 40, left: Math.ceil(measure(svg, yTicks.map(pct))) + 14 };
+    const xs = d3.extent(pts, (p) => p.x);
+    const x = d3.scaleLog([Math.max(0.05, xs[0] / 1.8), xs[1] * 1.8], [m.left, w - m.right]);
+    const y = d3.scaleLinear([0.45, 1.0], [h - m.bottom, m.top]);
+    const xt = [0.1, 1, 10, 100, 1000, 10000].filter((t) => t >= x.domain()[0] && t <= x.domain()[1]);
+    svg.append('g').attr('transform', `translate(0,${h - m.bottom})`)
+      .call(d3.axisBottom(x).tickValues(xt).tickFormat((t) => d3.format(',')(t)).tickSize(-(h - m.top - m.bottom))).call(cleanAxis);
+    svg.append('g').attr('transform', `translate(${m.left},0)`)
+      .call(d3.axisLeft(y).tickValues(yTicks).tickFormat(pct).tickSize(-(w - m.left - m.right))).call(cleanAxis);
+    svg.selectAll('.domain').remove();
+    svg.append('text').attr('x', w - m.right).attr('y', h - 6).attr('text-anchor', 'end').attr('fill', 'var(--color-fg-muted)')
+      .text(`ms per decision on ${HOST_NAME[hk]} (log scale)`);
+    if (jevBest != null) {
+      svg.append('line').attr('x1', m.left).attr('x2', w - m.right).attr('y1', y(jevBest)).attr('y2', y(jevBest))
+        .attr('stroke', 'var(--cds-chart-reference)').attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4');
+      svg.append('text').attr('x', m.left + 6).attr('y', y(jevBest) - 6).attr('fill', 'var(--color-fg-muted)')
+        .text(`Jev API ${pct(jevBest)} (hosted, GPU)`);
+    }
+    const order = pts.slice().sort((a, b) => a.trained - b.trained);  // trained points on top
+    svg.append('g').selectAll('circle').data(order).join('circle')
+      .attr('cx', (p) => x(p.x)).attr('cy', (p) => y(p.y)).attr('r', (p) => (p.trained ? 5.5 : 5))
+      .attr('fill', (p) => (p.trained ? C()[0] : 'var(--cds-chart-muted)'))
+      .attr('stroke', 'var(--color-panel)').attr('stroke-width', 2);
+    // selective direct labels: a few named systems, skipped if they would collide
+    const want = [
+      (p) => p.trained && p.r.precision === 'fp32' && p.r.layout === 'catalogue' && p.r.data_version === 'v2',
+      (p) => p.trained && p.r.base_model === 'Qwen2.5-0.5B' && p.r.precision === 'Q8_0' && p.r.layout === 'catalogue',
+      (p) => p.r.system === 'tfidf + logistic regression',
+      (p) => p.r.family === 'LLM generating JSON' && p.r.system.includes('(free)'),
+      (p) => p.r.system === 'Qwen3-0.6B zero-shot',
+      (p) => p.trained && p.r.base_model === 'Qwen3-1.7B' && p.r.precision === 'Q8_0',
+      (p) => p.trained && p.r.layout === 'branch' && p.r.precision === 'fp32' && p.r.base_model === 'Qwen3-0.6B',
+      (p) => p.r.system === 'Qwen3-1.7B zero-shot',
+    ];
+    const names = {
+      0: (p) => `${p.r.base_model} trained (v2), ${pct(p.y)}`, 1: () => 'Qwen2.5-0.5B trained, Q8_0',
+      2: () => 'TF-IDF + logistic regression', 3: () => 'Qwen3-0.6B generating JSON', 4: () => 'Qwen3-0.6B untrained',
+      5: () => 'Qwen3-1.7B trained, Q8_0', 6: () => 'Qwen3-0.6B trained, branch layout', 7: () => 'Qwen3-1.7B untrained',
+    };
+    const boxes = [];
+    const lab = svg.append('g');
+    want.forEach((f, i) => {
+      const p = pts.find(f);
+      if (!p) return;
+      const text = names[i](p);
+      const tw = measure(svg, [text]);
+      const cx = x(p.x), cy = y(p.y);
+      const cands = [[cx + 9, cy + 4, 'start'], [cx - 9, cy + 4, 'end'], [cx, cy - 11, 'middle'], [cx, cy + 18, 'middle']];
+      for (const [tx, ty, anchor] of cands) {
+        const x0 = anchor === 'start' ? tx : anchor === 'end' ? tx - tw : tx - tw / 2;
+        const bx = { x0, x1: x0 + tw, y0: ty - 11, y1: ty + 3 };
+        const inside = bx.x0 >= m.left && bx.x1 <= w - m.right && bx.y0 >= m.top && bx.y1 <= h - m.bottom;
+        const hits = boxes.some((b) => !(bx.x1 < b.x0 || bx.x0 > b.x1 || bx.y1 < b.y0 || bx.y0 > b.y1)) ||
+          pts.some((q) => q !== p && Math.abs(x(q.x) - (bx.x0 + bx.x1) / 2) < tw / 2 && y(q.y) > bx.y0 - 4 && y(q.y) < bx.y1 + 4);
+        if (inside && !hits) {
+          boxes.push(bx);
+          lab.append('text').attr('x', tx).attr('y', ty).attr('text-anchor', anchor).attr('fill', 'var(--color-fg)').text(text);
+          break;
+        }
+      }
+    });
+    // hover: nearest point
+    const tip = tooltip(el);
+    const delaunay = d3.Delaunay.from(pts, (p) => x(p.x), (p) => y(p.y));
+    const ring = svg.append('circle').attr('r', 8).attr('fill', 'none').attr('stroke', 'var(--color-fg)').attr('stroke-width', 1.5).attr('opacity', 0);
+    svg.append('rect').attr('x', m.left).attr('y', m.top).attr('width', w - m.left - m.right).attr('height', h - m.top - m.bottom)
+      .attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        const [mx, my] = d3.pointer(ev);
+        const p = pts[delaunay.find(mx, my)];
+        if (!p || Math.hypot(x(p.x) - mx, y(p.y) - my) > 40) { tip.hide(); ring.attr('opacity', 0); return; }
+        ring.attr('cx', x(p.x)).attr('cy', y(p.y)).attr('opacity', 1);
+        const scale = svg.node().getBoundingClientRect().width / w;
+        tip.show(x(p.x) * scale, y(p.y) * scale, p.r.system, [
+          ['Approach', p.r.family], ['Layout · precision', `${p.r.layout} · ${p.r.precision}`],
+          ['Gold accuracy', pct(p.y)], ['Gold2 accuracy', n(p.r.gold2_acc) == null ? '–' : pct(n(p.r.gold2_acc))],
+          ['ms per decision', ms(p.x)], ['s per record', sec(n(p.r[`${hk}_p50_s`]))],
+        ]);
+      })
+      .on('pointerleave', () => { tip.hide(); ring.attr('opacity', 0); });
+  }
+
+  // ---------------------------------------------------------------- per-question dumbbell
+  function drawQuestions() {
+    const el = document.getElementById('questions-chart');
+    const d = dash.data('per_question');
+    if (d.status === 'error') return failed(el);
+    if (d.status !== 'ok') return;
+    const SERIES = [
+      { name: 'Untrained Qwen3-0.6B', color: 'var(--cds-chart-muted)', shape: 'circle' },
+      { name: 'Decision-trained Qwen3-0.6B', color: C()[0], shape: 'circle' },
+      { name: 'TF-IDF + logistic regression', color: C()[1], shape: 'tick' },
+      { name: 'Jev API (best variant)', color: C()[2], shape: 'diamond' },
+    ].filter((s) => d.data.some((r) => r.system === s.name));
+    const legend = document.getElementById('questions-legend');
+    legend.replaceChildren(...SERIES.map((s) => {
+      const sp = document.createElement('span'); const k = document.createElement('i');
+      k.className = 'ax-key'; k.style.background = s.color;
+      if (s.shape === 'tick') { k.style.borderRadius = '1px'; k.style.width = '3px'; }
+      if (s.shape === 'diamond') { k.style.borderRadius = '1px'; k.style.transform = 'rotate(45deg) scale(.8)'; }
+      sp.append(k, document.createTextNode(s.name)); return sp;
+    }));
+    const val = (q, s) => n((d.data.find((r) => r.question === q && r.system === s) || {}).gold_acc);
+    const qs = Object.keys(QUESTIONS).filter((q) => d.data.some((r) => r.question === q));
+    const { svg, w, h } = svgIn(el, 40 + qs.length * 34);
+    const m = { top: 8, right: 16, bottom: 30, left: Math.ceil(measure(svg, qs.map((q) => QUESTIONS[q]))) + 12 };
+    const x = d3.scaleLinear([0, 1], [m.left, w - m.right]);
+    const y = d3.scaleBand(qs, [m.top, h - m.bottom]).padding(0.4);
+    svg.append('g').attr('transform', `translate(0,${h - m.bottom})`)
+      .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format('.0%')).tickSize(-(h - m.top - m.bottom))).call(cleanAxis);
+    svg.selectAll('.domain').remove();
+    svg.append('g').selectAll('text').data(qs).join('text').attr('x', m.left - 10).attr('y', (q) => y(q) + y.bandwidth() / 2 + 4)
+      .attr('text-anchor', 'end').attr('fill', 'var(--color-fg)').text((q) => QUESTIONS[q]);
+    const g = svg.append('g');
+    qs.forEach((q) => {
+      const cy = y(q) + y.bandwidth() / 2;
+      const a = val(q, 'Untrained Qwen3-0.6B'), b = val(q, 'Decision-trained Qwen3-0.6B');
+      if (a != null && b != null) g.append('line').attr('x1', x(a)).attr('x2', x(b)).attr('y1', cy).attr('y2', cy)
+        .attr('stroke', 'var(--cds-chart-muted)').attr('stroke-width', 2).attr('stroke-linecap', 'round');
+      SERIES.forEach((s) => {
+        const v = val(q, s.name);
+        if (v == null) return;
+        if (s.shape === 'tick') g.append('line').attr('x1', x(v)).attr('x2', x(v)).attr('y1', cy - 8).attr('y2', cy + 8)
+          .attr('stroke', s.color).attr('stroke-width', 2.5);
+        else if (s.shape === 'diamond') g.append('path').attr('d', d3.symbol(d3.symbolDiamond, 70)())
+          .attr('transform', `translate(${x(v)},${cy})`).attr('fill', s.color).attr('stroke', 'var(--color-panel)').attr('stroke-width', 1.5);
+        else g.append('circle').attr('cx', x(v)).attr('cy', cy).attr('r', 5).attr('fill', s.color)
+          .attr('stroke', 'var(--color-panel)').attr('stroke-width', 2);
+      });
+    });
+    const tip = tooltip(el);
+    svg.append('g').selectAll('rect').data(qs).join('rect').attr('x', m.left).attr('y', (q) => y(q) - 6)
+      .attr('width', w - m.left - m.right).attr('height', y.bandwidth() + 12).attr('fill', 'transparent')
+      .on('pointermove', (ev, q) => {
+        const scale = svg.node().getBoundingClientRect().width / w;
+        const [mx] = d3.pointer(ev);
+        tip.show(mx * scale, (y(q) + y.bandwidth() / 2) * scale, QUESTIONS[q],
+          SERIES.map((s) => [s.name, val(q, s.name) == null ? '–' : pct(val(q, s.name)), s.color]));
+      })
+      .on('pointerleave', () => tip.hide());
+  }
+
+  // ---------------------------------------------------------------- CPU cost by layout and precision
+  function drawCosts() {
+    const el = document.getElementById('costs-chart');
+    const d = dash.data('systems');
+    if (d.status === 'error') return failed(el);
+    if (d.status !== 'ok') return;
+    const hk = host();
+    const rows = d.data.filter((r) => r.family === TRAINED && r.base_model === 'Qwen3-0.6B' && r.data_version === 'v1' && n(r[`${hk}_ms_per_decision`]) != null)
+      .map((r) => ({ r, label: `${r.layout} · ${r.precision}`, v: n(r[`${hk}_ms_per_decision`]) }))
+      .sort((a, b) => b.v - a.v);
+    const { svg, w, h } = svgIn(el, 30 + rows.length * 38);
+    const m = { top: 6, right: 70, bottom: 26, left: Math.ceil(measure(svg, rows.map((r) => r.label))) + 12 };
+    const x = d3.scaleLinear([0, d3.max(rows, (r) => r.v) || 1], [m.left, w - m.right]).nice();
+    const y = d3.scaleBand(rows.map((r) => r.label), [m.top, h - m.bottom]).padding(0.35);
+    svg.append('g').attr('transform', `translate(0,${h - m.bottom})`)
+      .call(d3.axisBottom(x).ticks(4).tickSize(-(h - m.top - m.bottom))).call(cleanAxis);
+    svg.selectAll('.domain').remove();
+    svg.append('g').selectAll('text').data(rows).join('text').attr('x', m.left - 10).attr('y', (r) => y(r.label) + y.bandwidth() / 2 + 4)
+      .attr('text-anchor', 'end').attr('fill', 'var(--color-fg)').text((r) => r.label);
+    const bh = Math.min(24, y.bandwidth());
+    svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', m.left)
+      .attr('y', (r) => y(r.label) + (y.bandwidth() - bh) / 2).attr('height', bh)
+      .attr('width', (r) => Math.max(1, x(r.v) - m.left)).attr('rx', 4).attr('fill', C()[0]);
+    svg.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => x(r.v) + 6)
+      .attr('y', (r) => y(r.label) + y.bandwidth() / 2 + 4).attr('fill', 'var(--color-fg)').text((r) => `${ms(r.v)} ms`);
+    svg.append('text').attr('x', w - m.right).attr('y', h - 4).attr('text-anchor', 'end').attr('fill', 'var(--color-fg-muted)')
+      .text(`ms per decision, ${HOST_NAME[hk]}`);
+  }
+
+  // ---------------------------------------------------------------- training curves
+  function drawTraining() {
+    const el = document.getElementById('training-chart');
+    const d = dash.data('training');
+    if (d.status === 'error') return failed(el);
+    if (d.status !== 'ok') return;
+    const runs = d3.groups(d.data.map((r) => ({ run: r.run, label: r.label, x: n(r.records), y: n(r.val_acc) })), (r) => r.run)
+      .map(([run, ps]) => ({ run, label: ps[0].label, pts: ps.sort((a, b) => a.x - b.x) }));
+    const HI = { 'qwen3-0.6b-cat-v2': C()[0], notebook: C()[1], 'qwen3-1.7b-cat-v2': C()[2] };
+    const colorOf = (r) => HI[r.run] || 'var(--cds-chart-muted)';
+    const legend = document.getElementById('training-legend');
+    const shown = runs.filter((r) => HI[r.run]);
+    legend.replaceChildren(...shown.map((r) => {
+      const sp = document.createElement('span'); const k = document.createElement('i');
+      k.className = 'ax-key-line'; k.style.borderColor = colorOf(r); sp.append(k, document.createTextNode(r.label)); return sp;
+    }));
+    const other = document.createElement('span'); const ok = document.createElement('i');
+    ok.className = 'ax-key-line'; ok.style.borderColor = 'var(--cds-chart-muted)';
+    other.append(ok, document.createTextNode('other runs (hover for names)')); legend.appendChild(other);
+    const { svg, w, h } = svgIn(el, 300);
+    const yMin = Math.min(0.7, Math.floor((d3.min(d.data, (r) => n(r.val_acc)) || 0.7) * 20) / 20);
+    const yt = d3.range(yMin, 1.0001, 0.05);
+    const m = { top: 10, right: 16, bottom: 34, left: Math.ceil(measure(svg, yt.map(d3.format('.0%')))) + 12 };
+    const x = d3.scaleLinear([0, d3.max(d.data, (r) => n(r.records))], [m.left, w - m.right]);
+    const y = d3.scaleLinear([yMin, 1], [h - m.bottom, m.top]);
+    svg.append('g').attr('transform', `translate(0,${h - m.bottom})`)
+      .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format('~s')).tickSize(-(h - m.top - m.bottom))).call(cleanAxis);
+    svg.append('g').attr('transform', `translate(${m.left},0)`)
+      .call(d3.axisLeft(y).tickValues(yt).tickFormat(d3.format('.0%')).tickSize(-(w - m.left - m.right))).call(cleanAxis);
+    svg.selectAll('.domain').remove();
+    svg.append('text').attr('x', w - m.right).attr('y', h - 4).attr('text-anchor', 'end').attr('fill', 'var(--color-fg-muted)')
+      .text('training records seen');
+    const line = d3.line().x((p) => x(p.x)).y((p) => y(p.y));
+    const ordered = runs.slice().sort((a, b) => !!HI[a.run] - !!HI[b.run]);
+    svg.append('g').selectAll('path').data(ordered).join('path').attr('d', (r) => line(r.pts)).attr('fill', 'none')
+      .attr('stroke', colorOf).attr('stroke-width', (r) => (HI[r.run] ? 2 : 1.5))
+      .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+    const tip = tooltip(el);
+    const rule = svg.append('line').attr('y1', m.top).attr('y2', h - m.bottom).attr('stroke', 'var(--cds-chart-axis)').attr('opacity', 0);
+    const xsAll = Array.from(new Set(d.data.map((r) => n(r.records)))).sort((a, b) => a - b);
+    svg.append('rect').attr('x', m.left).attr('y', m.top).attr('width', w - m.left - m.right).attr('height', h - m.top - m.bottom)
+      .attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        const [mx] = d3.pointer(ev);
+        const xv = xsAll[d3.leastIndex(xsAll, (v) => Math.abs(x(v) - mx))];
+        rule.attr('x1', x(xv)).attr('x2', x(xv)).attr('opacity', 1);
+        const rowsAt = runs.map((r) => [r, r.pts.find((p) => p.x === xv)]).filter(([, p]) => p).sort((a, b) => b[1].y - a[1].y);
+        const scale = svg.node().getBoundingClientRect().width / w;
+        tip.show(x(xv) * scale, m.top * scale + 20, `${d3.format(',')(xv)} records`,
+          rowsAt.map(([r, p]) => [r.label, pct(p.y), colorOf(r)]));
+      })
+      .on('pointerleave', () => { tip.hide(); rule.attr('opacity', 0); });
+  }
+
+  // ---------------------------------------------------------------- calibration
+  function drawCalibration() {
+    const el = document.getElementById('calibration-chart');
+    const d = dash.data('reliability');
+    if (d.status === 'error') return failed(el);
+    if (d.status !== 'ok') return;
+    const pts = d.data.map((r) => ({ bin: r.bin, n: n(r.decisions), c: n(r.confidence), a: n(r.accuracy) })).filter((p) => p.c != null);
+    const { svg, w, h } = svgIn(el, 300);
+    const ticks = [0, 0.25, 0.5, 0.75, 1];
+    const m = { top: 10, right: 16, bottom: 34, left: Math.ceil(measure(svg, ticks.map(d3.format('.0%')))) + 12 };
+    const x = d3.scaleLinear([0, 1], [m.left, w - m.right]);
+    const y = d3.scaleLinear([0, 1], [h - m.bottom, m.top]);
+    const r = d3.scaleSqrt([0, d3.max(pts, (p) => p.n) || 1], [3, 16]);
+    svg.append('g').attr('transform', `translate(0,${h - m.bottom})`)
+      .call(d3.axisBottom(x).tickValues(ticks).tickFormat(d3.format('.0%')).tickSize(-(h - m.top - m.bottom))).call(cleanAxis);
+    svg.append('g').attr('transform', `translate(${m.left},0)`)
+      .call(d3.axisLeft(y).tickValues(ticks).tickFormat(d3.format('.0%')).tickSize(-(w - m.left - m.right))).call(cleanAxis);
+    svg.selectAll('.domain').remove();
+    svg.append('line').attr('x1', x(0)).attr('y1', y(0)).attr('x2', x(1)).attr('y2', y(1))
+      .attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '5 4');
+    svg.append('text').attr('x', w - m.right).attr('y', h - 4).attr('text-anchor', 'end').attr('fill', 'var(--color-fg-muted)').text('confidence');
+    svg.append('text').attr('x', m.left + 4).attr('y', m.top + 10).attr('fill', 'var(--color-fg-muted)').text('share correct');
+    svg.append('g').selectAll('circle').data(pts).join('circle').attr('cx', (p) => x(p.c)).attr('cy', (p) => y(p.a))
+      .attr('r', (p) => r(p.n)).attr('fill', C()[0]).attr('fill-opacity', 0.85).attr('stroke', 'var(--color-panel)').attr('stroke-width', 2);
+    const tip = tooltip(el);
+    const delaunay = d3.Delaunay.from(pts, (p) => x(p.c), (p) => y(p.a));
+    svg.append('rect').attr('x', m.left).attr('y', m.top).attr('width', w - m.left - m.right).attr('height', h - m.top - m.bottom)
+      .attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        const [mx, my] = d3.pointer(ev);
+        const p = pts[delaunay.find(mx, my)];
+        if (!p || Math.hypot(x(p.c) - mx, y(p.a) - my) > 40) return tip.hide();
+        const scale = svg.node().getBoundingClientRect().width / w;
+        tip.show(x(p.c) * scale, y(p.a) * scale, `confidence ${p.bin}`,
+          [['decisions', d3.format(',')(p.n)], ['mean confidence', pct(p.c)], ['share correct', pct(p.a)]]);
+      })
+      .on('pointerleave', () => tip.hide());
+  }
+
+  // ---------------------------------------------------------------- table
+  let sortKey = 'gold_acc', sortDir = -1;
+  const NUMERIC = new Set(['gold_acc', 'gold2_acc', 'test_acc', 'mac_ms_per_decision', 'x86_ms_per_decision', 'peak_rss_mb', 'file_mb']);
+  const COLS = ['system', 'family', 'layout', 'precision', 'gold_acc', 'gold2_acc', 'test_acc', 'mac_ms_per_decision', 'x86_ms_per_decision', 'peak_rss_mb', 'file_mb'];
+  const search = document.getElementById('systems-search');
+  search.addEventListener('input', () => drawTable());
+  document.querySelectorAll('.ax-th').forEach((b) => b.addEventListener('click', () => {
+    const k = b.dataset.sort;
+    sortDir = k === sortKey ? -sortDir : (NUMERIC.has(k) ? -1 : 1);
+    sortKey = k;
+    drawTable();
+  }));
+  function cell(k, v) {
+    if (v == null || v === '') return '–';
+    if (k.endsWith('_acc')) return pct(Number(v));
+    if (k.endsWith('ms_per_decision')) return ms(Number(v));
+    if (k === 'peak_rss_mb' || k === 'file_mb') return d3.format(',')(Number(v));
+    return String(v);
+  }
+  function drawTable() {
+    const d = dash.data('systems');
+    const body = document.querySelector('.ax-table tbody');
+    if (d.status !== 'ok') return;
+    const q = search.value.trim().toLowerCase();
+    const rows = d.data.filter((r) => !q || COLS.some((k) => String(r[k] ?? '').toLowerCase().includes(q))).slice().sort((a, b) => {
+      const va = NUMERIC.has(sortKey) ? n(a[sortKey]) : a[sortKey], vb = NUMERIC.has(sortKey) ? n(b[sortKey]) : b[sortKey];
+      if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1;
+      return (va < vb ? -1 : va > vb ? 1 : 0) * sortDir;
+    });
+    document.querySelectorAll('.ax-table th').forEach((th) => {
+      const k = th.dataset.field;
+      th.setAttribute('aria-sort', k === sortKey ? (sortDir > 0 ? 'ascending' : 'descending') : 'none');
+    });
+    body.replaceChildren(...rows.map((r) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = r.id;
+      for (const k of COLS) {
+        const td = document.createElement('td');
+        if (NUMERIC.has(k)) td.className = 'num';
+        td.textContent = cell(k, r[k]);
+        tr.appendChild(td);
+      }
+      return tr;
+    }));
+  }
+
+  // ---------------------------------------------------------------- draw everything
+  let firstDraw = true;
+  dash.onData(() => {
+    const hk = host();
+    seg.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.host === hk)));
+    document.getElementById('key-trained').style.background = dash.colors[0];
+    drawHeadline();
+    drawTradeoff();
+    drawQuestions();
+    drawCosts();
+    drawTraining();
+    drawCalibration();
+    drawTable();
+    if (firstDraw && dash.data('systems').status === 'ok') {
+      firstDraw = false;
+      document.querySelectorAll('.ax-chart').forEach((c) => c.classList.add('ax-fade'));
+      const named = document.getElementById(location.hash.slice(1));
+      if (named) { named.scrollIntoView(); dash.setLink(named.id); }
+    }
+  });
+})();
+</script>

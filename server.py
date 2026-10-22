@@ -2,6 +2,7 @@
 
   python server.py --preset best      # Qwen3-0.6B LoRA (data v2), GGUF Q8_0, catalogue layout
   python server.py --preset fast      # Qwen2.5-0.5B LoRA, GGUF Q8_0, catalogue layout
+  python server.py --preset large     # Qwen3-1.7B LoRA (data v2), GGUF Q8_0: most robust, ~2.4x slower
   open http://127.0.0.1:8080          # the test page (ui/index.html)
 
   python server.py --gguf models/aerojev-qwen3-0.6b-cat-v2-q8_0.gguf --tokenizer Qwen/Qwen3-0.6B --layout catalogue
@@ -36,6 +37,8 @@ PRESETS = {  # weights come from training + `python -m aerojev.export` (they are
                  temps="models/temps-qwen3-0.6b-cat-v2.json", label="Qwen3-0.6B + LoRA (data v2), Q8_0"),
     "fast": dict(gguf="models/aerojev-qwen2.5-0.5b-cat-q8_0.gguf", tokenizer="Qwen/Qwen2.5-0.5B-Instruct",
                  temps="models/temps-qwen2.5-0.5b-cat.json", label="Qwen2.5-0.5B + LoRA, Q8_0"),
+    "large": dict(gguf="models/aerojev-qwen3-1.7b-cat-v2-q8_0.gguf", tokenizer="Qwen/Qwen3-1.7B",
+                  temps="models/temps-qwen3-1.7b-cat-v2.json", label="Qwen3-1.7B + LoRA (data v2), Q8_0"),
 }
 
 

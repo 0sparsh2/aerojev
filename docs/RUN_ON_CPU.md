@@ -22,7 +22,7 @@ the hand-written gold set (about 100 tokens each). They come from an Apple M4 la
 That is exactly what this command runs:
 
 ```bash
-python server.py --preset best      # or --preset fast
+python server.py --preset best      # or --preset fast / --preset large
 open http://127.0.0.1:8080          # test page; the same server answers POST /v1/decide
 ```
 
@@ -33,6 +33,11 @@ open http://127.0.0.1:8080          # test page; the same server answers POST /v
 | **Fastest** (`--preset fast`) | Qwen2.5-0.5B + LoRA, catalogue, Q8_0 | 531 MB | **0.32** | 1.4 GB | 0.931 | 0.938 |
 | **Most accurate** (`--preset best`) | Qwen3-0.6B + LoRA, data v2, catalogue, Q8_0 | 639 MB | 0.49 | 2.0 GB | **0.950** | 0.931 |
 | Smallest | Qwen2.5-0.5B + LoRA, catalogue, Q4_K_M | 398 MB | 0.38 | 1.3 GB | 0.932 | 0.942 |
+| **Most robust** (`--preset large`) | Qwen3-1.7B + LoRA, data v2, catalogue, Q8_0 | 1.8 GB | 1.17 | 2.6 GB | 0.943 | **0.949** |
+
+The 1.7B model has the best test accuracy (0.965) and is the least sensitive to the order of a question's options
+(0.95 of choice answers unchanged when options are shuffled, against 0.87 for the 0.6B model), at about 2.4× the CPU
+time per record.
 
 On a 4-vCPU x86 server the same models take 1.3–2.8 s per record (see the measurements below). The hosted Jev API,
 which runs on GPUs, scored 0.918 on the same gold set.
@@ -79,6 +84,7 @@ Weights are not in git. The server's presets expect these files in `models/`:
 |---|---|
 | `best` | `aerojev-qwen3-0.6b-cat-v2-q8_0.gguf`, `temps-qwen3-0.6b-cat-v2.json` |
 | `fast` | `aerojev-qwen2.5-0.5b-cat-q8_0.gguf`, `temps-qwen2.5-0.5b-cat.json` |
+| `large` | `aerojev-qwen3-1.7b-cat-v2-q8_0.gguf`, `temps-qwen3-1.7b-cat-v2.json` |
 
 To make them, train the adapter (README, step 3; on a GPU in about an hour, or on a CPU as in `docs/TRAIN_ON_CPU.md`), then merge and export:
 

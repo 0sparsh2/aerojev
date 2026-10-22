@@ -154,7 +154,7 @@ them: training writes `runs/<run>/best/` (the LoRA adapter) and the export write
 A local page for trying the model on any record, served by `server.py` (standard library only):
 
 ```bash
-python server.py --preset best     # Qwen3-0.6B + LoRA (data v2), GGUF Q8_0; or --preset fast for Qwen2.5-0.5B
+python server.py --preset best     # Qwen3-0.6B + LoRA (data v2), GGUF Q8_0; --preset fast (Qwen2.5-0.5B) or large (Qwen3-1.7B)
 open http://127.0.0.1:8080
 ```
 
@@ -199,10 +199,11 @@ four threads): an Apple M4 laptop and a 4-vCPU x86 cloud VM. Full tables: `resul
 
 | System | Gold (80) | Gold2 (48, blind) | Test (800) | M4 s/record | x86 s/record |
 |---|---|---|---|---|---|
-| **Qwen3-0.6B + LoRA, catalogue, data v2** (fp32) | **0.950** | 0.931 | **0.959** | 0.49 | – |
+| **Qwen3-0.6B + LoRA, catalogue, data v2** (fp32) | **0.950** | 0.931 | 0.959 | 0.49 | – |
 | same, GGUF Q8_0 (640 MB) | 0.950 | 0.931 | 0.960 | 0.49 | – |
 | same, GGUF Q4_K_M (400 MB) | 0.940 | 0.921 | 0.951 | 0.51 | – |
-| Qwen2.5-0.5B + LoRA, catalogue (GGUF Q8_0) | 0.931 | **0.938** | – | **0.32** | 1.80 |
+| Qwen3-1.7B + LoRA, catalogue, data v2 (GGUF Q8_0, 1.8 GB) | 0.943 | **0.949** | **0.965** | 1.17 | – |
+| Qwen2.5-0.5B + LoRA, catalogue (GGUF Q8_0) | 0.931 | 0.938 | – | **0.32** | 1.80 |
 | Qwen3-0.6B + LoRA, catalogue, data v1 (fp32) | 0.935 | 0.921 | 0.954 | 0.48 | 1.98 |
 | Qwen3-0.6B + LoRA, branch layout (fp32) | 0.929 | 0.921 | 0.933 | 1.42 | 12.2 |
 | Jev hosted API, best variant (GPU + network) | 0.918 | – | 0.882 | 0.12 (API) | – |

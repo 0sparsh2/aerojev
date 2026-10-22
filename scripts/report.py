@@ -73,6 +73,8 @@ def load_latency():
     rows = []
     for f in sorted(glob.glob(os.path.join(ROOT, "results/latency_*.jsonl")) +
                     glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/latency_*.jsonl"))):
+        if os.path.basename(f).startswith("latency_length"):
+            continue  # eval.bench_length (time vs record length) is a separate experiment, not a system
         rows += [json.loads(l) for l in open(f) if l.strip()]
     return rows
 
