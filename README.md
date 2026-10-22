@@ -146,6 +146,20 @@ curl -s localhost:8080/v1/decide -d '{"state": "Kestrel: 718 disks slip 6 weeks.
 Model files are not in git (GGUF files are 0.4–0.6 GB; LoRA adapters ~35–40 MB each). Steps 3 and 5 above recreate
 them: training writes `runs/<run>/best/` (the LoRA adapter) and the export writes `models/*.gguf`.
 
+## Test UI
+
+A local page for trying the model on any record, served by `server.py` (standard library only):
+
+```bash
+python server.py --preset best     # Qwen3-0.6B + LoRA (data v2), GGUF Q8_0; or --preset fast for Qwen2.5-0.5B
+open http://127.0.0.1:8080
+```
+
+Paste a supplier email, ERP row or chat message, or load one of eight example records (`ui/examples.py`), then press
+Decide. Each of the twelve questions shows its answer, its probability distribution and, for the examples, ✓ or ✗
+against the answer the playbook gives for the facts the record states. You can also add a yes/no question of your own.
+The page is `ui/index.html`; the same server answers `POST /v1/decide` for programs.
+
 ## End-to-end notebook
 
 `notebooks/aerojev_qwen2.5-0.5b_lora.ipynb` runs and explains the whole pipeline for one base model
@@ -170,7 +184,7 @@ eval/       evaluate.py · classical.py · generative.py · jev.py · bench_cpu.
 notebooks/  end-to-end walkthrough (built by scripts/build_notebook.py)
 scripts/    make_data.sh · report.py · export_dashboard.py · build_notebook.py
 tests/      tree-pack, catalogue-cache and GGUF parity checks
-server.py   stdlib HTTP API
+server.py   stdlib HTTP API and test page (ui/index.html, ui/examples.py)
 kaggle/     optional: how the GPU runs for this report were executed (see below)
 ```
 

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AeroJev decision tester</title>
+<style>
+/* Layout: a two-panel bench (record on the left, decisions on the right) that stacks below 900px. */
+:root {
+  --bg: #f2f4f6; --panel: #ffffff; --ink: #121c27; --muted: #5a6877; --line: #dde3ea; --wash: #eef2f5;
+  --accent: #1d6a86; --accent-ink: #ffffff; --good: #2c7a4b; --warn: #a8701c; --bad: #b23b3b;
+  --bar: #c9d6e1; --bar-top: #1d6a86;
+  --sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --r: 10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0c131b; --panel: #121b25; --ink: #e5ecf2; --muted: #93a2b2; --line: #223140; --wash: #172331;
+    --accent: #4aaecd; --accent-ink: #06121a; --good: #5cbd84; --warn: #e1a94b; --bad: #e46e6e;
+    --bar: #2a3b4d; --bar-top: #4aaecd; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--sans); }
+header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between;
+  padding: 18px max(16px, 3vw) 12px; border-bottom: 1px solid var(--line); background: var(--panel); }
+h1 { margin: 0; font-size: 18px; font-weight: 650; letter-spacing: -0.01em; }
+h1 span { color: var(--muted); font-weight: 450; }
+.model { font-size: 12px; color: var(--muted); }
+.model b { color: var(--ink); font-weight: 600; }
+main { display: grid; grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.25fr); gap: 20px;
+  padding: 20px max(16px, 3vw) 40px; align-items: start; }
+@media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; min-width: 0; }
+.label { font-size: 11px; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip { font: inherit; font-size: 12.5px; border: 1px solid var(--line); background: var(--wash); color: var(--ink);
+  border-radius: 999px; padding: 4px 10px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline; }
+.chip small { color: var(--muted); font-size: 11px; }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--panel); box-shadow: inset 0 0 0 1px var(--accent); }
+textarea { width: 100%; min-height: 260px; resize: vertical; font: 12.5px/1.55 var(--mono); color: var(--ink);
+  background: var(--wash); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.qs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 2px 10px; margin: 6px 0 12px; }
+.qs label { display: flex; gap: 6px; align-items: center; font-size: 12.5px; cursor: pointer; }
+.qs label.held { color: var(--muted); }
+input[type="text"] { width: 100%; font: inherit; font-size: 13px; color: var(--ink); background: var(--wash);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 14px; }
+button.primary { font: inherit; font-weight: 600; background: var(--accent); color: var(--accent-ink); border: 0;
+  border-radius: 8px; padding: 8px 16px; cursor: pointer; }
+button.primary:disabled { opacity: .55; cursor: progress; }
+button.quiet { font: inherit; background: none; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; cursor: pointer; }
+.hint { color: var(--muted); font-size: 12px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; margin-bottom: 14px; font-size: 13px; color: var(--muted); }
+.status b { color: var(--ink); font-weight: 650; }
+.score.good { color: var(--good); } .score.bad { color: var(--bad); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+.card { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.card.miss { border-color: color-mix(in srgb, var(--bad) 55%, var(--line)); }
+.card-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.qname { font-size: 11px; font-weight: 650; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.mark { font-size: 12px; font-weight: 650; }
+.mark.ok { color: var(--good); } .mark.no { color: var(--bad); }
+.answer { font-size: 16px; font-weight: 650; line-height: 1.25; overflow-wrap: anywhere; }
+.answer .conf { color: var(--muted); font-weight: 450; font-size: 13px; margin-left: 6px; }
+.desc { color: var(--muted); font-size: 12px; }
+.expected { font-size: 12px; color: var(--bad); }
+.bars { display: grid; gap: 3px; margin-top: 2px; }
+.bar { display: grid; grid-template-columns: minmax(0, 7.5em) 1fr 3.2em; gap: 8px; align-items: center; font-size: 11.5px; color: var(--muted); }
+.bar span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track { height: 6px; background: var(--wash); border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; background: var(--bar); border-radius: 3px; }
+.bar.top .fill { background: var(--bar-top); }
+.bar.top { color: var(--ink); }
+.bar .pct { text-align: right; font-variant-numeric: tabular-nums; }
+.sev-0 { color: var(--good); } .sev-1 { color: var(--ink); } .sev-2 { color: var(--warn); } .sev-3, .sev-4 { color: var(--bad); }
+.empty { color: var(--muted); padding: 28px 8px; text-align: center; }
+.error { color: var(--bad); }
+footer { padding: 0 max(16px, 3vw) 28px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>AeroJev <span>decision tester</span></h1>
+  <div class="model" id="model">connecting to the model…</div>
+</header>
+
+<main>
+  <section aria-label="Record">
+    <p class="label">Try an example</p>
+    <div class="chips" id="examples"></div>
+    <p class="label"><label for="record">Supply-chain record</label></p>
+    <textarea id="record" spellcheck="false" placeholder="Paste a supplier email, an ERP exception row, a Teams message, a quality notification…"></textarea>
+    <p class="label" style="margin-top: 14px">Questions</p>
+    <div class="qs" id="questions"></div>
+    <label class="label" for="custom" style="display: block; margin-top: 4px">Your own yes/no question (optional)</label>
+    <input type="text" id="custom" placeholder="e.g. Should a buyer call the supplier today?">
+    <div class="row">
+      <button class="primary" id="go" type="button">Decide</button>
+      <button class="quiet" id="clear" type="button">Clear</button>
+      <span class="hint">or press Ctrl/⌘ + Enter</span>
+    </div>
+  </section>
+
+  <section aria-label="Decisions" aria-live="polite">
+    <div class="status" id="status"></div>
+    <div class="cards" id="cards"><div class="empty">Pick an example on the left, or paste a record, then press Decide.</div></div>
+  </section>
+</main>
+<footer>
+  Answers are probabilities over each question's allowed labels, read from one forward pass over the record; nothing is generated.
+  Examples show ✓ or ✗ against the answer the team's playbook gives for the facts the record states.
+</footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const TITLES = {
+  event_type: 'Event type', commodity: 'Commodity', impact_severity: 'Impact severity', line_stop_risk: 'Line-stop risk',
+  recommended_action: 'Recommended action', export_controlled: 'Export controlled', counterfeit_suspect: 'Counterfeit suspect',
+  sole_source: 'Sole source', delay_bucket: 'Delay', supplier_region: 'Supplier region', mentions_new_date: 'New date given',
+  military_program: 'Military program', custom: 'Your question',
+};
+const HELD = new Set(['supplier_region', 'mentions_new_date', 'military_program']);
+const pretty = (key) => key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+const pct = (p) => `${Math.round(p * 100)}%`;
+let catalogue = {}, examples = [], expected = null, activeExample = null;
+
+function el(tag, attrs = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v; else e.setAttribute(k, v);
+  }
+  e.append(...kids.filter(Boolean));
+  return e;
+}
+
+// Short, human labels for an answer key, using the option descriptions the model itself reads.
+function answerLabel(qid, key) {
+  const q = catalogue[qid];
+  if (!q || q.type === 'yesno' || qid === 'custom') return pretty(key);
+  const opt = q.options.find((o) => o.key === key);
+  if (q.type === 'score') return `${key} · ${opt ? opt.description.split(':')[0] : ''}`;
+  return pretty(key);
+}
+function optionDescription(qid, key) {
+  const q = catalogue[qid];
+  if (!q || q.type !== 'choice') return '';
+  const opt = q.options.find((o) => o.key === key);
+  return opt ? opt.description : '';
+}
+
+async function boot() {
+  try {
+    const [health, qs, ex] = await Promise.all(['/health', '/v1/questions', '/v1/examples'].map((u) => fetch(u).then((r) => r.json())));
+    catalogue = Object.fromEntries(qs.map((q) => [q.id, q]));
+    examples = ex;
+    $('model').replaceChildren(document.createTextNode('model '), el('b', { text: health.model }),
+      document.createTextNode(` · ${health.engine} · ${health.layout} layout${health.calibrated ? ' · calibrated' : ''}`));
+    $('examples').replaceChildren(...examples.map((e) => {
+      const b = el('button', { class: 'chip', type: 'button', 'aria-pressed': 'false' }, document.createTextNode(e.title), el('small', { text: e.tag }));
+      b.addEventListener('click', () => loadExample(e, b));
+      return b;
+    }));
+    $('questions').replaceChildren(...qs.map((q) => el('label', { class: HELD.has(q.id) ? 'held' : '' },
+      el('input', { type: 'checkbox', value: q.id, checked: '' }),
+      document.createTextNode(TITLES[q.id] + (HELD.has(q.id) ? ' (held out)' : '')))));
+  } catch (err) {
+    $('model').replaceChildren(el('span', { class: 'error', text: 'Could not reach the model server. Is server.py running?' }));
+  }
+}
+
+function loadExample(e, button) {
+  $('record').value = e.text;
+  expected = e.expected;
+  activeExample = e.id;
+  document.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c === button)));
+  decide();
+}
+
+$('record').addEventListener('input', () => {   // edited text: the example's expected answers no longer apply
+  if (expected) { expected = null; activeExample = null; document.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', 'false')); }
+});
+
+async function decide() {
+  const state = $('record').value.trim();
+  if (!state) { $('status').replaceChildren(el('span', { class: 'error', text: 'Paste a record first.' })); return; }
+  const ids = [...document.querySelectorAll('#questions input:checked')].map((i) => i.value);
+  const questions = [...ids];
+  const custom = $('custom').value.trim();
+  if (custom) questions.push({ id: 'custom', type: 'yesno', text: custom });
+  if (!questions.length) { $('status').replaceChildren(el('span', { class: 'error', text: 'Pick at least one question.' })); return; }
+  $('go').disabled = true; $('go').textContent = 'Deciding…';
+  try {
+    const res = await fetch('/v1/decide', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ state, questions }) });
+    const out = await res.json();
+    if (!res.ok) throw new Error(out.error || res.statusText);
+    render(out, questions.map((q) => (typeof q === 'string' ? q : q.id)));
+  } catch (err) {
+    $('status').replaceChildren(el('span', { class: 'error', text: `Request failed: ${err.message}` }));
+  } finally {
+    $('go').disabled = false; $('go').textContent = 'Decide';
+  }
+}
+
+function render(out, order) {
+  const answers = out.answers;
+  let checked = 0, matched = 0;
+  const cards = order.filter((id) => answers[id]).map((id) => {
+    const a = answers[id];
+    const exp = expected && expected[id] !== undefined ? expected[id] : null;
+    const ok = exp === null ? null : exp === a.answer;
+    if (ok !== null) { checked += 1; matched += ok ? 1 : 0; }
+    const probs = Object.entries(a.probabilities).sort((x, y) => y[1] - x[1]);
+    const shown = a.type === 'choice' ? probs.slice(0, 3) : Object.entries(a.probabilities);
+    const sevClass = id === 'impact_severity' ? ` sev-${a.answer}` : (id === 'line_stop_risk' && a.answer === 'yes' ? ' sev-3' : '');
+    return el('div', { class: `card${ok === false ? ' miss' : ''}` },
+      el('div', { class: 'card-top' }, el('span', { class: 'qname', text: TITLES[id] || id }),
+        ok === null ? null : el('span', { class: `mark ${ok ? 'ok' : 'no'}`, text: ok ? '✓ matches playbook' : '✗' })),
+      el('div', { class: `answer${sevClass}` }, document.createTextNode(answerLabel(id, a.answer)), el('span', { class: 'conf', text: pct(a.confidence) })),
+      a.type === 'choice' ? el('div', { class: 'desc', text: optionDescription(id, a.answer) }) : null,
+      ok === false ? el('div', { class: 'expected', text: `Playbook says: ${answerLabel(id, exp)}` }) : null,
+      el('div', { class: 'bars' }, ...shown.map(([k, p]) => el('div', { class: `bar${k === a.answer ? ' top' : ''}` },
+        el('span', { text: a.type === 'score' ? k : pretty(k), title: pretty(k) }),
+        el('div', { class: 'track' }, el('div', { class: 'fill', style: `width: ${(p * 100).toFixed(1)}%` })),
+        el('span', { class: 'pct', text: pct(p) })))));
+  });
+  $('cards').replaceChildren(...cards);
+  const parts = [el('span', {}, el('b', { text: `${order.length} decisions` }), document.createTextNode(` in ${Math.round(out.latency_ms)} ms on this CPU`))];
+  if (checked) parts.push(el('span', { class: `score ${matched === checked ? 'good' : 'bad'}` },
+    el('b', { text: `${matched}/${checked}` }), document.createTextNode(' match the playbook')));
+  $('status').replaceChildren(...parts);
+}
+
+$('go').addEventListener('click', decide);
+$('clear').addEventListener('click', () => {
+  $('record').value = ''; $('custom').value = ''; expected = null; activeExample = null;
+  document.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', 'false'));
+  $('status').replaceChildren();
+  $('cards').replaceChildren(el('div', { class: 'empty', text: 'Pick an example on the left, or paste a record, then press Decide.' }));
+});
+document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') decide(); });
+boot();
+</script>
+</body>
+</html>

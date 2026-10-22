@@ -1,6 +1,10 @@
-"""AeroJev HTTP API (standard library only), CPU inference.
+"""AeroJev HTTP API and test page (standard library only), CPU inference.
 
-  python server.py --gguf models/aerojev-qwen3-0.6b-catalogue-q8_0.gguf --tokenizer Qwen/Qwen3-0.6B --layout catalogue
+  python server.py --preset best      # Qwen3-0.6B LoRA (data v2), GGUF Q8_0, catalogue layout
+  python server.py --preset fast      # Qwen2.5-0.5B LoRA, GGUF Q8_0, catalogue layout
+  open http://127.0.0.1:8080          # the test page (ui/index.html)
+
+  python server.py --gguf models/aerojev-qwen3-0.6b-cat-v2-q8_0.gguf --tokenizer Qwen/Qwen3-0.6B --layout catalogue
   python server.py --model Qwen/Qwen3-0.6B --adapter runs/qwen3-0.6b/best
 
   curl -s localhost:8080/v1/decide -d '{"state": "Kestrel says the 718 disks slip 6 weeks; 2 weeks on hand; sole source."}'
@@ -14,6 +18,7 @@ Ad-hoc questions work with either layout; in the catalogue layout they bypass th
 
 import argparse
 import json
+import os
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from threading import Lock
@@ -22,7 +27,16 @@ from aerojev import schema
 from aerojev.prompt import materialize
 
 ENGINE = None
+MODEL_NAME = ""
 LOCK = Lock()  # one forward pass at a time: the KV cache is shared state
+UI = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui", "index.html")
+
+PRESETS = {  # weights come from training + `python -m aerojev.export` (they are not in git)
+    "best": dict(gguf="models/aerojev-qwen3-0.6b-cat-v2-q8_0.gguf", tokenizer="Qwen/Qwen3-0.6B",
+                 temps="models/temps-qwen3-0.6b-cat-v2.json", label="Qwen3-0.6B + LoRA (data v2), Q8_0"),
+    "fast": dict(gguf="models/aerojev-qwen2.5-0.5b-cat-q8_0.gguf", tokenizer="Qwen/Qwen2.5-0.5B-Instruct",
+                 temps="models/temps-qwen2.5-0.5b-cat.json", label="Qwen2.5-0.5B + LoRA, Q8_0"),
+}
 
 
 def to_question(q):
@@ -40,19 +54,26 @@ def to_question(q):
 
 
 class Handler(BaseHTTPRequestHandler):
-    def _send(self, code, obj):
-        body = json.dumps(obj, indent=1).encode()
+    def _send(self, code, obj, content_type="application/json"):
+        body = obj if isinstance(obj, bytes) else json.dumps(obj, indent=1).encode()
         self.send_response(code)
-        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
 
     def do_GET(self):
+        if self.path in ("/", "/index.html"):
+            return self._send(200, open(UI, "rb").read(), "text/html; charset=utf-8")
         if self.path == "/health":
-            return self._send(200, {"ok": True, "layout": ENGINE.layout, "mode": ENGINE.mode})
+            return self._send(200, {"ok": True, "model": MODEL_NAME, "layout": ENGINE.layout, "mode": ENGINE.mode,
+                                    "engine": "llama.cpp" if ENGINE.mode == "gguf" else "torch",
+                                    "calibrated": bool(ENGINE.temperatures)})
         if self.path == "/v1/questions":
             return self._send(200, [materialize(q)[0] for q in schema.CATALOGUE])
+        if self.path == "/v1/examples":
+            from ui.examples import examples
+            return self._send(200, examples())
         self._send(404, {"error": "not found"})
 
     def do_POST(self):
@@ -76,17 +97,23 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    global ENGINE
+    global ENGINE, MODEL_NAME
     ap = argparse.ArgumentParser()
+    ap.add_argument("--preset", choices=sorted(PRESETS), help="a trained model from models/ with its settings")
     ap.add_argument("--model", help="HF model id (tokenizer for --gguf)")
     ap.add_argument("--tokenizer")
     ap.add_argument("--adapter")
     ap.add_argument("--gguf")
     ap.add_argument("--layout", choices=["branch", "catalogue"], default="branch")
-    ap.add_argument("--temps", help="metrics.json from eval with fitted temperatures")
+    ap.add_argument("--temps", help="fitted temperatures: an eval metrics.json or a {type: T} file")
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--port", type=int, default=8080)
     args = ap.parse_args()
+    if args.preset:
+        p = PRESETS[args.preset]
+        args.gguf, args.tokenizer, args.temps, args.layout = p["gguf"], p["tokenizer"], p["temps"], "catalogue"
+        if not os.path.exists(args.gguf):
+            raise SystemExit(f"{args.gguf} not found: train and export a model first (see README, steps 3-5)")
     import torch
     torch.set_num_threads(args.threads)
     if args.gguf:
@@ -96,8 +123,10 @@ def main():
         from aerojev.engine import DecisionEngine
         ENGINE = DecisionEngine(args.model, adapter=args.adapter, layout=args.layout)
     if args.temps:
-        ENGINE.temperatures = json.load(open(args.temps)).get("temperatures", {})
-    print(f"AeroJev listening on :{args.port} (layout={args.layout})", flush=True)
+        t = json.load(open(args.temps))
+        ENGINE.temperatures = t.get("temperatures", t)
+    MODEL_NAME = PRESETS[args.preset]["label"] if args.preset else os.path.basename(args.gguf or args.adapter or args.model)
+    print(f"AeroJev ({MODEL_NAME}, {args.layout} layout) on http://127.0.0.1:{args.port}", flush=True)
     ThreadingHTTPServer(("127.0.0.1", args.port), Handler).serve_forever()
 
 
