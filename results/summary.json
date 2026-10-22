@@ -3336,6 +3336,1200 @@
    },
    "api": null
   },
+  "gguf-qwen2.5-0.5b-cat-q4_k_m": {
+   "key": "gguf-qwen2.5-0.5b-cat-q4_k_m",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "method": "gguf",
+   "layout": "catalogue",
+   "temperatures": {
+    "choice": 1.2,
+    "score": 1.3,
+    "yesno": 1.2
+   },
+   "permutation": null,
+   "sets": {
+    "gold": {
+     "acc": 0.9319444444444444,
+     "macro_f1": 0.9223967001485769,
+     "bal_acc": 0.9222174122174123,
+     "exact": 0.4875,
+     "ece_raw": 0.03684374861871772,
+     "ece_cal": 0.028173638247262392,
+     "sec_per_record_gpu": 0.45878096520900724,
+     "per_q": {
+      "event_type": 0.9375,
+      "commodity": 0.9375,
+      "impact_severity": 0.775,
+      "line_stop_risk": 0.9625,
+      "recommended_action": 0.9,
+      "export_controlled": 0.9875,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8875,
+      "supplier_region": 0.5125,
+      "mentions_new_date": 0.575,
+      "military_program": 0.8375
+     },
+     "per_q_f1": {
+      "event_type": 0.9478040594028055,
+      "commodity": 0.8700267379679143,
+      "impact_severity": 0.7741535697007397,
+      "line_stop_risk": 0.9607265586647029,
+      "recommended_action": 0.9104921313254647,
+      "export_controlled": 0.9777220829852409,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8606451612903226,
+      "supplier_region": 0.3724473660431915,
+      "mentions_new_date": 0.4670846394984326,
+      "military_program": 0.5218390804597701
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.29187586109361846,
+       "within_1": 0.975
+      },
+      "line_stop_risk": {
+       "auroc": 0.9934895833333334
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.303622134567216,
+       "within_1": 0.925
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.6932707355242567
+      },
+      "military_program": {
+       "auroc": 0.7846320346320347
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9421296296296295,
+     "macro_f1": 0.9266356940700575,
+     "bal_acc": 0.9228508597027116,
+     "exact": 0.6458333333333334,
+     "ece_raw": 0.04855261778886766,
+     "ece_cal": 0.04143646879902714,
+     "sec_per_record_gpu": 0.4360669155915578,
+     "per_q": {
+      "event_type": 0.8958333333333334,
+      "commodity": 0.9791666666666666,
+      "impact_severity": 0.8541666666666666,
+      "line_stop_risk": 0.9791666666666666,
+      "recommended_action": 0.9166666666666666,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 0.9791666666666666,
+      "delay_bucket": 0.875,
+      "supplier_region": 0.5208333333333334,
+      "mentions_new_date": 0.75,
+      "military_program": 0.8958333333333334
+     },
+     "per_q_f1": {
+      "event_type": 0.9053136406077583,
+      "commodity": 0.888888888888889,
+      "impact_severity": 0.8649450549450549,
+      "line_stop_risk": 0.9780119102153001,
+      "recommended_action": 0.9295985060690943,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 0.9486631016042781,
+      "delay_bucket": 0.8243001443001443,
+      "supplier_region": 0.24431818181818182,
+      "mentions_new_date": 0.6210526315789473,
+      "military_program": 0.6147672552166934
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.23461396921681085,
+       "within_1": 0.9375
+      },
+      "line_stop_risk": {
+       "auroc": 0.9944444444444445
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.1276626211771399,
+       "within_1": 1.0
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8181818181818182
+      },
+      "military_program": {
+       "auroc": 0.876984126984127
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "gguf-qwen2.5-0.5b-cat-q8_0": {
+   "key": "gguf-qwen2.5-0.5b-cat-q8_0",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "method": "gguf",
+   "layout": "catalogue",
+   "temperatures": {
+    "choice": 1.2,
+    "score": 1.3,
+    "yesno": 1.2
+   },
+   "permutation": null,
+   "sets": {
+    "gold": {
+     "acc": 0.9305555555555556,
+     "macro_f1": 0.92036639906831,
+     "bal_acc": 0.9205635054246165,
+     "exact": 0.5125,
+     "ece_raw": 0.0413433592197035,
+     "ece_cal": 0.032164201269535495,
+     "sec_per_record_gpu": 0.37498887777328493,
+     "per_q": {
+      "event_type": 0.95,
+      "commodity": 0.925,
+      "impact_severity": 0.775,
+      "line_stop_risk": 0.95,
+      "recommended_action": 0.925,
+      "export_controlled": 0.9875,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8625,
+      "supplier_region": 0.5375,
+      "mentions_new_date": 0.6375,
+      "military_program": 0.8375
+     },
+     "per_q_f1": {
+      "event_type": 0.9589794044339499,
+      "commodity": 0.8620663650075414,
+      "impact_severity": 0.7820148662253926,
+      "line_stop_risk": 0.9479166666666667,
+      "recommended_action": 0.9259998286314075,
+      "export_controlled": 0.9777220829852409,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8285983776645915,
+      "supplier_region": 0.4158730158730159,
+      "mentions_new_date": 0.5244927239188358,
+      "military_program": 0.5218390804597701
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.2522126275710752,
+       "within_1": 0.9875
+      },
+      "line_stop_risk": {
+       "auroc": 0.9921875
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.3156318651983787,
+       "within_1": 0.925
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.702660406885759
+      },
+      "military_program": {
+       "auroc": 0.8008658008658008
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9375,
+     "macro_f1": 0.9242797297917124,
+     "bal_acc": 0.9200394118912638,
+     "exact": 0.5833333333333334,
+     "ece_raw": 0.04604491364998432,
+     "ece_cal": 0.038894082141308656,
+     "sec_per_record_gpu": 0.3576519787311554,
+     "per_q": {
+      "event_type": 0.9166666666666666,
+      "commodity": 0.9791666666666666,
+      "impact_severity": 0.8541666666666666,
+      "line_stop_risk": 0.9583333333333334,
+      "recommended_action": 0.8958333333333334,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 0.9791666666666666,
+      "delay_bucket": 0.8541666666666666,
+      "supplier_region": 0.5625,
+      "mentions_new_date": 0.7291666666666666,
+      "military_program": 0.8958333333333334
+     },
+     "per_q_f1": {
+      "event_type": 0.9213564213564213,
+      "commodity": 0.888888888888889,
+      "impact_severity": 0.8649450549450549,
+      "line_stop_risk": 0.9555555555555555,
+      "recommended_action": 0.909700176366843,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 0.9486631016042781,
+      "delay_bucket": 0.8294083694083694,
+      "supplier_region": 0.31156716417910446,
+      "mentions_new_date": 0.5734791524265208,
+      "military_program": 0.6147672552166934
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.23231923952136554,
+       "within_1": 0.9375
+      },
+      "line_stop_risk": {
+       "auroc": 0.9944444444444445
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.1633782572418962,
+       "within_1": 0.9791666666666666
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7727272727272727
+      },
+      "military_program": {
+       "auroc": 0.873015873015873
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "gguf-qwen3-0.6b-cat-q4_k_m": {
+   "key": "gguf-qwen3-0.6b-cat-q4_k_m",
+   "model": "Qwen/Qwen3-0.6B",
+   "method": "gguf",
+   "layout": "catalogue",
+   "temperatures": {
+    "choice": 1.3,
+    "score": 1.3,
+    "yesno": 1.5
+   },
+   "permutation": null,
+   "sets": {
+    "gold": {
+     "acc": 0.9180555555555555,
+     "macro_f1": 0.9149469329727603,
+     "bal_acc": 0.9117612968307411,
+     "exact": 0.5125,
+     "ece_raw": 0.0601565852240935,
+     "ece_cal": 0.05611515449744129,
+     "sec_per_record_gpu": 0.5774309396743774,
+     "per_q": {
+      "event_type": 0.925,
+      "commodity": 0.9375,
+      "impact_severity": 0.7375,
+      "line_stop_risk": 0.95,
+      "recommended_action": 0.875,
+      "export_controlled": 0.9875,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.85,
+      "supplier_region": 0.475,
+      "mentions_new_date": 0.775,
+      "military_program": 0.8875
+     },
+     "per_q_f1": {
+      "event_type": 0.9280509245890614,
+      "commodity": 0.9009552538964304,
+      "impact_severity": 0.7748918775745789,
+      "line_stop_risk": 0.9473337722185649,
+      "recommended_action": 0.8616524015748821,
+      "export_controlled": 0.9777220829852409,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.843916083916084,
+      "supplier_region": 0.4492105433019549,
+      "mentions_new_date": 0.6307692307692307,
+      "military_program": 0.7312430011198208
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.28171805060013,
+       "within_1": 0.975
+      },
+      "line_stop_risk": {
+       "auroc": 0.9850260416666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.35143552091847824,
+       "within_1": 0.9125
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7511737089201878
+      },
+      "military_program": {
+       "auroc": 0.9621212121212122
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9189814814814814,
+     "macro_f1": 0.910556017828799,
+     "bal_acc": 0.902348680126458,
+     "exact": 0.5416666666666666,
+     "ece_raw": 0.05875042448724058,
+     "ece_cal": 0.05002412593010526,
+     "sec_per_record_gpu": 0.5492251912752787,
+     "per_q": {
+      "event_type": 0.875,
+      "commodity": 0.9166666666666666,
+      "impact_severity": 0.7291666666666666,
+      "line_stop_risk": 0.9791666666666666,
+      "recommended_action": 0.9166666666666666,
+      "export_controlled": 0.9791666666666666,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.875,
+      "supplier_region": 0.5416666666666666,
+      "mentions_new_date": 0.6875,
+      "military_program": 0.9583333333333334
+     },
+     "per_q_f1": {
+      "event_type": 0.8812672176308539,
+      "commodity": 0.8377588201272411,
+      "impact_severity": 0.7890951959917476,
+      "line_stop_risk": 0.9775175644028102,
+      "recommended_action": 0.9306878306878308,
+      "export_controlled": 0.9486631016042781,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.83001443001443,
+      "supplier_region": 0.46031746031746024,
+      "mentions_new_date": 0.4638868205510052,
+      "military_program": 0.8883720930232558
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.293588350705889,
+       "within_1": 0.9791666666666666
+      },
+      "line_stop_risk": {
+       "auroc": 1.0
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.14090716202289574,
+       "within_1": 0.9791666666666666
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.6590909090909091
+      },
+      "military_program": {
+       "auroc": 0.996031746031746
+      }
+     }
+    },
+    "test": {
+     "acc": 0.9511111111111111,
+     "macro_f1": 0.9563999192145669,
+     "bal_acc": 0.9562175868025601,
+     "exact": 0.68625,
+     "ece_raw": 0.02005595093970442,
+     "ece_cal": 0.013838561795439241,
+     "sec_per_record_gpu": 0.7561575150489808,
+     "per_q": {
+      "event_type": 0.96625,
+      "commodity": 0.89875,
+      "impact_severity": 0.87875,
+      "line_stop_risk": 0.9425,
+      "recommended_action": 0.90625,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9675,
+      "supplier_region": 0.51875,
+      "mentions_new_date": 0.715,
+      "military_program": 0.60875
+     },
+     "per_q_f1": {
+      "event_type": 0.9700346679211492,
+      "commodity": 0.8998165883099553,
+      "impact_severity": 0.9008174925688321,
+      "line_stop_risk": 0.9405746176105829,
+      "recommended_action": 0.9344211947235755,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9619347117970068,
+      "supplier_region": 0.5049785436976224,
+      "mentions_new_date": 0.6841558441558442,
+      "military_program": 0.5645028044697595
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.1647633043003732,
+       "within_1": 0.98625
+      },
+      "line_stop_risk": {
+       "auroc": 0.9889969507302199
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.042205725110964334,
+       "within_1": 1.0
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7657329624286434
+      },
+      "military_program": {
+       "auroc": 0.8208784476507214
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "gguf-qwen3-0.6b-cat-q8_0": {
+   "key": "gguf-qwen3-0.6b-cat-q8_0",
+   "model": "Qwen/Qwen3-0.6B",
+   "method": "gguf",
+   "layout": "catalogue",
+   "temperatures": {
+    "choice": 1.3,
+    "score": 1.3,
+    "yesno": 1.5
+   },
+   "permutation": null,
+   "sets": {
+    "gold": {
+     "acc": 0.9347222222222222,
+     "macro_f1": 0.929830157169329,
+     "bal_acc": 0.9265499238415905,
+     "exact": 0.6125,
+     "ece_raw": 0.051899712959353736,
+     "ece_cal": 0.04580757947780714,
+     "sec_per_record_gpu": 0.5895753115415573,
+     "per_q": {
+      "event_type": 0.9375,
+      "commodity": 0.95,
+      "impact_severity": 0.8,
+      "line_stop_risk": 0.95,
+      "recommended_action": 0.9125,
+      "export_controlled": 0.9875,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.875,
+      "supplier_region": 0.6875,
+      "mentions_new_date": 0.75,
+      "military_program": 0.85
+     },
+     "per_q_f1": {
+      "event_type": 0.9400533012973203,
+      "commodity": 0.9158319327731093,
+      "impact_severity": 0.8199964164607468,
+      "line_stop_risk": 0.9473337722185649,
+      "recommended_action": 0.9024743849794561,
+      "export_controlled": 0.9777220829852409,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8650595238095239,
+      "supplier_region": 0.6069873997709049,
+      "mentions_new_date": 0.6265172735760971,
+      "military_program": 0.5833333333333333
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.24774548130713506,
+       "within_1": 0.9875
+      },
+      "line_stop_risk": {
+       "auroc": 0.9850260416666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.315558012070409,
+       "within_1": 0.925
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7652582159624414
+      },
+      "military_program": {
+       "auroc": 0.9015151515151515
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9212962962962963,
+     "macro_f1": 0.9158197335288332,
+     "bal_acc": 0.9094121721899501,
+     "exact": 0.5208333333333334,
+     "ece_raw": 0.06184513238444871,
+     "ece_cal": 0.050508096269610794,
+     "sec_per_record_gpu": 0.5511321226755778,
+     "per_q": {
+      "event_type": 0.875,
+      "commodity": 0.9375,
+      "impact_severity": 0.7291666666666666,
+      "line_stop_risk": 1.0,
+      "recommended_action": 0.8958333333333334,
+      "export_controlled": 0.9791666666666666,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.875,
+      "supplier_region": 0.7083333333333334,
+      "mentions_new_date": 0.7291666666666666,
+      "military_program": 0.875
+     },
+     "per_q_f1": {
+      "event_type": 0.8867544204864779,
+      "commodity": 0.855187969924812,
+      "impact_severity": 0.7890951959917476,
+      "line_stop_risk": 1.0,
+      "recommended_action": 0.9063892897226231,
+      "export_controlled": 0.9486631016042781,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8562876240295594,
+      "supplier_region": 0.4575757575757576,
+      "mentions_new_date": 0.4864197530864197,
+      "military_program": 0.4666666666666667
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.2936477288175085,
+       "within_1": 0.9791666666666666
+      },
+      "line_stop_risk": {
+       "auroc": 1.0
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8690476190476191
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.16896537162171832,
+       "within_1": 0.9583333333333334
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.6931818181818182
+      },
+      "military_program": {
+       "auroc": 0.9920634920634921
+      }
+     }
+    },
+    "test": {
+     "acc": 0.9533333333333334,
+     "macro_f1": 0.9580381791545604,
+     "bal_acc": 0.9587488595012172,
+     "exact": 0.6925,
+     "ece_raw": 0.01937474106982226,
+     "ece_cal": 0.016266098374761756,
+     "sec_per_record_gpu": 0.7836589324474335,
+     "per_q": {
+      "event_type": 0.9675,
+      "commodity": 0.9075,
+      "impact_severity": 0.8775,
+      "line_stop_risk": 0.945,
+      "recommended_action": 0.915,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9675,
+      "supplier_region": 0.70625,
+      "mentions_new_date": 0.72375,
+      "military_program": 0.54125
+     },
+     "per_q_f1": {
+      "event_type": 0.9712187276032327,
+      "commodity": 0.9078360830776022,
+      "impact_severity": 0.8991891364279152,
+      "line_stop_risk": 0.943508265125983,
+      "recommended_action": 0.9410988943015087,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.959492505854801,
+      "supplier_region": 0.7000719606450085,
+      "mentions_new_date": 0.6919597666002847,
+      "military_program": 0.43033541524784097
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.15917413805178982,
+       "within_1": 0.98375
+      },
+      "line_stop_risk": {
+       "auroc": 0.9887594286631359
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.04468802838159724,
+       "within_1": 1.0
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7911107122888639
+      },
+      "military_program": {
+       "auroc": 0.7474369233077442
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "gguf-qwen3-0.6b-cat-v2-q4_k_m": {
+   "key": "gguf-qwen3-0.6b-cat-v2-q4_k_m",
+   "model": "Qwen/Qwen3-0.6B",
+   "method": "gguf",
+   "layout": "catalogue",
+   "temperatures": {
+    "choice": 1.3,
+    "score": 1.0,
+    "yesno": 1.0
+   },
+   "permutation": null,
+   "sets": {
+    "gold": {
+     "acc": 0.9402777777777778,
+     "macro_f1": 0.9305620873305271,
+     "bal_acc": 0.9300969349580461,
+     "exact": 0.575,
+     "ece_raw": 0.03696992213374923,
+     "ece_cal": 0.0320562251002925,
+     "sec_per_record_gpu": 0.5982436627149582,
+     "per_q": {
+      "event_type": 0.925,
+      "commodity": 0.9375,
+      "impact_severity": 0.85,
+      "line_stop_risk": 0.9875,
+      "recommended_action": 0.9375,
+      "export_controlled": 0.9875,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8375,
+      "supplier_region": 0.5125,
+      "mentions_new_date": 0.8125,
+      "military_program": 0.9375
+     },
+     "per_q_f1": {
+      "event_type": 0.9278074866310161,
+      "commodity": 0.9039334233018443,
+      "impact_severity": 0.8554267009586158,
+      "line_stop_risk": 0.9870445344129555,
+      "recommended_action": 0.9308268891602225,
+      "export_controlled": 0.9777220829852409,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.7922976685248491,
+      "supplier_region": 0.49853080978307834,
+      "mentions_new_date": 0.5889003083247688,
+      "military_program": 0.8814814814814815
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.19639245963763913,
+       "within_1": 0.9875
+      },
+      "line_stop_risk": {
+       "auroc": 1.0
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.32235311335335626,
+       "within_1": 0.9375
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7527386541471048
+      },
+      "military_program": {
+       "auroc": 0.9783549783549783
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9212962962962963,
+     "macro_f1": 0.8971304236567895,
+     "bal_acc": 0.8848852450704301,
+     "exact": 0.5416666666666666,
+     "ece_raw": 0.052823274675723994,
+     "ece_cal": 0.049216410972449935,
+     "sec_per_record_gpu": 0.5600763708353043,
+     "per_q": {
+      "event_type": 0.8958333333333334,
+      "commodity": 0.9583333333333334,
+      "impact_severity": 0.75,
+      "line_stop_risk": 0.9583333333333334,
+      "recommended_action": 0.9166666666666666,
+      "export_controlled": 0.9791666666666666,
+      "counterfeit_suspect": 0.9791666666666666,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8541666666666666,
+      "supplier_region": 0.4375,
+      "mentions_new_date": 0.7291666666666666,
+      "military_program": 0.9583333333333334
+     },
+     "per_q_f1": {
+      "event_type": 0.8930276793913159,
+      "commodity": 0.8693400167084377,
+      "impact_severity": 0.8028882994400235,
+      "line_stop_risk": 0.9544592030360531,
+      "recommended_action": 0.9341630591630591,
+      "export_controlled": 0.9486631016042781,
+      "counterfeit_suspect": 0.8279569892473118,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8436754643206257,
+      "supplier_region": 0.3830409356725146,
+      "mentions_new_date": 0.4864197530864197,
+      "military_program": 0.8883720930232558
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.2567707574207561,
+       "within_1": 0.9583333333333334
+      },
+      "line_stop_risk": {
+       "auroc": 0.9833333333333333
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9166666666666666
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.35270968101845007,
+       "within_1": 0.9166666666666666
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.6193181818181818
+      },
+      "military_program": {
+       "auroc": 0.9246031746031746
+      }
+     }
+    },
+    "test": {
+     "acc": 0.9512499999999999,
+     "macro_f1": 0.953769376958109,
+     "bal_acc": 0.9532817504175404,
+     "exact": 0.66625,
+     "ece_raw": 0.020711810545088964,
+     "ece_cal": 0.019206298012682428,
+     "sec_per_record_gpu": 0.7668179985880852,
+     "per_q": {
+      "event_type": 0.99375,
+      "commodity": 0.92875,
+      "impact_severity": 0.85125,
+      "line_stop_risk": 0.965,
+      "recommended_action": 0.9125,
+      "export_controlled": 0.945,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.965,
+      "supplier_region": 0.5375,
+      "mentions_new_date": 0.6625,
+      "military_program": 0.8125
+     },
+     "per_q_f1": {
+      "event_type": 0.9932095950166212,
+      "commodity": 0.9283119592064276,
+      "impact_severity": 0.8663089022198435,
+      "line_stop_risk": 0.9640507141710801,
+      "recommended_action": 0.9387884007306193,
+      "export_controlled": 0.9385045422781272,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9547502790002614,
+      "supplier_region": 0.4883768531425323,
+      "mentions_new_date": 0.6423248882265276,
+      "military_program": 0.810881857896628
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.1781710910215433,
+       "within_1": 0.985
+      },
+      "line_stop_risk": {
+       "auroc": 0.9946461242176216
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.050082050440285304,
+       "within_1": 0.99625
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.699353217690221
+      },
+      "military_program": {
+       "auroc": 0.8615250931459578
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "gguf-qwen3-0.6b-cat-v2-q8_0": {
+   "key": "gguf-qwen3-0.6b-cat-v2-q8_0",
+   "model": "Qwen/Qwen3-0.6B",
+   "method": "gguf",
+   "layout": "catalogue",
+   "temperatures": {
+    "choice": 1.3,
+    "score": 1.0,
+    "yesno": 1.0
+   },
+   "permutation": null,
+   "sets": {
+    "gold": {
+     "acc": 0.9500000000000001,
+     "macro_f1": 0.9454797435298402,
+     "bal_acc": 0.9451258617925284,
+     "exact": 0.65,
+     "ece_raw": 0.03481740111735928,
+     "ece_cal": 0.03355463223083292,
+     "sec_per_record_gpu": 0.5792474240064621,
+     "per_q": {
+      "event_type": 0.925,
+      "commodity": 0.9625,
+      "impact_severity": 0.825,
+      "line_stop_risk": 1.0,
+      "recommended_action": 0.95,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8875,
+      "supplier_region": 0.5625,
+      "mentions_new_date": 0.9,
+      "military_program": 0.9375
+     },
+     "per_q_f1": {
+      "event_type": 0.9253099841335136,
+      "commodity": 0.9462923976608186,
+      "impact_severity": 0.8382362260165465,
+      "line_stop_risk": 1.0,
+      "recommended_action": 0.9439345998485782,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8555444841091049,
+      "supplier_region": 0.5652279880142814,
+      "mentions_new_date": 0.7222222222222222,
+      "military_program": 0.8814814814814815
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.21130636489098845,
+       "within_1": 0.975
+      },
+      "line_stop_risk": {
+       "auroc": 1.0
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.2517528876480535,
+       "within_1": 0.9375
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.810641627543036
+      },
+      "military_program": {
+       "auroc": 0.9556277056277056
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9305555555555556,
+     "macro_f1": 0.902667660156107,
+     "bal_acc": 0.8875027784287043,
+     "exact": 0.625,
+     "ece_raw": 0.05453423232131906,
+     "ece_cal": 0.04852544869583958,
+     "sec_per_record_gpu": 0.5611265997091929,
+     "per_q": {
+      "event_type": 0.9375,
+      "commodity": 0.9583333333333334,
+      "impact_severity": 0.7708333333333334,
+      "line_stop_risk": 0.9583333333333334,
+      "recommended_action": 0.9375,
+      "export_controlled": 0.9791666666666666,
+      "counterfeit_suspect": 0.9791666666666666,
+      "sole_source": 0.9791666666666666,
+      "delay_bucket": 0.875,
+      "supplier_region": 0.5,
+      "mentions_new_date": 0.875,
+      "military_program": 0.9583333333333334
+     },
+     "per_q_f1": {
+      "event_type": 0.9306244260789714,
+      "commodity": 0.8693400167084377,
+      "impact_severity": 0.819096459096459,
+      "line_stop_risk": 0.9544592030360531,
+      "recommended_action": 0.9488420076655371,
+      "export_controlled": 0.9486631016042781,
+      "counterfeit_suspect": 0.8279569892473118,
+      "sole_source": 0.9486631016042781,
+      "delay_bucket": 0.8763636363636363,
+      "supplier_region": 0.3829365079365079,
+      "mentions_new_date": 0.5909090909090908,
+      "military_program": 0.8883720930232558
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.24362771374715952,
+       "within_1": 0.9583333333333334
+      },
+      "line_stop_risk": {
+       "auroc": 0.9777777777777777
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9880952380952381
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.3466650235902516,
+       "within_1": 0.9166666666666666
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7215909090909091
+      },
+      "military_program": {
+       "auroc": 0.9404761904761905
+      }
+     }
+    },
+    "test": {
+     "acc": 0.9600000000000001,
+     "macro_f1": 0.9621673957798369,
+     "bal_acc": 0.9626065865117435,
+     "exact": 0.7125,
+     "ece_raw": 0.01610062777471523,
+     "ece_cal": 0.014544407738134302,
+     "sec_per_record_gpu": 0.7789907038211823,
+     "per_q": {
+      "event_type": 1.0,
+      "commodity": 0.94125,
+      "impact_severity": 0.865,
+      "line_stop_risk": 0.9675,
+      "recommended_action": 0.91625,
+      "export_controlled": 0.97625,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.97375,
+      "supplier_region": 0.60125,
+      "mentions_new_date": 0.71375,
+      "military_program": 0.81125
+     },
+     "per_q_f1": {
+      "event_type": 1.0,
+      "commodity": 0.9411581711494902,
+      "impact_severity": 0.8742441712340059,
+      "line_stop_risk": 0.966673289282258,
+      "recommended_action": 0.9411464198448992,
+      "export_controlled": 0.9740070967466119,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9622774137612657,
+      "supplier_region": 0.5424554247936553,
+      "mentions_new_date": 0.6910160209542411,
+      "military_program": 0.8112473456657985
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.16891042808331613,
+       "within_1": 0.98625
+      },
+      "line_stop_risk": {
+       "auroc": 0.994466377788477
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.036440416315660924,
+       "within_1": 0.9975
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7507782786064844
+      },
+      "military_program": {
+       "auroc": 0.8821578605186167
+      }
+     }
+    }
+   },
+   "api": null
+  },
   "gguf-qwen3-0.6b-q4_k_m": {
    "key": "gguf-qwen3-0.6b-q4_k_m",
    "model": "Qwen/Qwen3-0.6B",
@@ -3486,6 +4680,75 @@
       },
       "military_program": {
        "auroc": 0.7184116426195895
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9120370370370369,
+     "macro_f1": 0.8695367686374893,
+     "bal_acc": 0.8542495912866284,
+     "exact": 0.4166666666666667,
+     "ece_raw": 0.05797563907642916,
+     "ece_cal": 0.05302351501225263,
+     "sec_per_record_gpu": 2.3505317916472754,
+     "per_q": {
+      "event_type": 0.8125,
+      "commodity": 0.9583333333333334,
+      "impact_severity": 0.8125,
+      "line_stop_risk": 0.9791666666666666,
+      "recommended_action": 0.8958333333333334,
+      "export_controlled": 0.9583333333333334,
+      "counterfeit_suspect": 0.9791666666666666,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8125,
+      "supplier_region": 0.9583333333333334,
+      "mentions_new_date": 0.8958333333333334,
+      "military_program": 0.8958333333333334
+     },
+     "per_q_f1": {
+      "event_type": 0.7932663655573872,
+      "commodity": 0.8630065359477126,
+      "impact_severity": 0.8333333333333333,
+      "line_stop_risk": 0.9780119102153001,
+      "recommended_action": 0.9146825396825398,
+      "export_controlled": 0.8883720930232558,
+      "counterfeit_suspect": 0.8279569892473118,
+      "sole_source": 1.0,
+      "delay_bucket": 0.7272011507305625,
+      "supplier_region": 0.7205159705159705,
+      "mentions_new_date": 0.6934865900383141,
+      "military_program": 0.6147672552166934
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.2217753254402589,
+       "within_1": 0.9791666666666666
+      },
+      "line_stop_risk": {
+       "auroc": 0.9962962962962963
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9603174603174603
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.2481977899941347,
+       "within_1": 0.9583333333333334
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8238636363636364
+      },
+      "military_program": {
+       "auroc": 0.9722222222222222
       }
      }
     }
@@ -3642,6 +4905,75 @@
       },
       "military_program": {
        "auroc": 0.6629210322322523
+      }
+     }
+    },
+    "gold2": {
+     "acc": 0.9189814814814815,
+     "macro_f1": 0.8865726342228307,
+     "bal_acc": 0.8731048101418472,
+     "exact": 0.4375,
+     "ece_raw": 0.05364931502482135,
+     "ece_cal": 0.05093848894455021,
+     "sec_per_record_gpu": 2.0878836065530777,
+     "per_q": {
+      "event_type": 0.8541666666666666,
+      "commodity": 0.9791666666666666,
+      "impact_severity": 0.7916666666666666,
+      "line_stop_risk": 0.9791666666666666,
+      "recommended_action": 0.875,
+      "export_controlled": 0.9791666666666666,
+      "counterfeit_suspect": 0.9791666666666666,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8333333333333334,
+      "supplier_region": 0.9583333333333334,
+      "mentions_new_date": 0.9166666666666666,
+      "military_program": 0.8958333333333334
+     },
+     "per_q_f1": {
+      "event_type": 0.8423602541249601,
+      "commodity": 0.888888888888889,
+      "impact_severity": 0.8179183135704875,
+      "line_stop_risk": 0.9780119102153001,
+      "recommended_action": 0.9054232804232805,
+      "export_controlled": 0.9486631016042781,
+      "counterfeit_suspect": 0.8279569892473118,
+      "sole_source": 1.0,
+      "delay_bucket": 0.76993096993097,
+      "supplier_region": 0.9427381927381928,
+      "mentions_new_date": 0.7272727272727273,
+      "military_program": 0.6147672552166934
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.21983616983469548,
+       "within_1": 0.9791666666666666
+      },
+      "line_stop_risk": {
+       "auroc": 0.9944444444444445
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9484126984126984
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.2170563578237985,
+       "within_1": 0.9583333333333334
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8465909090909091
+      },
+      "military_program": {
+       "auroc": 0.9444444444444444
       }
      }
     }
@@ -8715,9 +10047,485 @@
    "tokens_per_s": 61,
    "file_mb": 397,
    "acc_key": null
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "tfidf + logistic regression",
+   "engine": "sklearn",
+   "threads": 1,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.0008,
+   "p50_s": 0.0008,
+   "p95_s": 0.0009,
+   "ms_per_decision": 0.09,
+   "peak_rss_mb": 721,
+   "acc_key": "classical:tfidf"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "minilm + logistic regression",
+   "engine": "sklearn",
+   "threads": 1,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.0071,
+   "p50_s": 0.0063,
+   "p95_s": 0.0115,
+   "ms_per_decision": 0.79,
+   "peak_rss_mb": 1029,
+   "acc_key": "classical:minilm"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B Q8_0 (base): generate JSON (free)",
+   "engine": "llama.cpp generate",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 1.7952,
+   "p50_s": 1.7302,
+   "p95_s": 2.066,
+   "ms_per_decision": 199.47,
+   "peak_rss_mb": 1274,
+   "file_mb": 639,
+   "mean_output_tokens": 99.025,
+   "accuracy_on_these": 0.5833333333333334,
+   "acc_key": "gen:gen-qwen3-0.6b-base:free"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B Q8_0 (base): generate JSON (schema)",
+   "engine": "llama.cpp generate",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 1.6953,
+   "p50_s": 1.6893,
+   "p95_s": 1.9183,
+   "ms_per_decision": 188.37,
+   "peak_rss_mb": 1274,
+   "file_mb": 639,
+   "mean_output_tokens": 57.975,
+   "accuracy_on_these": 0.6000000000000001,
+   "acc_key": "gen:gen-qwen3-0.6b-base:schema"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B zero-shot",
+   "engine": "torch fp32",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 1.5795,
+   "p50_s": 1.4909,
+   "p95_s": 2.1941,
+   "ms_per_decision": 175.5,
+   "peak_rss_mb": 3237,
+   "layout": "branch",
+   "mode": "tree",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 3.55,
+   "mean_tokens": 1068,
+   "tokens_per_s": 676,
+   "file_mb": null,
+   "acc_key": "llm:zs-qwen3-0.6b"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA (fp32)",
+   "engine": "torch fp32",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 1.4214,
+   "p50_s": 1.4172,
+   "p95_s": 1.564,
+   "ms_per_decision": 157.93,
+   "peak_rss_mb": 3413,
+   "layout": "branch",
+   "mode": "tree",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": "kaggle/outputs/train/out/runs/qwen3-0.6b/best",
+   "questions": "core",
+   "load_s": 3.87,
+   "mean_tokens": 1068,
+   "tokens_per_s": 751,
+   "file_mb": null,
+   "acc_key": "llm:ft-qwen3-0.6b"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA Q8_0",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 1.765,
+   "p50_s": 1.7422,
+   "p95_s": 1.8794,
+   "ms_per_decision": 196.11,
+   "peak_rss_mb": 1840,
+   "layout": "branch",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen3-0.6b-q8_0.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 1.11,
+   "mean_tokens": 1068,
+   "tokens_per_s": 605,
+   "file_mb": 639,
+   "acc_key": "llm:gguf-qwen3-0.6b-q8_0|llm:ft-qwen3-0.6b"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 1.961,
+   "p50_s": 1.9592,
+   "p95_s": 2.0591,
+   "ms_per_decision": 217.89,
+   "peak_rss_mb": 1490,
+   "layout": "branch",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen3-0.6b-q4_k_m.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 1.2,
+   "mean_tokens": 1068,
+   "tokens_per_s": 544,
+   "file_mb": 397,
+   "acc_key": "llm:gguf-qwen3-0.6b-q4_k_m|llm:ft-qwen3-0.6b"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA (fp32)",
+   "engine": "torch fp32",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.4809,
+   "p50_s": 0.4837,
+   "p95_s": 0.5895,
+   "ms_per_decision": 53.43,
+   "peak_rss_mb": 3359,
+   "layout": "catalogue",
+   "mode": "tree",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": "kaggle/outputs/train-cat/out/runs/qwen3-0.6b-cat/best",
+   "questions": "core",
+   "load_s": 5.46,
+   "mean_tokens": 139,
+   "tokens_per_s": 290,
+   "file_mb": null,
+   "acc_key": "llm:ft-qwen3-0.6b-cat"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA Q8_0",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.509,
+   "p50_s": 0.4982,
+   "p95_s": 0.5952,
+   "ms_per_decision": 56.55,
+   "peak_rss_mb": 1962,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen3-0.6b-cat-q8_0.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 3.23,
+   "mean_tokens": 139,
+   "tokens_per_s": 274,
+   "file_mb": 639,
+   "acc_key": "llm:gguf-qwen3-0.6b-cat-q8_0|llm:ft-qwen3-0.6b-cat"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.5181,
+   "p50_s": 0.4979,
+   "p95_s": 0.6058,
+   "ms_per_decision": 57.57,
+   "peak_rss_mb": 1726,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen3-0.6b-cat-q4_k_m.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 3.15,
+   "mean_tokens": 139,
+   "tokens_per_s": 269,
+   "file_mb": 397,
+   "acc_key": "llm:gguf-qwen3-0.6b-cat-q4_k_m|llm:ft-qwen3-0.6b-cat"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen2.5-0.5B LoRA Q8_0",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.3322,
+   "p50_s": 0.3243,
+   "p95_s": 0.3946,
+   "ms_per_decision": 36.91,
+   "peak_rss_mb": 1403,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen2.5-0.5b-cat-q8_0.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 2.14,
+   "mean_tokens": 135,
+   "tokens_per_s": 408,
+   "file_mb": 531,
+   "acc_key": "llm:gguf-qwen2.5-0.5b-cat-q8_0|llm:ft-qwen2.5-0.5b-cat"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen2.5-0.5B LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.385,
+   "p50_s": 0.3756,
+   "p95_s": 0.4374,
+   "ms_per_decision": 42.78,
+   "peak_rss_mb": 1271,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen2.5-0.5b-cat-q4_k_m.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 2.05,
+   "mean_tokens": 135,
+   "tokens_per_s": 352,
+   "file_mb": 398,
+   "acc_key": "llm:gguf-qwen2.5-0.5b-cat-q4_k_m|llm:ft-qwen2.5-0.5b-cat"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B v2 LoRA (fp32)",
+   "engine": "torch fp32",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.4981,
+   "p50_s": 0.494,
+   "p95_s": 0.5849,
+   "ms_per_decision": 55.34,
+   "peak_rss_mb": 3561,
+   "layout": "catalogue",
+   "mode": "tree",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": "kaggle/outputs/train-v2/out/runs/qwen3-0.6b-cat-v2/best",
+   "questions": "core",
+   "load_s": 4.6,
+   "mean_tokens": 139,
+   "tokens_per_s": 280,
+   "file_mb": null,
+   "acc_key": "llm:ft-qwen3-0.6b-cat-v2"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B v2 LoRA Q8_0",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.5082,
+   "p50_s": 0.4915,
+   "p95_s": 0.587,
+   "ms_per_decision": 56.46,
+   "peak_rss_mb": 1961,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "kaggle/outputs/train-v2/out/gguf/aerojev-qwen3-0.6b-cat-v2-q8_0.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 3.18,
+   "mean_tokens": 139,
+   "tokens_per_s": 274,
+   "file_mb": 639,
+   "acc_key": "llm:gguf-qwen3-0.6b-cat-v2-q8_0|llm:ft-qwen3-0.6b-cat-v2"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B v2 LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.5172,
+   "p50_s": 0.5101,
+   "p95_s": 0.5877,
+   "ms_per_decision": 57.46,
+   "peak_rss_mb": 1723,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "kaggle/outputs/train-v2/out/gguf/aerojev-qwen3-0.6b-cat-v2-q4_k_m.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 3.07,
+   "mean_tokens": 139,
+   "tokens_per_s": 270,
+   "file_mb": 397,
+   "acc_key": "llm:gguf-qwen3-0.6b-cat-v2-q4_k_m|llm:ft-qwen3-0.6b-cat-v2"
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "threads": 1,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 1.4474,
+   "p50_s": 1.3813,
+   "p95_s": 1.7,
+   "ms_per_decision": 160.83,
+   "peak_rss_mb": 1718,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen3-0.6b-cat-q4_k_m.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 6.69,
+   "mean_tokens": 139,
+   "tokens_per_s": 96,
+   "file_mb": 397,
+   "acc_key": null
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "threads": 2,
+   "n_questions": 9,
+   "n_records": 40,
+   "mean_s": 0.8128,
+   "p50_s": 0.7855,
+   "p95_s": 0.943,
+   "ms_per_decision": 90.32,
+   "peak_rss_mb": 1729,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen3-0.6b-cat-q4_k_m.gguf",
+   "adapter": null,
+   "questions": "core",
+   "load_s": 4.04,
+   "mean_tokens": 139,
+   "tokens_per_s": 172,
+   "file_mb": 397,
+   "acc_key": null
+  },
+  {
+   "host": "mac (Apple M4)",
+   "system": "Qwen3-0.6B LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "threads": 4,
+   "n_questions": 1,
+   "n_records": 40,
+   "mean_s": 0.2848,
+   "p50_s": 0.2675,
+   "p95_s": 0.3558,
+   "ms_per_decision": 284.79,
+   "peak_rss_mb": 1727,
+   "layout": "catalogue",
+   "mode": "gguf",
+   "model": "models/aerojev-qwen3-0.6b-cat-q4_k_m.gguf",
+   "adapter": null,
+   "questions": "one",
+   "load_s": 3.04,
+   "mean_tokens": 93,
+   "tokens_per_s": 328,
+   "file_mb": 397,
+   "acc_key": null
   }
  ],
  "tradeoff": [
+  {
+   "system": "Qwen3-0.6B v2 LoRA (fp32)",
+   "engine": "torch fp32",
+   "layout": "catalogue",
+   "acc": {
+    "val": 0.9760000000000001,
+    "test": 0.9594444444444447,
+    "test_v2": 0.9575,
+    "gold": 0.9500000000000001,
+    "gold2": 0.9305555555555556,
+    "injection": 0.9583333333333334
+   },
+   "acc_key": "ft-qwen3-0.6b-cat-v2",
+   "acc_exact": true,
+   "hosts": {
+    "mac": {
+     "p50_s": 0.494,
+     "p95_s": 0.5849,
+     "ms_per_decision": 55.34,
+     "host": "mac (Apple M4)"
+    }
+   },
+   "peak_rss_mb": 3561,
+   "file_mb": null
+  },
+  {
+   "system": "Qwen3-0.6B v2 LoRA Q8_0",
+   "engine": "llama.cpp",
+   "layout": "catalogue",
+   "acc": {
+    "gold": 0.9500000000000001,
+    "gold2": 0.9305555555555556,
+    "test": 0.9600000000000001
+   },
+   "acc_key": "gguf-qwen3-0.6b-cat-v2-q8_0",
+   "acc_exact": true,
+   "hosts": {
+    "mac": {
+     "p50_s": 0.4915,
+     "p95_s": 0.587,
+     "ms_per_decision": 56.46,
+     "host": "mac (Apple M4)"
+    }
+   },
+   "peak_rss_mb": 1961,
+   "file_mb": 639
+  },
+  {
+   "system": "Qwen3-0.6B v2 LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "layout": "catalogue",
+   "acc": {
+    "gold": 0.9402777777777778,
+    "gold2": 0.9212962962962963,
+    "test": 0.9512499999999999
+   },
+   "acc_key": "gguf-qwen3-0.6b-cat-v2-q4_k_m",
+   "acc_exact": true,
+   "hosts": {
+    "mac": {
+     "p50_s": 0.5101,
+     "p95_s": 0.5877,
+     "ms_per_decision": 57.46,
+     "host": "mac (Apple M4)"
+    }
+   },
+   "peak_rss_mb": 1723,
+   "file_mb": 397
+  },
   {
    "system": "Qwen3-0.6B LoRA (fp32)",
    "engine": "torch fp32",
@@ -8737,9 +10545,15 @@
      "p95_s": 2.5961,
      "ms_per_decision": 231.46,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 0.4837,
+     "p95_s": 0.5895,
+     "ms_per_decision": 53.43,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 3359,
    "file_mb": null
   },
   {
@@ -8747,48 +10561,28 @@
    "engine": "llama.cpp",
    "layout": "catalogue",
    "acc": {
-    "val": 0.974888888888889,
-    "test": 0.9536111111111111,
     "gold": 0.9347222222222222,
-    "injection": 0.9505555555555555,
-    "gold2": 0.9212962962962963
+    "gold2": 0.9212962962962963,
+    "test": 0.9533333333333334
    },
-   "acc_key": "ft-qwen3-0.6b-cat",
-   "acc_exact": false,
+   "acc_key": "gguf-qwen3-0.6b-cat-q8_0",
+   "acc_exact": true,
    "hosts": {
     "x86": {
      "p50_s": 2.8337,
      "p95_s": 3.5447,
      "ms_per_decision": 324.25,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 0.4982,
+     "p95_s": 0.5952,
+     "ms_per_decision": 56.55,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 1962,
    "file_mb": 639
-  },
-  {
-   "system": "Qwen3-0.6B LoRA Q4_K_M",
-   "engine": "llama.cpp",
-   "layout": "catalogue",
-   "acc": {
-    "val": 0.974888888888889,
-    "test": 0.9536111111111111,
-    "gold": 0.9347222222222222,
-    "injection": 0.9505555555555555,
-    "gold2": 0.9212962962962963
-   },
-   "acc_key": "ft-qwen3-0.6b-cat",
-   "acc_exact": false,
-   "hosts": {
-    "x86": {
-     "p50_s": 2.4071,
-     "p95_s": 3.1688,
-     "ms_per_decision": 284.67,
-     "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
-    }
-   },
-   "peak_rss_mb": null,
-   "file_mb": 397
   },
   {
    "system": "Qwen2.5-0.5B LoRA (fp32)",
@@ -8815,52 +10609,58 @@
    "file_mb": null
   },
   {
-   "system": "Qwen2.5-0.5B LoRA Q8_0",
-   "engine": "llama.cpp",
-   "layout": "catalogue",
-   "acc": {
-    "val": 0.9655555555555557,
-    "test": 0.9443055555555557,
-    "gold": 0.9319444444444446,
-    "injection": 0.9411111111111112,
-    "gold2": 0.9328703703703705
-   },
-   "acc_key": "ft-qwen2.5-0.5b-cat",
-   "acc_exact": false,
-   "hosts": {
-    "x86": {
-     "p50_s": 1.8016,
-     "p95_s": 2.443,
-     "ms_per_decision": 214.48,
-     "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
-    }
-   },
-   "peak_rss_mb": null,
-   "file_mb": 531
-  },
-  {
    "system": "Qwen2.5-0.5B LoRA Q4_K_M",
    "engine": "llama.cpp",
    "layout": "catalogue",
    "acc": {
-    "val": 0.9655555555555557,
-    "test": 0.9443055555555557,
-    "gold": 0.9319444444444446,
-    "injection": 0.9411111111111112,
-    "gold2": 0.9328703703703705
+    "gold": 0.9319444444444444,
+    "gold2": 0.9421296296296295
    },
-   "acc_key": "ft-qwen2.5-0.5b-cat",
-   "acc_exact": false,
+   "acc_key": "gguf-qwen2.5-0.5b-cat-q4_k_m",
+   "acc_exact": true,
    "hosts": {
     "x86": {
      "p50_s": 2.2631,
      "p95_s": 2.9748,
      "ms_per_decision": 261.33,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 0.3756,
+     "p95_s": 0.4374,
+     "ms_per_decision": 42.78,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 1271,
    "file_mb": 398
+  },
+  {
+   "system": "Qwen2.5-0.5B LoRA Q8_0",
+   "engine": "llama.cpp",
+   "layout": "catalogue",
+   "acc": {
+    "gold": 0.9305555555555556,
+    "gold2": 0.9375
+   },
+   "acc_key": "gguf-qwen2.5-0.5b-cat-q8_0",
+   "acc_exact": true,
+   "hosts": {
+    "x86": {
+     "p50_s": 1.8016,
+     "p95_s": 2.443,
+     "ms_per_decision": 214.48,
+     "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 0.3243,
+     "p95_s": 0.3946,
+     "ms_per_decision": 36.91,
+     "host": "mac (Apple M4)"
+    }
+   },
+   "peak_rss_mb": 1403,
+   "file_mb": 531
   },
   {
    "system": "Qwen3-0.6B LoRA (fp32)",
@@ -8881,9 +10681,15 @@
      "p95_s": 12.9927,
      "ms_per_decision": 1362.36,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 1.4172,
+     "p95_s": 1.564,
+     "ms_per_decision": 157.93,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 3413,
    "file_mb": null
   },
   {
@@ -8892,7 +10698,8 @@
    "layout": "branch",
    "acc": {
     "gold": 0.9277777777777777,
-    "test": 0.9329166666666667
+    "test": 0.9329166666666667,
+    "gold2": 0.9189814814814815
    },
    "acc_key": "gguf-qwen3-0.6b-q8_0",
    "acc_exact": true,
@@ -8902,10 +10709,44 @@
      "p95_s": 15.9211,
      "ms_per_decision": 1646.33,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 1.7422,
+     "p95_s": 1.8794,
+     "ms_per_decision": 196.11,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 1840,
    "file_mb": 639
+  },
+  {
+   "system": "Qwen3-0.6B LoRA Q4_K_M",
+   "engine": "llama.cpp",
+   "layout": "catalogue",
+   "acc": {
+    "gold": 0.9180555555555555,
+    "gold2": 0.9189814814814814,
+    "test": 0.9511111111111111
+   },
+   "acc_key": "gguf-qwen3-0.6b-cat-q4_k_m",
+   "acc_exact": true,
+   "hosts": {
+    "x86": {
+     "p50_s": 2.4071,
+     "p95_s": 3.1688,
+     "ms_per_decision": 284.67,
+     "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 0.4979,
+     "p95_s": 0.6058,
+     "ms_per_decision": 57.57,
+     "host": "mac (Apple M4)"
+    }
+   },
+   "peak_rss_mb": 1726,
+   "file_mb": 397
   },
   {
    "system": "Jev (TypeSafe API) (jev-1.14.0)",
@@ -8934,7 +10775,8 @@
    "layout": "branch",
    "acc": {
     "gold": 0.9097222222222222,
-    "test": 0.9318055555555556
+    "test": 0.9318055555555556,
+    "gold2": 0.9120370370370369
    },
    "acc_key": "gguf-qwen3-0.6b-q4_k_m",
    "acc_exact": true,
@@ -8944,9 +10786,15 @@
      "p95_s": 12.8481,
      "ms_per_decision": 1367.62,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 1.9592,
+     "p95_s": 2.0591,
+     "ms_per_decision": 217.89,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 1490,
    "file_mb": 397
   },
   {
@@ -9081,9 +10929,15 @@
      "p95_s": 0.0092,
      "ms_per_decision": 0.95,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 0.0008,
+     "p95_s": 0.0009,
+     "ms_per_decision": 0.09,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 721,
    "file_mb": null
   },
   {
@@ -9104,9 +10958,15 @@
      "p95_s": 0.0369,
      "ms_per_decision": 3.17,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 0.0063,
+     "p95_s": 0.0115,
+     "ms_per_decision": 0.79,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 1029,
    "file_mb": null
   },
   {
@@ -9152,9 +11012,15 @@
      "p95_s": 12.3669,
      "ms_per_decision": 1308.19,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 1.4909,
+     "p95_s": 2.1941,
+     "ms_per_decision": 175.5,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 3237,
    "file_mb": null
   },
   {
@@ -9172,9 +11038,15 @@
      "p95_s": 8.0413,
      "ms_per_decision": 709.75,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 1.6893,
+     "p95_s": 1.9183,
+     "ms_per_decision": 188.37,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 1274,
    "file_mb": 639
   },
   {
@@ -9192,9 +11064,15 @@
      "p95_s": 7.7889,
      "ms_per_decision": 817.58,
      "host": "x86 (Intel(R) Xeon(R) CPU @ 2.20GHz, 4 vCPU)"
+    },
+    "mac": {
+     "p50_s": 1.7302,
+     "p95_s": 2.066,
+     "ms_per_decision": 199.47,
+     "host": "mac (Apple M4)"
     }
    },
-   "peak_rss_mb": null,
+   "peak_rss_mb": 1274,
    "file_mb": 639
   },
   {

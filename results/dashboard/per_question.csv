@@ -1,22 +1,31 @@
 question,system,gold_acc
-event_type,Qwen3-0.6B zero-shot,0.65
-commodity,Qwen3-0.6B zero-shot,0.6625
-impact_severity,Qwen3-0.6B zero-shot,0.425
-line_stop_risk,Qwen3-0.6B zero-shot,0.6
-recommended_action,Qwen3-0.6B zero-shot,0.4
-export_controlled,Qwen3-0.6B zero-shot,0.825
-counterfeit_suspect,Qwen3-0.6B zero-shot,0.975
-sole_source,Qwen3-0.6B zero-shot,0.8875
-delay_bucket,Qwen3-0.6B zero-shot,0.2625
-event_type,Jev API (+ playbook),0.975
-commodity,Jev API (+ playbook),0.925
-impact_severity,Jev API (+ playbook),0.775
-line_stop_risk,Jev API (+ playbook),0.975
-recommended_action,Jev API (+ playbook),0.825
-export_controlled,Jev API (+ playbook),0.75
-counterfeit_suspect,Jev API (+ playbook),1.0
-sole_source,Jev API (+ playbook),1.0
-delay_bucket,Jev API (+ playbook),0.8
+event_type,Untrained Qwen3-0.6B,0.65
+commodity,Untrained Qwen3-0.6B,0.6625
+impact_severity,Untrained Qwen3-0.6B,0.425
+line_stop_risk,Untrained Qwen3-0.6B,0.6
+recommended_action,Untrained Qwen3-0.6B,0.4
+export_controlled,Untrained Qwen3-0.6B,0.825
+counterfeit_suspect,Untrained Qwen3-0.6B,0.975
+sole_source,Untrained Qwen3-0.6B,0.8875
+delay_bucket,Untrained Qwen3-0.6B,0.2625
+event_type,Decision-trained Qwen3-0.6B,0.925
+commodity,Decision-trained Qwen3-0.6B,0.9625
+impact_severity,Decision-trained Qwen3-0.6B,0.825
+line_stop_risk,Decision-trained Qwen3-0.6B,1.0
+recommended_action,Decision-trained Qwen3-0.6B,0.95
+export_controlled,Decision-trained Qwen3-0.6B,1.0
+counterfeit_suspect,Decision-trained Qwen3-0.6B,1.0
+sole_source,Decision-trained Qwen3-0.6B,1.0
+delay_bucket,Decision-trained Qwen3-0.6B,0.8875
+event_type,Jev API (best variant),0.975
+commodity,Jev API (best variant),0.9125
+impact_severity,Jev API (best variant),0.7875
+line_stop_risk,Jev API (best variant),0.975
+recommended_action,Jev API (best variant),0.8375
+export_controlled,Jev API (best variant),1.0
+counterfeit_suspect,Jev API (best variant),1.0
+sole_source,Jev API (best variant),1.0
+delay_bucket,Jev API (best variant),0.775
 event_type,TF-IDF + logistic regression,0.8125
 commodity,TF-IDF + logistic regression,0.9875
 impact_severity,TF-IDF + logistic regression,0.5625

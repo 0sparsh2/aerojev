@@ -1,21 +1,68 @@
-run,step,val_acc
-qwen2.5-0.5b,150,0.7978
-qwen2.5-0.5b,300,0.8726
-qwen2.5-0.5b,450,0.9015
-qwen2.5-0.5b,600,0.9148
-qwen2.5-0.5b,750,0.9215
-qwen2.5-0.5b,900,0.937
-qwen2.5-0.5b,1050,0.9393
-qwen2.5-0.5b,1200,0.9526
-qwen2.5-0.5b,1350,0.9563
-qwen2.5-0.5b,1500,0.96
-qwen3-0.6b,150,0.863
-qwen3-0.6b,300,0.923
-qwen3-0.6b,450,0.9148
-qwen3-0.6b,600,0.9319
-qwen3-0.6b,750,0.9474
-qwen3-0.6b,900,0.9578
-qwen3-0.6b,1050,0.9637
-qwen3-0.6b,1200,0.9644
-qwen3-0.6b,1350,0.9659
-qwen3-0.6b,1500,0.9652
+run,label,records,val_acc
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,1200,0.7333
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,2400,0.877
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,3600,0.9111
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,4800,0.9319
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,6000,0.9437
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,7200,0.9541
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,8400,0.9659
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,9600,0.9652
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,10800,0.9711
+qwen2.5-0.5b-cat,Qwen2.5-0.5B · catalogue · data v1,12000,0.9704
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,1200,0.8815
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,2400,0.9156
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,3600,0.9215
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,4800,0.9437
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,6000,0.943
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,7200,0.9615
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,8400,0.9667
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,9600,0.9704
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,10800,0.9733
+qwen3-0.6b-cat,Qwen3-0.6B · catalogue · data v1,12000,0.9756
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,1200,0.8741
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,2400,0.9104
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,3600,0.9074
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,4800,0.9319
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,6000,0.9407
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,7200,0.9489
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,8400,0.9489
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,9600,0.9504
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,10800,0.9533
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,12000,0.9711
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,13200,0.9756
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,14400,0.9778
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,15600,0.98
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,16800,0.9763
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,18000,0.98
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,19200,0.9778
+qwen3-0.6b-cat-v2,Qwen3-0.6B · catalogue · data v2,20000,0.9778
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,1200,0.7978
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,2400,0.8726
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,3600,0.9015
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,4800,0.9148
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,6000,0.9215
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,7200,0.937
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,8400,0.9393
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,9600,0.9526
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,10800,0.9563
+qwen2.5-0.5b,Qwen2.5-0.5B · branch · data v1,12000,0.96
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,1200,0.863
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,2400,0.923
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,3600,0.9148
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,4800,0.9319
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,6000,0.9474
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,7200,0.9578
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,8400,0.9637
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,9600,0.9644
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,10800,0.9659
+qwen3-0.6b,Qwen3-0.6B · branch · data v1,12000,0.9652
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),1200,0.7015
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),2400,0.8563
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),3600,0.8793
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),4800,0.9081
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),6000,0.9348
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),7200,0.9356
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),8400,0.9511
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),9600,0.9585
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),10800,0.9615
+notebook,Qwen2.5-0.5B · catalogue · data v2 (notebook),12000,0.9644
