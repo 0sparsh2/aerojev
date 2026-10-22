@@ -1,0 +1,43 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "results/zs-qwen2.5-0.5b"
+  },
+  "rc": 0,
+  "seconds": 572
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-0.6B",
+   "out": "results/zs-qwen3-0.6b"
+  },
+  "rc": 0,
+  "seconds": 945
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-1.7B",
+   "out": "results/zs-qwen3-1.7b"
+  },
+  "rc": 0,
+  "seconds": 2006
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3.5-0.8B",
+   "out": "results/zs-qwen3.5-0.8b",
+   "mode": "unpacked"
+  },
+  "rc": 0,
+  "seconds": 3095
+ }
+]

@@ -1,0 +1,50 @@
+[{"stream_name":"stdout","time":4132.488635767,"data":"[\n"}
+,{"stream_name":"stdout","time":4132.488709183,"data":" {\n"}
+,{"stream_name":"stdout","time":4132.488714652,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4132.48871823,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4132.48872155,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":4132.488725023,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":4132.488728521,"data":"   \"out\": \"results/zs-qwen2.5-0.5b\"\n"}
+,{"stream_name":"stdout","time":4132.488731857,"data":"  },\n"}
+,{"stream_name":"stdout","time":4132.488735002,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4132.488738236,"data":"  \"seconds\": 572\n"}
+,{"stream_name":"stdout","time":4132.488741568,"data":" },\n"}
+,{"stream_name":"stdout","time":4132.48874484,"data":" {\n"}
+,{"stream_name":"stdout","time":4132.488754198,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":4132.488769864,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4132.488773797,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":4132.488777799,"data":"   \"model\": \"Qwen/Qwen3-0.6B\",\n"}
+,{"stream_name":"stdout","time":4132.488781438,"data":"   \"out\": \"results/zs-qwen3-0.6b\"\n"}
+,{"stream_name":"stdout","time":4132.488785641,"data":"  },\n"}
+,{"stream_name":"stdout","time":4132.488789049,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4132.488792268,"data":"  \"seconds\": 945\n"}
+,{"stream_name":"stdout","time":4132.488795568,"data":" },\n"}
+,{"stream_name":"stdout","time":4132.488798642,"data":" {\n"}
+,{"stream_name":"stdout","time":4132.488801762,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4132.488804917,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4132.488808107,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":4132.488811315,"data":"   \"model\": \"Qwen/Qwen3-1.7B\",\n"}
+,{"stream_name":"stdout","time":4132.488814778,"data":"   \"out\": \"results/zs-qwen3-1.7b\"\n"}
+,{"stream_name":"stdout","time":4132.488818081,"data":"  },\n"}
+,{"stream_name":"stdout","time":4132.488821145,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4132.488824332,"data":"  \"seconds\": 2006\n"}
+,{"stream_name":"stdout","time":4132.48882763,"data":" },\n"}
+,{"stream_name":"stdout","time":4132.488830696,"data":" {\n"}
+,{"stream_name":"stdout","time":4132.488833745,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":4132.488847458,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4132.488850113,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":4132.488852852,"data":"   \"model\": \"Qwen/Qwen3.5-0.8B\",\n"}
+,{"stream_name":"stdout","time":4132.48886692,"data":"   \"out\": \"results/zs-qwen3.5-0.8b\",\n"}
+,{"stream_name":"stdout","time":4132.488871093,"data":"   \"mode\": \"unpacked\"\n"}
+,{"stream_name":"stdout","time":4132.48887509,"data":"  },\n"}
+,{"stream_name":"stdout","time":4132.488879022,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4132.488882921,"data":"  \"seconds\": 3095\n"}
+,{"stream_name":"stdout","time":4132.48888626,"data":" }\n"}
+,{"stream_name":"stdout","time":4132.488889318,"data":"]\n"}
+,{"stream_name":"stderr","time":4134.912945768,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":4134.912978731,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":4135.294399032,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":4135.29446446,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":4136.172910682,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":4137.544894174,"data":"[NbConvertApp] Writing 304349 bytes to __results__.html\n"}
+]

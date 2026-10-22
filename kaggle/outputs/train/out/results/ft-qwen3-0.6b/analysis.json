@@ -1,0 +1,242 @@
+{
+ "test_acc_by_format": {
+  "call_notes": 0.91,
+  "chat": 0.921,
+  "email": 0.93,
+  "erp": 0.973,
+  "ncr": 0.939,
+  "portal_notice": 0.942,
+  "risk_alert": 0.954
+ },
+ "confusion_impact_severity": {
+  "3->3": 25,
+  "1->1": 22,
+  "2->2": 8,
+  "3->1": 1,
+  "0->3": 1,
+  "4->4": 6,
+  "2->3": 5,
+  "0->0": 8,
+  "2->1": 2,
+  "3->4": 1,
+  "0->1": 1
+ },
+ "confusion_recommended_action": {
+  "expedite->monitor": 1,
+  "monitor->monitor": 20,
+  "request_recovery_plan->request_recovery_plan": 10,
+  "quarantine_inventory->quarantine_inventory": 7,
+  "activate_alternate_source->activate_alternate_source": 7,
+  "last_time_buy->last_time_buy": 4,
+  "renegotiate_commercial->renegotiate_commercial": 7,
+  "monitor->expedite": 1,
+  "escalate_leadership->escalate_leadership": 6,
+  "involve_trade_compliance->involve_trade_compliance": 3,
+  "expedite->renegotiate_commercial": 1,
+  "request_recovery_plan->quarantine_inventory": 4,
+  "expedite->expedite": 7,
+  "expedite->escalate_leadership": 1,
+  "involve_trade_compliance->request_recovery_plan": 1
+ },
+ "confusion_event_type": {
+  "delivery_delay->delivery_delay": 7,
+  "capacity_constraint->capacity_constraint": 4,
+  "raw_material_shortage->raw_material_shortage": 5,
+  "quality_escape->quality_escape": 13,
+  "financial_distress->financial_distress": 6,
+  "force_majeure->force_majeure": 5,
+  "obsolescence->obsolescence": 4,
+  "commercial_change->commercial_change": 7,
+  "no_issue->no_issue": 7,
+  "regulatory_compliance->regulatory_compliance": 7,
+  "logistics_disruption->logistics_disruption": 6,
+  "delivery_delay->quality_escape": 1,
+  "no_issue->regulatory_compliance": 1,
+  "capacity_constraint->quality_escape": 2,
+  "raw_material_shortage->delivery_delay": 2,
+  "no_issue->commercial_change": 1,
+  "delivery_delay->logistics_disruption": 1,
+  "no_issue->delivery_delay": 1
+ },
+ "reliability": [
+  {
+   "bin": "0.1-0.2",
+   "n": 69,
+   "confidence": 0.129,
+   "accuracy": 0.174
+  },
+  {
+   "bin": "0.2-0.3",
+   "n": 6,
+   "confidence": 0.248,
+   "accuracy": 0.167
+  },
+  {
+   "bin": "0.3-0.4",
+   "n": 4,
+   "confidence": 0.351,
+   "accuracy": 0.25
+  },
+  {
+   "bin": "0.4-0.5",
+   "n": 43,
+   "confidence": 0.462,
+   "accuracy": 0.326
+  },
+  {
+   "bin": "0.5-0.6",
+   "n": 151,
+   "confidence": 0.549,
+   "accuracy": 0.55
+  },
+  {
+   "bin": "0.6-0.7",
+   "n": 171,
+   "confidence": 0.648,
+   "accuracy": 0.632
+  },
+  {
+   "bin": "0.7-0.8",
+   "n": 127,
+   "confidence": 0.752,
+   "accuracy": 0.772
+  },
+  {
+   "bin": "0.8-0.9",
+   "n": 210,
+   "confidence": 0.853,
+   "accuracy": 0.767
+  },
+  {
+   "bin": "0.9-1.0",
+   "n": 7139,
+   "confidence": 0.996,
+   "accuracy": 0.968
+  }
+ ],
+ "gold_errors": {
+  "g57": [
+   "commodity: gold=electronics pred=chemicals",
+   "line_stop_risk: gold=yes pred=no",
+   "delay_bucket: gold=3 pred=0"
+  ],
+  "g79": [
+   "event_type: gold=no_issue pred=delivery_delay",
+   "impact_severity: gold=0 pred=1",
+   "delay_bucket: gold=0 pred=2"
+  ],
+  "g09": [
+   "impact_severity: gold=0 pred=3",
+   "recommended_action: gold=monitor pred=expedite"
+  ],
+  "g14": [
+   "impact_severity: gold=2 pred=3",
+   "recommended_action: gold=expedite pred=renegotiate_commercial"
+  ],
+  "g21": [
+   "recommended_action: gold=request_recovery_plan pred=quarantine_inventory",
+   "delay_bucket: gold=3 pred=2"
+  ],
+  "g28": [
+   "event_type: gold=capacity_constraint pred=quality_escape",
+   "recommended_action: gold=request_recovery_plan pred=quarantine_inventory"
+  ],
+  "g40": [
+   "impact_severity: gold=3 pred=4",
+   "recommended_action: gold=expedite pred=escalate_leadership"
+  ],
+  "g49": [
+   "recommended_action: gold=involve_trade_compliance pred=request_recovery_plan",
+   "delay_bucket: gold=4 pred=0"
+  ],
+  "g54": [
+   "event_type: gold=raw_material_shortage pred=delivery_delay",
+   "delay_bucket: gold=4 pred=3"
+  ],
+  "g55": [
+   "event_type: gold=no_issue pred=commercial_change",
+   "commodity: gold=other pred=composites"
+  ],
+  "g59": [
+   "event_type: gold=delivery_delay pred=logistics_disruption",
+   "impact_severity: gold=2 pred=3"
+  ],
+  "g68": [
+   "impact_severity: gold=2 pred=3",
+   "delay_bucket: gold=2 pred=0"
+  ],
+  "g72": [
+   "event_type: gold=capacity_constraint pred=quality_escape",
+   "line_stop_risk: gold=no pred=yes"
+  ],
+  "g01": [
+   "recommended_action: gold=expedite pred=monitor"
+  ],
+  "g04": [
+   "line_stop_risk: gold=no pred=yes"
+  ],
+  "g05": [
+   "impact_severity: gold=3 pred=1"
+  ],
+  "g06": [
+   "line_stop_risk: gold=no pred=yes"
+  ],
+  "g12": [
+   "delay_bucket: gold=4 pred=0"
+  ],
+  "g13": [
+   "delay_bucket: gold=3 pred=4"
+  ],
+  "g15": [
+   "impact_severity: gold=2 pred=3"
+  ],
+  "g16": [
+   "commodity: gold=other pred=composites"
+  ],
+  "g17": [
+   "recommended_action: gold=request_recovery_plan pred=quarantine_inventory"
+  ],
+  "g18": [
+   "event_type: gold=delivery_delay pred=quality_escape"
+  ],
+  "g22": [
+   "delay_bucket: gold=4 pred=0"
+  ],
+  "g25": [
+   "event_type: gold=no_issue pred=regulatory_compliance"
+  ],
+  "g26": [
+   "impact_severity: gold=2 pred=1"
+  ],
+  "g32": [
+   "delay_bucket: gold=3 pred=0"
+  ],
+  "g35": [
+   "delay_bucket: gold=2 pred=0"
+  ],
+  "g37": [
+   "commodity: gold=other pred=electronics"
+  ],
+  "g42": [
+   "delay_bucket: gold=3 pred=4"
+  ],
+  "g43": [
+   "event_type: gold=raw_material_shortage pred=delivery_delay"
+  ],
+  "g56": [
+   "recommended_action: gold=request_recovery_plan pred=quarantine_inventory"
+  ],
+  "g58": [
+   "delay_bucket: gold=1 pred=2"
+  ],
+  "g64": [
+   "delay_bucket: gold=4 pred=0"
+  ],
+  "g66": [
+   "impact_severity: gold=2 pred=1"
+  ],
+  "g75": [
+   "impact_severity: gold=2 pred=3"
+  ]
+ }
+}

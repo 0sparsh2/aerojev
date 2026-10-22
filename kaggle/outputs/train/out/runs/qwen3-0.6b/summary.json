@@ -1,0 +1,27 @@
+{
+ "best_val_acc": 0.965925925925926,
+ "steps": 1500,
+ "records": 12000,
+ "elapsed_s": 5349.741230726242,
+ "args": {
+  "model": "Qwen/Qwen3-0.6B",
+  "out": "/kaggle/working/out/runs/qwen3-0.6b",
+  "data": "data/processed",
+  "epochs": 2.0,
+  "lr": 0.0002,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "grad_accum": 8,
+  "min_q": 5,
+  "max_q": 9,
+  "ordinal_weight": 0.5,
+  "warmup": 50,
+  "eval_every": 150,
+  "val_limit": 150,
+  "limit": null,
+  "max_steps": null,
+  "device": "cuda",
+  "precision": "fp16",
+  "seed": 0
+ }
+}

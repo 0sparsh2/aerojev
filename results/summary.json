@@ -1,0 +1,4249 @@
+{
+ "llm": {
+  "zs-qwen2.5-0.5b": {
+   "key": "zs-qwen2.5-0.5b",
+   "model": "Qwen2.5-0.5B-Instruct",
+   "method": "zero-shot readout",
+   "layout": "branch",
+   "temperatures": {
+    "choice": 2.8,
+    "score": 2.7,
+    "yesno": 1.3
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.246875,
+    "choice_accuracy_shuffled": 0.315625
+   },
+   "sets": {
+    "val": {
+     "acc": 0.4315555555555556,
+     "macro_f1": 0.3403431535081886,
+     "bal_acc": 0.43076495591060676,
+     "exact": 0.0,
+     "ece_raw": 0.09413413909734328,
+     "ece_cal": 0.026719987215055453,
+     "sec_per_record_gpu": 0.3128903722763062,
+     "per_q": {
+      "event_type": 0.254,
+      "commodity": 0.332,
+      "impact_severity": 0.366,
+      "line_stop_risk": 0.586,
+      "recommended_action": 0.094,
+      "export_controlled": 0.716,
+      "counterfeit_suspect": 0.746,
+      "sole_source": 0.55,
+      "delay_bucket": 0.24,
+      "supplier_region": 0.496,
+      "mentions_new_date": 0.504,
+      "military_program": 0.542
+     },
+     "per_q_f1": {
+      "event_type": 0.1618682108272219,
+      "commodity": 0.25846450719106107,
+      "impact_severity": 0.14927384907451352,
+      "line_stop_risk": 0.4101589436431091,
+      "recommended_action": 0.08158651136349891,
+      "export_controlled": 0.7103223174214606,
+      "counterfeit_suspect": 0.5561644218604749,
+      "sole_source": 0.5484810903880655,
+      "delay_bucket": 0.18676852980429234,
+      "supplier_region": 0.47692374704361007,
+      "mentions_new_date": 0.4909688013136289,
+      "military_program": 0.5104138606325709
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 1.010164269583483,
+       "within_1": 0.712
+      },
+      "line_stop_risk": {
+       "auroc": 0.5561573593180656
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8102055126128984
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9896089691003555
+      },
+      "sole_source": {
+       "auroc": 0.8297258297258298
+      },
+      "delay_bucket": {
+       "mae_expected": 1.6679782788860151,
+       "within_1": 0.45
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.876100209220114
+      },
+      "military_program": {
+       "auroc": 0.6073076923076923
+      }
+     }
+    },
+    "test": {
+     "acc": 0.44486111111111115,
+     "macro_f1": 0.34317665839555667,
+     "bal_acc": 0.435488096098576,
+     "exact": 0.0,
+     "ece_raw": 0.08610972468867649,
+     "ece_cal": 0.03878741172412175,
+     "sec_per_record_gpu": 0.33200631618499754,
+     "per_q": {
+      "event_type": 0.3325,
+      "commodity": 0.265,
+      "impact_severity": 0.34625,
+      "line_stop_risk": 0.59875,
+      "recommended_action": 0.08125,
+      "export_controlled": 0.7175,
+      "counterfeit_suspect": 0.7875,
+      "sole_source": 0.625,
+      "delay_bucket": 0.25,
+      "supplier_region": 0.48625,
+      "mentions_new_date": 0.5,
+      "military_program": 0.53
+     },
+     "per_q_f1": {
+      "event_type": 0.18018521504312607,
+      "commodity": 0.2146427845037105,
+      "impact_severity": 0.1391703140101079,
+      "line_stop_risk": 0.4258617104760116,
+      "recommended_action": 0.05287939502238914,
+      "export_controlled": 0.7145004705689146,
+      "counterfeit_suspect": 0.5804489196559681,
+      "sole_source": 0.6215848028456823,
+      "delay_bucket": 0.15931631343409952,
+      "supplier_region": 0.48446880404400594,
+      "mentions_new_date": 0.49415432087056044,
+      "military_program": 0.4860263411500161
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.9580778504226992,
+       "within_1": 0.74375
+      },
+      "line_stop_risk": {
+       "auroc": 0.5718086984432675
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8572362744040557
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9744164332399626
+      },
+      "sole_source": {
+       "auroc": 0.9837120394142252
+      },
+      "delay_bucket": {
+       "mae_expected": 1.5533800727114584,
+       "within_1": 0.39125
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.6647914351388476
+      },
+      "military_program": {
+       "auroc": 0.5607480433097447
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.5083333333333333,
+     "macro_f1": 0.354772301087053,
+     "bal_acc": 0.4336854369463065,
+     "exact": 0.0,
+     "ece_raw": 0.0706602343040967,
+     "ece_cal": 0.0631487924020217,
+     "sec_per_record_gpu": 0.30879524648189544,
+     "per_q": {
+      "event_type": 0.25,
+      "commodity": 0.35,
+      "impact_severity": 0.2625,
+      "line_stop_risk": 0.6,
+      "recommended_action": 0.1,
+      "export_controlled": 0.8625,
+      "counterfeit_suspect": 0.9,
+      "sole_source": 0.85,
+      "delay_bucket": 0.4,
+      "supplier_region": 0.75,
+      "mentions_new_date": 0.65,
+      "military_program": 0.8125
+     },
+     "per_q_f1": {
+      "event_type": 0.11412443765384941,
+      "commodity": 0.27732263814616753,
+      "impact_severity": 0.14448042390344423,
+      "line_stop_risk": 0.375,
+      "recommended_action": 0.042844237966189185,
+      "export_controlled": 0.6380090497737557,
+      "counterfeit_suspect": 0.6396396396396397,
+      "sole_source": 0.7538461538461538,
+      "delay_bucket": 0.20768412885427745,
+      "supplier_region": 0.5940975859839956,
+      "mentions_new_date": 0.561128526645768,
+      "military_program": 0.4482758620689655
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.9820735713738884,
+       "within_1": 0.775
+      },
+      "line_stop_risk": {
+       "auroc": 0.41796875
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.948051948051948
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9090909090909091
+      },
+      "sole_source": {
+       "auroc": 0.9341238471673254
+      },
+      "delay_bucket": {
+       "mae_expected": 1.1858893068549423,
+       "within_1": 0.625
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.812206572769953
+      },
+      "military_program": {
+       "auroc": 0.8268398268398268
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.4383333333333333,
+     "macro_f1": 0.3392526854782454,
+     "bal_acc": 0.4335437529489567,
+     "exact": 0.0,
+     "ece_raw": 0.09120012728778129,
+     "ece_cal": 0.05427490637532589,
+     "sec_per_record_gpu": 0.3403661561012268,
+     "per_q": {
+      "event_type": 0.29,
+      "commodity": 0.285,
+      "impact_severity": 0.34,
+      "line_stop_risk": 0.595,
+      "recommended_action": 0.09,
+      "export_controlled": 0.75,
+      "counterfeit_suspect": 0.85,
+      "sole_source": 0.55,
+      "delay_bucket": 0.195,
+      "supplier_region": 0.465,
+      "mentions_new_date": 0.525,
+      "military_program": 0.53
+     },
+     "per_q_f1": {
+      "event_type": 0.1509872418341514,
+      "commodity": 0.19674321171506576,
+      "impact_severity": 0.16308479532163742,
+      "line_stop_risk": 0.470432480141218,
+      "recommended_action": 0.0625685482529058,
+      "export_controlled": 0.7469379491851402,
+      "counterfeit_suspect": 0.6315401621223287,
+      "sole_source": 0.5483741469289443,
+      "delay_bucket": 0.08260563380281691,
+      "supplier_region": 0.44087587637009973,
+      "mentions_new_date": 0.524036173250833,
+      "military_program": 0.4456893501592169
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.8840659893953506,
+       "within_1": 0.815
+      },
+      "line_stop_risk": {
+       "auroc": 0.5226133333333334
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8527082673424137
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9993489583333334
+      },
+      "sole_source": {
+       "auroc": 0.9847276659007974
+      },
+      "delay_bucket": {
+       "mae_expected": 1.7709337987102542,
+       "within_1": 0.27
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.6764473089099955
+      },
+      "military_program": {
+       "auroc": 0.5844
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "zs-qwen3-0.6b": {
+   "key": "zs-qwen3-0.6b",
+   "model": "Qwen3-0.6B",
+   "method": "zero-shot readout",
+   "layout": "branch",
+   "temperatures": {
+    "choice": 3.7,
+    "score": 5.0,
+    "yesno": 4.0
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.665625,
+    "choice_accuracy_shuffled": 0.603125
+   },
+   "sets": {
+    "val": {
+     "acc": 0.5582222222222222,
+     "macro_f1": 0.46599264777365756,
+     "bal_acc": 0.5124465401359805,
+     "exact": 0.004,
+     "ece_raw": 0.2945353302745028,
+     "ece_cal": 0.0477485151614593,
+     "sec_per_record_gpu": 0.5376426725387573,
+     "per_q": {
+      "event_type": 0.656,
+      "commodity": 0.612,
+      "impact_severity": 0.412,
+      "line_stop_risk": 0.586,
+      "recommended_action": 0.27,
+      "export_controlled": 0.496,
+      "counterfeit_suspect": 0.984,
+      "sole_source": 0.796,
+      "delay_bucket": 0.212,
+      "supplier_region": 0.766,
+      "mentions_new_date": 0.714,
+      "military_program": 0.528
+     },
+     "per_q_f1": {
+      "event_type": 0.6634405855017641,
+      "commodity": 0.5849189107135306,
+      "impact_severity": 0.15292609351432881,
+      "line_stop_risk": 0.3694829760403531,
+      "recommended_action": 0.28738602165211424,
+      "export_controlled": 0.4461538461538462,
+      "counterfeit_suspect": 0.8958333333333334,
+      "sole_source": 0.6,
+      "delay_bucket": 0.193792063053648,
+      "supplier_region": 0.7636512435246408,
+      "mentions_new_date": 0.5409339265879513,
+      "military_program": 0.4197025729797781
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 1.1022681782347266,
+       "within_1": 0.67
+      },
+      "line_stop_risk": {
+       "auroc": 0.5356877875055647
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8780280138232691
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9800382827454197
+      },
+      "sole_source": {
+       "auroc": 0.7235379000084883
+      },
+      "delay_bucket": {
+       "mae_expected": 1.4587759725165195,
+       "within_1": 0.524
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8969049852103023
+      },
+      "military_program": {
+       "auroc": 0.7667868589743589
+      }
+     }
+    },
+    "test": {
+     "acc": 0.570138888888889,
+     "macro_f1": 0.48641563206082794,
+     "bal_acc": 0.5304907186622397,
+     "exact": 0.0025,
+     "ece_raw": 0.27325661280242486,
+     "ece_cal": 0.03698983010911901,
+     "sec_per_record_gpu": 0.5546112015843392,
+     "per_q": {
+      "event_type": 0.65625,
+      "commodity": 0.59125,
+      "impact_severity": 0.44625,
+      "line_stop_risk": 0.58125,
+      "recommended_action": 0.2825,
+      "export_controlled": 0.49,
+      "counterfeit_suspect": 0.98625,
+      "sole_source": 0.79875,
+      "delay_bucket": 0.29875,
+      "supplier_region": 0.79,
+      "mentions_new_date": 0.67875,
+      "military_program": 0.52625
+     },
+     "per_q_f1": {
+      "event_type": 0.6511173225485987,
+      "commodity": 0.5574677740621521,
+      "impact_severity": 0.2527654052060527,
+      "line_stop_risk": 0.3675889328063241,
+      "recommended_action": 0.29022455169779376,
+      "export_controlled": 0.45882852292020376,
+      "counterfeit_suspect": 0.9032105500500446,
+      "sole_source": 0.6359267896261749,
+      "delay_bucket": 0.26061083963010667,
+      "supplier_region": 0.7790605246314115,
+      "mentions_new_date": 0.4714639369252877,
+      "military_program": 0.40844911042998644
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 1.045367260531326,
+       "within_1": 0.6775
+      },
+      "line_stop_risk": {
+       "auroc": 0.5833798748194511
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8061057329306439
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9511484593837535
+      },
+      "sole_source": {
+       "auroc": 0.9804608457102638
+      },
+      "delay_bucket": {
+       "mae_expected": 1.2931325460690135,
+       "within_1": 0.58625
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.751402972299494
+      },
+      "military_program": {
+       "auroc": 0.7761246280413093
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.6319444444444444,
+     "macro_f1": 0.4978162475260662,
+     "bal_acc": 0.5245634290561828,
+     "exact": 0.0,
+     "ece_raw": 0.22402368307797627,
+     "ece_cal": 0.054195063319866434,
+     "sec_per_record_gpu": 0.5394188523292541,
+     "per_q": {
+      "event_type": 0.65,
+      "commodity": 0.6625,
+      "impact_severity": 0.425,
+      "line_stop_risk": 0.6,
+      "recommended_action": 0.4,
+      "export_controlled": 0.825,
+      "counterfeit_suspect": 0.975,
+      "sole_source": 0.8875,
+      "delay_bucket": 0.2625,
+      "supplier_region": 0.7875,
+      "mentions_new_date": 0.9,
+      "military_program": 0.85
+     },
+     "per_q_f1": {
+      "event_type": 0.6985766758494031,
+      "commodity": 0.6260253080253081,
+      "impact_severity": 0.31637411305300256,
+      "line_stop_risk": 0.375,
+      "recommended_action": 0.36862570590640764,
+      "export_controlled": 0.4520547945205479,
+      "counterfeit_suspect": 0.7435897435897436,
+      "sole_source": 0.6689655172413793,
+      "delay_bucket": 0.23113436954880365,
+      "supplier_region": 0.7066725474232554,
+      "mentions_new_date": 0.5733333333333334,
+      "military_program": 0.5833333333333333
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 1.2279994168699766,
+       "within_1": 0.5875
+      },
+      "line_stop_risk": {
+       "auroc": 0.5182291666666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.908008658008658
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9696969696969697
+      },
+      "sole_source": {
+       "auroc": 0.9499341238471674
+      },
+      "delay_bucket": {
+       "mae_expected": 1.5227505223755635,
+       "within_1": 0.5
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.6948356807511737
+      },
+      "military_program": {
+       "auroc": 0.7651515151515151
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.5827777777777778,
+     "macro_f1": 0.4885578639939206,
+     "bal_acc": 0.5364341761611194,
+     "exact": 0.0,
+     "ece_raw": 0.2614823028218827,
+     "ece_cal": 0.04178541272457629,
+     "sec_per_record_gpu": 0.5649469220638275,
+     "per_q": {
+      "event_type": 0.66,
+      "commodity": 0.615,
+      "impact_severity": 0.435,
+      "line_stop_risk": 0.625,
+      "recommended_action": 0.285,
+      "export_controlled": 0.445,
+      "counterfeit_suspect": 0.99,
+      "sole_source": 0.825,
+      "delay_bucket": 0.365,
+      "supplier_region": 0.79,
+      "mentions_new_date": 0.675,
+      "military_program": 0.525
+     },
+     "per_q_f1": {
+      "event_type": 0.6301838661567405,
+      "commodity": 0.5705153164178709,
+      "impact_severity": 0.24706564855818586,
+      "line_stop_risk": 0.38461538461538464,
+      "recommended_action": 0.2598505736042609,
+      "export_controlled": 0.37945492662473795,
+      "counterfeit_suspect": 0.9259807549962991,
+      "sole_source": 0.6702934388394328,
+      "delay_bucket": 0.32906086613237295,
+      "supplier_region": 0.802124183006536,
+      "mentions_new_date": 0.4173277755367307,
+      "military_program": 0.38660209846650523
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.9370401279645263,
+       "within_1": 0.695
+      },
+      "line_stop_risk": {
+       "auroc": 0.41504
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8297962200401224
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 0.967833491012299
+      },
+      "delay_bucket": {
+       "mae_expected": 1.0983401783933835,
+       "within_1": 0.625
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7741971958389868
+      },
+      "military_program": {
+       "auroc": 0.7185
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "zs-qwen3-1.7b": {
+   "key": "zs-qwen3-1.7b",
+   "model": "Qwen3-1.7B",
+   "method": "zero-shot readout",
+   "layout": "branch",
+   "temperatures": {
+    "choice": 5.0,
+    "score": 5.0,
+    "yesno": 5.0
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.815625,
+    "choice_accuracy_shuffled": 0.690625
+   },
+   "sets": {
+    "val": {
+     "acc": 0.6657777777777778,
+     "macro_f1": 0.6502570914544994,
+     "bal_acc": 0.6527441676687753,
+     "exact": 0.03,
+     "ece_raw": 0.3001705711970899,
+     "ece_cal": 0.1446722246501291,
+     "sec_per_record_gpu": 1.1934835982322693,
+     "per_q": {
+      "event_type": 0.664,
+      "commodity": 0.694,
+      "impact_severity": 0.52,
+      "line_stop_risk": 0.656,
+      "recommended_action": 0.366,
+      "export_controlled": 0.69,
+      "counterfeit_suspect": 0.99,
+      "sole_source": 0.982,
+      "delay_bucket": 0.43,
+      "supplier_region": 0.846,
+      "mentions_new_date": 0.9,
+      "military_program": 0.718
+     },
+     "per_q_f1": {
+      "event_type": 0.6928153615453723,
+      "commodity": 0.6903150988583467,
+      "impact_severity": 0.5039900950589542,
+      "line_stop_risk": 0.6404441768680179,
+      "recommended_action": 0.4256216106034802,
+      "export_controlled": 0.6864772584762391,
+      "counterfeit_suspect": 0.941826643397324,
+      "sole_source": 0.9756723881605622,
+      "delay_bucket": 0.29515119012219815,
+      "supplier_region": 0.8486929694598861,
+      "mentions_new_date": 0.8780820848938826,
+      "military_program": 0.7131522734208118
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.699365451253709,
+       "within_1": 0.804
+      },
+      "line_stop_risk": {
+       "auroc": 0.7044566453974378
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9267767408470926
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9989973566675782
+      },
+      "sole_source": {
+       "auroc": 0.9969017910194381
+      },
+      "delay_bucket": {
+       "mae_expected": 1.3097029470689319,
+       "within_1": 0.672
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9677512444989539
+      },
+      "military_program": {
+       "auroc": 0.8374759615384615
+      }
+     }
+    },
+    "test": {
+     "acc": 0.6604166666666668,
+     "macro_f1": 0.6407371485885582,
+     "bal_acc": 0.6474277801770079,
+     "exact": 0.03125,
+     "ece_raw": 0.30474248880360594,
+     "ece_cal": 0.1456284085198765,
+     "sec_per_record_gpu": 1.1789005535840988,
+     "per_q": {
+      "event_type": 0.6175,
+      "commodity": 0.72125,
+      "impact_severity": 0.54125,
+      "line_stop_risk": 0.60375,
+      "recommended_action": 0.3275,
+      "export_controlled": 0.71,
+      "counterfeit_suspect": 0.99,
+      "sole_source": 0.9925,
+      "delay_bucket": 0.44,
+      "supplier_region": 0.895,
+      "mentions_new_date": 0.8,
+      "military_program": 0.6525
+     },
+     "per_q_f1": {
+      "event_type": 0.5948548976695621,
+      "commodity": 0.7125815802368232,
+      "impact_severity": 0.552484926115725,
+      "line_stop_risk": 0.5770506621925653,
+      "recommended_action": 0.3536778885402422,
+      "export_controlled": 0.7099111602928396,
+      "counterfeit_suspect": 0.9348958333333333,
+      "sole_source": 0.9903147699757869,
+      "delay_bucket": 0.3408626189401464,
+      "supplier_region": 0.8939609590866017,
+      "mentions_new_date": 0.7359539899827545,
+      "military_program": 0.6278222918381964
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.6918829312539013,
+       "within_1": 0.785
+      },
+      "line_stop_risk": {
+       "auroc": 0.6400706146685925
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.7907790421745227
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9961531279178338
+      },
+      "sole_source": {
+       "auroc": 0.9999840039670161
+      },
+      "delay_bucket": {
+       "mae_expected": 1.3863412947919438,
+       "within_1": 0.61125
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9360465517598415
+      },
+      "military_program": {
+       "auroc": 0.778831487084594
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.7041666666666667,
+     "macro_f1": 0.6689150589423484,
+     "bal_acc": 0.6863864761781427,
+     "exact": 0.05,
+     "ece_raw": 0.2659410603257005,
+     "ece_cal": 0.12244840035335536,
+     "sec_per_record_gpu": 1.1381136447191238,
+     "per_q": {
+      "event_type": 0.725,
+      "commodity": 0.75,
+      "impact_severity": 0.5125,
+      "line_stop_risk": 0.7125,
+      "recommended_action": 0.475,
+      "export_controlled": 0.9375,
+      "counterfeit_suspect": 0.975,
+      "sole_source": 0.975,
+      "delay_bucket": 0.275,
+      "supplier_region": 0.9375,
+      "mentions_new_date": 0.9375,
+      "military_program": 0.8625
+     },
+     "per_q_f1": {
+      "event_type": 0.6954407208952664,
+      "commodity": 0.7149003189792664,
+      "impact_severity": 0.5430782340569109,
+      "line_stop_risk": 0.6953137936744493,
+      "recommended_action": 0.5104479521404186,
+      "export_controlled": 0.8730561726436052,
+      "counterfeit_suspect": 0.868421052631579,
+      "sole_source": 0.9428571428571428,
+      "delay_bucket": 0.17672014260249552,
+      "supplier_region": 0.9305027578041527,
+      "mentions_new_date": 0.7906855049712193,
+      "military_program": 0.7988571428571429
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.6483333842816916,
+       "within_1": 0.85
+      },
+      "line_stop_risk": {
+       "auroc": 0.7721354166666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9707792207792207
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9913419913419913
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 1.6128399597640048,
+       "within_1": 0.5375
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.971830985915493
+      },
+      "military_program": {
+       "auroc": 0.9134199134199135
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.6383333333333332,
+     "macro_f1": 0.6169387989381074,
+     "bal_acc": 0.6286112337230302,
+     "exact": 0.035,
+     "ece_raw": 0.33253084916300396,
+     "ece_cal": 0.1787333505548594,
+     "sec_per_record_gpu": 1.2032042503356934,
+     "per_q": {
+      "event_type": 0.495,
+      "commodity": 0.74,
+      "impact_severity": 0.415,
+      "line_stop_risk": 0.62,
+      "recommended_action": 0.325,
+      "export_controlled": 0.69,
+      "counterfeit_suspect": 0.99,
+      "sole_source": 1.0,
+      "delay_bucket": 0.47,
+      "supplier_region": 0.905,
+      "mentions_new_date": 0.785,
+      "military_program": 0.655
+     },
+     "per_q_f1": {
+      "event_type": 0.4722034801937051,
+      "commodity": 0.710869192859285,
+      "impact_severity": 0.39191741615497633,
+      "line_stop_risk": 0.5703301673450927,
+      "recommended_action": 0.3858682880905103,
+      "export_controlled": 0.6880032206119162,
+      "counterfeit_suspect": 0.9259807549962991,
+      "sole_source": 1.0,
+      "delay_bucket": 0.4072766701911819,
+      "supplier_region": 0.8944759626338573,
+      "mentions_new_date": 0.6892951334947073,
+      "military_program": 0.624500013605072
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.9306005892299128,
+       "within_1": 0.695
+      },
+      "line_stop_risk": {
+       "auroc": 0.5813333333333334
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.8222996515679443
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.998046875
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 1.235980901099225,
+       "within_1": 0.665
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9193803708729081
+      },
+      "military_program": {
+       "auroc": 0.8201
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "zs-qwen3.5-0.8b": {
+   "key": "zs-qwen3.5-0.8b",
+   "model": "Qwen3.5-0.8B",
+   "method": "zero-shot readout",
+   "layout": "branch (unpacked)",
+   "temperatures": {
+    "choice": 1.2,
+    "score": 4.5,
+    "yesno": 1.2
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.6625,
+    "choice_accuracy_shuffled": 0.55625
+   },
+   "sets": {
+    "val": {
+     "acc": 0.5302222222222222,
+     "macro_f1": 0.4615220323866229,
+     "bal_acc": 0.5478878639788269,
+     "exact": 0.0,
+     "ece_raw": 0.06734189169297991,
+     "ece_cal": 0.05039240132956468,
+     "sec_per_record_gpu": 1.8818726634979248,
+     "per_q": {
+      "event_type": 0.564,
+      "commodity": 0.686,
+      "impact_severity": 0.322,
+      "line_stop_risk": 0.516,
+      "recommended_action": 0.27,
+      "export_controlled": 0.606,
+      "counterfeit_suspect": 0.722,
+      "sole_source": 0.866,
+      "delay_bucket": 0.22,
+      "supplier_region": 0.636,
+      "mentions_new_date": 0.814,
+      "military_program": 0.646
+     },
+     "per_q_f1": {
+      "event_type": 0.6240389300314029,
+      "commodity": 0.6504922943158238,
+      "impact_severity": 0.1761698666012871,
+      "line_stop_risk": 0.515992255876094,
+      "recommended_action": 0.25023971859251704,
+      "export_controlled": 0.3866711498826269,
+      "counterfeit_suspect": 0.5390482507046924,
+      "sole_source": 0.8147441533807809,
+      "delay_bucket": 0.1963016720943808,
+      "supplier_region": 0.5583271223181216,
+      "mentions_new_date": 0.8028315927391143,
+      "military_program": 0.6172658510320848
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.9673185819205723,
+       "within_1": 0.746
+      },
+      "line_stop_risk": {
+       "auroc": 0.5701307480503207
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9076111454281374
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9860085680430225
+      },
+      "sole_source": {
+       "auroc": 0.8688884644766998
+      },
+      "delay_bucket": {
+       "mae_expected": 1.2934128751086413,
+       "within_1": 0.662
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9165374071134839
+      },
+      "military_program": {
+       "auroc": 0.7576682692307692
+      }
+     }
+    },
+    "test": {
+     "acc": 0.5684722222222223,
+     "macro_f1": 0.49254835362785054,
+     "bal_acc": 0.5678272383019892,
+     "exact": 0.005,
+     "ece_raw": 0.04296375493917613,
+     "ece_cal": 0.07350786725148513,
+     "sec_per_record_gpu": 1.8706811445951461,
+     "per_q": {
+      "event_type": 0.6175,
+      "commodity": 0.67375,
+      "impact_severity": 0.3925,
+      "line_stop_risk": 0.54875,
+      "recommended_action": 0.25875,
+      "export_controlled": 0.635,
+      "counterfeit_suspect": 0.74625,
+      "sole_source": 0.98625,
+      "delay_bucket": 0.2575,
+      "supplier_region": 0.67,
+      "mentions_new_date": 0.84,
+      "military_program": 0.62625
+     },
+     "per_q_f1": {
+      "event_type": 0.6273633174126326,
+      "commodity": 0.6366563031192943,
+      "impact_severity": 0.29841171650024495,
+      "line_stop_risk": 0.5462822005313275,
+      "recommended_action": 0.18763605874538486,
+      "export_controlled": 0.38837920489296635,
+      "counterfeit_suspect": 0.5517168086874191,
+      "sole_source": 0.9826850388897961,
+      "delay_bucket": 0.21380453387158954,
+      "supplier_region": 0.5854120606235381,
+      "mentions_new_date": 0.8316664365231228,
+      "military_program": 0.6065524155411796
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.8850712575766531,
+       "within_1": 0.8
+      },
+      "line_stop_risk": {
+       "auroc": 0.6220959717541326
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.7611503613418186
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9815499533146592
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 1.2370822720528851,
+       "within_1": 0.685
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9404366643427601
+      },
+      "military_program": {
+       "auroc": 0.6667250131279537
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.5180555555555556,
+     "macro_f1": 0.47157609660798055,
+     "bal_acc": 0.593428248147451,
+     "exact": 0.0,
+     "ece_raw": 0.08576586028567028,
+     "ece_cal": 0.08608663289372015,
+     "sec_per_record_gpu": 1.4603022634983063,
+     "per_q": {
+      "event_type": 0.675,
+      "commodity": 0.8,
+      "impact_severity": 0.275,
+      "line_stop_risk": 0.525,
+      "recommended_action": 0.3875,
+      "export_controlled": 0.175,
+      "counterfeit_suspect": 0.7,
+      "sole_source": 0.875,
+      "delay_bucket": 0.25,
+      "supplier_region": 0.375,
+      "mentions_new_date": 0.8875,
+      "military_program": 0.5125
+     },
+     "per_q_f1": {
+      "event_type": 0.6921245421245422,
+      "commodity": 0.7496929541047188,
+      "impact_severity": 0.23588516746411484,
+      "line_stop_risk": 0.5202020202020202,
+      "recommended_action": 0.4321450154783488,
+      "export_controlled": 0.14893617021276595,
+      "counterfeit_suspect": 0.5076923076923077,
+      "sole_source": 0.8046875,
+      "delay_bucket": 0.15281919219300624,
+      "supplier_region": 0.44358974358974357,
+      "mentions_new_date": 0.7866666666666666,
+      "military_program": 0.4992778045257583
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.959122675063574,
+       "within_1": 0.85
+      },
+      "line_stop_risk": {
+       "auroc": 0.5553385416666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9621212121212122
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.8961038961038961
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 1.1803882673973274,
+       "within_1": 0.7375
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9389671361502347
+      },
+      "military_program": {
+       "auroc": 0.8755411255411255
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.57,
+     "macro_f1": 0.4853215207573226,
+     "bal_acc": 0.5533584428651165,
+     "exact": 0.0,
+     "ece_raw": 0.04686970152931882,
+     "ece_cal": 0.0418159034344531,
+     "sec_per_record_gpu": 1.9661242067813873,
+     "per_q": {
+      "event_type": 0.51,
+      "commodity": 0.695,
+      "impact_severity": 0.32,
+      "line_stop_risk": 0.565,
+      "recommended_action": 0.33,
+      "export_controlled": 0.635,
+      "counterfeit_suspect": 0.85,
+      "sole_source": 0.985,
+      "delay_bucket": 0.24,
+      "supplier_region": 0.57,
+      "mentions_new_date": 0.84,
+      "military_program": 0.65
+     },
+     "per_q_f1": {
+      "event_type": 0.5553762436667171,
+      "commodity": 0.6426265559479039,
+      "impact_severity": 0.20307299511406635,
+      "line_stop_risk": 0.5100109825124609,
+      "recommended_action": 0.22537774010229109,
+      "export_controlled": 0.43496265335345796,
+      "counterfeit_suspect": 0.616956077630235,
+      "sole_source": 0.9801317924434584,
+      "delay_bucket": 0.19937864604531272,
+      "supplier_region": 0.5500297619047619,
+      "mentions_new_date": 0.8253084397860029,
+      "military_program": 0.6477455716586151
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.8907957797346029,
+       "within_1": 0.81
+      },
+      "line_stop_risk": {
+       "auroc": 0.47061333333333333
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.7760004223418857
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9368489583333334
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 1.1356710681067852,
+       "within_1": 0.755
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8965400271370421
+      },
+      "military_program": {
+       "auroc": 0.703
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "ft-qwen2.5-0.5b": {
+   "key": "ft-qwen2.5-0.5b",
+   "model": "Qwen2.5-0.5B-Instruct",
+   "method": "LoRA decision-trained",
+   "layout": "branch",
+   "temperatures": {
+    "choice": 1.0,
+    "score": 1.3,
+    "yesno": 1.0
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.865625,
+    "choice_accuracy_shuffled": 0.828125
+   },
+   "sets": {
+    "val": {
+     "acc": 0.9582222222222223,
+     "macro_f1": 0.9614493398605828,
+     "bal_acc": 0.960723156218821,
+     "exact": 0.716,
+     "ece_raw": 0.005521805009356608,
+     "ece_cal": 0.0038369477605477427,
+     "sec_per_record_gpu": 0.34521304750442505,
+     "per_q": {
+      "event_type": 1.0,
+      "commodity": 0.96,
+      "impact_severity": 0.836,
+      "line_stop_risk": 0.936,
+      "recommended_action": 0.918,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.974,
+      "supplier_region": 0.716,
+      "mentions_new_date": 0.706,
+      "military_program": 0.496
+     },
+     "per_q_f1": {
+      "event_type": 1.0,
+      "commodity": 0.9615346264681536,
+      "impact_severity": 0.8485699232933859,
+      "line_stop_risk": 0.9338569656883009,
+      "recommended_action": 0.9496121666081573,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9594703766872466,
+      "supplier_region": 0.7293817464065262,
+      "mentions_new_date": 0.5317725752508362,
+      "military_program": 0.35771959872767306
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.19369544028960317,
+       "within_1": 0.966
+      },
+      "line_stop_risk": {
+       "auroc": 0.9850455886959819
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.04051352994274717,
+       "within_1": 0.998
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8970222206190029
+      },
+      "military_program": {
+       "auroc": 0.7344070512820513
+      }
+     }
+    },
+    "test": {
+     "acc": 0.932638888888889,
+     "macro_f1": 0.9368769802928897,
+     "bal_acc": 0.9395378640732973,
+     "exact": 0.59875,
+     "ece_raw": 0.018550898477086734,
+     "ece_cal": 0.015449931940408002,
+     "sec_per_record_gpu": 0.34781003177165987,
+     "per_q": {
+      "event_type": 0.96625,
+      "commodity": 0.91,
+      "impact_severity": 0.775,
+      "line_stop_risk": 0.9125,
+      "recommended_action": 0.87625,
+      "export_controlled": 0.995,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.95875,
+      "supplier_region": 0.69875,
+      "mentions_new_date": 0.68875,
+      "military_program": 0.495
+     },
+     "per_q_f1": {
+      "event_type": 0.9705193950062934,
+      "commodity": 0.9188259977523703,
+      "impact_severity": 0.785415941359768,
+      "line_stop_risk": 0.909570070276974,
+      "recommended_action": 0.9073401574813145,
+      "export_controlled": 0.9945909398242055,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9456303209350807,
+      "supplier_region": 0.7134080695591523,
+      "mentions_new_date": 0.5170569567315035,
+      "military_program": 0.33543887353599156
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.277905359210981,
+       "within_1": 0.9525
+      },
+      "line_stop_risk": {
+       "auroc": 0.9690515166104959
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.06246660994924165,
+       "within_1": 0.99375
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8472468610004763
+      },
+      "military_program": {
+       "auroc": 0.6112719111800154
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.8958333333333334,
+     "macro_f1": 0.8790982433060774,
+     "bal_acc": 0.8782125307819753,
+     "exact": 0.475,
+     "ece_raw": 0.06802678379205028,
+     "ece_cal": 0.07021826412714369,
+     "sec_per_record_gpu": 0.3169782191514969,
+     "per_q": {
+      "event_type": 0.875,
+      "commodity": 0.95,
+      "impact_severity": 0.7,
+      "line_stop_risk": 0.875,
+      "recommended_action": 0.8125,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 0.9875,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8625,
+      "supplier_region": 0.8125,
+      "mentions_new_date": 0.9,
+      "military_program": 0.825
+     },
+     "per_q_f1": {
+      "event_type": 0.882585104953526,
+      "commodity": 0.9129866041886503,
+      "impact_severity": 0.6745760342472661,
+      "line_stop_risk": 0.8721227621483376,
+      "recommended_action": 0.8317805383022774,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 0.896774193548387,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8410589523662528,
+      "supplier_region": 0.7968939393939394,
+      "mentions_new_date": 0.5733333333333334,
+      "military_program": 0.4520547945205479
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.43856246500799384,
+       "within_1": 0.95
+      },
+      "line_stop_risk": {
+       "auroc": 0.958984375
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 0.9004329004329005
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.27128261575073165,
+       "within_1": 0.95
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.8231611893583725
+      },
+      "military_program": {
+       "auroc": 0.79004329004329
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.9111111111111112,
+     "macro_f1": 0.9147465624068799,
+     "bal_acc": 0.9292480832912828,
+     "exact": 0.52,
+     "ece_raw": 0.0386998762515951,
+     "ece_cal": 0.037966284750757216,
+     "sec_per_record_gpu": 0.3516453742980957,
+     "per_q": {
+      "event_type": 0.98,
+      "commodity": 0.935,
+      "impact_severity": 0.72,
+      "line_stop_risk": 0.83,
+      "recommended_action": 0.765,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.97,
+      "supplier_region": 0.73,
+      "mentions_new_date": 0.7,
+      "military_program": 0.505
+     },
+     "per_q_f1": {
+      "event_type": 0.9775757575757577,
+      "commodity": 0.9350858674848453,
+      "impact_severity": 0.6970032977774914,
+      "line_stop_risk": 0.8229166666666666,
+      "recommended_action": 0.8221328683742204,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9780046037829377,
+      "supplier_region": 0.7317627335495114,
+      "mentions_new_date": 0.502570054717294,
+      "military_program": 0.34434915063412697
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.360211936659898,
+       "within_1": 0.935
+      },
+      "line_stop_risk": {
+       "auroc": 0.9373866666666667
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.0410303609476991,
+       "within_1": 0.995
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7889529624604251
+      },
+      "military_program": {
+       "auroc": 0.6024
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "ft-qwen3-0.6b": {
+   "key": "ft-qwen3-0.6b",
+   "model": "Qwen3-0.6B",
+   "method": "LoRA decision-trained",
+   "layout": "branch",
+   "temperatures": {
+    "choice": 1.3,
+    "score": 1.2,
+    "yesno": 1.2
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.9375,
+    "choice_accuracy_shuffled": 0.909375
+   },
+   "sets": {
+    "val": {
+     "acc": 0.9686666666666667,
+     "macro_f1": 0.9714925205495941,
+     "bal_acc": 0.9715803480300147,
+     "exact": 0.782,
+     "ece_raw": 0.007846604204225975,
+     "ece_cal": 0.005787543476843389,
+     "sec_per_record_gpu": 0.5419339690208435,
+     "per_q": {
+      "event_type": 1.0,
+      "commodity": 0.956,
+      "impact_severity": 0.896,
+      "line_stop_risk": 0.954,
+      "recommended_action": 0.936,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.976,
+      "supplier_region": 0.73,
+      "mentions_new_date": 0.692,
+      "military_program": 0.578
+     },
+     "per_q_f1": {
+      "event_type": 1.0,
+      "commodity": 0.9564486530654204,
+      "impact_severity": 0.8945939728548424,
+      "line_stop_risk": 0.9526310369683864,
+      "recommended_action": 0.9613696764742036,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9783893455834946,
+      "supplier_region": 0.7368279098835471,
+      "mentions_new_date": 0.5915032679738562,
+      "military_program": 0.5093730671391568
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.1323371454092104,
+       "within_1": 0.99
+      },
+      "line_stop_risk": {
+       "auroc": 0.9934378658224926
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.02913496750693771,
+       "within_1": 1.0
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7059735949787173
+      },
+      "military_program": {
+       "auroc": 0.8472275641025641
+      }
+     }
+    },
+    "test": {
+     "acc": 0.9329166666666667,
+     "macro_f1": 0.9346271364527085,
+     "bal_acc": 0.9323218039006237,
+     "exact": 0.57625,
+     "ece_raw": 0.03402040259498382,
+     "ece_cal": 0.02901137547044249,
+     "sec_per_record_gpu": 0.5320803835988045,
+     "per_q": {
+      "event_type": 0.96375,
+      "commodity": 0.9125,
+      "impact_severity": 0.8475,
+      "line_stop_risk": 0.93375,
+      "recommended_action": 0.90625,
+      "export_controlled": 0.85875,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.97375,
+      "supplier_region": 0.72875,
+      "mentions_new_date": 0.675,
+      "military_program": 0.5125
+     },
+     "per_q_f1": {
+      "event_type": 0.9685028542415193,
+      "commodity": 0.9141245069760302,
+      "impact_severity": 0.8616180766248792,
+      "line_stop_risk": 0.9323521199792588,
+      "recommended_action": 0.9335881394749127,
+      "export_controlled": 0.8299981758653827,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9714603549123941,
+      "supplier_region": 0.7256865031560551,
+      "mentions_new_date": 0.559228650137741,
+      "military_program": 0.3723798871893079
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.17722858615054676,
+       "within_1": 0.985
+      },
+      "line_stop_risk": {
+       "auroc": 0.9840025678061306
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9993258548160932
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.037811171126030614,
+       "within_1": 1.0
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7525660760262578
+      },
+      "military_program": {
+       "auroc": 0.6655935085394213
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.9291666666666666,
+     "macro_f1": 0.9205965595462016,
+     "bal_acc": 0.918936431366987,
+     "exact": 0.55,
+     "ece_raw": 0.04924353108691127,
+     "ece_cal": 0.04400455838008554,
+     "sec_per_record_gpu": 0.5162324666976928,
+     "per_q": {
+      "event_type": 0.8875,
+      "commodity": 0.95,
+      "impact_severity": 0.8625,
+      "line_stop_risk": 0.95,
+      "recommended_action": 0.8875,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.825,
+      "supplier_region": 0.75,
+      "mentions_new_date": 0.875,
+      "military_program": 0.8375
+     },
+     "per_q_f1": {
+      "event_type": 0.8981818331129744,
+      "commodity": 0.9121056721056722,
+      "impact_severity": 0.8572707236125527,
+      "line_stop_risk": 0.948420373952289,
+      "recommended_action": 0.8912766246099579,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.7781138085223677,
+      "supplier_region": 0.6133658008658008,
+      "mentions_new_date": 0.6527777777777778,
+      "military_program": 0.5218390804597701
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.20788954297552703,
+       "within_1": 0.975
+      },
+      "line_stop_risk": {
+       "auroc": 0.9583333333333334
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.3946024153439979,
+       "within_1": 0.8875
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.86697965571205
+      },
+      "military_program": {
+       "auroc": 0.9372294372294372
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.9316666666666666,
+     "macro_f1": 0.9360712706106104,
+     "bal_acc": 0.935661285347654,
+     "exact": 0.555,
+     "ece_raw": 0.03710586469870483,
+     "ece_cal": 0.031456027262622546,
+     "sec_per_record_gpu": 0.5417530024051667,
+     "per_q": {
+      "event_type": 0.975,
+      "commodity": 0.95,
+      "impact_severity": 0.825,
+      "line_stop_risk": 0.885,
+      "recommended_action": 0.905,
+      "export_controlled": 0.87,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.975,
+      "supplier_region": 0.78,
+      "mentions_new_date": 0.69,
+      "military_program": 0.53
+     },
+     "per_q_f1": {
+      "event_type": 0.9713244981787181,
+      "commodity": 0.9495378253849018,
+      "impact_severity": 0.8489455665307059,
+      "line_stop_risk": 0.8794264894760295,
+      "recommended_action": 0.9407656895742122,
+      "export_controlled": 0.8506433823529411,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.983997983997984,
+      "supplier_region": 0.7768699991920965,
+      "mentions_new_date": 0.5483682983682984,
+      "military_program": 0.39673982800667434
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.2021163378285965,
+       "within_1": 0.975
+      },
+      "line_stop_risk": {
+       "auroc": 0.9693866666666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9980994615140957
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.031092785824443477,
+       "within_1": 1.0
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.7000226142017186
+      },
+      "military_program": {
+       "auroc": 0.6243
+      }
+     }
+    }
+   },
+   "api": null
+  },
+  "jev-plain": {
+   "key": "jev-plain",
+   "model": "Jev (TypeSafe API)",
+   "method": "hosted, zero-shot",
+   "layout": "questions as-is",
+   "temperatures": {
+    "choice": 1.9,
+    "score": 2.3,
+    "yesno": 0.7
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.99375,
+    "choice_accuracy_shuffled": 0.815625
+   },
+   "sets": {
+    "val": {
+     "acc": 0.8233333333333333,
+     "macro_f1": 0.8226907176934004,
+     "bal_acc": 0.8383814393785864,
+     "exact": 0.154,
+     "ece_raw": 0.025319814444916686,
+     "ece_cal": 0.04062886151306415,
+     "sec_per_record_gpu": 0.1711869239807129,
+     "per_q": {
+      "event_type": 0.954,
+      "commodity": 0.89,
+      "impact_severity": 0.618,
+      "line_stop_risk": 0.894,
+      "recommended_action": 0.422,
+      "export_controlled": 0.756,
+      "counterfeit_suspect": 0.994,
+      "sole_source": 1.0,
+      "delay_bucket": 0.882,
+      "supplier_region": 0.814,
+      "mentions_new_date": 1.0,
+      "military_program": 0.78
+     },
+     "per_q_f1": {
+      "event_type": 0.9598495468571773,
+      "commodity": 0.8925000584239738,
+      "impact_severity": 0.6048523937890897,
+      "line_stop_risk": 0.8926042852916503,
+      "recommended_action": 0.47929930906719537,
+      "export_controlled": 0.6960880049423065,
+      "counterfeit_suspect": 0.9678104680357948,
+      "sole_source": 1.0,
+      "delay_bucket": 0.9112123928334158,
+      "supplier_region": 0.8016150554558167,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7670241786543317
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.5603297808007882,
+       "within_1": 0.852
+      },
+      "line_stop_risk": {
+       "auroc": 0.9624408501096438
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9759428371091337
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.5173164502357547,
+       "within_1": 0.892
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.9353125
+      }
+     }
+    },
+    "test": {
+     "acc": 0.8170833333333333,
+     "macro_f1": 0.8100885116641365,
+     "bal_acc": 0.8201654147519233,
+     "exact": 0.13875,
+     "ece_raw": 0.02943057700624303,
+     "ece_cal": 0.03334111923385935,
+     "sec_per_record_gpu": 0.1711869239807129,
+     "per_q": {
+      "event_type": 0.95625,
+      "commodity": 0.86375,
+      "impact_severity": 0.63375,
+      "line_stop_risk": 0.9075,
+      "recommended_action": 0.4475,
+      "export_controlled": 0.72375,
+      "counterfeit_suspect": 0.99875,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8225,
+      "supplier_region": 0.845,
+      "mentions_new_date": 0.99875,
+      "military_program": 0.78125
+     },
+     "per_q_f1": {
+      "event_type": 0.9548671058697805,
+      "commodity": 0.8633130730007119,
+      "impact_severity": 0.6333633933183853,
+      "line_stop_risk": 0.9065178531951313,
+      "recommended_action": 0.4907014720526795,
+      "export_controlled": 0.6062632646743766,
+      "counterfeit_suspect": 0.9926307353604953,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8431397075056679,
+      "supplier_region": 0.8217174072199519,
+      "mentions_new_date": 0.998618285949177,
+      "military_program": 0.7691715401699227
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.5431553986740612,
+       "within_1": 0.8525
+      },
+      "line_stop_risk": {
+       "auroc": 0.9679473599743219
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.993120348398231
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.6185769604436913,
+       "within_1": 0.85
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.8837832262259008
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.8694444444444444,
+     "macro_f1": 0.8639105416165297,
+     "bal_acc": 0.8908030035807813,
+     "exact": 0.3,
+     "ece_raw": 0.04896884605394138,
+     "ece_cal": 0.07713882654798423,
+     "sec_per_record_gpu": 0.1711869239807129,
+     "per_q": {
+      "event_type": 0.9875,
+      "commodity": 0.9125,
+      "impact_severity": 0.75,
+      "line_stop_risk": 0.9625,
+      "recommended_action": 0.5875,
+      "export_controlled": 0.75,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.875,
+      "supplier_region": 0.75,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7875
+     },
+     "per_q_f1": {
+      "event_type": 0.986013986013986,
+      "commodity": 0.8911704085388296,
+      "impact_severity": 0.7768490994929184,
+      "line_stop_risk": 0.9607265586647029,
+      "recommended_action": 0.5830823497490164,
+      "export_controlled": 0.7023809523809523,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8749715197083617,
+      "supplier_region": 0.7564692625176496,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7371980676328502
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.3625911937727566,
+       "within_1": 0.9125
+      },
+      "line_stop_risk": {
+       "auroc": 0.9938151041666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9978354978354979
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.6091589299408975,
+       "within_1": 0.9125
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.9962121212121212
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.816111111111111,
+     "macro_f1": 0.8048714999622116,
+     "bal_acc": 0.8206384120140636,
+     "exact": 0.125,
+     "ece_raw": 0.02887498941107978,
+     "ece_cal": 0.03475712525797919,
+     "sec_per_record_gpu": 0.1711869239807129,
+     "per_q": {
+      "event_type": 0.945,
+      "commodity": 0.895,
+      "impact_severity": 0.655,
+      "line_stop_risk": 0.87,
+      "recommended_action": 0.415,
+      "export_controlled": 0.68,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.885,
+      "supplier_region": 0.82,
+      "mentions_new_date": 1.0,
+      "military_program": 0.765
+     },
+     "per_q_f1": {
+      "event_type": 0.9495562460133748,
+      "commodity": 0.885513603744563,
+      "impact_severity": 0.6499827241316604,
+      "line_stop_risk": 0.862738887129131,
+      "recommended_action": 0.46859190582718147,
+      "export_controlled": 0.5412186379928315,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8862414948211631,
+      "supplier_region": 0.8182124282202163,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7524687294272547
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.5192797729919008,
+       "within_1": 0.87
+      },
+      "line_stop_risk": {
+       "auroc": 0.95056
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9958293738781544
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.4045562153643706,
+       "within_1": 0.91
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.92035
+      }
+     }
+    }
+   },
+   "api": {
+    "served_by": [
+     "jev-1.14.0"
+    ],
+    "billed_input_tokens_this_run": 2795928,
+    "retries": 0,
+    "latency_p50_s": 0.1711869239807129,
+    "workers": 6
+   }
+  },
+  "jev-playbook-export": {
+   "key": "jev-playbook-export",
+   "model": "Jev (TypeSafe API)",
+   "method": "hosted, zero-shot",
+   "layout": "+ playbook + export definition",
+   "temperatures": {
+    "choice": 1.6,
+    "score": 1.2,
+    "yesno": 0.5
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 1.0,
+    "choice_accuracy_shuffled": 0.871875
+   },
+   "sets": {
+    "val": {
+     "acc": 0.8748888888888887,
+     "macro_f1": 0.8842787052614551,
+     "bal_acc": 0.8912669182195204,
+     "exact": 0.354,
+     "ece_raw": 0.026095114910303793,
+     "ece_cal": 0.012801480779168319,
+     "sec_per_record_gpu": 0.11987876892089844,
+     "per_q": {
+      "event_type": 0.956,
+      "commodity": 0.884,
+      "impact_severity": 0.734,
+      "line_stop_risk": 0.856,
+      "recommended_action": 0.592,
+      "export_controlled": 0.99,
+      "counterfeit_suspect": 0.998,
+      "sole_source": 0.998,
+      "delay_bucket": 0.866,
+      "supplier_region": 0.812,
+      "mentions_new_date": 0.998,
+      "military_program": 0.774
+     },
+     "per_q_f1": {
+      "event_type": 0.9618484917384379,
+      "commodity": 0.8864573468387997,
+      "impact_severity": 0.7288264424688345,
+      "line_stop_risk": 0.8556674578228238,
+      "recommended_action": 0.6513795515925979,
+      "export_controlled": 0.9896089213644733,
+      "counterfeit_suspect": 0.9888370431559912,
+      "sole_source": 0.9973404113851669,
+      "delay_bucket": 0.8985426809859718,
+      "supplier_region": 0.7996701305868037,
+      "mentions_new_date": 0.9977488733110922,
+      "military_program": 0.760908294577908
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.3842765027842489,
+       "within_1": 0.912
+      },
+      "line_stop_risk": {
+       "auroc": 0.9755898501261314
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.5691424308938791,
+       "within_1": 0.878
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.9385176282051282
+      }
+     }
+    },
+    "test": {
+     "acc": 0.882361111111111,
+     "macro_f1": 0.8881005376370931,
+     "bal_acc": 0.8935353117725673,
+     "exact": 0.35375,
+     "ece_raw": 0.022960417455194122,
+     "ece_cal": 0.017701809433883327,
+     "sec_per_record_gpu": 0.11987876892089844,
+     "per_q": {
+      "event_type": 0.96,
+      "commodity": 0.86375,
+      "impact_severity": 0.73625,
+      "line_stop_risk": 0.885,
+      "recommended_action": 0.6925,
+      "export_controlled": 0.9975,
+      "counterfeit_suspect": 0.99875,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8075,
+      "supplier_region": 0.84125,
+      "mentions_new_date": 0.99875,
+      "military_program": 0.775
+     },
+     "per_q_f1": {
+      "event_type": 0.9585962363124156,
+      "commodity": 0.8637858037568023,
+      "impact_severity": 0.732366126790944,
+      "line_stop_risk": 0.8846185199816894,
+      "recommended_action": 0.7300601421144699,
+      "export_controlled": 0.9973073220644761,
+      "counterfeit_suspect": 0.9926307353604953,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8335399523525446,
+      "supplier_region": 0.8166317028739086,
+      "mentions_new_date": 0.998618285949177,
+      "military_program": 0.7615499254843517
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.37073994652602993,
+       "within_1": 0.90625
+      },
+      "line_stop_risk": {
+       "auroc": 0.9811779810624298
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.6784794879867093,
+       "within_1": 0.83125
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9999861946145191
+      },
+      "military_program": {
+       "auroc": 0.8832893651071491
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.9180555555555555,
+     "macro_f1": 0.9167913876519118,
+     "bal_acc": 0.927796884185773,
+     "exact": 0.5,
+     "ece_raw": 0.039647786450122166,
+     "ece_cal": 0.036165810615148335,
+     "sec_per_record_gpu": 0.11987876892089844,
+     "per_q": {
+      "event_type": 0.975,
+      "commodity": 0.9125,
+      "impact_severity": 0.7875,
+      "line_stop_risk": 0.975,
+      "recommended_action": 0.8375,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.775,
+      "supplier_region": 0.7625,
+      "mentions_new_date": 1.0,
+      "military_program": 0.8
+     },
+     "per_q_f1": {
+      "event_type": 0.9730707888602627,
+      "commodity": 0.8911704085388296,
+      "impact_severity": 0.7808462332301342,
+      "line_stop_risk": 0.9742101869761444,
+      "recommended_action": 0.8521423315792961,
+      "export_controlled": 1.0,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.7796825396825396,
+      "supplier_region": 0.7622977161359582,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7492163009404389
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.26287646647291657,
+       "within_1": 0.9625
+      },
+      "line_stop_risk": {
+       "auroc": 0.9860026041666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.6621810009369692,
+       "within_1": 0.85
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.9956709956709957
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.8933333333333334,
+     "macro_f1": 0.8928753587400698,
+     "bal_acc": 0.904042815440692,
+     "exact": 0.38,
+     "ece_raw": 0.03272155982786766,
+     "ece_cal": 0.03657405811605524,
+     "sec_per_record_gpu": 0.11987876892089844,
+     "per_q": {
+      "event_type": 0.955,
+      "commodity": 0.91,
+      "impact_severity": 0.705,
+      "line_stop_risk": 0.89,
+      "recommended_action": 0.7,
+      "export_controlled": 0.99,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.89,
+      "supplier_region": 0.81,
+      "mentions_new_date": 1.0,
+      "military_program": 0.77
+     },
+     "per_q_f1": {
+      "event_type": 0.9589743284698463,
+      "commodity": 0.9021961675975122,
+      "impact_severity": 0.6715271111845397,
+      "line_stop_risk": 0.8867263927504891,
+      "recommended_action": 0.7472142898288908,
+      "export_controlled": 0.989491382934006,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8797485558953448,
+      "supplier_region": 0.8063550297827028,
+      "mentions_new_date": 1.0,
+      "military_program": 0.757153415690001
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.40725159569754754,
+       "within_1": 0.91
+      },
+      "line_stop_risk": {
+       "auroc": 0.97664
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.43549746660531397,
+       "within_1": 0.91
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.92645
+      }
+     }
+    }
+   },
+   "api": {
+    "served_by": [
+     "jev-1.14.0"
+    ],
+    "billed_input_tokens_this_run": 3723388,
+    "retries": 0,
+    "latency_p50_s": 0.11987876892089844,
+    "workers": 6
+   }
+  },
+  "jev-playbook": {
+   "key": "jev-playbook",
+   "model": "Jev (TypeSafe API)",
+   "method": "hosted, zero-shot",
+   "layout": "+ playbook rules",
+   "temperatures": {
+    "choice": 1.6,
+    "score": 1.2,
+    "yesno": 0.8
+   },
+   "permutation": {
+    "choice_agreement_with_canonical": 0.99375,
+    "choice_accuracy_shuffled": 0.875
+   },
+   "sets": {
+    "val": {
+     "acc": 0.8500000000000001,
+     "macro_f1": 0.8532022018904425,
+     "bal_acc": 0.8604590588380272,
+     "exact": 0.212,
+     "ece_raw": 0.024987199240974395,
+     "ece_cal": 0.014595629553262749,
+     "sec_per_record_gpu": 0.174774169921875,
+     "per_q": {
+      "event_type": 0.956,
+      "commodity": 0.892,
+      "impact_severity": 0.736,
+      "line_stop_risk": 0.858,
+      "recommended_action": 0.586,
+      "export_controlled": 0.758,
+      "counterfeit_suspect": 0.996,
+      "sole_source": 1.0,
+      "delay_bucket": 0.868,
+      "supplier_region": 0.814,
+      "mentions_new_date": 0.998,
+      "military_program": 0.782
+     },
+     "per_q_f1": {
+      "event_type": 0.9618484917384379,
+      "commodity": 0.8941107268759728,
+      "impact_severity": 0.7375683216926452,
+      "line_stop_risk": 0.8575847170348736,
+      "recommended_action": 0.650622927826845,
+      "export_controlled": 0.6992428874671279,
+      "counterfeit_suspect": 0.9781162464985995,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8997254978794811,
+      "supplier_region": 0.8023069670532226,
+      "mentions_new_date": 0.9977488733110922,
+      "military_program": 0.7689101463286394
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.38691945764086877,
+       "within_1": 0.904
+      },
+      "line_stop_risk": {
+       "auroc": 0.9748479002819409
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9752333094041636
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.5666665274255045,
+       "within_1": 0.882
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.936161858974359
+      }
+     }
+    },
+    "test": {
+     "acc": 0.8525,
+     "macro_f1": 0.8450119774635632,
+     "bal_acc": 0.8521876371911438,
+     "exact": 0.23375,
+     "ece_raw": 0.02711810641814237,
+     "ece_cal": 0.01794724669674446,
+     "sec_per_record_gpu": 0.174774169921875,
+     "per_q": {
+      "event_type": 0.95875,
+      "commodity": 0.8625,
+      "impact_severity": 0.735,
+      "line_stop_risk": 0.88875,
+      "recommended_action": 0.695,
+      "export_controlled": 0.725,
+      "counterfeit_suspect": 0.99875,
+      "sole_source": 1.0,
+      "delay_bucket": 0.80875,
+      "supplier_region": 0.84375,
+      "mentions_new_date": 0.99875,
+      "military_program": 0.78625
+     },
+     "per_q_f1": {
+      "event_type": 0.9577396997718535,
+      "commodity": 0.8623670942105433,
+      "impact_severity": 0.7287869334977011,
+      "line_stop_risk": 0.888331067018612,
+      "recommended_action": 0.731801459231667,
+      "export_controlled": 0.6088054340481525,
+      "counterfeit_suspect": 0.9926307353604953,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8346453740330435,
+      "supplier_region": 0.820433149449024,
+      "mentions_new_date": 0.998618285949177,
+      "military_program": 0.7747180270041945
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.3736956176310645,
+       "within_1": 0.91
+      },
+      "line_stop_risk": {
+       "auroc": 0.9802824586743701
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9921900280444397
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.6713648441313231,
+       "within_1": 0.83375
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 0.9999896459608894
+      },
+      "military_program": {
+       "auroc": 0.8833643819859468
+      }
+     }
+    },
+    "gold": {
+     "acc": 0.8916666666666667,
+     "macro_f1": 0.8834282979694207,
+     "bal_acc": 0.9102310138421248,
+     "exact": 0.375,
+     "ece_raw": 0.03929723674936983,
+     "ece_cal": 0.04566144659622876,
+     "sec_per_record_gpu": 0.174774169921875,
+     "per_q": {
+      "event_type": 0.975,
+      "commodity": 0.925,
+      "impact_severity": 0.775,
+      "line_stop_risk": 0.975,
+      "recommended_action": 0.825,
+      "export_controlled": 0.75,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8,
+      "supplier_region": 0.75,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7875
+     },
+     "per_q_f1": {
+      "event_type": 0.9730707888602627,
+      "commodity": 0.9040010561520859,
+      "impact_severity": 0.7642774518714368,
+      "line_stop_risk": 0.9742101869761444,
+      "recommended_action": 0.8440987472566419,
+      "export_controlled": 0.7023809523809523,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.7888154982272629,
+      "supplier_region": 0.7522858452907542,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7371980676328502
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.26550404892832996,
+       "within_1": 0.975
+      },
+      "line_stop_risk": {
+       "auroc": 0.9876302083333334
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 1.0
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.6623864380208563,
+       "within_1": 0.8875
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.9962121212121212
+      }
+     }
+    },
+    "injection": {
+     "acc": 0.8572222222222221,
+     "macro_f1": 0.8404098263344891,
+     "bal_acc": 0.8571191019158637,
+     "exact": 0.23,
+     "ece_raw": 0.026681347680413255,
+     "ece_cal": 0.025622554103425663,
+     "sec_per_record_gpu": 0.174774169921875,
+     "per_q": {
+      "event_type": 0.935,
+      "commodity": 0.895,
+      "impact_severity": 0.715,
+      "line_stop_risk": 0.895,
+      "recommended_action": 0.7,
+      "export_controlled": 0.685,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.89,
+      "supplier_region": 0.825,
+      "mentions_new_date": 1.0,
+      "military_program": 0.76
+     },
+     "per_q_f1": {
+      "event_type": 0.9411218923995744,
+      "commodity": 0.8875198239551357,
+      "impact_severity": 0.6772114217177346,
+      "line_stop_risk": 0.8924152770306617,
+      "recommended_action": 0.7342573460409327,
+      "export_controlled": 0.5519044062733383,
+      "counterfeit_suspect": 1.0,
+      "sole_source": 1.0,
+      "delay_bucket": 0.8792582695930241,
+      "supplier_region": 0.8225009151109779,
+      "mentions_new_date": 1.0,
+      "military_program": 0.7465948685460881
+     },
+     "aux": {
+      "event_type": {},
+      "commodity": {},
+      "impact_severity": {
+       "mae_expected": 0.4098015463904433,
+       "within_1": 0.91
+      },
+      "line_stop_risk": {
+       "auroc": 0.9802666666666666
+      },
+      "recommended_action": {},
+      "export_controlled": {
+       "auroc": 0.9962517157639109
+      },
+      "counterfeit_suspect": {
+       "auroc": 1.0
+      },
+      "sole_source": {
+       "auroc": 1.0
+      },
+      "delay_bucket": {
+       "mae_expected": 0.4402727489155078,
+       "within_1": 0.905
+      },
+      "supplier_region": {},
+      "mentions_new_date": {
+       "auroc": 1.0
+      },
+      "military_program": {
+       "auroc": 0.9193
+      }
+     }
+    }
+   },
+   "api": {
+    "served_by": [
+     "jev-1.14.0"
+    ],
+    "billed_input_tokens_this_run": 3596988,
+    "retries": 0,
+    "latency_p50_s": 0.174774169921875,
+    "workers": 6
+   }
+  }
+ },
+ "classical": {
+  "minilm": {
+   "test": {
+    "acc": 0.7659722222222222,
+    "macro_f1": 0.7180062323914616,
+    "exact": 0.1625,
+    "ece_raw": 0.027818826375964112,
+    "per_q": {
+     "event_type": 0.8325,
+     "commodity": 0.94625,
+     "impact_severity": 0.61125,
+     "line_stop_risk": 0.67375,
+     "recommended_action": 0.71375,
+     "export_controlled": 0.83375,
+     "counterfeit_suspect": 0.99375,
+     "sole_source": 0.74875,
+     "delay_bucket": 0.54
+    }
+   },
+   "gold": {
+    "acc": 0.7069444444444444,
+    "macro_f1": 0.6517795844598573,
+    "exact": 0.125,
+    "ece_raw": 0.06932832076015447,
+    "per_q": {
+     "event_type": 0.75,
+     "commodity": 0.9375,
+     "impact_severity": 0.45,
+     "line_stop_risk": 0.6125,
+     "recommended_action": 0.5625,
+     "export_controlled": 0.725,
+     "counterfeit_suspect": 0.9875,
+     "sole_source": 0.8875,
+     "delay_bucket": 0.45
+    }
+   },
+   "gold2": {
+    "acc": 0.6875000000000001,
+    "macro_f1": 0.5831141794624437,
+    "exact": 0.08333333333333333,
+    "ece_raw": 0.07807081257352003,
+    "per_q": {
+     "event_type": 0.6666666666666666,
+     "commodity": 0.875,
+     "impact_severity": 0.4583333333333333,
+     "line_stop_risk": 0.6666666666666666,
+     "recommended_action": 0.6041666666666666,
+     "export_controlled": 0.6666666666666666,
+     "counterfeit_suspect": 0.9583333333333334,
+     "sole_source": 0.875,
+     "delay_bucket": 0.4166666666666667
+    }
+   },
+   "injection": {
+    "acc": 0.7683333333333332,
+    "macro_f1": 0.7096478489254714,
+    "exact": 0.15,
+    "ece_raw": 0.044858830585274956,
+    "per_q": {
+     "event_type": 0.84,
+     "commodity": 0.95,
+     "impact_severity": 0.6,
+     "line_stop_risk": 0.675,
+     "recommended_action": 0.68,
+     "export_controlled": 0.865,
+     "counterfeit_suspect": 0.99,
+     "sole_source": 0.77,
+     "delay_bucket": 0.545
+    }
+   }
+  },
+  "tfidf": {
+   "test": {
+    "acc": 0.8524999999999999,
+    "macro_f1": 0.8351838845006259,
+    "exact": 0.35,
+    "ece_raw": 0.04008911906104125,
+    "per_q": {
+     "event_type": 0.9125,
+     "commodity": 0.9575,
+     "impact_severity": 0.6475,
+     "line_stop_risk": 0.765,
+     "recommended_action": 0.7675,
+     "export_controlled": 0.99875,
+     "counterfeit_suspect": 0.99625,
+     "sole_source": 0.94375,
+     "delay_bucket": 0.68375
+    }
+   },
+   "gold": {
+    "acc": 0.7972222222222222,
+    "macro_f1": 0.7856135381720226,
+    "exact": 0.2,
+    "ece_raw": 0.034533979733222066,
+    "per_q": {
+     "event_type": 0.8125,
+     "commodity": 0.9875,
+     "impact_severity": 0.5625,
+     "line_stop_risk": 0.7,
+     "recommended_action": 0.675,
+     "export_controlled": 0.975,
+     "counterfeit_suspect": 1.0,
+     "sole_source": 0.975,
+     "delay_bucket": 0.4875
+    }
+   },
+   "gold2": {
+    "acc": 0.8055555555555556,
+    "macro_f1": 0.7741795879040541,
+    "exact": 0.1875,
+    "ece_raw": 0.0708069251848239,
+    "per_q": {
+     "event_type": 0.8541666666666666,
+     "commodity": 0.9791666666666666,
+     "impact_severity": 0.4583333333333333,
+     "line_stop_risk": 0.7916666666666666,
+     "recommended_action": 0.75,
+     "export_controlled": 0.9791666666666666,
+     "counterfeit_suspect": 1.0,
+     "sole_source": 0.9583333333333334,
+     "delay_bucket": 0.4791666666666667
+    }
+   },
+   "injection": {
+    "acc": 0.8416666666666666,
+    "macro_f1": 0.8018132244864604,
+    "exact": 0.295,
+    "ece_raw": 0.05888983730254273,
+    "per_q": {
+     "event_type": 0.925,
+     "commodity": 0.98,
+     "impact_severity": 0.62,
+     "line_stop_risk": 0.74,
+     "recommended_action": 0.73,
+     "export_controlled": 1.0,
+     "counterfeit_suspect": 0.985,
+     "sole_source": 0.92,
+     "delay_bucket": 0.675
+    }
+   }
+  }
+ },
+ "generative": {
+  "gen-qwen3-0.6b-base": {
+   "gguf": "models/base/Qwen3-0.6B-Q8_0.gguf",
+   "set": "gold",
+   "threads": 4,
+   "free": {
+    "core_mean_accuracy": 0.5902777777777778,
+    "core_mean_macro_f1": 0.5125380981428118,
+    "record_exact_match": 0.0125,
+    "schema_valid_rate": 1.0,
+    "sec_per_record": 1.8660340577363967,
+    "mean_output_tokens": 98.7,
+    "per_question_accuracy": {
+     "event_type": 0.4625,
+     "commodity": 0.3875,
+     "impact_severity": 0.325,
+     "line_stop_risk": 0.6125,
+     "recommended_action": 0.35,
+     "export_controlled": 0.925,
+     "counterfeit_suspect": 0.975,
+     "sole_source": 0.925,
+     "delay_bucket": 0.35
+    }
+   },
+   "schema": {
+    "core_mean_accuracy": 0.5916666666666666,
+    "core_mean_macro_f1": 0.5076006487939022,
+    "record_exact_match": 0.0,
+    "schema_valid_rate": 1.0,
+    "sec_per_record": 1.7791478335857391,
+    "mean_output_tokens": 58.55,
+    "per_question_accuracy": {
+     "event_type": 0.425,
+     "commodity": 0.4,
+     "impact_severity": 0.3625,
+     "line_stop_risk": 0.6625,
+     "recommended_action": 0.275,
+     "export_controlled": 0.9,
+     "counterfeit_suspect": 0.975,
+     "sole_source": 0.95,
+     "delay_bucket": 0.375
+    }
+   }
+  }
+ },
+ "bench_cpu": [
+  {
+   "label": "hf-fp32 base",
+   "engine": "hf",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": null,
+   "threads": 4,
+   "questions": "all",
+   "n_questions": 12,
+   "n_records": 40,
+   "load_s": 4.02,
+   "mean_s": 2.0,
+   "p50_s": 1.969,
+   "p95_s": 2.262,
+   "mean_tokens": 1204,
+   "tokens_per_s": 602,
+   "ms_per_decision": 166.7,
+   "peak_rss_mb": 3066,
+   "file_mb": null,
+   "host": "mac-m4"
+  },
+  {
+   "label": "gguf-q8_0 base",
+   "engine": "gguf",
+   "model": "models/base/Qwen3-0.6B-Q8_0.gguf",
+   "adapter": null,
+   "threads": 4,
+   "questions": "all",
+   "n_questions": 12,
+   "n_records": 40,
+   "load_s": 1.12,
+   "mean_s": 2.372,
+   "p50_s": 2.356,
+   "p95_s": 2.496,
+   "mean_tokens": 1204,
+   "tokens_per_s": 507,
+   "ms_per_decision": 197.7,
+   "peak_rss_mb": 1839,
+   "file_mb": 639,
+   "host": "mac-m4"
+  },
+  {
+   "label": "hf-fp32 base",
+   "engine": "hf",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": null,
+   "threads": 8,
+   "questions": "all",
+   "n_questions": 12,
+   "n_records": 40,
+   "load_s": 2.9,
+   "mean_s": 1.982,
+   "p50_s": 1.915,
+   "p95_s": 2.436,
+   "mean_tokens": 1204,
+   "tokens_per_s": 607,
+   "ms_per_decision": 165.1,
+   "peak_rss_mb": 3120,
+   "file_mb": null,
+   "host": "mac-m4"
+  },
+  {
+   "label": "gguf-q8_0 base",
+   "engine": "gguf",
+   "model": "models/base/Qwen3-0.6B-Q8_0.gguf",
+   "adapter": null,
+   "threads": 8,
+   "questions": "all",
+   "n_questions": 12,
+   "n_records": 40,
+   "load_s": 1.13,
+   "mean_s": 2.604,
+   "p50_s": 2.561,
+   "p95_s": 2.878,
+   "mean_tokens": 1204,
+   "tokens_per_s": 462,
+   "ms_per_decision": 217.0,
+   "peak_rss_mb": 1833,
+   "file_mb": 639,
+   "host": "mac-m4"
+  },
+  {
+   "label": "gguf-q8_0 base, 1 question",
+   "engine": "gguf",
+   "model": "models/base/Qwen3-0.6B-Q8_0.gguf",
+   "adapter": null,
+   "threads": 4,
+   "questions": "one",
+   "n_questions": 1,
+   "n_records": 40,
+   "load_s": 0.89,
+   "mean_s": 0.425,
+   "p50_s": 0.408,
+   "p95_s": 0.504,
+   "mean_tokens": 250,
+   "tokens_per_s": 588,
+   "ms_per_decision": 424.6,
+   "peak_rss_mb": 1646,
+   "file_mb": 639,
+   "host": "mac-m4"
+  },
+  {
+   "label": "hf-fp32 base catalogue",
+   "engine": "hf",
+   "layout": "catalogue",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": null,
+   "threads": 4,
+   "questions": "all",
+   "n_questions": 12,
+   "n_records": 40,
+   "load_s": 4.78,
+   "mean_s": 0.48,
+   "p50_s": 0.463,
+   "p95_s": 0.567,
+   "mean_tokens": 156,
+   "tokens_per_s": 326,
+   "ms_per_decision": 40.0,
+   "peak_rss_mb": 3347,
+   "file_mb": null,
+   "host": "mac-m4"
+  },
+  {
+   "label": "gguf-q8_0 base catalogue",
+   "engine": "gguf",
+   "layout": "catalogue",
+   "model": "models/base/Qwen3-0.6B-Q8_0.gguf",
+   "adapter": null,
+   "threads": 4,
+   "questions": "all",
+   "n_questions": 12,
+   "n_records": 40,
+   "load_s": 3.51,
+   "mean_s": 0.689,
+   "p50_s": 0.67,
+   "p95_s": 0.818,
+   "mean_tokens": 156,
+   "tokens_per_s": 227,
+   "ms_per_decision": 57.4,
+   "peak_rss_mb": 1962,
+   "file_mb": 639,
+   "host": "mac-m4"
+  }
+ ],
+ "training": {
+  "qwen3-0.6b": {
+   "best_val_acc": 0.965925925925926,
+   "steps": 1500,
+   "records": 12000,
+   "minutes": 89.16235384543737,
+   "curve": [
+    {
+     "step": 25,
+     "records": 200,
+     "loss": 1.1540029694139957,
+     "train_acc": 0.6337209302325582,
+     "lr": 0.00010392873580723784,
+     "elapsed_s": 89.66936421394348,
+     "rec_per_s": 2.230416171155368
+    },
+    {
+     "step": 50,
+     "records": 400,
+     "loss": 0.7587645789794624,
+     "train_acc": 0.7365478686233403,
+     "lr": 0.00019945218953682734,
+     "elapsed_s": 173.9710338115692,
+     "rec_per_s": 2.299233333482667
+    },
+    {
+     "step": 75,
+     "records": 600,
+     "loss": 0.6527590766735375,
+     "train_acc": 0.7441197434069851,
+     "lr": 0.00019876883405951377,
+     "elapsed_s": 256.41774678230286,
+     "rec_per_s": 2.339931644861525
+    },
+    {
+     "step": 100,
+     "records": 800,
+     "loss": 0.5172823895741021,
+     "train_acc": 0.8028673835125448,
+     "lr": 0.00019781476007338058,
+     "elapsed_s": 339.0152430534363,
+     "rec_per_s": 2.3597758991441644
+    },
+    {
+     "step": 125,
+     "records": 1000,
+     "loss": 0.4037809366997317,
+     "train_acc": 0.8480921526277898,
+     "lr": 0.00019659258262890683,
+     "elapsed_s": 421.6925001144409,
+     "rec_per_s": 2.3713962181651684
+    },
+    {
+     "step": 150,
+     "records": 1200,
+     "loss": 0.38406776923220604,
+     "train_acc": 0.8457639391745112,
+     "lr": 0.00019510565162951537,
+     "elapsed_s": 502.8602042198181,
+     "rec_per_s": 2.386349108420274
+    },
+    {
+     "step": 150,
+     "val_acc": 0.8629629629629629
+    },
+    {
+     "step": 175,
+     "records": 1400,
+     "loss": 0.3563754810327191,
+     "train_acc": 0.8566333808844507,
+     "lr": 0.00019335804264972018,
+     "elapsed_s": 614.369699716568,
+     "rec_per_s": 2.2787582145504133
+    },
+    {
+     "step": 200,
+     "records": 1600,
+     "loss": 0.30659200695634353,
+     "train_acc": 0.8637005649717514,
+     "lr": 0.0001913545457642601,
+     "elapsed_s": 697.6044046878815,
+     "rec_per_s": 2.293563499955055
+    },
+    {
+     "step": 225,
+     "records": 1800,
+     "loss": 0.3233252934916527,
+     "train_acc": 0.872899926953981,
+     "lr": 0.0001891006524188368,
+     "elapsed_s": 778.755872964859,
+     "rec_per_s": 2.311379037370321
+    },
+    {
+     "step": 250,
+     "records": 2000,
+     "loss": 0.26303812042409846,
+     "train_acc": 0.8972360028348689,
+     "lr": 0.00018660254037844388,
+     "elapsed_s": 861.6869559288025,
+     "rec_per_s": 2.321028519973617
+    },
+    {
+     "step": 275,
+     "records": 2200,
+     "loss": 0.23045643368641322,
+     "train_acc": 0.9122302158273381,
+     "lr": 0.00018386705679454242,
+     "elapsed_s": 943.548271894455,
+     "rec_per_s": 2.331624216303044
+    },
+    {
+     "step": 300,
+     "records": 2400,
+     "loss": 0.2665544054737984,
+     "train_acc": 0.896358543417367,
+     "lr": 0.00018090169943749476,
+     "elapsed_s": 1027.1073138713837,
+     "rec_per_s": 2.3366594391718376
+    },
+    {
+     "step": 300,
+     "val_acc": 0.922962962962963
+    },
+    {
+     "step": 325,
+     "records": 2600,
+     "loss": 0.21993015101314087,
+     "train_acc": 0.912167026637869,
+     "lr": 0.0001777145961456971,
+     "elapsed_s": 1138.7975895404816,
+     "rec_per_s": 2.283109855412612
+    },
+    {
+     "step": 350,
+     "records": 2800,
+     "loss": 0.22232739060826134,
+     "train_acc": 0.9075268817204301,
+     "lr": 0.00017431448254773944,
+     "elapsed_s": 1220.401671409607,
+     "rec_per_s": 2.294326585742792
+    },
+    {
+     "step": 375,
+     "records": 3000,
+     "loss": 0.1912728032283485,
+     "train_acc": 0.9316239316239316,
+     "lr": 0.00017071067811865476,
+     "elapsed_s": 1302.5789203643799,
+     "rec_per_s": 2.3031234062660775
+    },
+    {
+     "step": 400,
+     "records": 3200,
+     "loss": 0.18657084443322675,
+     "train_acc": 0.9358059914407989,
+     "lr": 0.00016691306063588583,
+     "elapsed_s": 1385.073800086975,
+     "rec_per_s": 2.310346206677982
+    },
+    {
+     "step": 425,
+     "records": 3400,
+     "loss": 0.1814781942638365,
+     "train_acc": 0.9313583815028902,
+     "lr": 0.00016293203910498376,
+     "elapsed_s": 1467.020791053772,
+     "rec_per_s": 2.317622231896083
+    },
+    {
+     "step": 450,
+     "records": 3600,
+     "loss": 0.22965247102014474,
+     "train_acc": 0.9096005606166784,
+     "lr": 0.00015877852522924732,
+     "elapsed_s": 1551.650414466858,
+     "rec_per_s": 2.3201102300075425
+    },
+    {
+     "step": 450,
+     "val_acc": 0.9148148148148149
+    },
+    {
+     "step": 475,
+     "records": 3800,
+     "loss": 0.18747766849897743,
+     "train_acc": 0.9185132237312366,
+     "lr": 0.00015446390350150273,
+     "elapsed_s": 1662.65159201622,
+     "rec_per_s": 2.2855058860479103
+    },
+    {
+     "step": 500,
+     "records": 4000,
+     "loss": 0.15610694834810146,
+     "train_acc": 0.9357798165137615,
+     "lr": 0.00015000000000000001,
+     "elapsed_s": 1746.093908071518,
+     "rec_per_s": 2.2908275331066354
+    },
+    {
+     "step": 525,
+     "records": 4200,
+     "loss": 0.1846905349083886,
+     "train_acc": 0.9182209469153515,
+     "lr": 0.00014539904997395468,
+     "elapsed_s": 1827.5775842666626,
+     "rec_per_s": 2.2981240501947284
+    },
+    {
+     "step": 550,
+     "records": 4400,
+     "loss": 0.15342438690146082,
+     "train_acc": 0.9314285714285714,
+     "lr": 0.00014067366430758004,
+     "elapsed_s": 1908.4950931072235,
+     "rec_per_s": 2.305481431883775
+    },
+    {
+     "step": 575,
+     "records": 4600,
+     "loss": 0.15351289065720494,
+     "train_acc": 0.9334779464931309,
+     "lr": 0.00013583679495453,
+     "elapsed_s": 1989.7988002300262,
+     "rec_per_s": 2.311791523579282
+    },
+    {
+     "step": 600,
+     "records": 4800,
+     "loss": 0.15613974419386067,
+     "train_acc": 0.9320252277505255,
+     "lr": 0.00013090169943749476,
+     "elapsed_s": 2071.3716871738434,
+     "rec_per_s": 2.3173050156676935
+    },
+    {
+     "step": 600,
+     "val_acc": 0.9318518518518518
+    },
+    {
+     "step": 625,
+     "records": 5000,
+     "loss": 0.1357744391320557,
+     "train_acc": 0.9460227272727273,
+     "lr": 0.00012588190451025207,
+     "elapsed_s": 2183.1997849941254,
+     "rec_per_s": 2.2902164219540055
+    },
+    {
+     "step": 650,
+     "records": 5200,
+     "loss": 0.14633973286540594,
+     "train_acc": 0.9395448079658606,
+     "lr": 0.00012079116908177593,
+     "elapsed_s": 2265.532159805298,
+     "rec_per_s": 2.2952664686282334
+    },
+    {
+     "step": 675,
+     "records": 5400,
+     "loss": 0.14842910830302572,
+     "train_acc": 0.9381294964028777,
+     "lr": 0.0001156434465040231,
+     "elapsed_s": 2346.885619878769,
+     "rec_per_s": 2.300921678611224
+    },
+    {
+     "step": 700,
+     "records": 5600,
+     "loss": 0.13470382831160804,
+     "train_acc": 0.9528501055594651,
+     "lr": 0.00011045284632676536,
+     "elapsed_s": 2429.5115354061127,
+     "rec_per_s": 2.304990084792462
+    },
+    {
+     "step": 725,
+     "records": 5800,
+     "loss": 0.15567908233379513,
+     "train_acc": 0.9402135231316726,
+     "lr": 0.0001052335956242944,
+     "elapsed_s": 2511.6915843486786,
+     "rec_per_s": 2.309200714029558
+    },
+    {
+     "step": 750,
+     "records": 6000,
+     "loss": 0.1416848307244527,
+     "train_acc": 0.9443631039531479,
+     "lr": 0.0001,
+     "elapsed_s": 2592.111491203308,
+     "rec_per_s": 2.314715250621679
+    },
+    {
+     "step": 750,
+     "val_acc": 0.9474074074074074
+    },
+    {
+     "step": 775,
+     "records": 6200,
+     "loss": 0.11717361279937905,
+     "train_acc": 0.954031117397454,
+     "lr": 9.476640437570562e-05,
+     "elapsed_s": 2704.6244328022003,
+     "rec_per_s": 2.2923700328981793
+    },
+    {
+     "step": 800,
+     "records": 6400,
+     "loss": 0.14458958936857924,
+     "train_acc": 0.9430604982206405,
+     "lr": 8.954715367323468e-05,
+     "elapsed_s": 2787.0005917549133,
+     "rec_per_s": 2.2963755439929994
+    },
+    {
+     "step": 825,
+     "records": 6600,
+     "loss": 0.12977514016914937,
+     "train_acc": 0.943519188993483,
+     "lr": 8.435655349597689e-05,
+     "elapsed_s": 2866.990222454071,
+     "rec_per_s": 2.302065751152289
+    },
+    {
+     "step": 850,
+     "records": 6800,
+     "loss": 0.11199741986199115,
+     "train_acc": 0.9589928057553957,
+     "lr": 7.920883091822408e-05,
+     "elapsed_s": 2949.2750577926636,
+     "rec_per_s": 2.3056513437201573
+    },
+    {
+     "step": 875,
+     "records": 7000,
+     "loss": 0.09890759242680361,
+     "train_acc": 0.9615105301379812,
+     "lr": 7.411809548974792e-05,
+     "elapsed_s": 3030.034169435501,
+     "rec_per_s": 2.3102049708251666
+    },
+    {
+     "step": 900,
+     "records": 7200,
+     "loss": 0.09510407739840275,
+     "train_acc": 0.9594306049822064,
+     "lr": 6.909830056250527e-05,
+     "elapsed_s": 3111.5442361831665,
+     "rec_per_s": 2.3139635671167618
+    },
+    {
+     "step": 900,
+     "val_acc": 0.9577777777777777
+    },
+    {
+     "step": 925,
+     "records": 7400,
+     "loss": 0.11857896062872897,
+     "train_acc": 0.9545782263878875,
+     "lr": 6.416320504546997e-05,
+     "elapsed_s": 3222.8219907283783,
+     "rec_per_s": 2.2961243349117004
+    },
+    {
+     "step": 950,
+     "records": 7600,
+     "loss": 0.09630692317644389,
+     "train_acc": 0.9614285714285714,
+     "lr": 5.9326335692419995e-05,
+     "elapsed_s": 3304.455046415329,
+     "rec_per_s": 2.2999253714298447
+    },
+    {
+     "step": 975,
+     "records": 7800,
+     "loss": 0.09530473515427815,
+     "train_acc": 0.9586600142551674,
+     "lr": 5.4600950026045326e-05,
+     "elapsed_s": 3388.992879629135,
+     "rec_per_s": 2.301568718802847
+    },
+    {
+     "step": 1000,
+     "records": 8000,
+     "loss": 0.12759037016091468,
+     "train_acc": 0.9455060155697098,
+     "lr": 5.000000000000002e-05,
+     "elapsed_s": 3470.19908618927,
+     "rec_per_s": 2.305343238616618
+    },
+    {
+     "step": 1025,
+     "records": 8200,
+     "loss": 0.08408374104330846,
+     "train_acc": 0.9624005784526392,
+     "lr": 4.5536096498497295e-05,
+     "elapsed_s": 3551.0915319919586,
+     "rec_per_s": 2.3091491520637515
+    },
+    {
+     "step": 1050,
+     "records": 8400,
+     "loss": 0.09845035711953898,
+     "train_acc": 0.9592430858806404,
+     "lr": 4.12214747707527e-05,
+     "elapsed_s": 3631.1241812705994,
+     "rec_per_s": 2.3133331664412204
+    },
+    {
+     "step": 1050,
+     "val_acc": 0.9637037037037037
+    },
+    {
+     "step": 1075,
+     "records": 8600,
+     "loss": 0.0867522490107794,
+     "train_acc": 0.964033850493653,
+     "lr": 3.7067960895016275e-05,
+     "elapsed_s": 3742.624279499054,
+     "rec_per_s": 2.29785288550287
+    },
+    {
+     "step": 1100,
+     "records": 8800,
+     "loss": 0.0929453704427867,
+     "train_acc": 0.9617021276595744,
+     "lr": 3.308693936411421e-05,
+     "elapsed_s": 3824.06551194191,
+     "rec_per_s": 2.301215806193458
+    },
+    {
+     "step": 1125,
+     "records": 9000,
+     "loss": 0.09278648990213072,
+     "train_acc": 0.9607423269093505,
+     "lr": 2.9289321881345254e-05,
+     "elapsed_s": 3905.8967654705048,
+     "rec_per_s": 2.3042083650451675
+    },
+    {
+     "step": 1150,
+     "records": 9200,
+     "loss": 0.0657196833770405,
+     "train_acc": 0.972992700729927,
+     "lr": 2.5685517452260567e-05,
+     "elapsed_s": 4029.5007672309875,
+     "rec_per_s": 2.283161247868952
+    },
+    {
+     "step": 1175,
+     "records": 9400,
+     "loss": 0.08131809789630537,
+     "train_acc": 0.966275659824047,
+     "lr": 2.2285403854302912e-05,
+     "elapsed_s": 4168.8222143650055,
+     "rec_per_s": 2.254833503719421
+    },
+    {
+     "step": 1200,
+     "records": 9600,
+     "loss": 0.08057198273142198,
+     "train_acc": 0.9677187948350072,
+     "lr": 1.9098300562505266e-05,
+     "elapsed_s": 4279.951539039612,
+     "rec_per_s": 2.243016051100935
+    },
+    {
+     "step": 1200,
+     "val_acc": 0.9644444444444444
+    },
+    {
+     "step": 1225,
+     "records": 9800,
+     "loss": 0.07029986686019811,
+     "train_acc": 0.9667374380750177,
+     "lr": 1.6132943205457606e-05,
+     "elapsed_s": 4392.63475227356,
+     "rec_per_s": 2.231007254797971
+    },
+    {
+     "step": 1250,
+     "records": 10000,
+     "loss": 0.10066899893595078,
+     "train_acc": 0.9600570613409415,
+     "lr": 1.339745962155613e-05,
+     "elapsed_s": 4474.438752889633,
+     "rec_per_s": 2.2349171711294313
+    },
+    {
+     "step": 1275,
+     "records": 10200,
+     "loss": 0.09253036108113846,
+     "train_acc": 0.9681077250177179,
+     "lr": 1.0899347581163221e-05,
+     "elapsed_s": 4555.432925224304,
+     "rec_per_s": 2.239084663835274
+    },
+    {
+     "step": 1300,
+     "records": 10400,
+     "loss": 0.07852316993223099,
+     "train_acc": 0.9678127286027798,
+     "lr": 8.645454235739903e-06,
+     "elapsed_s": 4635.725760221481,
+     "rec_per_s": 2.2434459107225355
+    },
+    {
+     "step": 1325,
+     "records": 10600,
+     "loss": 0.09193603220164562,
+     "train_acc": 0.9653179190751445,
+     "lr": 6.6419573502798374e-06,
+     "elapsed_s": 4717.008563041687,
+     "rec_per_s": 2.2471869317881334
+    },
+    {
+     "step": 1350,
+     "records": 10800,
+     "loss": 0.07257358968384381,
+     "train_acc": 0.9713672154617037,
+     "lr": 4.8943483704846475e-06,
+     "elapsed_s": 4797.685535907745,
+     "rec_per_s": 2.2510854284151383
+    },
+    {
+     "step": 1350,
+     "val_acc": 0.965925925925926
+    },
+    {
+     "step": 1375,
+     "records": 11000,
+     "loss": 0.08253855766324264,
+     "train_acc": 0.965166908563135,
+     "lr": 3.40741737109318e-06,
+     "elapsed_s": 4909.567064285278,
+     "rec_per_s": 2.240523422119981
+    },
+    {
+     "step": 1400,
+     "records": 11200,
+     "loss": 0.06935626316602025,
+     "train_acc": 0.9705035971223022,
+     "lr": 2.1852399266194314e-06,
+     "elapsed_s": 4990.705219984055,
+     "rec_per_s": 2.244171816670788
+    },
+    {
+     "step": 1425,
+     "records": 11400,
+     "loss": 0.0759801980116785,
+     "train_acc": 0.9674220963172805,
+     "lr": 1.231165940486234e-06,
+     "elapsed_s": 5073.2898552417755,
+     "rec_per_s": 2.247062621155265
+    },
+    {
+     "step": 1450,
+     "records": 11600,
+     "loss": 0.07111414994494482,
+     "train_acc": 0.9747545582047685,
+     "lr": 5.478104631726711e-07,
+     "elapsed_s": 5156.251250505447,
+     "rec_per_s": 2.249696424095489
+    },
+    {
+     "step": 1475,
+     "records": 11800,
+     "loss": 0.06489923264677089,
+     "train_acc": 0.972083035075161,
+     "lr": 1.3704652454261668e-07,
+     "elapsed_s": 5236.85410451889,
+     "rec_per_s": 2.2532611687268047
+    },
+    {
+     "step": 1500,
+     "records": 12000,
+     "loss": 0.06478587537220562,
+     "train_acc": 0.972822299651568,
+     "lr": 0.0,
+     "elapsed_s": 5320.13722038269,
+     "rec_per_s": 2.2555809188577305
+    },
+    {
+     "step": 1500,
+     "val_acc": 0.9651851851851851
+    }
+   ]
+  },
+  "qwen2.5-0.5b": {
+   "best_val_acc": 0.96,
+   "steps": 1500,
+   "records": 12000,
+   "minutes": 55.102761991818745,
+   "curve": [
+    {
+     "step": 25,
+     "records": 200,
+     "loss": 1.257523800134659,
+     "train_acc": 0.5254360465116279,
+     "lr": 0.00010392873580723784,
+     "elapsed_s": 58.89795422554016,
+     "rec_per_s": 3.395703681559676
+    },
+    {
+     "step": 50,
+     "records": 400,
+     "loss": 0.9937428042292595,
+     "train_acc": 0.6422082459818309,
+     "lr": 0.00019945218953682734,
+     "elapsed_s": 111.62601804733276,
+     "rec_per_s": 3.583393970305275
+    },
+    {
+     "step": 75,
+     "records": 600,
+     "loss": 0.8543713664636016,
+     "train_acc": 0.6949394155381325,
+     "lr": 0.00019876883405951377,
+     "elapsed_s": 164.2020559310913,
+     "rec_per_s": 3.654034637981602
+    },
+    {
+     "step": 100,
+     "records": 800,
+     "loss": 0.6882841536425985,
+     "train_acc": 0.7455197132616488,
+     "lr": 0.00019781476007338058,
+     "elapsed_s": 216.12311506271362,
+     "rec_per_s": 3.701593879802536
+    },
+    {
+     "step": 125,
+     "records": 1000,
+     "loss": 0.5543033125530928,
+     "train_acc": 0.8034557235421166,
+     "lr": 0.00019659258262890683,
+     "elapsed_s": 267.98811960220337,
+     "rec_per_s": 3.7315087007751746
+    },
+    {
+     "step": 150,
+     "records": 1200,
+     "loss": 0.5577763232949655,
+     "train_acc": 0.7885590152063722,
+     "lr": 0.00019510565162951537,
+     "elapsed_s": 319.6317050457001,
+     "rec_per_s": 3.7543209295474216
+    },
+    {
+     "step": 150,
+     "val_acc": 0.7977777777777778
+    },
+    {
+     "step": 175,
+     "records": 1400,
+     "loss": 0.5294137757708086,
+     "train_acc": 0.8031383737517832,
+     "lr": 0.00019335804264972018,
+     "elapsed_s": 390.9800684452057,
+     "rec_per_s": 3.5807451913529054
+    },
+    {
+     "step": 200,
+     "records": 1600,
+     "loss": 0.474688741019927,
+     "train_acc": 0.817090395480226,
+     "lr": 0.0001913545457642601,
+     "elapsed_s": 443.4313659667969,
+     "rec_per_s": 3.6082246832304694
+    },
+    {
+     "step": 225,
+     "records": 1800,
+     "loss": 0.45276572767295875,
+     "train_acc": 0.8327246165084002,
+     "lr": 0.0001891006524188368,
+     "elapsed_s": 494.9606583118439,
+     "rec_per_s": 3.636652670818803
+    },
+    {
+     "step": 250,
+     "records": 2000,
+     "loss": 0.3843918364658748,
+     "train_acc": 0.8433734939759037,
+     "lr": 0.00018660254037844388,
+     "elapsed_s": 547.4048488140106,
+     "rec_per_s": 3.653603003943305
+    },
+    {
+     "step": 275,
+     "records": 2200,
+     "loss": 0.3256886675413989,
+     "train_acc": 0.8762589928057554,
+     "lr": 0.00018386705679454242,
+     "elapsed_s": 599.3251309394836,
+     "rec_per_s": 3.670795510529231
+    },
+    {
+     "step": 300,
+     "records": 2400,
+     "loss": 0.34146314036042896,
+     "train_acc": 0.8606442577030813,
+     "lr": 0.00018090169943749476,
+     "elapsed_s": 651.503758430481,
+     "rec_per_s": 3.683785348808687
+    },
+    {
+     "step": 300,
+     "val_acc": 0.8725925925925926
+    },
+    {
+     "step": 325,
+     "records": 2600,
+     "loss": 0.33925028872869006,
+     "train_acc": 0.8639308855291576,
+     "lr": 0.0001777145961456971,
+     "elapsed_s": 722.8332183361053,
+     "rec_per_s": 3.596956993737722
+    },
+    {
+     "step": 350,
+     "records": 2800,
+     "loss": 0.32678385342776894,
+     "train_acc": 0.8788530465949821,
+     "lr": 0.00017431448254773944,
+     "elapsed_s": 774.9368598461151,
+     "rec_per_s": 3.6131975972287815
+    },
+    {
+     "step": 375,
+     "records": 3000,
+     "loss": 0.28450486578090933,
+     "train_acc": 0.8853276353276354,
+     "lr": 0.00017071067811865476,
+     "elapsed_s": 826.6282818317413,
+     "rec_per_s": 3.629200773716867
+    },
+    {
+     "step": 400,
+     "records": 3200,
+     "loss": 0.27133271092581707,
+     "train_acc": 0.9065620542082738,
+     "lr": 0.00016691306063588583,
+     "elapsed_s": 879.0941457748413,
+     "rec_per_s": 3.6401106927853464
+    },
+    {
+     "step": 425,
+     "records": 3400,
+     "loss": 0.2961024222197011,
+     "train_acc": 0.8880057803468208,
+     "lr": 0.00016293203910498376,
+     "elapsed_s": 931.0357928276062,
+     "rec_per_s": 3.651846713297687
+    },
+    {
+     "step": 450,
+     "records": 3600,
+     "loss": 0.31524239558835687,
+     "train_acc": 0.8871758934828311,
+     "lr": 0.00015877852522924732,
+     "elapsed_s": 983.8924078941345,
+     "rec_per_s": 3.6589366592483707
+    },
+    {
+     "step": 450,
+     "val_acc": 0.9014814814814814
+    },
+    {
+     "step": 475,
+     "records": 3800,
+     "loss": 0.2634256117064797,
+     "train_acc": 0.902072909220872,
+     "lr": 0.00015446390350150273,
+     "elapsed_s": 1055.0976955890656,
+     "rec_per_s": 3.601562221096923
+    },
+    {
+     "step": 500,
+     "records": 4000,
+     "loss": 0.276091263423441,
+     "train_acc": 0.8983768525052929,
+     "lr": 0.00015000000000000001,
+     "elapsed_s": 1107.9443435668945,
+     "rec_per_s": 3.610289653289332
+    },
+    {
+     "step": 525,
+     "records": 4200,
+     "loss": 0.2590089272180194,
+     "train_acc": 0.8981348637015782,
+     "lr": 0.00014539904997395468,
+     "elapsed_s": 1159.5176653862,
+     "rec_per_s": 3.6221957848318835
+    },
+    {
+     "step": 550,
+     "records": 4400,
+     "loss": 0.24336718916412792,
+     "train_acc": 0.905,
+     "lr": 0.00014067366430758004,
+     "elapsed_s": 1211.1633393764496,
+     "rec_per_s": 3.6328708580836655
+    },
+    {
+     "step": 575,
+     "records": 4600,
+     "loss": 0.22666691549702592,
+     "train_acc": 0.918293564714389,
+     "lr": 0.00013583679495453,
+     "elapsed_s": 1262.9634790420532,
+     "rec_per_s": 3.642227250695372
+    },
+    {
+     "step": 600,
+     "records": 4800,
+     "loss": 0.23464829364289472,
+     "train_acc": 0.9138051857042747,
+     "lr": 0.00013090169943749476,
+     "elapsed_s": 1314.6502659320831,
+     "rec_per_s": 3.651161167640897
+    },
+    {
+     "step": 600,
+     "val_acc": 0.9148148148148149
+    },
+    {
+     "step": 625,
+     "records": 5000,
+     "loss": 0.20846295423554692,
+     "train_acc": 0.9161931818181818,
+     "lr": 0.00012588190451025207,
+     "elapsed_s": 1385.6147105693817,
+     "rec_per_s": 3.608506724026755
+    },
+    {
+     "step": 650,
+     "records": 5200,
+     "loss": 0.24177086865126513,
+     "train_acc": 0.9075391180654339,
+     "lr": 0.00012079116908177593,
+     "elapsed_s": 1437.7021408081055,
+     "rec_per_s": 3.616882699414482
+    },
+    {
+     "step": 675,
+     "records": 5400,
+     "loss": 0.22830593230570229,
+     "train_acc": 0.9158273381294963,
+     "lr": 0.0001156434465040231,
+     "elapsed_s": 1489.4000079631805,
+     "rec_per_s": 3.625621036073939
+    },
+    {
+     "step": 700,
+     "records": 5600,
+     "loss": 0.1959813389891042,
+     "train_acc": 0.9204785362420831,
+     "lr": 0.00011045284632676536,
+     "elapsed_s": 1541.4184975624084,
+     "rec_per_s": 3.6330172557652656
+    },
+    {
+     "step": 725,
+     "records": 5800,
+     "loss": 0.2083282608036734,
+     "train_acc": 0.9124555160142349,
+     "lr": 0.0001052335956242944,
+     "elapsed_s": 1593.2911553382874,
+     "rec_per_s": 3.6402637274218375
+    },
+    {
+     "step": 750,
+     "records": 6000,
+     "loss": 0.21291994976207207,
+     "train_acc": 0.9194729136163983,
+     "lr": 0.0001,
+     "elapsed_s": 1644.7787055969238,
+     "rec_per_s": 3.6479071498086286
+    },
+    {
+     "step": 750,
+     "val_acc": 0.9214814814814815
+    },
+    {
+     "step": 775,
+     "records": 6200,
+     "loss": 0.18688787097228668,
+     "train_acc": 0.92998585572843,
+     "lr": 9.476640437570562e-05,
+     "elapsed_s": 1716.101546049118,
+     "rec_per_s": 3.6128398195747238
+    },
+    {
+     "step": 800,
+     "records": 6400,
+     "loss": 0.19585391538634211,
+     "train_acc": 0.9167259786476868,
+     "lr": 8.954715367323468e-05,
+     "elapsed_s": 1768.2266697883606,
+     "rec_per_s": 3.619445464401924
+    },
+    {
+     "step": 825,
+     "records": 6600,
+     "loss": 0.19905183880709046,
+     "train_acc": 0.9239681390296887,
+     "lr": 8.435655349597689e-05,
+     "elapsed_s": 1819.235234260559,
+     "rec_per_s": 3.6278980726110532
+    },
+    {
+     "step": 850,
+     "records": 6800,
+     "loss": 0.1673642099813651,
+     "train_acc": 0.9302158273381295,
+     "lr": 7.920883091822408e-05,
+     "elapsed_s": 1871.2653322219849,
+     "rec_per_s": 3.6339047610771043
+    },
+    {
+     "step": 875,
+     "records": 7000,
+     "loss": 0.17316004305519528,
+     "train_acc": 0.9353667392883079,
+     "lr": 7.411809548974792e-05,
+     "elapsed_s": 1922.3328268527985,
+     "rec_per_s": 3.6414089705060326
+    },
+    {
+     "step": 900,
+     "records": 7200,
+     "loss": 0.15284797462722507,
+     "train_acc": 0.9402135231316726,
+     "lr": 6.909830056250527e-05,
+     "elapsed_s": 1973.6377136707306,
+     "rec_per_s": 3.6480859430927977
+    },
+    {
+     "step": 900,
+     "val_acc": 0.937037037037037
+    },
+    {
+     "step": 925,
+     "records": 7400,
+     "loss": 0.16917750608708956,
+     "train_acc": 0.9416005767844268,
+     "lr": 6.416320504546997e-05,
+     "elapsed_s": 2044.581737279892,
+     "rec_per_s": 3.619322165053155
+    },
+    {
+     "step": 950,
+     "records": 7600,
+     "loss": 0.15137158668851045,
+     "train_acc": 0.9357142857142857,
+     "lr": 5.9326335692419995e-05,
+     "elapsed_s": 2096.393760204315,
+     "rec_per_s": 3.6252731448977893
+    },
+    {
+     "step": 975,
+     "records": 7800,
+     "loss": 0.15043446307257,
+     "train_acc": 0.9394155381325731,
+     "lr": 5.4600950026045326e-05,
+     "elapsed_s": 2148.4307928085327,
+     "rec_per_s": 3.6305567887543924
+    },
+    {
+     "step": 1000,
+     "records": 8000,
+     "loss": 0.17957334215989249,
+     "train_acc": 0.9341825902335457,
+     "lr": 5.000000000000002e-05,
+     "elapsed_s": 2200.264595746994,
+     "rec_per_s": 3.6359263406154043
+    },
+    {
+     "step": 1025,
+     "records": 8200,
+     "loss": 0.1463737820413735,
+     "train_acc": 0.9421547360809833,
+     "lr": 4.5536096498497295e-05,
+     "elapsed_s": 2251.4976444244385,
+     "rec_per_s": 3.642020243861373
+    },
+    {
+     "step": 1050,
+     "records": 8400,
+     "loss": 0.1335614602940359,
+     "train_acc": 0.9483260553129549,
+     "lr": 4.12214747707527e-05,
+     "elapsed_s": 2302.7754764556885,
+     "rec_per_s": 3.6477720411235404
+    },
+    {
+     "step": 1050,
+     "val_acc": 0.9392592592592592
+    },
+    {
+     "step": 1075,
+     "records": 8600,
+     "loss": 0.13352199276364446,
+     "train_acc": 0.9442877291960508,
+     "lr": 3.7067960895016275e-05,
+     "elapsed_s": 2373.4201078414917,
+     "rec_per_s": 3.623463023502095
+    },
+    {
+     "step": 1100,
+     "records": 8800,
+     "loss": 0.13724981557605814,
+     "train_acc": 0.9453900709219858,
+     "lr": 3.308693936411421e-05,
+     "elapsed_s": 2425.1252088546753,
+     "rec_per_s": 3.6286786215694056
+    },
+    {
+     "step": 1125,
+     "records": 9000,
+     "loss": 0.1233367386248301,
+     "train_acc": 0.9443254817987152,
+     "lr": 2.9289321881345254e-05,
+     "elapsed_s": 2476.414677143097,
+     "rec_per_s": 3.6342863265464103
+    },
+    {
+     "step": 1150,
+     "records": 9200,
+     "loss": 0.12955895466799575,
+     "train_acc": 0.9503649635036496,
+     "lr": 2.5685517452260567e-05,
+     "elapsed_s": 2527.469545841217,
+     "rec_per_s": 3.640004294072697
+    },
+    {
+     "step": 1175,
+     "records": 9400,
+     "loss": 0.12683568756951558,
+     "train_acc": 0.9523460410557185,
+     "lr": 2.2285403854302912e-05,
+     "elapsed_s": 2578.6108984947205,
+     "rec_per_s": 3.645373563528839
+    },
+    {
+     "step": 1200,
+     "records": 9600,
+     "loss": 0.13425624158901883,
+     "train_acc": 0.9505021520803444,
+     "lr": 1.9098300562505266e-05,
+     "elapsed_s": 2630.194860458374,
+     "rec_per_s": 3.6499196863030035
+    },
+    {
+     "step": 1200,
+     "val_acc": 0.9525925925925925
+    },
+    {
+     "step": 1225,
+     "records": 9800,
+     "loss": 0.12944295732284672,
+     "train_acc": 0.9440905874026894,
+     "lr": 1.6132943205457606e-05,
+     "elapsed_s": 2700.762353181839,
+     "rec_per_s": 3.6286050819889293
+    },
+    {
+     "step": 1250,
+     "records": 10000,
+     "loss": 0.12205575885087797,
+     "train_acc": 0.9522111269614836,
+     "lr": 1.339745962155613e-05,
+     "elapsed_s": 2752.314399242401,
+     "rec_per_s": 3.6333058471636046
+    },
+    {
+     "step": 1275,
+     "records": 10200,
+     "loss": 0.11808093865906927,
+     "train_acc": 0.9567682494684621,
+     "lr": 1.0899347581163221e-05,
+     "elapsed_s": 2803.6467928886414,
+     "rec_per_s": 3.638118762274894
+    },
+    {
+     "step": 1300,
+     "records": 10400,
+     "loss": 0.11156922370075904,
+     "train_acc": 0.9575713240673006,
+     "lr": 8.645454235739903e-06,
+     "elapsed_s": 2854.7265112400055,
+     "rec_per_s": 3.643081030372524
+    },
+    {
+     "step": 1325,
+     "records": 10600,
+     "loss": 0.12217981325080586,
+     "train_acc": 0.9429190751445087,
+     "lr": 6.6419573502798374e-06,
+     "elapsed_s": 2906.29647064209,
+     "rec_per_s": 3.647253508744115
+    },
+    {
+     "step": 1350,
+     "records": 10800,
+     "loss": 0.10275593140495402,
+     "train_acc": 0.9599141016463851,
+     "lr": 4.8943483704846475e-06,
+     "elapsed_s": 2957.2938446998596,
+     "rec_per_s": 3.6519874476985255
+    },
+    {
+     "step": 1350,
+     "val_acc": 0.9562962962962963
+    },
+    {
+     "step": 1375,
+     "records": 11000,
+     "loss": 0.11462835152795435,
+     "train_acc": 0.9455732946298984,
+     "lr": 3.40741737109318e-06,
+     "elapsed_s": 3027.9325320720673,
+     "rec_per_s": 3.6328418429034506
+    },
+    {
+     "step": 1400,
+     "records": 11200,
+     "loss": 0.10945578565866299,
+     "train_acc": 0.9539568345323741,
+     "lr": 2.1852399266194314e-06,
+     "elapsed_s": 3079.786269426346,
+     "rec_per_s": 3.6366159922149923
+    },
+    {
+     "step": 1425,
+     "records": 11400,
+     "loss": 0.09511711819814195,
+     "train_acc": 0.96671388101983,
+     "lr": 1.231165940486234e-06,
+     "elapsed_s": 3131.561015367508,
+     "rec_per_s": 3.6403569798119166
+    },
+    {
+     "step": 1450,
+     "records": 11600,
+     "loss": 0.1229949615979541,
+     "train_acc": 0.9460028050490884,
+     "lr": 5.478104631726711e-07,
+     "elapsed_s": 3183.399547100067,
+     "rec_per_s": 3.643903263907628
+    },
+    {
+     "step": 1475,
+     "records": 11800,
+     "loss": 0.09998616365856094,
+     "train_acc": 0.964924838940587,
+     "lr": 1.3704652454261668e-07,
+     "elapsed_s": 3234.747472524643,
+     "rec_per_s": 3.647889085694341
+    },
+    {
+     "step": 1500,
+     "records": 12000,
+     "loss": 0.10734713009085,
+     "train_acc": 0.9581881533101045,
+     "lr": 0.0,
+     "elapsed_s": 3286.8046753406525,
+     "rec_per_s": 3.6509623130423137
+    },
+    {
+     "step": 1500,
+     "val_acc": 0.96
+    }
+   ]
+  }
+ },
+ "latency": [],
+ "tradeoff": [
+  {
+   "system": "Jev (TypeSafe API) (jev-1.14.0)",
+   "engine": "hosted API (GPU, network)",
+   "layout": "+ playbook + export definition",
+   "acc": {
+    "val": 0.8748888888888887,
+    "test": 0.882361111111111,
+    "gold": 0.9180555555555555,
+    "injection": 0.8933333333333334
+   },
+   "acc_key": "jev-playbook-export",
+   "acc_exact": true,
+   "hosts": {
+    "api": {
+     "p50_s": 0.11987876892089844,
+     "ms_per_decision": 10.0
+    }
+   },
+   "peak_rss_mb": null,
+   "file_mb": null
+  },
+  {
+   "system": "Jev (TypeSafe API) (jev-1.14.0)",
+   "engine": "hosted API (GPU, network)",
+   "layout": "+ playbook rules",
+   "acc": {
+    "val": 0.8500000000000001,
+    "test": 0.8525,
+    "gold": 0.8916666666666667,
+    "injection": 0.8572222222222221
+   },
+   "acc_key": "jev-playbook",
+   "acc_exact": true,
+   "hosts": {
+    "api": {
+     "p50_s": 0.174774169921875,
+     "ms_per_decision": 14.6
+    }
+   },
+   "peak_rss_mb": null,
+   "file_mb": null
+  },
+  {
+   "system": "Jev (TypeSafe API) (jev-1.14.0)",
+   "engine": "hosted API (GPU, network)",
+   "layout": "questions as-is",
+   "acc": {
+    "val": 0.8233333333333333,
+    "test": 0.8170833333333333,
+    "gold": 0.8694444444444444,
+    "injection": 0.816111111111111
+   },
+   "acc_key": "jev-plain",
+   "acc_exact": true,
+   "hosts": {
+    "api": {
+     "p50_s": 0.1711869239807129,
+     "ms_per_decision": 14.3
+    }
+   },
+   "peak_rss_mb": null,
+   "file_mb": null
+  }
+ ]
+}

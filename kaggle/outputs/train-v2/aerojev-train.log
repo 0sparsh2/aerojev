@@ -1,0 +1,12 @@
+[{"stream_name":"stderr","time":0.692873112,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":0.693723395,"data":"  File \"/kaggle/src/script.py\", line 20, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":0.693745651,"data":"    JOBS = {\"0\": [{\"kind\": \"train\", \"model\": \"Qwen/Qwen3-0.6B\", \"out\": \"runs/qwen3-0.6b\", \"required\": true, \"args\": [\"--epochs\", \"2\"]}, {\"kind\": \"eval\", \"model\": \"Qwen/Qwen3-0.6B\", \"adapter\": \"runs/qwen3-0.6b/best\", \"out\": \"results/ft-qwen3-0.6b\"}, {\"kind\": \"export\", \"model\": \"Qwen/Qwen3-0.6B\", \"adapter\": \"runs/qwen3-0.6b/best\", \"name\": \"aerojev-qwen3-0.6b\"}], \"1\": [{\"kind\": \"train\", \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\", \"out\": \"runs/qwen2.5-0.5b\", \"required\": true, \"args\": [\"--epochs\", \"2\"]}, {\"kind\": \"eval\", \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\", \"adapter\": \"runs/qwen2.5-0.5b/best\", \"out\": \"results/ft-qwen2.5-0.5b\"}, {\"kind\": \"export\", \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\", \"adapter\": \"runs/qwen2.5-0.5b/best\", \"name\": \"aerojev-qwen2.5-0.5b\"}]}  # generated: {\"0\": [job, ...], \"1\": [job, ...]}\n"}
+,{"stream_name":"stderr","time":0.693761261,"data":"                                                                                                      ^^^^\n"}
+,{"stream_name":"stderr","time":0.693765849,"data":"NameError: name 'true' is not defined. Did you mean: 'True'?\n"}
+,{"stream_name":"stderr","time":3.129283601,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":3.129325507,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":3.461613093,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":3.461642891,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":4.906169925,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":5.915954727,"data":"[NbConvertApp] Writing 306137 bytes to __results__.html\n"}
+]

@@ -1,0 +1,4 @@
+id,system,family,engine,layout,gold_acc,gold2_acc,test_acc,injection_acc,option_shuffle_agreement,mac_p50_s,mac_ms_per_decision,x86_p50_s,x86_ms_per_decision,api_p50_s,api_ms_per_decision,peak_rss_mb,file_mb,acc_source,acc_is_exact
+"Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | + playbook + export definition",Jev (TypeSafe API) (jev-1.14.0),Hosted Jev API,"hosted API (GPU, network)",+ playbook + export definition,0.9181,,0.8824,0.8933,1.0,,,,,0.1199,10.0,,,jev-playbook-export,1
+"Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | + playbook rules",Jev (TypeSafe API) (jev-1.14.0),Hosted Jev API,"hosted API (GPU, network)",+ playbook rules,0.8917,,0.8525,0.8572,0.9938,,,,,0.1748,14.6,,,jev-playbook,1
+"Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | questions as-is",Jev (TypeSafe API) (jev-1.14.0),Hosted Jev API,"hosted API (GPU, network)",questions as-is,0.8694,,0.8171,0.8161,0.9938,,,,,0.1712,14.3,,,jev-plain,1

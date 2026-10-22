@@ -1,0 +1,28 @@
+question,system,gold_acc
+event_type,Qwen3-0.6B zero-shot,0.65
+commodity,Qwen3-0.6B zero-shot,0.6625
+impact_severity,Qwen3-0.6B zero-shot,0.425
+line_stop_risk,Qwen3-0.6B zero-shot,0.6
+recommended_action,Qwen3-0.6B zero-shot,0.4
+export_controlled,Qwen3-0.6B zero-shot,0.825
+counterfeit_suspect,Qwen3-0.6B zero-shot,0.975
+sole_source,Qwen3-0.6B zero-shot,0.8875
+delay_bucket,Qwen3-0.6B zero-shot,0.2625
+event_type,Jev API (+ playbook),0.975
+commodity,Jev API (+ playbook),0.925
+impact_severity,Jev API (+ playbook),0.775
+line_stop_risk,Jev API (+ playbook),0.975
+recommended_action,Jev API (+ playbook),0.825
+export_controlled,Jev API (+ playbook),0.75
+counterfeit_suspect,Jev API (+ playbook),1.0
+sole_source,Jev API (+ playbook),1.0
+delay_bucket,Jev API (+ playbook),0.8
+event_type,TF-IDF + logistic regression,0.8125
+commodity,TF-IDF + logistic regression,0.9875
+impact_severity,TF-IDF + logistic regression,0.5625
+line_stop_risk,TF-IDF + logistic regression,0.7
+recommended_action,TF-IDF + logistic regression,0.675
+export_controlled,TF-IDF + logistic regression,0.975
+counterfeit_suspect,TF-IDF + logistic regression,1.0
+sole_source,TF-IDF + logistic regression,0.975
+delay_bucket,TF-IDF + logistic regression,0.4875

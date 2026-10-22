@@ -1,0 +1,21 @@
+{
+ "id": "sparshnagpal/aerojev-gold2-v1",
+ "title": "aerojev-gold2-v1",
+ "code_file": "aerojev-gold2-v1.py",
+ "language": "python",
+ "kernel_type": "script",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [
+  "sparshnagpal/aerojev-bundle"
+ ],
+ "kernel_sources": [
+  "sparshnagpal/aerojev-train",
+  "sparshnagpal/aerojev-train-cat"
+ ],
+ "competition_sources": [],
+ "model_sources": [],
+ "machine_shape": "NvidiaTeslaT4"
+}

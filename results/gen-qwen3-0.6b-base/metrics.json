@@ -1,0 +1,43 @@
+{
+ "gguf": "models/base/Qwen3-0.6B-Q8_0.gguf",
+ "set": "gold",
+ "threads": 4,
+ "free": {
+  "core_mean_accuracy": 0.5902777777777778,
+  "core_mean_macro_f1": 0.5125380981428118,
+  "record_exact_match": 0.0125,
+  "schema_valid_rate": 1.0,
+  "sec_per_record": 1.8660340577363967,
+  "mean_output_tokens": 98.7,
+  "per_question_accuracy": {
+   "event_type": 0.4625,
+   "commodity": 0.3875,
+   "impact_severity": 0.325,
+   "line_stop_risk": 0.6125,
+   "recommended_action": 0.35,
+   "export_controlled": 0.925,
+   "counterfeit_suspect": 0.975,
+   "sole_source": 0.925,
+   "delay_bucket": 0.35
+  }
+ },
+ "schema": {
+  "core_mean_accuracy": 0.5916666666666666,
+  "core_mean_macro_f1": 0.5076006487939022,
+  "record_exact_match": 0.0,
+  "schema_valid_rate": 1.0,
+  "sec_per_record": 1.7791478335857391,
+  "mean_output_tokens": 58.55,
+  "per_question_accuracy": {
+   "event_type": 0.425,
+   "commodity": 0.4,
+   "impact_severity": 0.3625,
+   "line_stop_risk": 0.6625,
+   "recommended_action": 0.275,
+   "export_controlled": 0.9,
+   "counterfeit_suspect": 0.975,
+   "sole_source": 0.95,
+   "delay_bucket": 0.375
+  }
+ }
+}

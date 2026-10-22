@@ -1,0 +1,18 @@
+# environment and secrets
+.venv/
+.env
+.env.*
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# model weights: too large for git (GGUF 0.4-0.6 GB, LoRA adapters ~35-40 MB each).
+# They are produced by the Kaggle kernels; see README "Weights".
+models/
+*.gguf
+*.safetensors
+
+# regenerable build artifacts
+kaggle/dataset/*.tar.gz
+results/notebook/

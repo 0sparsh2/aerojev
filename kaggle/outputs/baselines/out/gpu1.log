@@ -1,0 +1,190 @@
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen3-0.6B --sets val,test,gold,injection --out /kaggle/working/out/results/zs-qwen3-0.6b --dtype float32
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+model=Qwen/Qwen3-0.6B adapter=None mode=tree device=cuda
+[val] 500 records
+  50/500  0.483s/record
+  100/500  0.483s/record
+  150/500  0.493s/record
+  200/500  0.500s/record
+  250/500  0.509s/record
+  300/500  0.521s/record
+  350/500  0.526s/record
+  400/500  0.530s/record
+  450/500  0.536s/record
+  500/500  0.538s/record
+[test] 800 records
+  50/800  0.564s/record
+  100/800  0.559s/record
+  150/800  0.559s/record
+  200/800  0.559s/record
+  250/800  0.558s/record
+  300/800  0.560s/record
+  350/800  0.559s/record
+  400/800  0.558s/record
+  450/800  0.557s/record
+  500/800  0.556s/record
+  550/800  0.557s/record
+  600/800  0.557s/record
+  650/800  0.557s/record
+  700/800  0.556s/record
+  750/800  0.555s/record
+  800/800  0.555s/record
+[gold] 80 records
+  50/80  0.543s/record
+[injection] 200 records
+  50/200  0.557s/record
+  100/200  0.560s/record
+  150/200  0.561s/record
+  200/200  0.565s/record
+  50/80  0.547s/record
+== val: core acc 0.558  macroF1 0.466  exact 0.004  ECE 0.295  0.54s/rec
+   event_type           acc=0.656 (maj 0.16) f1=0.663
+   commodity            acc=0.612 (maj 0.11) f1=0.585
+   impact_severity      acc=0.412 (maj 0.43) f1=0.153 mae=1.10
+   line_stop_risk       acc=0.586 (maj 0.59) f1=0.369 auroc=0.536
+   recommended_action   acc=0.270 (maj 0.22) f1=0.287
+   export_controlled    acc=0.496 (maj 0.60) f1=0.446 auroc=0.878
+   counterfeit_suspect  acc=0.984 (maj 0.95) f1=0.896 auroc=0.980
+   sole_source          acc=0.796 (maj 0.75) f1=0.600 auroc=0.724
+   delay_bucket         acc=0.212 (maj 0.39) f1=0.194 mae=1.46
+   supplier_region      acc=0.766 (maj 0.27) f1=0.764
+   mentions_new_date    acc=0.714 (maj 0.67) f1=0.541 auroc=0.897
+   military_program     acc=0.528 (maj 0.52) f1=0.420 auroc=0.767
+== test: core acc 0.570  macroF1 0.486  exact 0.003  ECE 0.273  0.55s/rec
+   event_type           acc=0.656 (maj 0.16) f1=0.651
+   commodity            acc=0.591 (maj 0.12) f1=0.557
+   impact_severity      acc=0.446 (maj 0.42) f1=0.253 mae=1.05
+   line_stop_risk       acc=0.581 (maj 0.58) f1=0.368 auroc=0.583
+   recommended_action   acc=0.282 (maj 0.19) f1=0.290
+   export_controlled    acc=0.490 (maj 0.64) f1=0.459 auroc=0.806
+   counterfeit_suspect  acc=0.986 (maj 0.96) f1=0.903 auroc=0.951
+   sole_source          acc=0.799 (maj 0.73) f1=0.636 auroc=0.980
+   delay_bucket         acc=0.299 (maj 0.31) f1=0.261 mae=1.29
+   supplier_region      acc=0.790 (maj 0.30) f1=0.779
+   mentions_new_date    acc=0.679 (maj 0.65) f1=0.471 auroc=0.751
+   military_program     acc=0.526 (maj 0.51) f1=0.408 auroc=0.776
+== gold: core acc 0.632  macroF1 0.498  exact 0.000  ECE 0.224  0.54s/rec
+   event_type           acc=0.650 (maj 0.16) f1=0.699
+   commodity            acc=0.662 (maj 0.16) f1=0.626
+   impact_severity      acc=0.425 (maj 0.34) f1=0.316 mae=1.23
+   line_stop_risk       acc=0.600 (maj 0.60) f1=0.375 auroc=0.518
+   recommended_action   acc=0.400 (maj 0.26) f1=0.369
+   export_controlled    acc=0.825 (maj 0.82) f1=0.452 auroc=0.908
+   counterfeit_suspect  acc=0.975 (maj 0.96) f1=0.744 auroc=0.970
+   sole_source          acc=0.887 (maj 0.86) f1=0.669 auroc=0.950
+   delay_bucket         acc=0.263 (maj 0.38) f1=0.231 mae=1.52
+   supplier_region      acc=0.787 (maj 0.61) f1=0.707
+   mentions_new_date    acc=0.900 (maj 0.89) f1=0.573 auroc=0.695
+   military_program     acc=0.850 (maj 0.82) f1=0.583 auroc=0.765
+== injection: core acc 0.583  macroF1 0.489  exact 0.000  ECE 0.261  0.56s/rec
+   event_type           acc=0.660 (maj 0.21) f1=0.630
+   commodity            acc=0.615 (maj 0.15) f1=0.571
+   impact_severity      acc=0.435 (maj 0.47) f1=0.247 mae=0.94
+   line_stop_risk       acc=0.625 (maj 0.62) f1=0.385 auroc=0.415
+   recommended_action   acc=0.285 (maj 0.27) f1=0.260
+   export_controlled    acc=0.445 (maj 0.61) f1=0.379 auroc=0.830
+   counterfeit_suspect  acc=0.990 (maj 0.96) f1=0.926 auroc=1.000
+   sole_source          acc=0.825 (maj 0.76) f1=0.670 auroc=0.968
+   delay_bucket         acc=0.365 (maj 0.35) f1=0.329 mae=1.10
+   supplier_region      acc=0.790 (maj 0.34) f1=0.802
+   mentions_new_date    acc=0.675 (maj 0.67) f1=0.417 auroc=0.774
+   military_program     acc=0.525 (maj 0.50) f1=0.387 auroc=0.719
+permutation: {'choice_agreement_with_canonical': 0.665625, 'choice_accuracy_shuffled': 0.603125}
+[exit 0 after 945s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen3.5-0.8B --sets val,test,gold,injection --out /kaggle/working/out/results/zs-qwen3.5-0.8b --dtype float32 --mode unpacked
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+model=Qwen/Qwen3.5-0.8B adapter=None mode=unpacked device=cuda
+[val] 500 records
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+  50/500  1.936s/record
+  100/500  1.898s/record
+  150/500  1.889s/record
+  200/500  1.887s/record
+  250/500  1.873s/record
+  300/500  1.877s/record
+  350/500  1.875s/record
+  400/500  1.879s/record
+  450/500  1.887s/record
+  500/500  1.882s/record
+[test] 800 records
+  50/800  1.874s/record
+  100/800  1.866s/record
+  150/800  1.876s/record
+  200/800  1.879s/record
+  250/800  1.876s/record
+  300/800  1.883s/record
+  350/800  1.886s/record
+  400/800  1.877s/record
+  450/800  1.875s/record
+  500/800  1.875s/record
+  550/800  1.878s/record
+  600/800  1.876s/record
+  650/800  1.877s/record
+  700/800  1.876s/record
+  750/800  1.872s/record
+  800/800  1.871s/record
+[gold] 80 records
+  50/80  1.507s/record
+[injection] 200 records
+  50/200  1.942s/record
+  100/200  1.961s/record
+  150/200  1.956s/record
+  200/200  1.966s/record
+  50/80  1.514s/record
+== val: core acc 0.530  macroF1 0.462  exact 0.000  ECE 0.067  1.88s/rec
+   event_type           acc=0.564 (maj 0.16) f1=0.624
+   commodity            acc=0.686 (maj 0.11) f1=0.650
+   impact_severity      acc=0.322 (maj 0.43) f1=0.176 mae=0.97
+   line_stop_risk       acc=0.516 (maj 0.59) f1=0.516 auroc=0.570
+   recommended_action   acc=0.270 (maj 0.22) f1=0.250
+   export_controlled    acc=0.606 (maj 0.60) f1=0.387 auroc=0.908
+   counterfeit_suspect  acc=0.722 (maj 0.95) f1=0.539 auroc=0.986
+   sole_source          acc=0.866 (maj 0.75) f1=0.815 auroc=0.869
+   delay_bucket         acc=0.220 (maj 0.39) f1=0.196 mae=1.29
+   supplier_region      acc=0.636 (maj 0.27) f1=0.558
+   mentions_new_date    acc=0.814 (maj 0.67) f1=0.803 auroc=0.917
+   military_program     acc=0.646 (maj 0.52) f1=0.617 auroc=0.758
+== test: core acc 0.568  macroF1 0.493  exact 0.005  ECE 0.043  1.87s/rec
+   event_type           acc=0.618 (maj 0.16) f1=0.627
+   commodity            acc=0.674 (maj 0.12) f1=0.637
+   impact_severity      acc=0.393 (maj 0.42) f1=0.298 mae=0.89
+   line_stop_risk       acc=0.549 (maj 0.58) f1=0.546 auroc=0.622
+   recommended_action   acc=0.259 (maj 0.19) f1=0.188
+   export_controlled    acc=0.635 (maj 0.64) f1=0.388 auroc=0.761
+   counterfeit_suspect  acc=0.746 (maj 0.96) f1=0.552 auroc=0.982
+   sole_source          acc=0.986 (maj 0.73) f1=0.983 auroc=1.000
+   delay_bucket         acc=0.258 (maj 0.31) f1=0.214 mae=1.24
+   supplier_region      acc=0.670 (maj 0.30) f1=0.585
+   mentions_new_date    acc=0.840 (maj 0.65) f1=0.832 auroc=0.940
+   military_program     acc=0.626 (maj 0.51) f1=0.607 auroc=0.667
+== gold: core acc 0.518  macroF1 0.472  exact 0.000  ECE 0.086  1.46s/rec
+   event_type           acc=0.675 (maj 0.16) f1=0.692
+   commodity            acc=0.800 (maj 0.16) f1=0.750
+   impact_severity      acc=0.275 (maj 0.34) f1=0.236 mae=0.96
+   line_stop_risk       acc=0.525 (maj 0.60) f1=0.520 auroc=0.555
+   recommended_action   acc=0.388 (maj 0.26) f1=0.432
+   export_controlled    acc=0.175 (maj 0.82) f1=0.149 auroc=0.962
+   counterfeit_suspect  acc=0.700 (maj 0.96) f1=0.508 auroc=0.896
+   sole_source          acc=0.875 (maj 0.86) f1=0.805 auroc=1.000
+   delay_bucket         acc=0.250 (maj 0.38) f1=0.153 mae=1.18
+   supplier_region      acc=0.375 (maj 0.61) f1=0.444
+   mentions_new_date    acc=0.887 (maj 0.89) f1=0.787 auroc=0.939
+   military_program     acc=0.512 (maj 0.82) f1=0.499 auroc=0.876
+== injection: core acc 0.570  macroF1 0.485  exact 0.000  ECE 0.047  1.97s/rec
+   event_type           acc=0.510 (maj 0.21) f1=0.555
+   commodity            acc=0.695 (maj 0.15) f1=0.643
+   impact_severity      acc=0.320 (maj 0.47) f1=0.203 mae=0.89
+   line_stop_risk       acc=0.565 (maj 0.62) f1=0.510 auroc=0.471
+   recommended_action   acc=0.330 (maj 0.27) f1=0.225
+   export_controlled    acc=0.635 (maj 0.61) f1=0.435 auroc=0.776
+   counterfeit_suspect  acc=0.850 (maj 0.96) f1=0.617 auroc=0.937
+   sole_source          acc=0.985 (maj 0.76) f1=0.980 auroc=1.000
+   delay_bucket         acc=0.240 (maj 0.35) f1=0.199 mae=1.14
+   supplier_region      acc=0.570 (maj 0.34) f1=0.550
+   mentions_new_date    acc=0.840 (maj 0.67) f1=0.825 auroc=0.897
+   military_program     acc=0.650 (maj 0.50) f1=0.648 auroc=0.703
+permutation: {'choice_agreement_with_canonical': 0.6625, 'choice_accuracy_shuffled': 0.55625}
+[exit 0 after 3095s]

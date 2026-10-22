@@ -1,0 +1,83 @@
+[{"stream_name":"stdout","time":6438.803358233,"data":"[\n"}
+,{"stream_name":"stdout","time":6438.803647314,"data":" {\n"}
+,{"stream_name":"stdout","time":6438.80365973,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":6438.803664366,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":6438.803668322,"data":"   \"kind\": \"train\",\n"}
+,{"stream_name":"stdout","time":6438.80367256,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":6438.803676819,"data":"   \"out\": \"runs/qwen2.5-0.5b\",\n"}
+,{"stream_name":"stdout","time":6438.803680873,"data":"   \"required\": true,\n"}
+,{"stream_name":"stdout","time":6438.803684839,"data":"   \"args\": [\n"}
+,{"stream_name":"stdout","time":6438.803688732,"data":"    \"--epochs\",\n"}
+,{"stream_name":"stdout","time":6438.803694899,"data":"    \"2\"\n"}
+,{"stream_name":"stdout","time":6438.803702842,"data":"   ]\n"}
+,{"stream_name":"stdout","time":6438.803719477,"data":"  },\n"}
+,{"stream_name":"stdout","time":6438.80372403,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803728815,"data":"  \"seconds\": 3338\n"}
+,{"stream_name":"stdout","time":6438.803733616,"data":" },\n"}
+,{"stream_name":"stdout","time":6438.803738102,"data":" {\n"}
+,{"stream_name":"stdout","time":6438.803742032,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":6438.803745943,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":6438.803749767,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":6438.803753821,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":6438.803757894,"data":"   \"adapter\": \"runs/qwen2.5-0.5b/best\",\n"}
+,{"stream_name":"stdout","time":6438.803761972,"data":"   \"out\": \"results/ft-qwen2.5-0.5b\"\n"}
+,{"stream_name":"stdout","time":6438.803765905,"data":"  },\n"}
+,{"stream_name":"stdout","time":6438.803769678,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803773418,"data":"  \"seconds\": 592\n"}
+,{"stream_name":"stdout","time":6438.803777371,"data":" },\n"}
+,{"stream_name":"stdout","time":6438.803781406,"data":" {\n"}
+,{"stream_name":"stdout","time":6438.803785559,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":6438.803789406,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":6438.803793364,"data":"   \"kind\": \"export\",\n"}
+,{"stream_name":"stdout","time":6438.803804439,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":6438.803821065,"data":"   \"adapter\": \"runs/qwen2.5-0.5b/best\",\n"}
+,{"stream_name":"stdout","time":6438.803826408,"data":"   \"name\": \"aerojev-qwen2.5-0.5b\"\n"}
+,{"stream_name":"stdout","time":6438.803831177,"data":"  },\n"}
+,{"stream_name":"stdout","time":6438.803835968,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803840381,"data":"  \"seconds\": 406\n"}
+,{"stream_name":"stdout","time":6438.803844305,"data":" },\n"}
+,{"stream_name":"stdout","time":6438.803848038,"data":" {\n"}
+,{"stream_name":"stdout","time":6438.803851799,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803855619,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":6438.803859419,"data":"   \"kind\": \"train\",\n"}
+,{"stream_name":"stdout","time":6438.803863263,"data":"   \"model\": \"Qwen/Qwen3-0.6B\",\n"}
+,{"stream_name":"stdout","time":6438.8038673,"data":"   \"out\": \"runs/qwen3-0.6b\",\n"}
+,{"stream_name":"stdout","time":6438.803871248,"data":"   \"required\": true,\n"}
+,{"stream_name":"stdout","time":6438.803875153,"data":"   \"args\": [\n"}
+,{"stream_name":"stdout","time":6438.803878933,"data":"    \"--epochs\",\n"}
+,{"stream_name":"stdout","time":6438.803890185,"data":"    \"2\"\n"}
+,{"stream_name":"stdout","time":6438.803894253,"data":"   ]\n"}
+,{"stream_name":"stdout","time":6438.803903858,"data":"  },\n"}
+,{"stream_name":"stdout","time":6438.803925762,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803930529,"data":"  \"seconds\": 5382\n"}
+,{"stream_name":"stdout","time":6438.803935046,"data":" },\n"}
+,{"stream_name":"stdout","time":6438.803939296,"data":" {\n"}
+,{"stream_name":"stdout","time":6438.803943713,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803948329,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":6438.803952155,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":6438.803955982,"data":"   \"model\": \"Qwen/Qwen3-0.6B\",\n"}
+,{"stream_name":"stdout","time":6438.803959948,"data":"   \"adapter\": \"runs/qwen3-0.6b/best\",\n"}
+,{"stream_name":"stdout","time":6438.803963951,"data":"   \"out\": \"results/ft-qwen3-0.6b\"\n"}
+,{"stream_name":"stdout","time":6438.803967848,"data":"  },\n"}
+,{"stream_name":"stdout","time":6438.803971572,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803975363,"data":"  \"seconds\": 906\n"}
+,{"stream_name":"stdout","time":6438.803979204,"data":" },\n"}
+,{"stream_name":"stdout","time":6438.803982853,"data":" {\n"}
+,{"stream_name":"stdout","time":6438.803986525,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":6438.803990344,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":6438.803994186,"data":"   \"kind\": \"export\",\n"}
+,{"stream_name":"stdout","time":6438.803998145,"data":"   \"model\": \"Qwen/Qwen3-0.6B\",\n"}
+,{"stream_name":"stdout","time":6438.804004282,"data":"   \"adapter\": \"runs/qwen3-0.6b/best\",\n"}
+,{"stream_name":"stdout","time":6438.804012262,"data":"   \"name\": \"aerojev-qwen3-0.6b\"\n"}
+,{"stream_name":"stdout","time":6438.804028063,"data":"  },\n"}
+,{"stream_name":"stdout","time":6438.804032739,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":6438.804037496,"data":"  \"seconds\": 87\n"}
+,{"stream_name":"stdout","time":6438.804042324,"data":" }\n"}
+,{"stream_name":"stdout","time":6438.804046754,"data":"]\n"}
+,{"stream_name":"stderr","time":6441.072792064,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":6441.072821913,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":6441.352978718,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":6441.353005465,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":6442.265683697,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":6443.445738383,"data":"[NbConvertApp] Writing 306641 bytes to __results__.html\n"}
+]

@@ -1,0 +1,18 @@
+{
+ "id": "sparshnagpal/aerojev-train-cat",
+ "title": "aerojev-train-cat",
+ "code_file": "aerojev-train-cat.py",
+ "language": "python",
+ "kernel_type": "script",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [
+  "sparshnagpal/aerojev-bundle"
+ ],
+ "kernel_sources": [],
+ "competition_sources": [],
+ "model_sources": [],
+ "machine_shape": "NvidiaTeslaT4"
+}

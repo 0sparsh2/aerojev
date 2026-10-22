@@ -1,0 +1,102 @@
+[val] 500 records
+  50/500  2s  retries=0
+  100/500  3s  retries=0
+  150/500  5s  retries=0
+  200/500  6s  retries=0
+  250/500  7s  retries=0
+  300/500  9s  retries=0
+  350/500  10s  retries=0
+  400/500  12s  retries=0
+  450/500  13s  retries=0
+  500/500  15s  retries=0
+[test] 800 records
+  50/800  2s  retries=0
+  100/800  4s  retries=0
+  150/800  5s  retries=0
+  200/800  7s  retries=0
+  250/800  8s  retries=0
+  300/800  10s  retries=0
+  350/800  12s  retries=0
+  400/800  13s  retries=0
+  450/800  15s  retries=0
+  500/800  16s  retries=0
+  550/800  18s  retries=0
+  600/800  20s  retries=0
+  650/800  21s  retries=0
+  700/800  23s  retries=0
+  750/800  25s  retries=0
+  800/800  26s  retries=0
+[gold] 80 records
+  50/80  1s  retries=0
+[injection] 200 records
+  50/200  2s  retries=0
+  100/200  3s  retries=0
+  150/200  5s  retries=0
+  200/200  6s  retries=0
+  50/80  0s  retries=0
+== val: core acc 0.823  macroF1 0.823  exact 0.154  ECE 0.025
+   event_type           acc=0.954 (maj 0.16) f1=0.960
+   commodity            acc=0.890 (maj 0.11) f1=0.893
+   impact_severity      acc=0.618 (maj 0.43) f1=0.605
+   line_stop_risk       acc=0.894 (maj 0.59) f1=0.893
+   recommended_action   acc=0.422 (maj 0.22) f1=0.479
+   export_controlled    acc=0.756 (maj 0.60) f1=0.696
+   counterfeit_suspect  acc=0.994 (maj 0.95) f1=0.968
+   sole_source          acc=1.000 (maj 0.75) f1=1.000
+   delay_bucket         acc=0.882 (maj 0.39) f1=0.911
+   supplier_region      acc=0.814 (maj 0.27) f1=0.802
+   mentions_new_date    acc=1.000 (maj 0.67) f1=1.000
+   military_program     acc=0.780 (maj 0.52) f1=0.767
+   supplier_region      acc=0.814 (held out)
+   mentions_new_date    acc=1.000 (held out)
+   military_program     acc=0.780 (held out)
+== test: core acc 0.817  macroF1 0.810  exact 0.139  ECE 0.029
+   event_type           acc=0.956 (maj 0.16) f1=0.955
+   commodity            acc=0.864 (maj 0.12) f1=0.863
+   impact_severity      acc=0.634 (maj 0.42) f1=0.633
+   line_stop_risk       acc=0.907 (maj 0.58) f1=0.907
+   recommended_action   acc=0.448 (maj 0.19) f1=0.491
+   export_controlled    acc=0.724 (maj 0.64) f1=0.606
+   counterfeit_suspect  acc=0.999 (maj 0.96) f1=0.993
+   sole_source          acc=1.000 (maj 0.73) f1=1.000
+   delay_bucket         acc=0.823 (maj 0.31) f1=0.843
+   supplier_region      acc=0.845 (maj 0.30) f1=0.822
+   mentions_new_date    acc=0.999 (maj 0.65) f1=0.999
+   military_program     acc=0.781 (maj 0.51) f1=0.769
+   supplier_region      acc=0.845 (held out)
+   mentions_new_date    acc=0.999 (held out)
+   military_program     acc=0.781 (held out)
+== gold: core acc 0.869  macroF1 0.864  exact 0.300  ECE 0.049
+   event_type           acc=0.988 (maj 0.16) f1=0.986
+   commodity            acc=0.912 (maj 0.16) f1=0.891
+   impact_severity      acc=0.750 (maj 0.34) f1=0.777
+   line_stop_risk       acc=0.963 (maj 0.60) f1=0.961
+   recommended_action   acc=0.588 (maj 0.26) f1=0.583
+   export_controlled    acc=0.750 (maj 0.82) f1=0.702
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000
+   sole_source          acc=1.000 (maj 0.86) f1=1.000
+   delay_bucket         acc=0.875 (maj 0.38) f1=0.875
+   supplier_region      acc=0.750 (maj 0.61) f1=0.756
+   mentions_new_date    acc=1.000 (maj 0.89) f1=1.000
+   military_program     acc=0.787 (maj 0.82) f1=0.737
+   supplier_region      acc=0.750 (held out)
+   mentions_new_date    acc=1.000 (held out)
+   military_program     acc=0.787 (held out)
+== injection: core acc 0.816  macroF1 0.805  exact 0.125  ECE 0.029
+   event_type           acc=0.945 (maj 0.21) f1=0.950
+   commodity            acc=0.895 (maj 0.15) f1=0.886
+   impact_severity      acc=0.655 (maj 0.47) f1=0.650
+   line_stop_risk       acc=0.870 (maj 0.62) f1=0.863
+   recommended_action   acc=0.415 (maj 0.27) f1=0.469
+   export_controlled    acc=0.680 (maj 0.61) f1=0.541
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000
+   sole_source          acc=1.000 (maj 0.76) f1=1.000
+   delay_bucket         acc=0.885 (maj 0.35) f1=0.886
+   supplier_region      acc=0.820 (maj 0.34) f1=0.818
+   mentions_new_date    acc=1.000 (maj 0.67) f1=1.000
+   military_program     acc=0.765 (maj 0.50) f1=0.752
+   supplier_region      acc=0.820 (held out)
+   mentions_new_date    acc=1.000 (held out)
+   military_program     acc=0.765 (held out)
+permutation: {'choice_agreement_with_canonical': 0.99375, 'choice_accuracy_shuffled': 0.815625}
+api: {'served_by': ['jev-1.14.0'], 'billed_input_tokens_this_run': 2795928, 'retries': 0, 'latency_p50_s': 0.1711869239807129, 'workers': 6}

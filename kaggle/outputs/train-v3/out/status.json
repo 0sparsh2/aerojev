@@ -1,0 +1,32 @@
+[
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/qwen2.5-0.5b",
+   "required": true,
+   "args": [
+    "--epochs",
+    "2"
+   ]
+  },
+  "rc": 1,
+  "seconds": 29
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen3-0.6B",
+   "out": "runs/qwen3-0.6b",
+   "required": true,
+   "args": [
+    "--epochs",
+    "2"
+   ]
+  },
+  "rc": 1,
+  "seconds": 29
+ }
+]
