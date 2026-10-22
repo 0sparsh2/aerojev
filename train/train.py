@@ -125,6 +125,12 @@ def main():
                     choices=["fp16", "bf16", "fp32"])
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--layout", choices=["branch", "catalogue"], default="branch")
+    ap.add_argument("--top-layers", type=int, default=0,
+                    help="LoRA on the top N transformer blocks only (0 = all); backprop then stops at block N "
+                         "from the top, roughly halving CPU training time for N = a third of the blocks")
+    ap.add_argument("--base-dtype", choices=["float32", "float16", "bfloat16"], default="float32",
+                    help="dtype of the frozen base weights (LoRA weights stay fp32); float16 halves GPU memory")
+    ap.add_argument("--grad-checkpointing", action="store_true", help="recompute activations in backward to save memory")
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
     torch.manual_seed(args.seed)
@@ -132,12 +138,17 @@ def main():
 
     tok = AutoTokenizer.from_pretrained(args.model)
     think = think_block(tok)
-    model = AutoModelForCausalLM.from_pretrained(args.model, dtype=torch.float32, attn_implementation="sdpa")
+    model = AutoModelForCausalLM.from_pretrained(args.model, dtype=getattr(torch, args.base_dtype),
+                                                 attn_implementation="sdpa")
     model.config.use_cache = False
+    if args.grad_checkpointing:
+        model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    n_layers = model.config.num_hidden_layers
     cfg = LoraConfig(r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=0.05, bias="none",
                      target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+                     layers_to_transform=list(range(n_layers - args.top_layers, n_layers)) if args.top_layers else None,
                      task_type="CAUSAL_LM")
-    model = get_peft_model(model, cfg)
+    model = get_peft_model(model, cfg)  # adapter weights are created in fp32 whatever the base dtype
     model.print_trainable_parameters()
     model.to(args.device).train()
 

@@ -833,7 +833,9 @@ the 9 core questions for the same gold records, one record at a time, in a warm 
 * **torch fp32, catalogue layout**: the catalogue's KV cache is reused, so only the record is processed
 * **llama.cpp Q8_0 / Q4_K_M, catalogue layout**: quantized weights through llama.cpp (needs `llama-cpp-python`)
 
-Accuracy on the timed records is shown beside each, to show what quantization costs.
+Accuracy on the timed records is shown beside each, to show what quantization costs. The branch row times the
+same weights in the layout they were not trained for, so its accuracy is left blank; it is there to show what
+re-reading every question's text costs.
 """)
 code('''
 from aerojev.engine import GGUFEngine
@@ -855,8 +857,10 @@ def bench(label, engine):
             keys = ["yes", "no"] if q["type"] == "yesno" else [o["key"] for o in q["options"]]
             hits.append(keys[int(torch.as_tensor(lg).argmax())] == r["labels"][q["id"]])
     lat.sort()
+    # accuracy only means something in the layout the model was trained for
+    acc = float(np.mean(hits)) if engine.layout == LAYOUT else float("nan")
     return {"configuration": label, "p50 s/record": lat[len(lat) // 2],
-            "ms/decision": 1000 * np.mean(lat) / len(core_q), "accuracy (these records)": float(np.mean(hits))}
+            "ms/decision": 1000 * np.mean(lat) / len(core_q), "accuracy (these records)": acc}
 
 
 rows = [bench("torch fp32 · branch", DecisionEngine(tok=tok, model=ft_cpu, device="cpu", layout="branch")),

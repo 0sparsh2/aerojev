@@ -1,0 +1,21 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "needs_llama": true,
+   "cmd": "cd {PROJ}/notebooks && jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=-1 aerojev_qwen2.5-0.5b_lora.ipynb --output {OUT}/aerojev_qwen2.5-0.5b_lora.executed.ipynb"
+  },
+  "rc": 0,
+  "seconds": 5285
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "mkdir -p {OUT}/notebook && cp -r {PROJ}/results/notebook/. {OUT}/notebook/ && rm -rf {OUT}/notebook/data"
+  },
+  "rc": 0,
+  "seconds": 0
+ }
+]

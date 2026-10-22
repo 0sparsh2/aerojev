@@ -1,0 +1,21 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "needs_llama": true,
+   "cmd": "{PY} -c \"from huggingface_hub import hf_hub_download as d; d('Qwen/Qwen3-0.6B-GGUF', 'Qwen3-0.6B-Q8_0.gguf', local_dir='models/base')\""
+  },
+  "rc": 0,
+  "seconds": 4
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.latency_suite --profile kaggle --out {OUT}/latency_x86.jsonl"
+  },
+  "rc": 0,
+  "seconds": 9481
+ }
+]

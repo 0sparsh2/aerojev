@@ -6,11 +6,31 @@ Core = the 9 trained questions; accuracy is the mean over questions.
 
 Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core decisions per record, 4 threads (classical models single-threaded). Hosted API latency is the client-measured p50 round trip. `*` = accuracy of the fp32 model (quantized accuracy not measured separately).
 
-| System | Engine | Layout | Gold acc | Gold2 acc | Test acc | api p50 s/record | api ms/decision | Peak RSS MB | File MB |
-|---|---|---|---|---|---|---|---|---|---|
-| Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | + playbook + export definition | 0.918 | – | 0.882 | 0.120 | 10.0 | – | – |
-| Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | + playbook rules | 0.892 | – | 0.853 | 0.175 | 14.6 | – | – |
-| Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | questions as-is | 0.869 | – | 0.817 | 0.171 | 14.3 | – | – |
+| System | Engine | Layout | Gold acc | Gold2 acc | Test acc | api p50 s/record | api ms/decision | x86 p50 s/record | x86 ms/decision | Peak RSS MB | File MB |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-0.6B LoRA (fp32) | torch fp32 | catalogue | 0.935 | 0.921 | 0.954 | – | – | 1.982 | 231.46 | – | – |
+| Qwen3-0.6B LoRA Q8_0 | llama.cpp | catalogue | 0.935* | 0.921* | 0.954* | – | – | 2.834 | 324.25 | – | 639 |
+| Qwen3-0.6B LoRA Q4_K_M | llama.cpp | catalogue | 0.935* | 0.921* | 0.954* | – | – | 2.407 | 284.67 | – | 397 |
+| Qwen2.5-0.5B LoRA (fp32) | torch fp32 | catalogue | 0.932 | 0.933 | 0.944 | – | – | 1.264 | 145.55 | – | – |
+| Qwen2.5-0.5B LoRA Q8_0 | llama.cpp | catalogue | 0.932* | 0.933* | 0.944* | – | – | 1.802 | 214.48 | – | 531 |
+| Qwen2.5-0.5B LoRA Q4_K_M | llama.cpp | catalogue | 0.932* | 0.933* | 0.944* | – | – | 2.263 | 261.33 | – | 398 |
+| Qwen3-0.6B LoRA (fp32) | torch fp32 | branch | 0.929 | 0.921 | 0.933 | – | – | 12.158 | 1362.36 | – | – |
+| Qwen3-0.6B LoRA Q8_0 | llama.cpp | branch | 0.928 | – | 0.933 | – | – | 14.631 | 1646.33 | – | 639 |
+| Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | + playbook + export definition | 0.918 | – | 0.882 | 0.120 | 10.0 | – | – | – | – |
+| Qwen3-0.6B LoRA Q4_K_M | llama.cpp | branch | 0.910 | – | 0.932 | – | – | 12.207 | 1367.62 | – | 397 |
+| Qwen2.5-0.5B LoRA (fp32) | torch fp32 | branch | 0.896 | 0.896 | 0.933 | – | – | 8.640 | 1006.88 | – | – |
+| Qwen2.5-0.5B LoRA Q8_0 | llama.cpp | branch | 0.896* | 0.896* | 0.933* | – | – | 10.625 | 1189.73 | – | 531 |
+| Qwen2.5-0.5B LoRA Q4_K_M | llama.cpp | branch | 0.896* | 0.896* | 0.933* | – | – | 13.864 | 1598.79 | – | 398 |
+| Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | + playbook rules | 0.892 | – | 0.853 | 0.175 | 14.6 | – | – | – | – |
+| Jev (TypeSafe API) (jev-1.14.0) | hosted API (GPU, network) | questions as-is | 0.869 | – | 0.817 | 0.171 | 14.3 | – | – | – | – |
+| tfidf + logistic regression | sklearn | – | 0.797 | 0.806 | 0.852 | – | – | 0.009 | 0.95 | – | – |
+| minilm + logistic regression | sklearn | – | 0.707 | 0.688 | 0.766 | – | – | 0.027 | 3.17 | – | – |
+| Qwen3-1.7B zero-shot | torch fp32 | branch | 0.704 | 0.725 | 0.660 | – | – | 32.025 | 3655.34 | – | – |
+| Qwen3-0.6B zero-shot | torch fp32 | branch | 0.632 | 0.646 | 0.570 | – | – | 11.646 | 1308.19 | – | – |
+| Qwen3-0.6B Q8_0 (base): generate JSON (schema) | llama.cpp generate | – | 0.592 | – | – | – | – | 6.208 | 709.75 | – | 639 |
+| Qwen3-0.6B Q8_0 (base): generate JSON (free) | llama.cpp generate | – | 0.590 | – | – | – | – | 6.932 | 817.58 | – | 639 |
+| Qwen3.5-0.8B zero-shot | torch fp32 | branch | 0.518 | 0.512 | 0.568 | – | – | 27.313 | 3166.52 | – | – |
+| Qwen2.5-0.5B-Instruct zero-shot | torch fp32 | branch | 0.508 | 0.532 | 0.445 | – | – | 8.517 | 974.34 | – | – |
 
 ## Accuracy (core questions)
 
@@ -22,8 +42,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B | zero-shot readout | branch (unpacked) | 0.518 | 0.472 | 0.568 | 0.570 | 0.000 | 0.086→0.086 |
 | Qwen2.5-0.5B-Instruct | LoRA decision-trained | catalogue | 0.932 | 0.922 | 0.944 | 0.941 | 0.525 | 0.041→0.032 |
 | Qwen3-0.6B | LoRA decision-trained | catalogue | 0.935 | 0.930 | 0.954 | 0.951 | 0.613 | 0.049→0.042 |
+| Qwen/Qwen3-0.6B | ? | catalogue | 0.950 | 0.945 | 0.959 | 0.958 | 0.650 | 0.035→0.036 |
 | Qwen2.5-0.5B-Instruct | LoRA decision-trained | branch | 0.896 | 0.879 | 0.933 | 0.911 | 0.475 | 0.068→0.070 |
 | Qwen3-0.6B | LoRA decision-trained | branch | 0.929 | 0.921 | 0.933 | 0.932 | 0.550 | 0.049→0.044 |
+| Qwen/Qwen3-0.6B | gguf | branch | 0.910 | 0.899 | 0.932 | – | 0.487 | 0.058→0.054 |
 | Qwen/Qwen3-0.6B | gguf | branch | 0.928 | 0.919 | 0.933 | – | 0.537 | 0.050→0.044 |
 | Jev (TypeSafe API) | hosted, zero-shot | questions as-is | 0.869 | 0.864 | 0.817 | 0.816 | 0.300 | 0.049→0.077 |
 | Jev (TypeSafe API) | hosted, zero-shot | + playbook + export definition | 0.918 | 0.917 | 0.882 | 0.893 | 0.500 | 0.040→0.036 |
@@ -43,8 +65,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.68 | 0.80 | 0.28 | 0.53 | 0.39 | 0.17 | 0.70 | 0.88 | 0.25 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.95 | 0.93 | 0.78 | 0.96 | 0.93 | 0.99 | 1.00 | 1.00 | 0.86 |
 | Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.94 | 0.95 | 0.80 | 0.95 | 0.91 | 0.99 | 1.00 | 1.00 | 0.88 |
+| Qwen/Qwen3-0.6B (?, catalogue) | 0.93 | 0.96 | 0.82 | 1.00 | 0.95 | 1.00 | 1.00 | 1.00 | 0.89 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.88 | 0.95 | 0.70 | 0.88 | 0.81 | 1.00 | 0.99 | 1.00 | 0.86 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.89 | 0.95 | 0.86 | 0.95 | 0.89 | 1.00 | 1.00 | 1.00 | 0.82 |
+| Qwen/Qwen3-0.6B (gguf, branch) | 0.86 | 0.95 | 0.76 | 0.93 | 0.89 | 1.00 | 1.00 | 1.00 | 0.80 |
 | Qwen/Qwen3-0.6B (gguf, branch) | 0.88 | 0.95 | 0.86 | 0.95 | 0.89 | 1.00 | 1.00 | 1.00 | 0.82 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.99 | 0.91 | 0.75 | 0.96 | 0.59 | 0.75 | 1.00 | 1.00 | 0.88 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 0.97 | 0.91 | 0.79 | 0.97 | 0.84 | 1.00 | 1.00 | 1.00 | 0.78 |
@@ -62,8 +86,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.38 | 0.89 | 0.51 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.53 | 0.61 | 0.84 |
 | Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.69 | 0.78 | 0.85 |
+| Qwen/Qwen3-0.6B (?, catalogue) | 0.57 | 0.90 | 0.94 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.81 | 0.90 | 0.82 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.75 | 0.88 | 0.84 |
+| Qwen/Qwen3-0.6B (gguf, branch) | 0.79 | 0.88 | 0.84 |
 | Qwen/Qwen3-0.6B (gguf, branch) | 0.78 | 0.88 | 0.84 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.75 | 1.00 | 0.79 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 0.76 | 1.00 | 0.80 |
@@ -79,8 +105,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.662 | 0.556 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.831 | 0.794 |
 | Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.894 | 0.894 |
+| Qwen/Qwen3-0.6B (?, catalogue) | 0.866 | 0.869 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.866 | 0.828 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.938 | 0.909 |
+| Qwen/Qwen3-0.6B (gguf, branch) | 0.944 | 0.897 |
 | Qwen/Qwen3-0.6B (gguf, branch) | 0.941 | 0.909 |
 | Jev (TypeSafe API) (hosted, zero-shot, questions as-is) | 0.994 | 0.816 |
 | Jev (TypeSafe API) (hosted, zero-shot, + playbook + export definition) | 1.000 | 0.872 |
@@ -102,6 +130,7 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 
 | Run | best val acc | steps | records | minutes |
 |---|---|---|---|---|
+| qwen3-0.6b-cat-v2 | 0.980 | 2500 | 20000 | 178 |
 | qwen3-0.6b-cat | 0.976 | 1500 | 12000 | 114 |
 | qwen2.5-0.5b-cat | 0.971 | 1500 | 12000 | 67 |
 | qwen3-0.6b | 0.966 | 1500 | 12000 | 89 |

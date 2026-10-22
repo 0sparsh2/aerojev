@@ -1,0 +1,110 @@
+[
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "results/zs-qwen2.5-0.5b-gold2",
+   "sets": "gold2"
+  },
+  "rc": 0,
+  "seconds": 45
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-0.6B",
+   "out": "results/zs-qwen3-0.6b-gold2",
+   "sets": "gold2"
+  },
+  "rc": 0,
+  "seconds": 36
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3.5-0.8B",
+   "out": "results/zs-qwen3.5-0.8b-gold2",
+   "sets": "gold2",
+   "mode": "unpacked"
+  },
+  "rc": 0,
+  "seconds": 93
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-1.7B",
+   "out": "results/zs-qwen3-1.7b-gold2",
+   "sets": "gold2"
+  },
+  "rc": 0,
+  "seconds": 102
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen3-1.7B",
+   "out": "runs/qwen3-1.7b-cat-v2",
+   "required": true,
+   "args": [
+    "--epochs",
+    "1",
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2"
+   ]
+  },
+  "rc": 1,
+  "seconds": 38
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen3-0.6B",
+   "out": "runs/qwen3-0.6b-cat-v2",
+   "required": true,
+   "args": [
+    "--epochs",
+    "2",
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2"
+   ]
+  },
+  "rc": 0,
+  "seconds": 10715
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": "runs/qwen3-0.6b-cat-v2/best",
+   "out": "results/ft-qwen3-0.6b-cat-v2",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 349
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "export",
+   "model": "Qwen/Qwen3-0.6B",
+   "adapter": "runs/qwen3-0.6b-cat-v2/best",
+   "name": "aerojev-qwen3-0.6b-cat-v2"
+  },
+  "rc": 0,
+  "seconds": 326
+ }
+]

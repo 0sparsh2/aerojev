@@ -1,0 +1,142 @@
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen2.5-0.5B-Instruct --sets gold2 --out /kaggle/working/out/results/zs-qwen2.5-0.5b-gold2 --dtype float32
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+model=Qwen/Qwen2.5-0.5B-Instruct adapter=None mode=tree device=cuda
+[gold2] 48 records
+== gold2: core acc 0.532  macroF1 0.376  exact 0.000  ECE 0.088  0.29s/rec
+   event_type           acc=0.271 (maj 0.17) f1=0.136
+   commodity            acc=0.354 (maj 0.21) f1=0.300
+   impact_severity      acc=0.375 (maj 0.29) f1=0.182 mae=0.85
+   line_stop_risk       acc=0.625 (maj 0.62) f1=0.385 auroc=0.575
+   recommended_action   acc=0.146 (maj 0.21) f1=0.074
+   export_controlled    acc=0.896 (maj 0.88) f1=0.615 auroc=0.996
+   counterfeit_suspect  acc=0.875 (maj 0.96) f1=0.665 auroc=1.000
+   sole_source          acc=0.917 (maj 0.88) f1=0.833 auroc=0.952
+   delay_bucket         acc=0.333 (maj 0.38) f1=0.199 mae=1.11
+   supplier_region      acc=0.854 (maj 0.75) f1=0.561
+   mentions_new_date    acc=0.625 (maj 0.92) f1=0.500 auroc=0.852
+   military_program     acc=0.896 (maj 0.88) f1=0.693 auroc=0.817
+[exit 0 after 45s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen3-0.6B --sets gold2 --out /kaggle/working/out/results/zs-qwen3-0.6b-gold2 --dtype float32
+model=Qwen/Qwen3-0.6B adapter=None mode=tree device=cuda
+[gold2] 48 records
+== gold2: core acc 0.646  macroF1 0.516  exact 0.000  ECE 0.220  0.47s/rec
+   event_type           acc=0.625 (maj 0.17) f1=0.641
+   commodity            acc=0.729 (maj 0.21) f1=0.671
+   impact_severity      acc=0.354 (maj 0.29) f1=0.266 mae=1.18
+   line_stop_risk       acc=0.625 (maj 0.62) f1=0.385 auroc=0.661
+   recommended_action   acc=0.333 (maj 0.21) f1=0.366
+   export_controlled    acc=0.875 (maj 0.88) f1=0.467 auroc=1.000
+   counterfeit_suspect  acc=0.979 (maj 0.96) f1=0.828 auroc=1.000
+   sole_source          acc=0.896 (maj 0.88) f1=0.693 auroc=0.905
+   delay_bucket         acc=0.396 (maj 0.38) f1=0.328 mae=1.30
+   supplier_region      acc=0.833 (maj 0.75) f1=0.597
+   mentions_new_date    acc=0.958 (maj 0.92) f1=0.822 auroc=0.795
+   military_program     acc=0.896 (maj 0.88) f1=0.615 auroc=0.952
+[exit 0 after 36s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen3.5-0.8B --sets gold2 --out /kaggle/working/out/results/zs-qwen3.5-0.8b-gold2 --dtype float32 --mode unpacked
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+model=Qwen/Qwen3.5-0.8B adapter=None mode=unpacked device=cuda
+[gold2] 48 records
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+== gold2: core acc 0.512  macroF1 0.451  exact 0.000  ECE 0.092  1.30s/rec
+   event_type           acc=0.625 (maj 0.17) f1=0.626
+   commodity            acc=0.896 (maj 0.21) f1=0.824
+   impact_severity      acc=0.375 (maj 0.29) f1=0.257 mae=0.89
+   line_stop_risk       acc=0.438 (maj 0.62) f1=0.425 auroc=0.594
+   recommended_action   acc=0.375 (maj 0.21) f1=0.355
+   export_controlled    acc=0.146 (maj 0.88) f1=0.136 auroc=0.960
+   counterfeit_suspect  acc=0.625 (maj 0.96) f1=0.469 auroc=0.978
+   sole_source          acc=0.812 (maj 0.88) f1=0.726 auroc=1.000
+   delay_bucket         acc=0.312 (maj 0.38) f1=0.242 mae=1.10
+   supplier_region      acc=0.250 (maj 0.75) f1=0.333
+   mentions_new_date    acc=0.896 (maj 0.92) f1=0.778 auroc=0.966
+   military_program     acc=0.417 (maj 0.88) f1=0.400 auroc=0.873
+[exit 0 after 93s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen3-1.7B --sets gold2 --out /kaggle/working/out/results/zs-qwen3-1.7b-gold2 --dtype float32
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+model=Qwen/Qwen3-1.7B adapter=None mode=tree device=cuda
+[gold2] 48 records
+== gold2: core acc 0.725  macroF1 0.685  exact 0.083  ECE 0.243  1.23s/rec
+   event_type           acc=0.708 (maj 0.17) f1=0.701
+   commodity            acc=0.812 (maj 0.21) f1=0.710
+   impact_severity      acc=0.562 (maj 0.29) f1=0.608 mae=0.56
+   line_stop_risk       acc=0.708 (maj 0.62) f1=0.700 auroc=0.789
+   recommended_action   acc=0.458 (maj 0.21) f1=0.464
+   export_controlled    acc=0.958 (maj 0.88) f1=0.888 auroc=1.000
+   counterfeit_suspect  acc=0.979 (maj 0.96) f1=0.895 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.333 (maj 0.38) f1=0.199 mae=1.43
+   supplier_region      acc=0.875 (maj 0.75) f1=0.785
+   mentions_new_date    acc=0.958 (maj 0.92) f1=0.822 auroc=0.955
+   military_program     acc=0.938 (maj 0.88) f1=0.846 auroc=0.921
+[exit 0 after 102s]
+
+$ /usr/bin/python3 -m train.train --model Qwen/Qwen3-1.7B --out /kaggle/working/out/runs/qwen3-1.7b-cat-v2 --epochs 1 --layout catalogue --data data/processed_v2
+trainable params: 17,432,576 || all params: 1,738,007,552 || trainable%: 1.0030
+step 0 val@50 acc=0.573
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/aerojev/proj/train/train.py", line 214, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/aerojev/proj/train/train.py", line 172, in main
+    loss, correct = record_loss(model, p, args.device, args.ordinal_weight)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/aerojev/proj/train/train.py", line 63, in record_loss
+    out = model(
+          ~~~~~^
+        input_ids=p["input_ids"][None].to(device),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        logits_to_keep=torch.tensor(p["readouts"], device=device),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).logits[0].float()
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/peft/peft_model.py", line 2120, in forward
+    return self.base_model(
+           ~~~~~~~~~~~~~~~^
+        input_ids=input_ids,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/peft/tuners/tuners_utils.py", line 359, in forward
+    return self.model(*args, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/utils/generic.py", line 943, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/qwen3/modeling_qwen3.py", line 482, in forward
+    logits = self.lm_head(hidden_states[:, slice_indices, :])
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 594.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 314.81 MiB is free. Including non-PyTorch memory, this process has 14.25 GiB memory in use. Of the allocated memory 13.16 GiB is allocated by PyTorch, and 976.59 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[exit 1 after 38s]

@@ -88,6 +88,26 @@ KERNELS = {
               for base, run in [("qwen3-0.6b", "qwen3-0.6b"), ("qwen2.5-0.5b", "qwen2.5-0.5b"),
                                 ("qwen3-0.6b", "qwen3-0.6b-cat"), ("qwen2.5-0.5b", "qwen2.5-0.5b-cat")]],
     },
+    # 1.7B scale point (fp16 base weights + checkpointing to fit a 16 GB T4) and the CPU-friendly
+    # Qwen2.5-0.5B variants: same recipe as the notebook except LoRA depth and/or number of records
+    "train-extra": {
+        "0": [{"kind": "train", "model": MODELS["qwen3-1.7b"], "out": "runs/qwen3-1.7b-cat-v2", "required": True,
+               "args": ["--epochs", "1", "--layout", "catalogue", "--data", "data/processed_v2",
+                        "--base-dtype", "float16", "--grad-checkpointing"]},
+              {"kind": "eval", "model": MODELS["qwen3-1.7b"], "adapter": "runs/qwen3-1.7b-cat-v2/best",
+               "out": "results/ft-qwen3-1.7b-cat-v2", "layout": "catalogue", "data": "data/processed_v2",
+               "sets": "val,test,test_v2,gold,gold2,injection"},
+              {"kind": "export", "model": MODELS["qwen3-1.7b"], "adapter": "runs/qwen3-1.7b-cat-v2/best",
+               "name": "aerojev-qwen3-1.7b-cat-v2"}],
+        "1": [job for run, extra in [("qwen2.5-0.5b-cat-v2-top8", ["--epochs", "1.2", "--top-layers", "8"]),
+                                     ("qwen2.5-0.5b-cat-v2-4800", ["--epochs", "0.48"]),
+                                     ("qwen2.5-0.5b-cat-v2-top8-4800", ["--epochs", "0.48", "--top-layers", "8"])]
+              for job in [{"kind": "train", "model": MODELS["qwen2.5-0.5b"], "out": f"runs/{run}",
+                           "args": ["--layout", "catalogue", "--data", "data/processed_v2"] + extra},
+                          {"kind": "eval", "model": MODELS["qwen2.5-0.5b"], "adapter": f"runs/{run}/best",
+                           "out": f"results/ft-{run}", "layout": "catalogue", "data": "data/processed_v2",
+                           "sets": "val,test,test_v2,gold,gold2,injection"}]],
+    },
     # execute the end-to-end notebook unchanged (it has no platform-specific code) and keep the executed copy
     "notebook-exec": {
         "0": [{"kind": "cmd", "needs_llama": True,

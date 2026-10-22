@@ -1,0 +1,24 @@
+[{"stream_name":"stdout","time":5486.028673884,"data":"[\n"}
+,{"stream_name":"stdout","time":5486.028715944,"data":" {\n"}
+,{"stream_name":"stdout","time":5486.028719586,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":5486.028721986,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":5486.028724169,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":5486.028726544,"data":"   \"needs_llama\": true,\n"}
+,{"stream_name":"stdout","time":5486.028728828,"data":"   \"cmd\": \"cd {PROJ}/notebooks \u0026\u0026 jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=-1 aerojev_qwen2.5-0.5b_lora.ipynb --output {OUT}/aerojev_qwen2.5-0.5b_lora.executed.ipynb\"\n"}
+,{"stream_name":"stdout","time":5486.028732435,"data":"  },\n"}
+,{"stream_name":"stdout","time":5486.028734513,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":5486.028736641,"data":"  \"seconds\": 5285\n"}
+,{"stream_name":"stdout","time":5486.028738819,"data":" },\n"}
+,{"stream_name":"stdout","time":5486.028740956,"data":" {\n"}
+,{"stream_name":"stdout","time":5486.028743042,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":5486.028745151,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":5486.028747888,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":5486.028751214,"data":"   \"cmd\": \"mkdir -p {OUT}/notebook \u0026\u0026 cp -r {PROJ}/results/notebook/. {OUT}/notebook/ \u0026\u0026 rm -rf {OUT}/notebook/data\"\n"}
+,{"stream_name":"stdout","time":5486.028755432,"data":"  },\n"}
+,{"stream_name":"stdout","time":5486.028757769,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":5486.028759881,"data":"  \"seconds\": 0\n"}
+,{"stream_name":"stdout","time":5486.028762048,"data":" }\n"}
+,{"stream_name":"stdout","time":5486.028764077,"data":"]\n"}
+,{"stream_name":"stderr","time":5488.280521479,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":5488.808324707,"data":"[NbConvertApp] Writing 311844 bytes to __results__.html\n"}
+]

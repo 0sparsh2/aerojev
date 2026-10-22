@@ -1,0 +1,88 @@
+{
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "layout": "catalogue",
+ "fast_mode": false,
+ "config": {
+  "n_train": 10000,
+  "n_val": 500,
+  "n_test": 800,
+  "epochs": 1.2,
+  "lr": 0.0002,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "grad_accum": 8,
+  "warmup": 50,
+  "min_q": 5,
+  "max_q": 9,
+  "ordinal_weight": 0.5,
+  "eval_every": 150,
+  "val_limit": 150,
+  "eval_limit": null,
+  "bench_records": 40
+ },
+ "temperatures": {
+  "choice": 1.1,
+  "score": 1.0,
+  "yesno": 1.1
+ },
+ "core_accuracy": {
+  "gold": {
+   "untrained": 0.20416666666666666,
+   "TF-IDF + LR": 0.8236111111111111,
+   "LoRA decision-trained": 0.9236111111111112
+  },
+  "gold2": {
+   "untrained": 0.18055555555555555,
+   "TF-IDF + LR": 0.8333333333333335,
+   "LoRA decision-trained": 0.9120370370370369
+  },
+  "injection": {
+   "untrained": null,
+   "TF-IDF + LR": null,
+   "LoRA decision-trained": 0.9427777777777779
+  },
+  "test": {
+   "untrained": 0.25194444444444447,
+   "TF-IDF + LR": 0.8723611111111111,
+   "LoRA decision-trained": 0.9481944444444446
+  },
+  "test_v2": {
+   "untrained": null,
+   "TF-IDF + LR": null,
+   "LoRA decision-trained": 0.9458333333333333
+  },
+  "val": {
+   "untrained": null,
+   "TF-IDF + LR": null,
+   "LoRA decision-trained": 0.9646666666666667
+  }
+ },
+ "latency_cpu": [
+  {
+   "configuration": "torch fp32 \u00b7 branch",
+   "p50 s/record": 4.741364002227783,
+   "ms/decision": 529.9782964918348,
+   "accuracy (these records)": 0.5555555555555556
+  },
+  {
+   "configuration": "torch fp32 \u00b7 catalogue",
+   "p50 s/record": 0.8166112899780273,
+   "ms/decision": 96.5385701921251,
+   "accuracy (these records)": 0.9194444444444444
+  },
+  {
+   "configuration": "llama.cpp Q8_0 \u00b7 catalogue",
+   "p50 s/record": 1.4459307193756104,
+   "ms/decision": 170.91625465287103,
+   "accuracy (these records)": 0.9194444444444444
+  },
+  {
+   "configuration": "llama.cpp Q4_K_M \u00b7 catalogue",
+   "p50 s/record": 1.4887239933013916,
+   "ms/decision": 174.63631961080762,
+   "accuracy (these records)": 0.925
+  }
+ ],
+ "cpu_cores": 4
+}

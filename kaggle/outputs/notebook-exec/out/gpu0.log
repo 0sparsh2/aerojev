@@ -1,0 +1,32 @@
+
+$ cd /tmp/aerojev/proj/notebooks && jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=-1 aerojev_qwen2.5-0.5b_lora.ipynb --output /kaggle/working/out/aerojev_qwen2.5-0.5b_lora.executed.ipynb
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook aerojev_qwen2.5-0.5b_lora.ipynb to notebook
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+0.00s - Debugger warning: It seems that frozen modules are being used, which may
+0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+0.00s - to python to disable frozen modules.
+0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+Cloning into '/root/.cache/aerojev/llama.cpp'...
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 93.4 MB/s eta 0:00:00
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+bigframes 2.48.0 requires google-cloud-bigquery-storage<3.0.0,>=2.30.0, which is not installed.
+ydata-profiling 4.18.4 requires numpy<2.4,>=1.22, but you have numpy 2.5.4 which is incompatible.
+google-colab 1.0.0 requires jupyter-server==2.20.0, but you have jupyter-server 2.12.5 which is incompatible.
+google-colab 1.0.0 requires pandas==2.2.3, but you have pandas 2.3.3 which is incompatible.
+google-colab 1.0.0 requires requests==2.32.4, but you have requests 2.34.2 which is incompatible.
+dopamine-rl 4.1.2 requires gym<=0.25.2, but you have gym 0.26.2 which is incompatible.
+moviepy 1.0.3 requires decorator<5.0,>=4.0.2, but you have decorator 5.3.1 which is incompatible.
+numba 0.61.2 requires numpy<2.3,>=1.24, but you have numpy 2.5.4 which is incompatible.
+CMAKE_BUILD_TYPE=Release
+[NbConvertApp] Writing 478452 bytes to /kaggle/working/out/aerojev_qwen2.5-0.5b_lora.executed.ipynb
+[exit 0 after 5285s]
+
+$ mkdir -p /kaggle/working/out/notebook && cp -r /tmp/aerojev/proj/results/notebook/. /kaggle/working/out/notebook/ && rm -rf /kaggle/working/out/notebook/data
+[exit 0 after 0s]

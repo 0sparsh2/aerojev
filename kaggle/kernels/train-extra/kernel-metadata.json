@@ -1,0 +1,18 @@
+{
+ "id": "sparshnagpal/aerojev-train-extra",
+ "title": "aerojev-train-extra",
+ "code_file": "aerojev-train-extra.py",
+ "language": "python",
+ "kernel_type": "script",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [
+  "sparshnagpal/aerojev-bundle"
+ ],
+ "kernel_sources": [],
+ "competition_sources": [],
+ "model_sources": [],
+ "machine_shape": "NvidiaTeslaT4"
+}
