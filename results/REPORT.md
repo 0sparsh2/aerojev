@@ -34,6 +34,12 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3-0.6B Q8_0 (base): generate JSON (free) | llama.cpp generate | – | 0.590 | – | – | – | – | 1.730 | 199.47 | 6.932 | 817.58 | 1274 | 639 |
 | Qwen3.5-0.8B zero-shot | torch fp32 | branch | 0.518 | 0.512 | 0.568 | – | – | – | – | 27.313 | 3166.52 | – | – |
 | Qwen2.5-0.5B-Instruct zero-shot | torch fp32 | branch | 0.508 | 0.532 | 0.445 | – | – | – | – | 8.517 | 974.34 | – | – |
+| record of ~110 tokens | llama.cpp | – | –* | – | – | – | – | 0.615 | 67.71 | – | – | 1882 | – |
+| record of ~326 tokens | llama.cpp | – | –* | – | – | – | – | 1.131 | 126.72 | – | – | 1882 | – |
+| record of ~650 tokens | llama.cpp | – | –* | – | – | – | – | 2.239 | 248.74 | – | – | 1882 | – |
+| record of ~1244 tokens | llama.cpp | – | –* | – | – | – | – | 4.701 | 527.4 | – | – | 1882 | – |
+| record of ~2000 tokens | llama.cpp | – | –* | – | – | – | – | 8.188 | 906.63 | – | – | 1882 | – |
+| record of ~5024 tokens | llama.cpp | – | –* | – | – | – | – | 9.018 | 995.63 | – | – | 1882 | – |
 
 ## Accuracy (core questions)
 
@@ -45,6 +51,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B | zero-shot readout | branch (unpacked) | 0.518 | 0.472 | 0.568 | 0.570 | 0.000 | 0.086→0.086 |
 | Qwen2.5-0.5B-Instruct | LoRA decision-trained | catalogue | 0.932 | 0.922 | 0.944 | 0.941 | 0.525 | 0.041→0.032 |
 | Qwen3-0.6B | LoRA decision-trained | catalogue | 0.935 | 0.930 | 0.954 | 0.951 | 0.613 | 0.049→0.042 |
+| Qwen/Qwen2.5-0.5B-Instruct | ? | catalogue | 0.881 | 0.875 | 0.908 | 0.914 | 0.312 | 0.032→0.037 |
+| Qwen/Qwen2.5-0.5B-Instruct | ? | catalogue | 0.567 | 0.488 | 0.567 | 0.555 | 0.000 | 0.042→0.042 |
+| Qwen/Qwen2.5-0.5B-Instruct | ? | catalogue | 0.597 | 0.558 | 0.616 | 0.608 | 0.000 | 0.049→0.045 |
+| Qwen/Qwen3-1.7B | ? | catalogue | 0.946 | 0.942 | 0.965 | 0.958 | 0.600 | 0.034→0.032 |
 | Qwen/Qwen3-0.6B | ? | catalogue | 0.950 | 0.945 | 0.959 | 0.958 | 0.650 | 0.035→0.036 |
 | Qwen2.5-0.5B-Instruct | LoRA decision-trained | branch | 0.896 | 0.879 | 0.933 | 0.911 | 0.475 | 0.068→0.070 |
 | Qwen3-0.6B | LoRA decision-trained | branch | 0.929 | 0.921 | 0.933 | 0.932 | 0.550 | 0.049→0.044 |
@@ -74,6 +84,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.68 | 0.80 | 0.28 | 0.53 | 0.39 | 0.17 | 0.70 | 0.88 | 0.25 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.95 | 0.93 | 0.78 | 0.96 | 0.93 | 0.99 | 1.00 | 1.00 | 0.86 |
 | Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.94 | 0.95 | 0.80 | 0.95 | 0.91 | 0.99 | 1.00 | 1.00 | 0.88 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.94 | 0.96 | 0.70 | 0.84 | 0.75 | 1.00 | 1.00 | 1.00 | 0.74 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.17 | 0.06 | 0.50 | 0.70 | 0.24 | 0.95 | 0.99 | 0.95 | 0.54 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.11 | 0.10 | 0.70 | 0.78 | 0.10 | 0.99 | 0.99 | 1.00 | 0.61 |
+| Qwen/Qwen3-1.7B (?, catalogue) | 0.99 | 0.95 | 0.82 | 0.97 | 0.94 | 0.99 | 1.00 | 1.00 | 0.85 |
 | Qwen/Qwen3-0.6B (?, catalogue) | 0.93 | 0.96 | 0.82 | 1.00 | 0.95 | 1.00 | 1.00 | 1.00 | 0.89 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.88 | 0.95 | 0.70 | 0.88 | 0.81 | 1.00 | 0.99 | 1.00 | 0.86 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.89 | 0.95 | 0.86 | 0.95 | 0.89 | 1.00 | 1.00 | 1.00 | 0.82 |
@@ -101,6 +115,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.38 | 0.89 | 0.51 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.53 | 0.61 | 0.84 |
 | Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.69 | 0.78 | 0.85 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.38 | 0.81 | 0.82 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.11 | 0.85 | 0.85 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.38 | 0.78 | 0.81 |
+| Qwen/Qwen3-1.7B (?, catalogue) | 0.84 | 0.80 | 0.82 |
 | Qwen/Qwen3-0.6B (?, catalogue) | 0.57 | 0.90 | 0.94 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.81 | 0.90 | 0.82 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.75 | 0.88 | 0.84 |
@@ -126,6 +144,10 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | Qwen3.5-0.8B (zero-shot readout, branch (unpacked)) | 0.662 | 0.556 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, catalogue) | 0.831 | 0.794 |
 | Qwen3-0.6B (LoRA decision-trained, catalogue) | 0.894 | 0.894 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.778 | 0.738 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.116 | 0.166 |
+| Qwen/Qwen2.5-0.5B-Instruct (?, catalogue) | 0.131 | 0.128 |
+| Qwen/Qwen3-1.7B (?, catalogue) | 0.953 | 0.925 |
 | Qwen/Qwen3-0.6B (?, catalogue) | 0.866 | 0.869 |
 | Qwen2.5-0.5B-Instruct (LoRA decision-trained, branch) | 0.866 | 0.828 |
 | Qwen3-0.6B (LoRA decision-trained, branch) | 0.938 | 0.909 |
@@ -156,3 +178,7 @@ Same protocol everywhere: 40 gold records, one at a time, warm process, 9 core d
 | qwen2.5-0.5b-cat | 0.971 | 1500 | 12000 | 67 |
 | qwen3-0.6b | 0.966 | 1500 | 12000 | 89 |
 | qwen2.5-0.5b | 0.960 | 1500 | 12000 | 55 |
+| qwen2.5-0.5b-cat-v2-top8-4800 | 0.584 | 600 | 4800 | 15 |
+| qwen2.5-0.5b-cat-v2-4800 | 0.919 | 600 | 4800 | 27 |
+| qwen2.5-0.5b-cat-v2-top8 | 0.642 | 1500 | 12000 | 37 |
+| qwen3-1.7b-cat-v2 | 0.979 | 1250 | 10000 | 188 |

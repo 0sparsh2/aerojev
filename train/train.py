@@ -126,8 +126,9 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--layout", choices=["branch", "catalogue"], default="branch")
     ap.add_argument("--top-layers", type=int, default=0,
-                    help="LoRA on the top N transformer blocks only (0 = all); backprop then stops at block N "
-                         "from the top, roughly halving CPU training time for N = a third of the blocks")
+                    help="LoRA on the top N transformer blocks only (0 = all). Backprop then stops early (about 2x "
+                         "faster on a CPU for N = a third of the blocks), but in our tests accuracy fell by ~30 points "
+                         "(Qwen2.5-0.5B, catalogue layout): not recommended")
     ap.add_argument("--base-dtype", choices=["float32", "float16", "bfloat16"], default="float32",
                     help="dtype of the frozen base weights (LoRA weights stay fp32); float16 halves GPU memory")
     ap.add_argument("--grad-checkpointing", action="store_true", help="recompute activations in backward to save memory")

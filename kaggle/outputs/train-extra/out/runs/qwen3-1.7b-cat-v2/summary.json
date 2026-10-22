@@ -1,0 +1,31 @@
+{
+ "best_val_acc": 0.9792592592592593,
+ "steps": 1250,
+ "records": 10000,
+ "elapsed_s": 11263.79536318779,
+ "args": {
+  "model": "Qwen/Qwen3-1.7B",
+  "out": "/kaggle/working/out/runs/qwen3-1.7b-cat-v2",
+  "data": "data/processed_v2",
+  "epochs": 1.0,
+  "lr": 0.0002,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "grad_accum": 8,
+  "min_q": 5,
+  "max_q": 9,
+  "ordinal_weight": 0.5,
+  "warmup": 50,
+  "eval_every": 150,
+  "val_limit": 150,
+  "limit": null,
+  "max_steps": null,
+  "device": "cuda",
+  "precision": "fp16",
+  "seed": 0,
+  "layout": "catalogue",
+  "top_layers": 0,
+  "base_dtype": "float16",
+  "grad_checkpointing": true
+ }
+}

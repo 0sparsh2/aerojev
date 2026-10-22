@@ -215,8 +215,9 @@ four threads): an Apple M4 laptop and a 4-vCPU x86 cloud VM. Full tables: `resul
   the M4 and ~6× on the x86 VM, and it was also more accurate than the branch layout.
 * **Quantization is nearly free for accuracy** (Q8_0 matches fp32; Q4_K_M costs about a point) and cuts memory ~3×, but
   it does not make decisions faster than torch fp32 on these CPUs.
-* **Training on a CPU is possible but slow**: 4.4 s per training record on the M4 (the full 12,000-record recipe ≈ 14.5 h;
-  LoRA on the top 8 blocks ≈ 2×  faster), against ~70 min on one T4 GPU (`scripts/bench_train_cpu.py`).
+* **Training on a CPU is possible but slow**: 4.4 s per training record on the M4 and 20 s on a 2-core x86 VM (the full
+  12,000-record recipe ≈ 15 h and ≈ 3 days), against ~70 min on one T4 GPU. Training fewer records works (4,800 records:
+  gold 0.88); LoRA on only the top blocks is 2× faster but loses ~30 points. See `docs/TRAIN_ON_CPU.md`.
 
 ## Appendix: running the GPU steps on Kaggle (optional)
 
