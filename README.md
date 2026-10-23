@@ -173,6 +173,12 @@ Regenerate it with `python scripts/build_notebook.py`.
 * **On a CUDA GPU** it runs the full recipe (about an hour on a T4-class card).
 * **On a CPU only** it switches to FAST mode, the same steps with a few dozen records each.
 * Overrides: `AEROJEV_NB_MODEL` (another base model), `AEROJEV_NB_FAST=0|1`, `AEROJEV_NB_EXPORT=0`
+
+`notebooks/aerojev_qwen2.5-0.5b_nocat.ipynb` (Markdown copy alongside) is the catalogue-free recipe: no question
+list in the prompt, all 9 questions per record, 8 records per batch on a shared prefix. It needs a sixth of the
+training compute per record, so a full run takes ~9 min on a T4, or an estimated ~6 h (6,000 records) to ~12 h
+(12,000) on a 2-core CPU. The trade-off: it only answers its 9 trained questions. Measured results, including the run-to-run
+spread at 6,000 records, are in `results/ladder/ladder.md`. Regenerate it with `python scripts/build_notebook_nocat.py`.
   (skip the llama.cpp build), `AEROJEV_ROOT` (repo location if Jupyter starts elsewhere).
 
 ## Layout
