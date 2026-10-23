@@ -1,4 +1,4 @@
-"""CPU latency against record length, plus start-up time, for one GGUF model (catalogue layout).
+"""CPU latency against record length, plus start-up time, for one GGUF model (catalogue or nocat layout).
 
   python -m eval.bench_length --gguf models/aerojev-qwen3-0.6b-cat-v2-q8_0.gguf --tokenizer Qwen/Qwen3-0.6B
 
@@ -28,12 +28,13 @@ def main():
     ap.add_argument("--gguf", required=True)
     ap.add_argument("--tokenizer", required=True)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--layout", choices=["catalogue", "nocat"], default="catalogue")
     ap.add_argument("--runs", type=int, default=5)
     ap.add_argument("--out", default="results/latency_length.jsonl")
     args = ap.parse_args()
 
     t0 = time.time()
-    eng = GGUFEngine(args.gguf, args.tokenizer, n_threads=args.threads, layout="catalogue")
+    eng = GGUFEngine(args.gguf, args.tokenizer, n_threads=args.threads, layout=args.layout)
     startup = time.time() - t0  # model load + tokenizer + the catalogue's KV cache
     qds = [materialize(q)[0] for q in schema.TRAIN_QUESTIONS]
     print(json.dumps({"gguf": args.gguf, "startup_s": round(startup, 2)}))

@@ -13,8 +13,11 @@
   curl -s localhost:8080/v1/decide -d '{"state": "...", "questions": [{"id": "needs_buyer_call", "type": "yesno",
         "text": "Should a buyer call the supplier today?"}]}'
 
+  python server.py --gguf <nocat model>.gguf --tokenizer Qwen/Qwen2.5-0.5B-Instruct --layout nocat
+
 Questions are catalogue ids or ad-hoc question objects ({id, type, text, options:[{key, description}]}).
-Ad-hoc questions work with either layout; in the catalogue layout they bypass the static KV cache.
+Ad-hoc questions work with the branch and catalogue layouts; in the catalogue layout they bypass the static KV
+cache. A nocat model (trained without the question list in its prompt) answers only its 9 trained questions.
 """
 
 import argparse
@@ -56,6 +59,11 @@ def to_question(q):
             "options": [{"key": o["key"], "description": o["description"]} for o in opts]}
 
 
+def default_questions():
+    """What /v1/decide asks when the request names no questions: everything the loaded model can answer."""
+    return schema.TRAIN_QUESTIONS if ENGINE.layout == "nocat" else schema.CATALOGUE
+
+
 class Handler(BaseHTTPRequestHandler):
     def _send(self, code, obj, content_type="application/json"):
         body = obj if isinstance(obj, bytes) else json.dumps(obj, indent=1).encode()
@@ -73,7 +81,7 @@ class Handler(BaseHTTPRequestHandler):
                                     "engine": "llama.cpp" if ENGINE.mode == "gguf" else "torch",
                                     "calibrated": bool(ENGINE.temperatures)})
         if self.path == "/v1/questions":
-            return self._send(200, [materialize(q)[0] for q in schema.CATALOGUE])
+            return self._send(200, [materialize(q)[0] for q in default_questions()])
         if self.path == "/v1/examples":
             from ui.examples import examples
             return self._send(200, examples())
@@ -87,7 +95,8 @@ class Handler(BaseHTTPRequestHandler):
             state = req["state"]
             if not state:
                 raise ValueError("state is empty")
-            qs = [to_question(q) for q in req.get("questions", [q.id for q in schema.CATALOGUE])]
+            qs = [to_question(q) for q in req.get("questions", [q.id for q in default_questions()])]
+            ENGINE._check_nocat(qs)  # a nocat model refuses questions it was not trained on
         except (KeyError, ValueError, TypeError, json.JSONDecodeError) as e:
             return self._send(422, {"error": str(e)})
         t0 = time.time()
@@ -110,7 +119,7 @@ def main():
     ap.add_argument("--tokenizer")
     ap.add_argument("--adapter")
     ap.add_argument("--gguf")
-    ap.add_argument("--layout", choices=["branch", "catalogue"], default="branch")
+    ap.add_argument("--layout", choices=["branch", "catalogue", "nocat"], default="branch")
     ap.add_argument("--temps", help="fitted temperatures: an eval metrics.json or a {type: T} file")
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--port", type=int, default=8080)

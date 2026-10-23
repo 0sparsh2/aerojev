@@ -1,0 +1,124 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l4-nocat-3k",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--lr",
+    "5e-4",
+    "--epochs",
+    "0.3"
+   ]
+  },
+  "rc": 0,
+  "seconds": 307
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l4-nocat-3k/best",
+   "out": "results/ft-l4-nocat-3k",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 174
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l4-nocat-6k-seed1",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--lr",
+    "5e-4",
+    "--epochs",
+    "0.6",
+    "--seed",
+    "1"
+   ]
+  },
+  "rc": 0,
+  "seconds": 590
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l4-nocat-6k-seed1/best",
+   "out": "results/ft-l4-nocat-6k-seed1",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 191
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l4-nocat-4.8k",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--lr",
+    "5e-4",
+    "--epochs",
+    "0.48"
+   ]
+  },
+  "rc": 0,
+  "seconds": 458
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l4-nocat-4.8k/best",
+   "out": "results/ft-l4-nocat-4.8k",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 173
+ }
+]

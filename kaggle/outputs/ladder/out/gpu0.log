@@ -1,0 +1,815 @@
+
+$ /usr/bin/python3 -m train.train --model Qwen/Qwen2.5-0.5B-Instruct --out /kaggle/working/out/runs/l0-baseline --layout catalogue --data data/processed_v2 --epochs 1.2
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+trainable params: 8,798,208 || all params: 502,830,976 || trainable%: 1.7497
+step 0 val@50 acc=0.251
+{"step": 25, "records": 200, "loss": 1.6105709314346313, "train_acc": 0.3792372881355932, "lr": 0.00010392873580723784, "elapsed_s": 66.87181663513184, "rec_per_s": 2.9907965726614916}
+{"step": 50, "records": 400, "loss": 1.2984250231087209, "train_acc": 0.48501742160278744, "lr": 0.00019945218953682734, "elapsed_s": 129.27425742149353, "rec_per_s": 3.0941968492289695}
+{"step": 75, "records": 600, "loss": 1.18022410556674, "train_acc": 0.5218023255813954, "lr": 0.00019876883405951377, "elapsed_s": 191.6770408153534, "rec_per_s": 3.1302653538875993}
+{"step": 100, "records": 800, "loss": 1.0578433948755264, "train_acc": 0.5949008498583569, "lr": 0.00019781476007338058, "elapsed_s": 254.36386036872864, "rec_per_s": 3.1451008757309755}
+{"step": 125, "records": 1000, "loss": 0.9558858308009803, "train_acc": 0.6429080541696365, "lr": 0.00019659258262890683, "elapsed_s": 317.00215768814087, "rec_per_s": 3.1545526607543666}
+{"step": 150, "records": 1200, "loss": 0.8393640499631875, "train_acc": 0.6893342877594846, "lr": 0.00019510565162951537, "elapsed_s": 380.09681463241577, "rec_per_s": 3.157090388038365}
+{"step": 150, "val_acc": 0.7281481481481481}
+{"step": 175, "records": 1400, "loss": 0.7148405184736475, "train_acc": 0.7545126353790613, "lr": 0.00019335804264972018, "elapsed_s": 462.8038716316223, "rec_per_s": 3.025039516338267}
+{"step": 200, "records": 1600, "loss": 0.6370471139973961, "train_acc": 0.7771345875542692, "lr": 0.0001913545457642601, "elapsed_s": 525.5070626735687, "rec_per_s": 3.0446783947295457}
+{"step": 225, "records": 1800, "loss": 0.559785500675789, "train_acc": 0.8072805139186295, "lr": 0.0001891006524188368, "elapsed_s": 587.6025414466858, "rec_per_s": 3.063295123891695}
+{"step": 250, "records": 2000, "loss": 0.47938152513874227, "train_acc": 0.8379160636758322, "lr": 0.00018660254037844388, "elapsed_s": 649.9756486415863, "rec_per_s": 3.0770383539443222}
+{"step": 275, "records": 2200, "loss": 0.5450433651683853, "train_acc": 0.8035450516986706, "lr": 0.00018386705679454242, "elapsed_s": 712.3348367214203, "rec_per_s": 3.0884352225783047}
+{"step": 300, "records": 2400, "loss": 0.36088199824982437, "train_acc": 0.8732901367890569, "lr": 0.00018090169943749476, "elapsed_s": 775.4270617961884, "rec_per_s": 3.0950686637640343}
+{"step": 300, "val_acc": 0.8733333333333333}
+{"step": 325, "records": 2600, "loss": 0.3946010659605963, "train_acc": 0.8839857651245552, "lr": 0.0001777145961456971, "elapsed_s": 858.9161684513092, "rec_per_s": 3.0270707381000834}
+{"step": 350, "records": 2800, "loss": 0.3184679753612727, "train_acc": 0.8863636363636364, "lr": 0.00017431448254773944, "elapsed_s": 921.9573147296906, "rec_per_s": 3.037016958665743}
+{"step": 375, "records": 3000, "loss": 0.3497161781892646, "train_acc": 0.8888086642599278, "lr": 0.00017071067811865476, "elapsed_s": 984.2172474861145, "rec_per_s": 3.0481075267300928}
+{"step": 400, "records": 3200, "loss": 0.3299447595039965, "train_acc": 0.8820101966496723, "lr": 0.00016691306063588583, "elapsed_s": 1046.6316611766815, "rec_per_s": 3.057427095605327}
+{"step": 425, "records": 3400, "loss": 0.3400940212843125, "train_acc": 0.8947745168217609, "lr": 0.00016293203910498376, "elapsed_s": 1109.002665758133, "rec_per_s": 3.065817698170908}
+{"step": 450, "records": 3600, "loss": 0.2933765938360011, "train_acc": 0.8965272856130404, "lr": 0.00015877852522924732, "elapsed_s": 1171.486374616623, "rec_per_s": 3.073019096084771}
+{"step": 450, "val_acc": 0.9037037037037037}
+{"step": 475, "records": 3800, "loss": 0.29093169328822116, "train_acc": 0.9035277177825773, "lr": 0.00015446390350150273, "elapsed_s": 1253.8303854465485, "rec_per_s": 3.030712960945383}
+{"step": 500, "records": 4000, "loss": 0.31381197933427757, "train_acc": 0.9048640915593705, "lr": 0.00015000000000000001, "elapsed_s": 1316.369966506958, "rec_per_s": 3.038659420811738}
+{"step": 525, "records": 4200, "loss": 0.25441375172827974, "train_acc": 0.9042553191489362, "lr": 0.00014539904997395468, "elapsed_s": 1379.0535304546356, "rec_per_s": 3.04556705541037}
+{"step": 550, "records": 4400, "loss": 0.23739063977598562, "train_acc": 0.9137931034482759, "lr": 0.00014067366430758004, "elapsed_s": 1441.572006225586, "rec_per_s": 3.0522235316710646}
+{"step": 575, "records": 4600, "loss": 0.2504378973318671, "train_acc": 0.9184247538677919, "lr": 0.00013583679495453, "elapsed_s": 1503.9878273010254, "rec_per_s": 3.0585353927065415}
+{"step": 600, "records": 4800, "loss": 0.26343535626983794, "train_acc": 0.9057406094968108, "lr": 0.00013090169943749476, "elapsed_s": 1566.4642159938812, "rec_per_s": 3.064225758233822}
+{"step": 600, "val_acc": 0.922962962962963}
+{"step": 625, "records": 5000, "loss": 0.19723452602349426, "train_acc": 0.9316546762589928, "lr": 0.00012588190451025207, "elapsed_s": 1648.9929094314575, "rec_per_s": 3.032153729347392}
+{"step": 650, "records": 5200, "loss": 0.22728272604654193, "train_acc": 0.9182795698924732, "lr": 0.00012079116908177593, "elapsed_s": 1711.6647424697876, "rec_per_s": 3.0379780987349423}
+{"step": 675, "records": 5400, "loss": 0.2041240823519911, "train_acc": 0.9280114041339986, "lr": 0.0001156434465040231, "elapsed_s": 1774.891408443451, "rec_per_s": 3.0424396525394792}
+{"step": 700, "records": 5600, "loss": 0.1657206851830415, "train_acc": 0.9415204678362573, "lr": 0.00011045284632676536, "elapsed_s": 1837.206122636795, "rec_per_s": 3.048106541231622}
+{"step": 725, "records": 5800, "loss": 0.1975109297241579, "train_acc": 0.9290369297610427, "lr": 0.0001052335956242944, "elapsed_s": 1899.2687520980835, "rec_per_s": 3.053806889410916}
+{"step": 750, "records": 6000, "loss": 0.22056765363267913, "train_acc": 0.9226361031518625, "lr": 0.0001, "elapsed_s": 1961.2816314697266, "rec_per_s": 3.0592240827258332}
+{"step": 750, "val_acc": 0.9288888888888889}
+{"step": 775, "records": 6200, "loss": 0.18603108858060297, "train_acc": 0.9377236936292055, "lr": 9.476640437570562e-05, "elapsed_s": 2044.1209709644318, "rec_per_s": 3.0330885931250893}
+{"step": 800, "records": 6400, "loss": 0.1663970506910664, "train_acc": 0.9375, "lr": 8.954715367323468e-05, "elapsed_s": 2106.942118167877, "rec_per_s": 3.037577513313567}
+{"step": 825, "records": 6600, "loss": 0.18303561276451547, "train_acc": 0.9370979270907791, "lr": 8.435655349597689e-05, "elapsed_s": 2169.371426343918, "rec_per_s": 3.042355919254963}
+{"step": 850, "records": 6800, "loss": 0.16350979909997476, "train_acc": 0.9438444924406048, "lr": 7.920883091822408e-05, "elapsed_s": 2231.676956176758, "rec_per_s": 3.047035988420814}
+{"step": 875, "records": 7000, "loss": 0.12524692722623512, "train_acc": 0.9581560283687943, "lr": 7.411809548974792e-05, "elapsed_s": 2293.96324801445, "rec_per_s": 3.051487422938829}
+{"step": 900, "records": 7200, "loss": 0.15822323752633566, "train_acc": 0.9398443029016278, "lr": 6.909830056250527e-05, "elapsed_s": 2355.8601405620575, "rec_per_s": 3.056208590668814}
+{"step": 900, "val_acc": 0.945925925925926}
+{"step": 925, "records": 7400, "loss": 0.14691052335236235, "train_acc": 0.9477077363896849, "lr": 6.416320504546997e-05, "elapsed_s": 2439.266210794449, "rec_per_s": 3.0336992195656585}
+{"step": 950, "records": 7600, "loss": 0.14108948388724457, "train_acc": 0.9508771929824561, "lr": 5.9326335692419995e-05, "elapsed_s": 2501.2182586193085, "rec_per_s": 3.038519319059848}
+{"step": 975, "records": 7800, "loss": 0.11904875898773298, "train_acc": 0.9591836734693877, "lr": 5.4600950026045326e-05, "elapsed_s": 2563.423027038574, "rec_per_s": 3.0428064028944317}
+{"step": 1000, "records": 8000, "loss": 0.1436993380769354, "train_acc": 0.9594882729211087, "lr": 5.000000000000002e-05, "elapsed_s": 2626.1875805854797, "rec_per_s": 3.0462408927455544}
+{"step": 1025, "records": 8200, "loss": 0.1279772095210592, "train_acc": 0.9551699204627621, "lr": 4.5536096498497295e-05, "elapsed_s": 2688.069634914398, "rec_per_s": 3.050516211891635}
+{"step": 1050, "records": 8400, "loss": 0.11900669422272131, "train_acc": 0.9600550964187328, "lr": 4.12214747707527e-05, "elapsed_s": 2750.41739487648, "rec_per_s": 3.05408190613092}
+{"step": 1050, "val_acc": 0.9555555555555556}
+{"step": 1075, "records": 8600, "loss": 0.11708097396326139, "train_acc": 0.9599714081486777, "lr": 3.7067960895016275e-05, "elapsed_s": 2832.6035389900208, "rec_per_s": 3.036076133360468}
+{"step": 1100, "records": 8800, "loss": 0.12919151977794627, "train_acc": 0.9556338028169014, "lr": 3.308693936411421e-05, "elapsed_s": 2894.905757665634, "rec_per_s": 3.0398226183003825}
+{"step": 1125, "records": 9000, "loss": 0.12329689103245983, "train_acc": 0.9600855310049893, "lr": 2.9289321881345254e-05, "elapsed_s": 2957.2927980422974, "rec_per_s": 3.0433239501877947}
+{"step": 1150, "records": 9200, "loss": 0.13335617427376292, "train_acc": 0.9563636363636364, "lr": 2.5685517452260567e-05, "elapsed_s": 3020.33064866066, "rec_per_s": 3.046024117948696}
+{"step": 1175, "records": 9400, "loss": 0.10889976542773183, "train_acc": 0.9614835948644793, "lr": 2.2285403854302912e-05, "elapsed_s": 3082.2258307933807, "rec_per_s": 3.049744086266512}
+{"step": 1200, "records": 9600, "loss": 0.09922326374006843, "train_acc": 0.967966573816156, "lr": 1.9098300562505266e-05, "elapsed_s": 3144.0660626888275, "rec_per_s": 3.0533709561401556}
+{"step": 1200, "val_acc": 0.9614814814814815}
+{"step": 1225, "records": 9800, "loss": 0.11494293193875364, "train_acc": 0.9669479606188467, "lr": 1.6132943205457606e-05, "elapsed_s": 3226.634136915207, "rec_per_s": 3.037220702490056}
+{"step": 1250, "records": 10000, "loss": 0.08598884909823937, "train_acc": 0.9697821503865074, "lr": 1.339745962155613e-05, "elapsed_s": 3288.9132590293884, "rec_per_s": 3.0405180107885124}
+{"step": 1275, "records": 10200, "loss": 0.10385572700167359, "train_acc": 0.9580965909090909, "lr": 1.0899347581163221e-05, "elapsed_s": 3351.4040155410767, "rec_per_s": 3.0435005605712484}
+{"step": 1300, "records": 10400, "loss": 0.08925930464917997, "train_acc": 0.9693654266958425, "lr": 8.645454235739903e-06, "elapsed_s": 3413.110556125641, "rec_per_s": 3.0470738726393494}
+{"step": 1325, "records": 10600, "loss": 0.09591753462390898, "train_acc": 0.9660159074475777, "lr": 6.6419573502798374e-06, "elapsed_s": 3475.1392347812653, "rec_per_s": 3.050237496647294}
+{"step": 1350, "records": 10800, "loss": 0.09517601618226308, "train_acc": 0.9680777238029147, "lr": 4.8943483704846475e-06, "elapsed_s": 3537.060111761093, "rec_per_s": 3.0533832218708628}
+{"step": 1350, "val_acc": 0.9622222222222222}
+{"step": 1375, "records": 11000, "loss": 0.09074386399487708, "train_acc": 0.9647577092511013, "lr": 3.40741737109318e-06, "elapsed_s": 3620.0449542999268, "rec_per_s": 3.0386362984067605}
+{"step": 1400, "records": 11200, "loss": 0.11341082686758114, "train_acc": 0.9630434782608696, "lr": 2.1852399266194314e-06, "elapsed_s": 3681.2767629623413, "rec_per_s": 3.0424227030915505}
+{"step": 1425, "records": 11400, "loss": 0.09082335310840108, "train_acc": 0.9697821503865074, "lr": 1.231165940486234e-06, "elapsed_s": 3743.6536898612976, "rec_per_s": 3.045153463546563}
+{"step": 1450, "records": 11600, "loss": 0.08626013041231773, "train_acc": 0.9699720670391061, "lr": 5.478104631726711e-07, "elapsed_s": 3805.559637784958, "rec_per_s": 3.048171912699765}
+{"step": 1475, "records": 11800, "loss": 0.08112254557334608, "train_acc": 0.9710982658959537, "lr": 1.3704652454261668e-07, "elapsed_s": 3866.9800786972046, "rec_per_s": 3.051476800980948}
+{"step": 1500, "records": 12000, "loss": 0.09933073555159808, "train_acc": 0.9653392330383481, "lr": 0.0, "elapsed_s": 3929.207153081894, "rec_per_s": 3.0540512455770465}
+{"step": 1500, "val_acc": 0.9644444444444444}
+done. best val acc 0.964
+[exit 0 after 3976s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen2.5-0.5B-Instruct --sets val,test,test_v2,gold,gold2,injection --out /kaggle/working/out/results/ft-l0-baseline --dtype float32 --adapter /kaggle/working/out/runs/l0-baseline/best --layout catalogue --data data/processed_v2
+model=Qwen/Qwen2.5-0.5B-Instruct adapter=/kaggle/working/out/runs/l0-baseline/best mode=tree device=cuda
+[val] 500 records
+  50/500  0.083s/record
+  100/500  0.083s/record
+  150/500  0.081s/record
+  200/500  0.081s/record
+  250/500  0.081s/record
+  300/500  0.081s/record
+  350/500  0.081s/record
+  400/500  0.081s/record
+  450/500  0.081s/record
+  500/500  0.082s/record
+[test] 800 records
+  50/800  0.081s/record
+  100/800  0.080s/record
+  150/800  0.080s/record
+  200/800  0.080s/record
+  250/800  0.080s/record
+  300/800  0.080s/record
+  350/800  0.080s/record
+  400/800  0.079s/record
+  450/800  0.079s/record
+  500/800  0.079s/record
+  550/800  0.079s/record
+  600/800  0.079s/record
+  650/800  0.079s/record
+  700/800  0.079s/record
+  750/800  0.079s/record
+  800/800  0.079s/record
+[test_v2] 800 records
+  50/800  0.081s/record
+  100/800  0.082s/record
+  150/800  0.083s/record
+  200/800  0.082s/record
+  250/800  0.082s/record
+  300/800  0.081s/record
+  350/800  0.081s/record
+  400/800  0.081s/record
+  450/800  0.080s/record
+  500/800  0.080s/record
+  550/800  0.080s/record
+  600/800  0.080s/record
+  650/800  0.080s/record
+  700/800  0.079s/record
+  750/800  0.079s/record
+  800/800  0.079s/record
+[gold] 80 records
+  50/80  0.063s/record
+[gold2] 48 records
+[injection] 200 records
+  50/200  0.083s/record
+  100/200  0.083s/record
+  150/200  0.083s/record
+  200/200  0.083s/record
+  50/80  0.364s/record
+== val: core acc 0.966  macroF1 0.968  exact 0.752  ECE 0.005  0.08s/rec
+   event_type           acc=1.000 (maj 0.15) f1=1.000
+   commodity            acc=0.932 (maj 0.14) f1=0.936
+   impact_severity      acc=0.874 (maj 0.41) f1=0.896 mae=0.16
+   line_stop_risk       acc=0.974 (maj 0.63) f1=0.972 auroc=0.998
+   recommended_action   acc=0.950 (maj 0.20) f1=0.966
+   export_controlled    acc=1.000 (maj 0.62) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.97) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.81) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.962 (maj 0.35) f1=0.945 mae=0.04
+   supplier_region      acc=0.454 (maj 0.28) f1=0.431
+   mentions_new_date    acc=0.612 (maj 0.68) f1=0.536 auroc=0.714
+   military_program     acc=0.578 (maj 0.50) f1=0.519 auroc=0.784
+== test: core acc 0.948  macroF1 0.952  exact 0.664  ECE 0.016  0.08s/rec
+   event_type           acc=0.976 (maj 0.16) f1=0.974
+   commodity            acc=0.902 (maj 0.12) f1=0.909
+   impact_severity      acc=0.855 (maj 0.42) f1=0.885 mae=0.19
+   line_stop_risk       acc=0.930 (maj 0.58) f1=0.928 auroc=0.987
+   recommended_action   acc=0.901 (maj 0.19) f1=0.929
+   export_controlled    acc=0.998 (maj 0.64) f1=0.997 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.965 (maj 0.31) f1=0.949 mae=0.05
+   supplier_region      acc=0.482 (maj 0.30) f1=0.444
+   mentions_new_date    acc=0.688 (maj 0.65) f1=0.634 auroc=0.781
+   military_program     acc=0.604 (maj 0.51) f1=0.541 auroc=0.692
+== test_v2: core acc 0.944  macroF1 0.947  exact 0.667  ECE 0.016  0.08s/rec
+   event_type           acc=0.979 (maj 0.15) f1=0.979
+   commodity            acc=0.897 (maj 0.12) f1=0.907
+   impact_severity      acc=0.835 (maj 0.42) f1=0.856 mae=0.20
+   line_stop_risk       acc=0.935 (maj 0.58) f1=0.933 auroc=0.987
+   recommended_action   acc=0.909 (maj 0.22) f1=0.942
+   export_controlled    acc=0.995 (maj 0.62) f1=0.995 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.97) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.75) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.943 (maj 0.36) f1=0.911 mae=0.07
+   supplier_region      acc=0.449 (maj 0.28) f1=0.417
+   mentions_new_date    acc=0.681 (maj 0.65) f1=0.621 auroc=0.765
+   military_program     acc=0.601 (maj 0.50) f1=0.538 auroc=0.695
+== gold: core acc 0.922  macroF1 0.918  exact 0.525  ECE 0.045  0.06s/rec
+   event_type           acc=0.963 (maj 0.16) f1=0.963
+   commodity            acc=0.950 (maj 0.16) f1=0.937
+   impact_severity      acc=0.750 (maj 0.34) f1=0.768 mae=0.32
+   line_stop_risk       acc=0.938 (maj 0.60) f1=0.935 auroc=0.986
+   recommended_action   acc=0.912 (maj 0.26) f1=0.919
+   export_controlled    acc=1.000 (maj 0.82) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.86) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.787 (maj 0.38) f1=0.744 mae=0.42
+   supplier_region      acc=0.475 (maj 0.61) f1=0.446
+   mentions_new_date    acc=0.787 (maj 0.89) f1=0.597 auroc=0.787
+   military_program     acc=0.825 (maj 0.82) f1=0.452 auroc=0.868
+== gold2: core acc 0.919  macroF1 0.917  exact 0.542  ECE 0.050  0.06s/rec
+   event_type           acc=0.896 (maj 0.17) f1=0.903
+   commodity            acc=0.979 (maj 0.21) f1=0.952
+   impact_severity      acc=0.750 (maj 0.29) f1=0.767 mae=0.34
+   line_stop_risk       acc=0.917 (maj 0.62) f1=0.906 auroc=0.993
+   recommended_action   acc=0.917 (maj 0.21) f1=0.933
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.812 (maj 0.38) f1=0.789 mae=0.38
+   supplier_region      acc=0.438 (maj 0.75) f1=0.361
+   mentions_new_date    acc=0.812 (maj 0.92) f1=0.538 auroc=0.568
+   military_program     acc=0.875 (maj 0.88) f1=0.467 auroc=0.988
+== injection: core acc 0.949  macroF1 0.955  exact 0.665  ECE 0.017  0.08s/rec
+   event_type           acc=0.980 (maj 0.21) f1=0.976
+   commodity            acc=0.935 (maj 0.15) f1=0.934
+   impact_severity      acc=0.840 (maj 0.47) f1=0.879 mae=0.23
+   line_stop_risk       acc=0.905 (maj 0.62) f1=0.901 auroc=0.967
+   recommended_action   acc=0.910 (maj 0.27) f1=0.941
+   export_controlled    acc=1.000 (maj 0.61) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.76) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.975 (maj 0.35) f1=0.965 mae=0.04
+   supplier_region      acc=0.525 (maj 0.34) f1=0.504
+   mentions_new_date    acc=0.690 (maj 0.67) f1=0.631 auroc=0.767
+   military_program     acc=0.615 (maj 0.50) f1=0.559 auroc=0.685
+permutation: {'choice_agreement_with_canonical': 0.784375, 'choice_accuracy_shuffled': 0.771875}
+[exit 0 after 242s]
+
+$ /usr/bin/python3 -m train.train --model Qwen/Qwen2.5-0.5B-Instruct --out /kaggle/working/out/runs/l3-6k-lr5e-4 --layout catalogue --data data/processed_v2 --epochs 0.6 --lr 5e-4 --shared-catalogue --min-q 9 --lora-dropout 0 --cached-val
+trainable params: 8,798,208 || all params: 502,830,976 || trainable%: 1.7497
+step 0 val@50 acc=0.251
+/tmp/aerojev/proj/train/train.py:362: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  sched.step()
+{"step": 25, "records": 200, "loss": 1.5664663648605346, "train_acc": 0.4222222222222222, "lr": 0.00025928784639787553, "elapsed_s": 28.11565661430359, "rec_per_s": 7.113474273200925}
+{"step": 50, "records": 400, "loss": 1.2445774859189986, "train_acc": 0.5105555555555555, "lr": 0.0004945369001834514, "elapsed_s": 52.03465247154236, "rec_per_s": 7.687185000779224}
+{"step": 75, "records": 600, "loss": 1.1620739790797234, "train_acc": 0.5405555555555556, "lr": 0.0004877641290737884, "elapsed_s": 75.28950524330139, "rec_per_s": 7.969238183476877}
+{"step": 100, "records": 800, "loss": 1.075296986103058, "train_acc": 0.5877777777777777, "lr": 0.0004783863644106502, "elapsed_s": 98.28652572631836, "rec_per_s": 8.13946768479357}
+{"step": 125, "records": 1000, "loss": 1.035455391407013, "train_acc": 0.5927777777777777, "lr": 0.00046650635094610973, "elapsed_s": 121.47789287567139, "rec_per_s": 8.231950491794148}
+{"step": 150, "records": 1200, "loss": 0.9888513535261154, "train_acc": 0.6166666666666667, "lr": 0.0004522542485937369, "elapsed_s": 144.92266249656677, "rec_per_s": 8.280278455610269}
+{"step": 150, "val_acc": 0.6562962962962963}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+{"step": 175, "records": 1400, "loss": 0.9540795221924782, "train_acc": 0.6366666666666667, "lr": 0.00043578620636934855, "elapsed_s": 181.3119056224823, "rec_per_s": 7.721500665902234}
+{"step": 200, "records": 1600, "loss": 0.9799157226085663, "train_acc": 0.6327777777777778, "lr": 0.0004172826515897146, "elapsed_s": 205.09460926055908, "rec_per_s": 7.801277692127472}
+{"step": 225, "records": 1800, "loss": 0.8939877904951572, "train_acc": 0.6583333333333333, "lr": 0.0003969463130731183, "elapsed_s": 228.56650829315186, "rec_per_s": 7.875169522611683}
+{"step": 250, "records": 2000, "loss": 0.8566602437198162, "train_acc": 0.6777777777777778, "lr": 0.000375, "elapsed_s": 251.76096057891846, "rec_per_s": 7.9440434108649995}
+{"step": 275, "records": 2200, "loss": 0.8393636710941792, "train_acc": 0.6866666666666666, "lr": 0.0003516841607689501, "elapsed_s": 275.0580129623413, "rec_per_s": 7.998312706131583}
+{"step": 300, "records": 2400, "loss": 0.7467712123389356, "train_acc": 0.7338888888888889, "lr": 0.00032725424859373687, "elapsed_s": 298.6073155403137, "rec_per_s": 8.03731146257194}
+{"step": 300, "val_acc": 0.7222222222222222}
+{"step": 325, "records": 2600, "loss": 0.7169805628992617, "train_acc": 0.755, "lr": 0.0003019779227044398, "elapsed_s": 334.54563760757446, "rec_per_s": 7.771734877768238}
+{"step": 350, "records": 2800, "loss": 0.650683206487447, "train_acc": 0.775, "lr": 0.0002761321158169134, "elapsed_s": 358.0873303413391, "rec_per_s": 7.819321608868316}
+{"step": 375, "records": 3000, "loss": 0.5928518190592149, "train_acc": 0.7877777777777778, "lr": 0.00025, "elapsed_s": 381.6845805644989, "rec_per_s": 7.859893096973158}
+{"step": 400, "records": 3200, "loss": 0.5581055073061725, "train_acc": 0.8005555555555556, "lr": 0.00022386788418308668, "elapsed_s": 405.51963090896606, "rec_per_s": 7.891109963843794}
+{"step": 425, "records": 3400, "loss": 0.528401524113724, "train_acc": 0.8055555555555556, "lr": 0.0001980220772955602, "elapsed_s": 429.1215178966522, "rec_per_s": 7.923163621962303}
+{"step": 450, "records": 3600, "loss": 0.49686889664037154, "train_acc": 0.8311111111111111, "lr": 0.00017274575140626317, "elapsed_s": 452.53454208374023, "rec_per_s": 7.955193836526694}
+{"step": 450, "val_acc": 0.8385185185185186}
+{"step": 475, "records": 3800, "loss": 0.44667348471586593, "train_acc": 0.8427777777777777, "lr": 0.00014831583923105, "elapsed_s": 488.65756273269653, "rec_per_s": 7.776406812880251}
+{"step": 500, "records": 4000, "loss": 0.42082792168557714, "train_acc": 0.8494444444444444, "lr": 0.00012500000000000006, "elapsed_s": 512.3767318725586, "rec_per_s": 7.806755754464869}
+{"step": 525, "records": 4200, "loss": 0.3784628048763261, "train_acc": 0.87, "lr": 0.00010305368692688174, "elapsed_s": 535.7547428607941, "rec_per_s": 7.839407967856837}
+{"step": 550, "records": 4400, "loss": 0.33679756656558313, "train_acc": 0.8788888888888889, "lr": 8.271734841028553e-05, "elapsed_s": 559.0416114330292, "rec_per_s": 7.870612687884149}
+{"step": 575, "records": 4600, "loss": 0.28534573371442096, "train_acc": 0.9022222222222223, "lr": 6.421379363065141e-05, "elapsed_s": 582.5447292327881, "rec_per_s": 7.896389357188424}
+{"step": 600, "records": 4800, "loss": 0.3257747507144086, "train_acc": 0.8866666666666667, "lr": 4.7745751406263163e-05, "elapsed_s": 606.1336138248444, "rec_per_s": 7.919046049452499}
+{"step": 600, "val_acc": 0.9}
+{"step": 625, "records": 5000, "loss": 0.24938437621432968, "train_acc": 0.92, "lr": 3.3493649053890325e-05, "elapsed_s": 642.3737678527832, "rec_per_s": 7.783630419269986}
+{"step": 650, "records": 5200, "loss": 0.25133534829834386, "train_acc": 0.9172222222222223, "lr": 2.1613635589349755e-05, "elapsed_s": 665.8408966064453, "rec_per_s": 7.80967349182448}
+{"step": 675, "records": 5400, "loss": 0.23618066205955984, "train_acc": 0.9205555555555556, "lr": 1.2235870926211617e-05, "elapsed_s": 689.3239545822144, "rec_per_s": 7.8337622885495595}
+{"step": 700, "records": 5600, "loss": 0.21734638469629317, "train_acc": 0.9261111111111111, "lr": 5.463099816548578e-06, "elapsed_s": 713.0479581356049, "rec_per_s": 7.853609194313144}
+{"step": 725, "records": 5800, "loss": 0.24069360752959257, "train_acc": 0.92, "lr": 1.3695261579316775e-06, "elapsed_s": 736.7013649940491, "rec_per_s": 7.872932338121637}
+{"step": 750, "records": 6000, "loss": 0.23429254139186015, "train_acc": 0.9122222222222223, "lr": 0.0, "elapsed_s": 759.9083840847015, "rec_per_s": 7.895688645713406}
+{"step": 750, "val_acc": 0.914074074074074}
+done. best val acc 0.914
+[exit 0 after 787s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen2.5-0.5B-Instruct --sets val,test,test_v2,gold,gold2,injection --out /kaggle/working/out/results/ft-l3-6k-lr5e-4 --dtype float32 --adapter /kaggle/working/out/runs/l3-6k-lr5e-4/best --layout catalogue --data data/processed_v2
+model=Qwen/Qwen2.5-0.5B-Instruct adapter=/kaggle/working/out/runs/l3-6k-lr5e-4/best mode=tree device=cuda
+[val] 500 records
+  50/500  0.081s/record
+  100/500  0.079s/record
+  150/500  0.078s/record
+  200/500  0.079s/record
+  250/500  0.079s/record
+  300/500  0.079s/record
+  350/500  0.080s/record
+  400/500  0.080s/record
+  450/500  0.080s/record
+  500/500  0.080s/record
+[test] 800 records
+  50/800  0.082s/record
+  100/800  0.081s/record
+  150/800  0.081s/record
+  200/800  0.081s/record
+  250/800  0.081s/record
+  300/800  0.081s/record
+  350/800  0.081s/record
+  400/800  0.080s/record
+  450/800  0.080s/record
+  500/800  0.080s/record
+  550/800  0.080s/record
+  600/800  0.079s/record
+  650/800  0.079s/record
+  700/800  0.079s/record
+  750/800  0.079s/record
+  800/800  0.079s/record
+[test_v2] 800 records
+  50/800  0.080s/record
+  100/800  0.094s/record
+  150/800  0.098s/record
+  200/800  0.093s/record
+  250/800  0.091s/record
+  300/800  0.092s/record
+  350/800  0.090s/record
+  400/800  0.089s/record
+  450/800  0.088s/record
+  500/800  0.087s/record
+  550/800  0.087s/record
+  600/800  0.086s/record
+  650/800  0.085s/record
+  700/800  0.085s/record
+  750/800  0.084s/record
+  800/800  0.084s/record
+[gold] 80 records
+  50/80  0.063s/record
+[gold2] 48 records
+[injection] 200 records
+  50/200  0.082s/record
+  100/200  0.083s/record
+  150/200  0.082s/record
+  200/200  0.083s/record
+  50/80  0.365s/record
+== val: core acc 0.920  macroF1 0.923  exact 0.532  ECE 0.009  0.08s/rec
+   event_type           acc=0.948 (maj 0.15) f1=0.952
+   commodity            acc=0.942 (maj 0.14) f1=0.945
+   impact_severity      acc=0.774 (maj 0.41) f1=0.815 mae=0.29
+   line_stop_risk       acc=0.866 (maj 0.63) f1=0.846 auroc=0.937
+   recommended_action   acc=0.810 (maj 0.20) f1=0.844
+   export_controlled    acc=1.000 (maj 0.62) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.97) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.81) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.942 (maj 0.35) f1=0.905 mae=0.07
+   supplier_region      acc=0.340 (maj 0.28) f1=0.321
+   mentions_new_date    acc=0.620 (maj 0.68) f1=0.406 auroc=0.599
+   military_program     acc=0.886 (maj 0.50) f1=0.885 auroc=0.919
+== test: core acc 0.915  macroF1 0.918  exact 0.514  ECE 0.007  0.08s/rec
+   event_type           acc=0.951 (maj 0.16) f1=0.952
+   commodity            acc=0.894 (maj 0.12) f1=0.896
+   impact_severity      acc=0.774 (maj 0.42) f1=0.816 mae=0.29
+   line_stop_risk       acc=0.873 (maj 0.58) f1=0.865 auroc=0.944
+   recommended_action   acc=0.799 (maj 0.19) f1=0.832
+   export_controlled    acc=1.000 (maj 0.64) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.943 (maj 0.31) f1=0.905 mae=0.08
+   supplier_region      acc=0.364 (maj 0.30) f1=0.334
+   mentions_new_date    acc=0.595 (maj 0.65) f1=0.415 auroc=0.597
+   military_program     acc=0.769 (maj 0.51) f1=0.768 auroc=0.872
+== test_v2: core acc 0.919  macroF1 0.923  exact 0.540  ECE 0.008  0.08s/rec
+   event_type           acc=0.960 (maj 0.15) f1=0.959
+   commodity            acc=0.886 (maj 0.12) f1=0.888
+   impact_severity      acc=0.792 (maj 0.42) f1=0.824 mae=0.27
+   line_stop_risk       acc=0.886 (maj 0.58) f1=0.879 auroc=0.952
+   recommended_action   acc=0.816 (maj 0.22) f1=0.862
+   export_controlled    acc=1.000 (maj 0.62) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.97) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.75) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.932 (maj 0.36) f1=0.896 mae=0.08
+   supplier_region      acc=0.346 (maj 0.28) f1=0.329
+   mentions_new_date    acc=0.581 (maj 0.65) f1=0.403 auroc=0.575
+   military_program     acc=0.791 (maj 0.50) f1=0.791 auroc=0.876
+== gold: core acc 0.875  macroF1 0.872  exact 0.312  ECE 0.048  0.06s/rec
+   event_type           acc=0.887 (maj 0.16) f1=0.888
+   commodity            acc=0.925 (maj 0.16) f1=0.896
+   impact_severity      acc=0.650 (maj 0.34) f1=0.687 mae=0.44
+   line_stop_risk       acc=0.838 (maj 0.60) f1=0.817 auroc=0.935
+   recommended_action   acc=0.738 (maj 0.26) f1=0.744
+   export_controlled    acc=1.000 (maj 0.82) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.86) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.838 (maj 0.38) f1=0.820 mae=0.38
+   supplier_region      acc=0.325 (maj 0.61) f1=0.296
+   mentions_new_date    acc=0.838 (maj 0.89) f1=0.456 auroc=0.587
+   military_program     acc=0.975 (maj 0.82) f1=0.957 auroc=0.999
+== gold2: core acc 0.854  macroF1 0.848  exact 0.312  ECE 0.051  0.05s/rec
+   event_type           acc=0.750 (maj 0.17) f1=0.761
+   commodity            acc=0.958 (maj 0.21) f1=0.875
+   impact_severity      acc=0.688 (maj 0.29) f1=0.757 mae=0.40
+   line_stop_risk       acc=0.833 (maj 0.62) f1=0.806 auroc=0.907
+   recommended_action   acc=0.750 (maj 0.21) f1=0.809
+   export_controlled    acc=0.979 (maj 0.88) f1=0.949 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.979 (maj 0.88) f1=0.949 auroc=1.000
+   delay_bucket         acc=0.750 (maj 0.38) f1=0.732 mae=0.36
+   supplier_region      acc=0.333 (maj 0.75) f1=0.314
+   mentions_new_date    acc=0.792 (maj 0.92) f1=0.442 auroc=0.460
+   military_program     acc=0.958 (maj 0.88) f1=0.888 auroc=0.944
+== injection: core acc 0.917  macroF1 0.924  exact 0.540  ECE 0.008  0.08s/rec
+   event_type           acc=0.960 (maj 0.21) f1=0.970
+   commodity            acc=0.930 (maj 0.15) f1=0.935
+   impact_severity      acc=0.740 (maj 0.47) f1=0.789 mae=0.32
+   line_stop_risk       acc=0.845 (maj 0.62) f1=0.824 auroc=0.883
+   recommended_action   acc=0.810 (maj 0.27) f1=0.859
+   export_controlled    acc=1.000 (maj 0.61) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.76) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.965 (maj 0.35) f1=0.938 mae=0.06
+   supplier_region      acc=0.310 (maj 0.34) f1=0.292
+   mentions_new_date    acc=0.600 (maj 0.67) f1=0.407 auroc=0.523
+   military_program     acc=0.805 (maj 0.50) f1=0.805 auroc=0.849
+permutation: {'choice_agreement_with_canonical': 0.775, 'choice_accuracy_shuffled': 0.7375}
+[exit 0 after 246s]
+
+$ /usr/bin/python3 -m train.train --model Qwen/Qwen2.5-0.5B-Instruct --out /kaggle/working/out/runs/l3-6k-lr1e-3 --layout catalogue --data data/processed_v2 --epochs 0.6 --lr 1e-3 --shared-catalogue --min-q 9 --lora-dropout 0 --cached-val
+trainable params: 8,798,208 || all params: 502,830,976 || trainable%: 1.7497
+step 0 val@50 acc=0.251
+/tmp/aerojev/proj/train/train.py:362: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  sched.step()
+{"step": 25, "records": 200, "loss": 1.5003682219982146, "train_acc": 0.4461111111111111, "lr": 0.0005185756927957511, "elapsed_s": 28.07571530342102, "rec_per_s": 7.123594103963223}
+{"step": 50, "records": 400, "loss": 1.2368605557084082, "train_acc": 0.5188888888888888, "lr": 0.0009890738003669028, "elapsed_s": 52.03153681755066, "rec_per_s": 7.687645310239554}
+{"step": 75, "records": 600, "loss": 1.1949128833413125, "train_acc": 0.5561111111111111, "lr": 0.0009755282581475768, "elapsed_s": 75.2103521823883, "rec_per_s": 7.977625188417872}
+{"step": 100, "records": 800, "loss": 1.2324848860502242, "train_acc": 0.5305555555555556, "lr": 0.0009567727288213005, "elapsed_s": 98.22962975502014, "rec_per_s": 8.144182177975837}
+{"step": 125, "records": 1000, "loss": 1.1364380031824113, "train_acc": 0.5588888888888889, "lr": 0.0009330127018922195, "elapsed_s": 121.47775554656982, "rec_per_s": 8.23195979791246}
+{"step": 150, "records": 1200, "loss": 1.1520872762799264, "train_acc": 0.5433333333333333, "lr": 0.0009045084971874737, "elapsed_s": 144.8469479084015, "rec_per_s": 8.28460673371494}
+{"step": 150, "val_acc": 0.54}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+{"step": 175, "records": 1400, "loss": 1.359273665547371, "train_acc": 0.48055555555555557, "lr": 0.0008715724127386971, "elapsed_s": 181.1081027984619, "rec_per_s": 7.730189750581881}
+{"step": 200, "records": 1600, "loss": 1.187219304740429, "train_acc": 0.5344444444444445, "lr": 0.0008345653031794292, "elapsed_s": 204.90952491760254, "rec_per_s": 7.808324189143409}
+{"step": 225, "records": 1800, "loss": 1.1176250723004342, "train_acc": 0.5627777777777778, "lr": 0.0007938926261462366, "elapsed_s": 228.32903027534485, "rec_per_s": 7.8833602447720175}
+{"step": 250, "records": 2000, "loss": 1.2014468291401863, "train_acc": 0.5372222222222223, "lr": 0.00075, "elapsed_s": 251.46459484100342, "rec_per_s": 7.953405930821253}
+{"step": 275, "records": 2200, "loss": 1.4782009837031365, "train_acc": 0.36666666666666664, "lr": 0.0007033683215379002, "elapsed_s": 274.51232528686523, "rec_per_s": 8.01421210395927}
+{"step": 300, "records": 2400, "loss": 1.4598559099435806, "train_acc": 0.3611111111111111, "lr": 0.0006545084971874737, "elapsed_s": 297.59465503692627, "rec_per_s": 8.064660972160949}
+{"step": 300, "val_acc": 0.4111111111111111}
+{"step": 325, "records": 2600, "loss": 1.4373537468910218, "train_acc": 0.405, "lr": 0.0006039558454088796, "elapsed_s": 332.4260308742523, "rec_per_s": 7.821288823748911}
+{"step": 350, "records": 2800, "loss": 1.4398268538713455, "train_acc": 0.39944444444444444, "lr": 0.0005522642316338268, "elapsed_s": 355.5724194049835, "rec_per_s": 7.874626509799417}
+{"step": 375, "records": 3000, "loss": 1.4405519086122514, "train_acc": 0.3977777777777778, "lr": 0.0005, "elapsed_s": 378.72931599617004, "rec_per_s": 7.921224667039871}
+{"step": 400, "records": 3200, "loss": 1.4468739068508147, "train_acc": 0.39222222222222225, "lr": 0.00044773576836617336, "elapsed_s": 402.13708758354187, "rec_per_s": 7.9574853919317174}
+{"step": 425, "records": 3400, "loss": 1.4285577845573425, "train_acc": 0.4177777777777778, "lr": 0.0003960441545911204, "elapsed_s": 425.34548234939575, "rec_per_s": 7.993502084987714}
+{"step": 450, "records": 3600, "loss": 1.438373902440071, "train_acc": 0.39055555555555554, "lr": 0.00034549150281252633, "elapsed_s": 448.3836100101471, "rec_per_s": 8.028839412570255}
+{"step": 450, "val_acc": 0.4177777777777778}
+{"step": 475, "records": 3800, "loss": 1.4285896956920623, "train_acc": 0.405, "lr": 0.0002966316784621, "elapsed_s": 483.35723972320557, "rec_per_s": 7.861680115055418}
+{"step": 500, "records": 4000, "loss": 1.4342626172304154, "train_acc": 0.4072222222222222, "lr": 0.0002500000000000001, "elapsed_s": 506.6776421070099, "rec_per_s": 7.894565829599411}
+{"step": 525, "records": 4200, "loss": 1.421723993420601, "train_acc": 0.4083333333333333, "lr": 0.00020610737385376348, "elapsed_s": 529.7005157470703, "rec_per_s": 7.929008704242006}
+{"step": 550, "records": 4400, "loss": 1.4311820024251938, "train_acc": 0.39944444444444444, "lr": 0.00016543469682057105, "elapsed_s": 552.5910820960999, "rec_per_s": 7.962488253175982}
+{"step": 575, "records": 4600, "loss": 1.415923796892166, "train_acc": 0.4072222222222222, "lr": 0.00012842758726130281, "elapsed_s": 575.6370997428894, "rec_per_s": 7.991145814011308}
+{"step": 600, "records": 4800, "loss": 1.4264163070917129, "train_acc": 0.4066666666666667, "lr": 9.549150281252633e-05, "elapsed_s": 598.7383773326874, "rec_per_s": 8.016857081023375}
+{"step": 600, "val_acc": 0.4088888888888889}
+{"step": 625, "records": 5000, "loss": 1.4161992323398591, "train_acc": 0.41444444444444445, "lr": 6.698729810778065e-05, "elapsed_s": 633.4403796195984, "rec_per_s": 7.893402695613853}
+{"step": 650, "records": 5200, "loss": 1.425627967119217, "train_acc": 0.4027777777777778, "lr": 4.322727117869951e-05, "elapsed_s": 656.4982266426086, "rec_per_s": 7.920813475145653}
+{"step": 675, "records": 5400, "loss": 1.4266230422258377, "train_acc": 0.4077777777777778, "lr": 2.4471741852423235e-05, "elapsed_s": 679.5496256351471, "rec_per_s": 7.946439518604461}
+{"step": 700, "records": 5600, "loss": 1.4194312983751296, "train_acc": 0.41333333333333333, "lr": 1.0926199633097156e-05, "elapsed_s": 702.8856248855591, "rec_per_s": 7.967156820018575}
+{"step": 725, "records": 5800, "loss": 1.4215065324306488, "train_acc": 0.41833333333333333, "lr": 2.739052315863355e-06, "elapsed_s": 726.1844050884247, "rec_per_s": 7.9869520184666545}
+{"step": 750, "records": 6000, "loss": 1.429689298272133, "train_acc": 0.3933333333333333, "lr": 0.0, "elapsed_s": 749.2815017700195, "rec_per_s": 8.007671330236054}
+{"step": 750, "val_acc": 0.4148148148148148}
+done. best val acc 0.540
+[exit 0 after 776s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen2.5-0.5B-Instruct --sets val,test,test_v2,gold,gold2,injection --out /kaggle/working/out/results/ft-l3-6k-lr1e-3 --dtype float32 --adapter /kaggle/working/out/runs/l3-6k-lr1e-3/best --layout catalogue --data data/processed_v2
+model=Qwen/Qwen2.5-0.5B-Instruct adapter=/kaggle/working/out/runs/l3-6k-lr1e-3/best mode=tree device=cuda
+[val] 500 records
+  50/500  0.080s/record
+  100/500  0.079s/record
+  150/500  0.078s/record
+  200/500  0.078s/record
+  250/500  0.078s/record
+  300/500  0.078s/record
+  350/500  0.079s/record
+  400/500  0.079s/record
+  450/500  0.079s/record
+  500/500  0.080s/record
+[test] 800 records
+  50/800  0.082s/record
+  100/800  0.082s/record
+  150/800  0.082s/record
+  200/800  0.082s/record
+  250/800  0.081s/record
+  300/800  0.081s/record
+  350/800  0.081s/record
+  400/800  0.081s/record
+  450/800  0.080s/record
+  500/800  0.080s/record
+  550/800  0.080s/record
+  600/800  0.080s/record
+  650/800  0.080s/record
+  700/800  0.080s/record
+  750/800  0.080s/record
+  800/800  0.080s/record
+[test_v2] 800 records
+  50/800  0.079s/record
+  100/800  0.080s/record
+  150/800  0.081s/record
+  200/800  0.081s/record
+  250/800  0.081s/record
+  300/800  0.081s/record
+  350/800  0.081s/record
+  400/800  0.080s/record
+  450/800  0.080s/record
+  500/800  0.080s/record
+  550/800  0.080s/record
+  600/800  0.080s/record
+  650/800  0.080s/record
+  700/800  0.080s/record
+  750/800  0.079s/record
+  800/800  0.079s/record
+[gold] 80 records
+  50/80  0.063s/record
+[gold2] 48 records
+[injection] 200 records
+  50/200  0.082s/record
+  100/200  0.083s/record
+  150/200  0.083s/record
+  200/200  0.083s/record
+  50/80  0.366s/record
+== val: core acc 0.545  macroF1 0.448  exact 0.000  ECE 0.038  0.08s/rec
+   event_type           acc=0.036 (maj 0.15) f1=0.007
+   commodity            acc=0.138 (maj 0.14) f1=0.032
+   impact_severity      acc=0.408 (maj 0.41) f1=0.357 mae=0.91
+   line_stop_risk       acc=0.638 (maj 0.63) f1=0.428 auroc=0.650
+   recommended_action   acc=0.188 (maj 0.20) f1=0.131
+   export_controlled    acc=0.994 (maj 0.62) f1=0.994 auroc=1.000
+   counterfeit_suspect  acc=0.980 (maj 0.97) f1=0.768 auroc=0.987
+   sole_source          acc=0.998 (maj 0.81) f1=0.997 auroc=1.000
+   delay_bucket         acc=0.524 (maj 0.35) f1=0.317 mae=0.81
+   supplier_region      acc=0.260 (maj 0.28) f1=0.103
+   mentions_new_date    acc=0.660 (maj 0.68) f1=0.398 auroc=0.669
+   military_program     acc=0.498 (maj 0.50) f1=0.332 auroc=0.733
+== test: core acc 0.524  macroF1 0.436  exact 0.000  ECE 0.063  0.08s/rec
+   event_type           acc=0.025 (maj 0.16) f1=0.005
+   commodity            acc=0.100 (maj 0.12) f1=0.029
+   impact_severity      acc=0.391 (maj 0.42) f1=0.346 mae=0.95
+   line_stop_risk       acc=0.599 (maj 0.58) f1=0.412 auroc=0.642
+   recommended_action   acc=0.181 (maj 0.19) f1=0.105
+   export_controlled    acc=0.998 (maj 0.64) f1=0.997 auroc=1.000
+   counterfeit_suspect  acc=0.974 (maj 0.96) f1=0.779 auroc=0.991
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.453 (maj 0.31) f1=0.253 mae=1.05
+   supplier_region      acc=0.299 (maj 0.30) f1=0.118
+   mentions_new_date    acc=0.656 (maj 0.65) f1=0.410 auroc=0.671
+   military_program     acc=0.492 (maj 0.51) f1=0.330 auroc=0.598
+== test_v2: core acc 0.522  macroF1 0.438  exact 0.000  ECE 0.067  0.08s/rec
+   event_type           acc=0.031 (maj 0.15) f1=0.013
+   commodity            acc=0.106 (maj 0.12) f1=0.030
+   impact_severity      acc=0.367 (maj 0.42) f1=0.325 mae=0.94
+   line_stop_risk       acc=0.604 (maj 0.58) f1=0.419 auroc=0.640
+   recommended_action   acc=0.166 (maj 0.22) f1=0.110
+   export_controlled    acc=0.990 (maj 0.62) f1=0.989 auroc=1.000
+   counterfeit_suspect  acc=0.981 (maj 0.97) f1=0.792 auroc=0.991
+   sole_source          acc=0.998 (maj 0.75) f1=0.997 auroc=1.000
+   delay_bucket         acc=0.451 (maj 0.36) f1=0.263 mae=1.10
+   supplier_region      acc=0.249 (maj 0.28) f1=0.100
+   mentions_new_date    acc=0.649 (maj 0.65) f1=0.403 auroc=0.711
+   military_program     acc=0.501 (maj 0.50) f1=0.334 auroc=0.604
+== gold: core acc 0.519  macroF1 0.397  exact 0.000  ECE 0.087  0.06s/rec
+   event_type           acc=0.025 (maj 0.16) f1=0.005
+   commodity            acc=0.113 (maj 0.16) f1=0.029
+   impact_severity      acc=0.362 (maj 0.34) f1=0.278 mae=0.97
+   line_stop_risk       acc=0.625 (maj 0.60) f1=0.440 auroc=0.723
+   recommended_action   acc=0.163 (maj 0.26) f1=0.115
+   export_controlled    acc=0.988 (maj 0.82) f1=0.979 auroc=1.000
+   counterfeit_suspect  acc=0.963 (maj 0.96) f1=0.490 auroc=0.991
+   sole_source          acc=0.988 (maj 0.86) f1=0.975 auroc=1.000
+   delay_bucket         acc=0.450 (maj 0.38) f1=0.261 mae=0.92
+   supplier_region      acc=0.150 (maj 0.61) f1=0.065
+   mentions_new_date    acc=0.887 (maj 0.89) f1=0.470 auroc=0.635
+   military_program     acc=0.825 (maj 0.82) f1=0.452 auroc=0.799
+== gold2: core acc 0.514  macroF1 0.384  exact 0.000  ECE 0.096  0.05s/rec
+   event_type           acc=0.042 (maj 0.17) f1=0.008
+   commodity            acc=0.083 (maj 0.21) f1=0.023
+   impact_severity      acc=0.333 (maj 0.29) f1=0.226 mae=0.98
+   line_stop_risk       acc=0.625 (maj 0.62) f1=0.385 auroc=0.737
+   recommended_action   acc=0.188 (maj 0.21) f1=0.133
+   export_controlled    acc=0.979 (maj 0.88) f1=0.956 auroc=1.000
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.417 (maj 0.38) f1=0.236 mae=0.96
+   supplier_region      acc=0.146 (maj 0.75) f1=0.070
+   mentions_new_date    acc=0.917 (maj 0.92) f1=0.478 auroc=0.494
+   military_program     acc=0.875 (maj 0.88) f1=0.467 auroc=0.790
+== injection: core acc 0.518  macroF1 0.416  exact 0.000  ECE 0.066  0.08s/rec
+   event_type           acc=0.020 (maj 0.21) f1=0.004
+   commodity            acc=0.105 (maj 0.15) f1=0.025
+   impact_severity      acc=0.355 (maj 0.47) f1=0.339 mae=0.92
+   line_stop_risk       acc=0.650 (maj 0.62) f1=0.453 auroc=0.630
+   recommended_action   acc=0.160 (maj 0.27) f1=0.094
+   export_controlled    acc=0.990 (maj 0.61) f1=0.989 auroc=1.000
+   counterfeit_suspect  acc=0.965 (maj 0.96) f1=0.602 auroc=0.995
+   sole_source          acc=1.000 (maj 0.76) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.415 (maj 0.35) f1=0.241 mae=1.19
+   supplier_region      acc=0.235 (maj 0.34) f1=0.102
+   mentions_new_date    acc=0.665 (maj 0.67) f1=0.399 auroc=0.572
+   military_program     acc=0.500 (maj 0.50) f1=0.333 auroc=0.636
+permutation: {'choice_agreement_with_canonical': 0.13125, 'choice_accuracy_shuffled': 0.1625}
+[exit 0 after 242s]
+
+$ /usr/bin/python3 -m train.train --model Qwen/Qwen2.5-0.5B-Instruct --out /kaggle/working/out/runs/l4-nocat-12k --data data/processed_v2 --epochs 1.2 --layout nocat --shared-catalogue --min-q 9 --lora-dropout 0 --cached-val
+trainable params: 8,798,208 || all params: 502,830,976 || trainable%: 1.7497
+step 0 val@50 acc=0.329
+/tmp/aerojev/proj/train/train.py:362: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  sched.step()
+{"step": 25, "records": 200, "loss": 1.4921561512351036, "train_acc": 0.44055555555555553, "lr": 0.00010392873580723784, "elapsed_s": 21.76436495780945, "rec_per_s": 9.189333131828244}
+{"step": 50, "records": 400, "loss": 1.2259003940224646, "train_acc": 0.5238888888888888, "lr": 0.00019945218953682734, "elapsed_s": 38.600120544433594, "rec_per_s": 10.362661938828655}
+{"step": 75, "records": 600, "loss": 0.992251161634922, "train_acc": 0.615, "lr": 0.00019876883405951377, "elapsed_s": 55.25508952140808, "rec_per_s": 10.858728222085958}
+{"step": 100, "records": 800, "loss": 0.8056000845879316, "train_acc": 0.7066666666666667, "lr": 0.00019781476007338058, "elapsed_s": 71.47558331489563, "rec_per_s": 11.192633384683111}
+{"step": 125, "records": 1000, "loss": 0.6023970319889486, "train_acc": 0.7755555555555556, "lr": 0.00019659258262890683, "elapsed_s": 87.66232490539551, "rec_per_s": 11.407409067455058}
+{"step": 150, "records": 1200, "loss": 0.4454713375927531, "train_acc": 0.8122222222222222, "lr": 0.00019510565162951537, "elapsed_s": 104.01366710662842, "rec_per_s": 11.536945416700227}
+{"step": 150, "val_acc": 0.8192592592592592}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+{"step": 175, "records": 1400, "loss": 0.40655549272021746, "train_acc": 0.8272222222222222, "lr": 0.00019335804264972018, "elapsed_s": 133.4170196056366, "rec_per_s": 10.493413839840063}
+{"step": 200, "records": 1600, "loss": 0.3807207207843021, "train_acc": 0.8366666666666667, "lr": 0.0001913545457642601, "elapsed_s": 150.13417506217957, "rec_per_s": 10.657133856014756}
+{"step": 225, "records": 1800, "loss": 0.3396403381915297, "train_acc": 0.8644444444444445, "lr": 0.0001891006524188368, "elapsed_s": 166.8233094215393, "rec_per_s": 10.789859080493663}
+{"step": 250, "records": 2000, "loss": 0.3097987976909644, "train_acc": 0.8588888888888889, "lr": 0.00018660254037844388, "elapsed_s": 183.0678951740265, "rec_per_s": 10.924908477801509}
+{"step": 275, "records": 2200, "loss": 0.298711251210143, "train_acc": 0.8722222222222222, "lr": 0.00018386705679454242, "elapsed_s": 199.32860851287842, "rec_per_s": 11.03705091011991}
+{"step": 300, "records": 2400, "loss": 0.2505504837844637, "train_acc": 0.8905555555555555, "lr": 0.00018090169943749476, "elapsed_s": 215.7889256477356, "rec_per_s": 11.121979465794633}
+{"step": 300, "val_acc": 0.9066666666666666}
+{"step": 325, "records": 2600, "loss": 0.23151881735931965, "train_acc": 0.9005555555555556, "lr": 0.0001777145961456971, "elapsed_s": 245.04264521598816, "rec_per_s": 10.610398029731844}
+{"step": 350, "records": 2800, "loss": 0.19735822429021938, "train_acc": 0.9211111111111111, "lr": 0.00017431448254773944, "elapsed_s": 261.57646346092224, "rec_per_s": 10.704326998511856}
+{"step": 375, "records": 3000, "loss": 0.21414764454653779, "train_acc": 0.9094444444444445, "lr": 0.00017071067811865476, "elapsed_s": 278.0816161632538, "rec_per_s": 10.788199670987188}
+{"step": 400, "records": 3200, "loss": 0.20730950123219372, "train_acc": 0.915, "lr": 0.00016691306063588583, "elapsed_s": 294.6695046424866, "rec_per_s": 10.859623916232735}
+{"step": 425, "records": 3400, "loss": 0.20399926280922956, "train_acc": 0.9155555555555556, "lr": 0.00016293203910498376, "elapsed_s": 311.1266722679138, "rec_per_s": 10.928024830581645}
+{"step": 450, "records": 3600, "loss": 0.17545255650667968, "train_acc": 0.9238888888888889, "lr": 0.00015877852522924732, "elapsed_s": 327.6454417705536, "rec_per_s": 10.987486902140514}
+{"step": 450, "val_acc": 0.9266666666666666}
+{"step": 475, "records": 3800, "loss": 0.19200189432194747, "train_acc": 0.9222222222222223, "lr": 0.00015446390350150273, "elapsed_s": 356.60711097717285, "rec_per_s": 10.655984928587825}
+{"step": 500, "records": 4000, "loss": 0.1994605285595935, "train_acc": 0.9216666666666666, "lr": 0.00015000000000000001, "elapsed_s": 373.15788173675537, "rec_per_s": 10.71932336356707}
+{"step": 525, "records": 4200, "loss": 0.17255598780817308, "train_acc": 0.9255555555555556, "lr": 0.00014539904997395468, "elapsed_s": 389.6171293258667, "rec_per_s": 10.779813524284805}
+{"step": 550, "records": 4400, "loss": 0.17514338468134155, "train_acc": 0.9277777777777778, "lr": 0.00014067366430758004, "elapsed_s": 405.9308969974518, "rec_per_s": 10.839283317789976}
+{"step": 575, "records": 4600, "loss": 0.14789981123567486, "train_acc": 0.9333333333333333, "lr": 0.00013583679495453, "elapsed_s": 422.4459812641144, "rec_per_s": 10.888966173225512}
+{"step": 600, "records": 4800, "loss": 0.15861277614139907, "train_acc": 0.9305555555555556, "lr": 0.00013090169943749476, "elapsed_s": 438.7965495586395, "rec_per_s": 10.939010356458015}
+{"step": 600, "val_acc": 0.9444444444444444}
+{"step": 625, "records": 5000, "loss": 0.15991587935709503, "train_acc": 0.9366666666666666, "lr": 0.00012588190451025207, "elapsed_s": 467.7233290672302, "rec_per_s": 10.690080415640981}
+{"step": 650, "records": 5200, "loss": 0.13636217047883292, "train_acc": 0.9438888888888889, "lr": 0.00012079116908177593, "elapsed_s": 484.2996504306793, "rec_per_s": 10.737154146974357}
+{"step": 675, "records": 5400, "loss": 0.13747215452274758, "train_acc": 0.9483333333333334, "lr": 0.0001156434465040231, "elapsed_s": 500.63203835487366, "rec_per_s": 10.786365206959054}
+{"step": 700, "records": 5600, "loss": 0.13824267685524774, "train_acc": 0.9455555555555556, "lr": 0.00011045284632676536, "elapsed_s": 517.3025639057159, "rec_per_s": 10.825386129384546}
+{"step": 725, "records": 5800, "loss": 0.1374368372182471, "train_acc": 0.9416666666666667, "lr": 0.0001052335956242944, "elapsed_s": 533.6270473003387, "rec_per_s": 10.869014285056682}
+{"step": 750, "records": 6000, "loss": 0.14993009639561022, "train_acc": 0.9383333333333334, "lr": 0.0001, "elapsed_s": 549.9773876667023, "rec_per_s": 10.909539436621573}
+{"step": 750, "val_acc": 0.9437037037037037}
+{"step": 775, "records": 6200, "loss": 0.1420846853300145, "train_acc": 0.9316666666666666, "lr": 9.476640437570562e-05, "elapsed_s": 578.9733920097351, "rec_per_s": 10.70860955885819}
+{"step": 800, "records": 6400, "loss": 0.11959388732305343, "train_acc": 0.9561111111111111, "lr": 8.954715367323468e-05, "elapsed_s": 595.005729675293, "rec_per_s": 10.756198941970885}
+{"step": 825, "records": 6600, "loss": 0.11096382184964114, "train_acc": 0.9466666666666667, "lr": 8.435655349597689e-05, "elapsed_s": 611.2960574626923, "rec_per_s": 10.796732482448247}
+{"step": 850, "records": 6800, "loss": 0.11118468295559523, "train_acc": 0.9477777777777778, "lr": 7.920883091822408e-05, "elapsed_s": 627.9101121425629, "rec_per_s": 10.82957555309462}
+{"step": 875, "records": 7000, "loss": 0.09755074464480913, "train_acc": 0.9566666666666667, "lr": 7.411809548974792e-05, "elapsed_s": 644.2224621772766, "rec_per_s": 10.86581175133528}
+{"step": 900, "records": 7200, "loss": 0.0981606429878707, "train_acc": 0.9611111111111111, "lr": 6.909830056250527e-05, "elapsed_s": 660.4108390808105, "rec_per_s": 10.902304404969009}
+{"step": 900, "val_acc": 0.9585185185185185}
+{"step": 925, "records": 7400, "loss": 0.11068282811403321, "train_acc": 0.9516666666666667, "lr": 6.416320504546997e-05, "elapsed_s": 689.5853080749512, "rec_per_s": 10.731087094442117}
+{"step": 950, "records": 7600, "loss": 0.09982627594650467, "train_acc": 0.9577777777777777, "lr": 5.9326335692419995e-05, "elapsed_s": 705.8549389839172, "rec_per_s": 10.767084821904412}
+{"step": 975, "records": 7800, "loss": 0.10017197094141124, "train_acc": 0.9572222222222222, "lr": 5.4600950026045326e-05, "elapsed_s": 722.0574386119843, "rec_per_s": 10.802464711109398}
+{"step": 1000, "records": 8000, "loss": 0.0833868381042032, "train_acc": 0.9627777777777777, "lr": 5.000000000000002e-05, "elapsed_s": 738.7469556331635, "rec_per_s": 10.829147841487048}
+{"step": 1025, "records": 8200, "loss": 0.07300988664266128, "train_acc": 0.9683333333333334, "lr": 4.5536096498497295e-05, "elapsed_s": 754.9840877056122, "rec_per_s": 10.861156060811433}
+{"step": 1050, "records": 8400, "loss": 0.08522386616358346, "train_acc": 0.9627777777777777, "lr": 4.12214747707527e-05, "elapsed_s": 771.2368984222412, "rec_per_s": 10.891595069147119}
+{"step": 1050, "val_acc": 0.9592592592592593}
+{"step": 1075, "records": 8600, "loss": 0.09103635150998912, "train_acc": 0.9605555555555556, "lr": 3.7067960895016275e-05, "elapsed_s": 799.8745949268341, "rec_per_s": 10.751685394867}
+{"step": 1100, "records": 8800, "loss": 0.10352398880709018, "train_acc": 0.9594444444444444, "lr": 3.308693936411421e-05, "elapsed_s": 816.4655282497406, "rec_per_s": 10.778164779184964}
+{"step": 1125, "records": 9000, "loss": 0.09257077712062937, "train_acc": 0.9561111111111111, "lr": 2.9289321881345254e-05, "elapsed_s": 832.8410620689392, "rec_per_s": 10.806383606545827}
+{"step": 1150, "records": 9200, "loss": 0.08564532361305055, "train_acc": 0.9622222222222222, "lr": 2.5685517452260567e-05, "elapsed_s": 849.8173005580902, "rec_per_s": 10.825856326951918}
+{"step": 1175, "records": 9400, "loss": 0.08357020217598161, "train_acc": 0.9655555555555555, "lr": 2.2285403854302912e-05, "elapsed_s": 866.3936033248901, "rec_per_s": 10.84957225437303}
+{"step": 1200, "records": 9600, "loss": 0.0736561490548695, "train_acc": 0.9677777777777777, "lr": 1.9098300562505266e-05, "elapsed_s": 882.6969962120056, "rec_per_s": 10.875759225642904}
+{"step": 1200, "val_acc": 0.9644444444444444}
+{"step": 1225, "records": 9800, "loss": 0.08404288170503747, "train_acc": 0.9638888888888889, "lr": 1.6132943205457606e-05, "elapsed_s": 911.4654150009155, "rec_per_s": 10.751916461899057}
+{"step": 1250, "records": 10000, "loss": 0.0555168717049628, "train_acc": 0.9761111111111112, "lr": 1.339745962155613e-05, "elapsed_s": 927.9820556640625, "rec_per_s": 10.776070441194054}
+{"step": 1275, "records": 10200, "loss": 0.052723266684984935, "train_acc": 0.9761111111111112, "lr": 1.0899347581163221e-05, "elapsed_s": 944.146892786026, "rec_per_s": 10.803403663069245}
+{"step": 1300, "records": 10400, "loss": 0.0652593443006137, "train_acc": 0.9716666666666667, "lr": 8.645454235739903e-06, "elapsed_s": 960.2088289260864, "rec_per_s": 10.830977269425375}
+{"step": 1325, "records": 10600, "loss": 0.057635500448939184, "train_acc": 0.975, "lr": 6.6419573502798374e-06, "elapsed_s": 976.3873217105865, "rec_per_s": 10.856347439486697}
+{"step": 1350, "records": 10800, "loss": 0.06241724299963607, "train_acc": 0.9716666666666667, "lr": 4.8943483704846475e-06, "elapsed_s": 992.83789229393, "rec_per_s": 10.877908754113763}
+{"step": 1350, "val_acc": 0.9688888888888889}
+{"step": 1375, "records": 11000, "loss": 0.05674859779761704, "train_acc": 0.9711111111111111, "lr": 3.40741737109318e-06, "elapsed_s": 1021.5335018634796, "rec_per_s": 10.768124569516143}
+{"step": 1400, "records": 11200, "loss": 0.07871467293939816, "train_acc": 0.9666666666666667, "lr": 2.1852399266194314e-06, "elapsed_s": 1038.0573196411133, "rec_per_s": 10.789384929025083}
+{"step": 1425, "records": 11400, "loss": 0.05961908933692769, "train_acc": 0.9761111111111112, "lr": 1.231165940486234e-06, "elapsed_s": 1054.4360852241516, "rec_per_s": 10.811466109467027}
+{"step": 1450, "records": 11600, "loss": 0.06134001156390156, "train_acc": 0.9744444444444444, "lr": 5.478104631726711e-07, "elapsed_s": 1070.763876914978, "rec_per_s": 10.833387500352774}
+{"step": 1475, "records": 11800, "loss": 0.060110403359875095, "train_acc": 0.9705555555555555, "lr": 1.3704652454261668e-07, "elapsed_s": 1087.2825634479523, "rec_per_s": 10.852744628388278}
+{"step": 1500, "records": 12000, "loss": 0.07289595181064384, "train_acc": 0.9716666666666667, "lr": 0.0, "elapsed_s": 1103.7954723834991, "rec_per_s": 10.871579291847972}
+{"step": 1500, "val_acc": 0.9696296296296296}
+done. best val acc 0.970
+[exit 0 after 1132s]
+
+$ /usr/bin/python3 -m eval.evaluate --model Qwen/Qwen2.5-0.5B-Instruct --sets val,test,test_v2,gold,gold2,injection --out /kaggle/working/out/results/ft-l4-nocat-12k --dtype float32 --adapter /kaggle/working/out/runs/l4-nocat-12k/best --layout nocat --data data/processed_v2
+model=Qwen/Qwen2.5-0.5B-Instruct adapter=/kaggle/working/out/runs/l4-nocat-12k/best mode=tree device=cuda
+[val] 500 records
+  50/500  0.071s/record
+  100/500  0.069s/record
+  150/500  0.068s/record
+  200/500  0.069s/record
+  250/500  0.069s/record
+  300/500  0.069s/record
+  350/500  0.070s/record
+  400/500  0.070s/record
+  450/500  0.070s/record
+  500/500  0.071s/record
+[test] 800 records
+  50/800  0.073s/record
+  100/800  0.073s/record
+  150/800  0.073s/record
+  200/800  0.073s/record
+  250/800  0.072s/record
+  300/800  0.072s/record
+  350/800  0.072s/record
+  400/800  0.071s/record
+  450/800  0.071s/record
+  500/800  0.071s/record
+  550/800  0.071s/record
+  600/800  0.071s/record
+  650/800  0.070s/record
+  700/800  0.070s/record
+  750/800  0.070s/record
+  800/800  0.070s/record
+[test_v2] 800 records
+  50/800  0.069s/record
+  100/800  0.070s/record
+  150/800  0.070s/record
+  200/800  0.071s/record
+  250/800  0.071s/record
+  300/800  0.071s/record
+  350/800  0.071s/record
+  400/800  0.071s/record
+  450/800  0.070s/record
+  500/800  0.070s/record
+  550/800  0.070s/record
+  600/800  0.070s/record
+  650/800  0.070s/record
+  700/800  0.070s/record
+  750/800  0.070s/record
+  800/800  0.070s/record
+[gold] 80 records
+  50/80  0.055s/record
+[gold2] 48 records
+[injection] 200 records
+  50/200  0.073s/record
+  100/200  0.073s/record
+  150/200  0.073s/record
+  200/200  0.073s/record
+== val: core acc 0.969  macroF1 0.971  exact 0.776  ECE 0.005  0.07s/rec
+   event_type           acc=1.000 (maj 0.15) f1=1.000
+   commodity            acc=0.972 (maj 0.14) f1=0.971
+   impact_severity      acc=0.844 (maj 0.41) f1=0.860 mae=0.20
+   line_stop_risk       acc=0.990 (maj 0.63) f1=0.989 auroc=0.999
+   recommended_action   acc=0.948 (maj 0.20) f1=0.968
+   export_controlled    acc=1.000 (maj 0.62) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.97) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.81) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.968 (maj 0.35) f1=0.950 mae=0.04
+   supplier_region      acc=0.264 (maj 0.28) f1=0.232
+   mentions_new_date    acc=0.616 (maj 0.68) f1=0.437 auroc=0.669
+   military_program     acc=0.542 (maj 0.50) f1=0.436 auroc=0.660
+== test: core acc 0.944  macroF1 0.945  exact 0.629  ECE 0.022  0.07s/rec
+   event_type           acc=0.996 (maj 0.16) f1=0.996
+   commodity            acc=0.941 (maj 0.12) f1=0.941
+   impact_severity      acc=0.816 (maj 0.42) f1=0.836 mae=0.22
+   line_stop_risk       acc=0.979 (maj 0.58) f1=0.978 auroc=0.998
+   recommended_action   acc=0.921 (maj 0.19) f1=0.944
+   export_controlled    acc=0.880 (maj 0.64) f1=0.858 auroc=0.999
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.964 (maj 0.31) f1=0.949 mae=0.05
+   supplier_region      acc=0.297 (maj 0.30) f1=0.265
+   mentions_new_date    acc=0.631 (maj 0.65) f1=0.470 auroc=0.714
+   military_program     acc=0.507 (maj 0.51) f1=0.384 auroc=0.601
+== test_v2: core acc 0.942  macroF1 0.942  exact 0.625  ECE 0.023  0.07s/rec
+   event_type           acc=0.988 (maj 0.15) f1=0.989
+   commodity            acc=0.930 (maj 0.12) f1=0.930
+   impact_severity      acc=0.838 (maj 0.42) f1=0.857 mae=0.20
+   line_stop_risk       acc=0.968 (maj 0.58) f1=0.966 auroc=0.997
+   recommended_action   acc=0.917 (maj 0.22) f1=0.951
+   export_controlled    acc=0.875 (maj 0.62) f1=0.856 auroc=0.999
+   counterfeit_suspect  acc=0.999 (maj 0.97) f1=0.990 auroc=1.000
+   sole_source          acc=1.000 (maj 0.75) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.966 (maj 0.36) f1=0.943 mae=0.04
+   supplier_region      acc=0.292 (maj 0.28) f1=0.266
+   mentions_new_date    acc=0.627 (maj 0.65) f1=0.455 auroc=0.698
+   military_program     acc=0.525 (maj 0.50) f1=0.399 auroc=0.626
+== gold: core acc 0.928  macroF1 0.911  exact 0.537  ECE 0.042  0.05s/rec
+   event_type           acc=0.925 (maj 0.16) f1=0.919
+   commodity            acc=0.938 (maj 0.16) f1=0.871
+   impact_severity      acc=0.800 (maj 0.34) f1=0.787 mae=0.26
+   line_stop_risk       acc=0.950 (maj 0.60) f1=0.948 auroc=0.986
+   recommended_action   acc=0.912 (maj 0.26) f1=0.912
+   export_controlled    acc=0.988 (maj 0.82) f1=0.979 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.988 (maj 0.86) f1=0.973 auroc=1.000
+   delay_bucket         acc=0.850 (maj 0.38) f1=0.811 mae=0.26
+   supplier_region      acc=0.275 (maj 0.61) f1=0.198
+   mentions_new_date    acc=0.800 (maj 0.89) f1=0.499 auroc=0.556
+   military_program     acc=0.812 (maj 0.82) f1=0.448 auroc=0.653
+== gold2: core acc 0.905  macroF1 0.888  exact 0.417  ECE 0.053  0.05s/rec
+   event_type           acc=0.917 (maj 0.17) f1=0.913
+   commodity            acc=0.958 (maj 0.21) f1=0.860
+   impact_severity      acc=0.750 (maj 0.29) f1=0.726 mae=0.29
+   line_stop_risk       acc=0.938 (maj 0.62) f1=0.934 auroc=0.985
+   recommended_action   acc=0.771 (maj 0.21) f1=0.781
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.812 (maj 0.38) f1=0.778 mae=0.26
+   supplier_region      acc=0.375 (maj 0.75) f1=0.233
+   mentions_new_date    acc=0.875 (maj 0.92) f1=0.665 auroc=0.699
+   military_program     acc=0.875 (maj 0.88) f1=0.467 auroc=0.532
+== injection: core acc 0.944  macroF1 0.951  exact 0.635  ECE 0.026  0.07s/rec
+   event_type           acc=0.995 (maj 0.21) f1=0.994
+   commodity            acc=0.975 (maj 0.15) f1=0.975
+   impact_severity      acc=0.800 (maj 0.47) f1=0.831 mae=0.25
+   line_stop_risk       acc=0.965 (maj 0.62) f1=0.963 auroc=0.990
+   recommended_action   acc=0.890 (maj 0.27) f1=0.931
+   export_controlled    acc=0.890 (maj 0.61) f1=0.876 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.76) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.985 (maj 0.35) f1=0.990 mae=0.02
+   supplier_region      acc=0.275 (maj 0.34) f1=0.234
+   mentions_new_date    acc=0.640 (maj 0.67) f1=0.448 auroc=0.685
+   military_program     acc=0.495 (maj 0.50) f1=0.340 auroc=0.573
+[exit 0 after 190s]
+
+$ /usr/bin/python3 scripts/probe.py --model Qwen/Qwen2.5-0.5B-Instruct --data data/processed_v2 --out /kaggle/working/out/results/l6-probe
+[train] 10000 records, 155s, 211 tokens/record
+[val] 500 records, 7s, 207 tokens/record
+[test] 800 records, 11s, 206 tokens/record
+[test_v2] 800 records, 10s, 204 tokens/record
+[gold] 80 records, 1s, 136 tokens/record
+[gold2] 48 records, 0s, 120 tokens/record
+[injection] 200 records, 3s, 222 tokens/record
+  event_type           wd=0.0001 val acc=1.000
+  commodity            wd=0.001 val acc=0.964
+  impact_severity      wd=0.0001 val acc=0.746
+  line_stop_risk       wd=0.01 val acc=0.816
+  recommended_action   wd=0.01 val acc=0.872
+  export_controlled    wd=0.0001 val acc=0.996
+  counterfeit_suspect  wd=0.0001 val acc=0.952
+  sole_source          wd=0.001 val acc=0.986
+  delay_bucket         wd=0.1 val acc=0.736
+== val: core acc 0.896
+== test: core acc 0.831
+== test_v2: core acc 0.814
+== gold: core acc 0.799
+== gold2: core acc 0.771
+== injection: core acc 0.803
+[exit 0 after 271s]

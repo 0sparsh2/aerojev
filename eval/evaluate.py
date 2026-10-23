@@ -65,7 +65,7 @@ def main():
     ap.add_argument("--model", help="HF model id (also the tokenizer for --gguf)")
     ap.add_argument("--gguf", help="evaluate a GGUF file with llama.cpp on CPU instead of HF")
     ap.add_argument("--threads", type=int, default=4)
-    ap.add_argument("--layout", choices=["branch", "catalogue"], default="branch")
+    ap.add_argument("--layout", choices=["branch", "catalogue", "nocat"], default="branch")
     ap.add_argument("--adapter")
     ap.add_argument("--mode", choices=["tree", "unpacked"])
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
@@ -89,10 +89,12 @@ def main():
     results = {"model": args.model, "adapter": args.adapter, "gguf": args.gguf, "mode": eng.mode,
                "layout": args.layout, "sets": {}}
     all_preds = {}
+    # a nocat model only knows its trained questions; the held-out ones need their text in the prompt
+    questions = schema.TRAIN_QUESTIONS if args.layout == "nocat" else ALLQ
     for name in args.sets.split(","):
         rows = load(os.path.join(args.data, f"{name}.jsonl"), args.limit)
         print(f"[{name}] {len(rows)} records", flush=True)
-        preds, spr = run_set(eng, rows, ALLQ)
+        preds, spr = run_set(eng, rows, questions)
         all_preds[name] = preds
         with open(os.path.join(args.out, f"preds_{name}.jsonl"), "w") as f:
             for p in preds:
@@ -114,7 +116,8 @@ def main():
         if holdout:
             results["sets"][name]["holdout_questions"] = summarize(holdout, [q.id for q in schema.HOLDOUT_QUESTIONS])["per_question"]
 
-    if "gold" in all_preds and not args.no_perm:
+    # nocat never shows the options, so shuffling them has no meaning there
+    if "gold" in all_preds and not args.no_perm and args.layout != "nocat":
         rows = load(os.path.join(args.data, "gold.jsonl"), args.limit)
         perm, _ = run_set(eng, rows, ALLQ, shuffle_seed=1)
         results["gold_permutation"] = permutation_consistency(all_preds["gold"], perm)

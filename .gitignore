@@ -16,3 +16,7 @@ models/
 # regenerable build artifacts
 kaggle/dataset/*.tar.gz
 results/notebook/
+results/notebook-nocat/
+# GPU smoke-test outputs (plumbing checks, not results) and the distillation teacher's logits (28 MB, regenerable)
+kaggle/outputs/ladder-smoke/
+kaggle/outputs/ladder/out/results/teacher-qwen3-1.7b/preds_train.jsonl

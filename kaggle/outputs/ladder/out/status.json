@@ -1,0 +1,367 @@
+[
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l1-shared",
+   "args": [
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--shared-catalogue"
+   ]
+  },
+  "rc": 0,
+  "seconds": 1783
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l1-shared/best",
+   "out": "results/ft-l1-shared",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 278
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l2-shared-all9",
+   "args": [
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val"
+   ]
+  },
+  "rc": 0,
+  "seconds": 1645
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l0-baseline",
+   "args": [
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2"
+   ]
+  },
+  "rc": 0,
+  "seconds": 3976
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l2-shared-all9/best",
+   "out": "results/ft-l2-shared-all9",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 279
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l0-baseline/best",
+   "out": "results/ft-l0-baseline",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 242
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l3-6k-lr2e-4",
+   "args": [
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "0.6",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val"
+   ]
+  },
+  "rc": 0,
+  "seconds": 838
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l3-6k-lr5e-4",
+   "args": [
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "0.6",
+    "--lr",
+    "5e-4",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val"
+   ]
+  },
+  "rc": 0,
+  "seconds": 787
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l3-6k-lr2e-4/best",
+   "out": "results/ft-l3-6k-lr2e-4",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 278
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l3-6k-lr5e-4/best",
+   "out": "results/ft-l3-6k-lr5e-4",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 246
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen3-1.7B",
+   "adapter_input": "runs/qwen3-1.7b-cat-v2/best",
+   "out": "results/teacher-qwen3-1.7b",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "train",
+   "dtype": "float16"
+  },
+  "rc": 0,
+  "seconds": 877
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l3-6k-lr1e-3",
+   "args": [
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "0.6",
+    "--lr",
+    "1e-3",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val"
+   ]
+  },
+  "rc": 0,
+  "seconds": 776
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l3-6k-lr1e-3/best",
+   "out": "results/ft-l3-6k-lr1e-3",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 242
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l3-6k-distill",
+   "args": [
+    "--layout",
+    "catalogue",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "0.6",
+    "--lr",
+    "5e-4",
+    "--teacher",
+    "{OUT}/results/teacher-qwen3-1.7b/preds_train.jsonl",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val"
+   ]
+  },
+  "rc": 0,
+  "seconds": 856
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l3-6k-distill/best",
+   "out": "results/ft-l3-6k-distill",
+   "layout": "catalogue",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 279
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l4-nocat-12k",
+   "args": [
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val"
+   ]
+  },
+  "rc": 0,
+  "seconds": 1132
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l4-nocat-12k/best",
+   "out": "results/ft-l4-nocat-12k",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 190
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l4-nocat-6k",
+   "args": [
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "0.6",
+    "--lr",
+    "5e-4",
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val"
+   ]
+  },
+  "rc": 0,
+  "seconds": 599
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/probe.py --model Qwen/Qwen2.5-0.5B-Instruct --data data/processed_v2 --out {OUT}/results/l6-probe"
+  },
+  "rc": 0,
+  "seconds": 271
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter": "runs/l4-nocat-6k/best",
+   "out": "results/ft-l4-nocat-6k",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 221
+ }
+]

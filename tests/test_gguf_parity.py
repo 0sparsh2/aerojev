@@ -1,6 +1,9 @@
 """GGUF (llama.cpp, CPU) readout must agree with the HF fp32 readout.
 
-  python tests/test_gguf_parity.py models/base/Qwen3-0.6B-Q8_0.gguf Qwen/Qwen3-0.6B [adapter]
+  python tests/test_gguf_parity.py models/base/Qwen3-0.6B-Q8_0.gguf Qwen/Qwen3-0.6B [adapter] [layout]
+
+layout: branch (default), catalogue or nocat. The catalogue and nocat layouts check llama.cpp's batched path (one
+decode call per record) against the HF readout.
 """
 
 import json
@@ -14,12 +17,13 @@ from aerojev.engine import DecisionEngine, GGUFEngine
 from aerojev.prompt import materialize
 
 gguf, base = sys.argv[1], sys.argv[2]
-adapter = sys.argv[3] if len(sys.argv) > 3 else None
+adapter = sys.argv[3] if len(sys.argv) > 3 and sys.argv[3] != "-" else None
+layout = sys.argv[4] if len(sys.argv) > 4 else "branch"
 rows = [json.loads(l) for l in open("data/processed/gold.jsonl")][:8]
-qds = [materialize(q)[0] for q in schema.CATALOGUE]
+qds = [materialize(q)[0] for q in (schema.TRAIN_QUESTIONS if layout == "nocat" else schema.CATALOGUE)]
 
-hf = DecisionEngine(base, adapter=adapter)
-gg = GGUFEngine(gguf, base, n_threads=4)
+hf = DecisionEngine(base, adapter=adapter, layout=layout)
+gg = GGUFEngine(gguf, base, n_threads=4, layout=layout)
 agree, n, maxdiff = 0, 0, 0.0
 t_hf = t_gg = 0.0
 for r in rows:
@@ -31,4 +35,4 @@ for r in rows:
         agree += int(px.argmax() == py.argmax())
         n += 1
 print(f"argmax agreement {agree}/{n}  max prob diff {maxdiff:.3f}")
-print(f"latency per record (12 questions): HF fp32 {t_hf / len(rows):.2f}s   GGUF {t_gg / len(rows):.2f}s")
+print(f"latency per record ({len(qds)} questions): HF fp32 {t_hf / len(rows):.2f}s   GGUF {t_gg / len(rows):.2f}s")

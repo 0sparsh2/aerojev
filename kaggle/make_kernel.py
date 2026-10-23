@@ -23,6 +23,60 @@ MODELS = {
     "qwen3-1.7b": "Qwen/Qwen3-1.7B",
 }
 
+def _ladder(smoke=False):
+    """CPU speed-up ladder (docs/CPU_SPEEDUP_RESEARCH.md), Qwen2.5-0.5B only. Every level is trained and evaluated
+    the same way; scripts/ladder_report.py turns the outputs into one table (quality, GPU time, compute).
+    smoke: the same jobs on 64 records for a few steps, to catch GPU-only failures before the full run."""
+    m = MODELS["qwen2.5-0.5b"]
+    tiny = ["--limit", "64", "--max-steps", "4", "--val-limit", "8", "--eval-every", "2", "--warmup", "2"] if smoke else []
+    lim = {"limit": 16} if smoke else {}
+    fast = ["--shared-catalogue", "--min-q", "9", "--lora-dropout", "0", "--cached-val"]
+    nocat = ["--layout", "nocat", "--shared-catalogue", "--min-q", "9", "--lora-dropout", "0", "--cached-val"]
+    teacher = "results/teacher-qwen3-1.7b"
+
+    def level(run, args, layout="catalogue"):
+        lay = [] if layout == "nocat" else ["--layout", "catalogue"]
+        return [{"kind": "train", "model": m, "out": f"runs/{run}",
+                 "args": lay + ["--data", "data/processed_v2"] + args + tiny},
+                {"kind": "eval", "model": m, "adapter": f"runs/{run}/best", "out": f"results/ft-{run}", "layout": layout,
+                 "data": "data/processed_v2", "sets": "val,gold" if smoke else "val,test,test_v2,gold,gold2,injection",
+                 **lim}]
+
+    return {
+        "_kernel_sources": [f"{USER}/aerojev-train-extra"],  # its fine-tuned Qwen3-1.7B adapter is the distillation teacher
+        # queues balanced on the smoke run's T4 speeds: ~2.4 h each
+        "0": level("l0-baseline", ["--epochs", "1.2"])
+             + level("l3-6k-lr5e-4", ["--epochs", "0.6", "--lr", "5e-4"] + fast)
+             + level("l3-6k-lr1e-3", ["--epochs", "0.6", "--lr", "1e-3"] + fast)
+             + level("l4-nocat-12k", ["--epochs", "1.2"] + nocat, layout="nocat")
+             + [{"kind": "cmd", "cmd": "{PY} scripts/probe.py --model Qwen/Qwen2.5-0.5B-Instruct --data data/processed_v2 "
+                                       "--out {OUT}/results/l6-probe" + (" --limit 64 --steps 50" if smoke else "")}],
+        "1": level("l1-shared", ["--epochs", "1.2", "--shared-catalogue"])
+             + level("l2-shared-all9", ["--epochs", "1.2"] + fast)
+             + level("l3-6k-lr2e-4", ["--epochs", "0.6"] + fast)
+             + [{"kind": "eval", "model": MODELS["qwen3-1.7b"], "adapter_input": "runs/qwen3-1.7b-cat-v2/best",
+                 "out": teacher, "layout": "catalogue", "data": "data/processed_v2", "sets": "train", "dtype": "float16",
+                 **({"limit": 64} if smoke else {})}]
+             + level("l3-6k-distill", ["--epochs", "0.6", "--lr", "5e-4",
+                                       "--teacher", f"{{OUT}}/{teacher}/preds_train.jsonl"] + fast)
+             + level("l4-nocat-6k", ["--epochs", "0.6", "--lr", "5e-4"] + nocat, layout="nocat"),
+    }
+
+
+def _ladder_floor():
+    m = MODELS["qwen2.5-0.5b"]
+    nocat = ["--layout", "nocat", "--shared-catalogue", "--min-q", "9", "--lora-dropout", "0", "--cached-val",
+             "--data", "data/processed_v2", "--lr", "5e-4"]
+
+    def level(run, args):
+        return [{"kind": "train", "model": m, "out": f"runs/{run}", "args": nocat + args},
+                {"kind": "eval", "model": m, "adapter": f"runs/{run}/best", "out": f"results/ft-{run}", "layout": "nocat",
+                 "data": "data/processed_v2", "sets": "val,test,test_v2,gold,gold2,injection"}]
+
+    return {"0": level("l4-nocat-3k", ["--epochs", "0.3"]) + level("l4-nocat-4.8k", ["--epochs", "0.48"]),
+            "1": level("l4-nocat-6k-seed1", ["--epochs", "0.6", "--seed", "1"])}
+
+
 KERNELS = {
     # zero-shot logit readout, no training: the JEV-CPU / SemIf setting
     "baselines": {
@@ -126,6 +180,11 @@ KERNELS = {
                             "--layout catalogue --threads 2",
                             "--layout branch --threads 4"]],
     },
+    # CPU speed-up ladder on the T4s: quality, GPU time and compute per level (Qwen2.5-0.5B only)
+    "ladder": _ladder(),
+    # the catalogue-free recipe's floor: fewer records, and a second seed of the 6k run to size run-to-run noise
+    "ladder-floor": _ladder_floor(),
+    "ladder-smoke": _ladder(smoke=True),
     # x86 CPU latency suite (no GPU); inputs are the training kernels' outputs (adapters + GGUFs)
     "cpu-bench": {
         "_gpu": False,

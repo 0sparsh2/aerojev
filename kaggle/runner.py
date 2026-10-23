@@ -81,9 +81,11 @@ def run_job(job, log, env):
             args += f" --layout {job['layout']}"
         if job.get("data"):
             args += f" --data {job['data']}"
+        if job.get("limit"):
+            args += f" --limit {job['limit']}"
         return sh(f"{py} -m eval.evaluate {args}", log, env)
     if k == "train":
-        extra = " ".join(job.get("args", []))
+        extra = " ".join(job.get("args", [])).replace("{OUT}", OUT)  # e.g. a teacher file written by an earlier job
         return sh(f"{py} -m train.train --model {job['model']} --out {OUT}/{job['out']} {extra}", log, env)
     if k == "export":
         with LLAMA_LOCK:  # first export job builds llama.cpp tools; the other GPU waits
