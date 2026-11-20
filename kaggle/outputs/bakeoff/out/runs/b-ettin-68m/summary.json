@@ -1,0 +1,45 @@
+{
+ "best_val_acc": 0.965925925925926,
+ "steps": 1250,
+ "records": 20000,
+ "elapsed_s": 219.86760139465332,
+ "train_s": 215.78698110580444,
+ "val_s": 4.080620288848877,
+ "cost": {
+  "q_tokens": 2636184,
+  "attn_pairs": 380095992,
+  "useful_q_tokens": 2636184,
+  "useful_attn_pairs": 380095992
+ },
+ "model_dims": {
+  "num_hidden_layers": 19,
+  "hidden_size": 512,
+  "intermediate_size": 768,
+  "attn_width": 512,
+  "block_params": 42356224,
+  "full_ft": true,
+  "encoder": true
+ },
+ "device": "Tesla T4",
+ "args": {
+  "model": "jhu-clsp/ettin-encoder-68m",
+  "out": "/kaggle/working/out/runs/b-ettin-68m",
+  "results": "/kaggle/working/out/results/ft-b-ettin-68m",
+  "data": "data/processed_v2",
+  "epochs": 2.0,
+  "lr": 8e-05,
+  "head_lr": 0.001,
+  "batch": 16,
+  "max_len": 512,
+  "warmup_ratio": 0.06,
+  "weight_decay": 0.01,
+  "ordinal_weight": 0.5,
+  "eval_every": 200,
+  "val_limit": 150,
+  "sets": "val,test,test_v2,gold,gold2,injection",
+  "limit": null,
+  "max_steps": null,
+  "seed": 0,
+  "device": "cuda"
+ }
+}

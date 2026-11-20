@@ -1,0 +1,127 @@
+{
+ "base": "dmis-lab/UltraBERT-150M",
+ "keys": {
+  "event_type": [
+   "delivery_delay",
+   "quality_escape",
+   "capacity_constraint",
+   "raw_material_shortage",
+   "logistics_disruption",
+   "financial_distress",
+   "regulatory_compliance",
+   "force_majeure",
+   "obsolescence",
+   "commercial_change",
+   "no_issue"
+  ],
+  "commodity": [
+   "castings_forgings",
+   "fasteners",
+   "electronics",
+   "composites",
+   "machined_parts",
+   "raw_material",
+   "harnesses_cables",
+   "chemicals",
+   "mechanical_assemblies",
+   "other"
+  ],
+  "impact_severity": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "line_stop_risk": [
+   "yes",
+   "no"
+  ],
+  "recommended_action": [
+   "monitor",
+   "expedite",
+   "request_recovery_plan",
+   "activate_alternate_source",
+   "quarantine_inventory",
+   "escalate_leadership",
+   "involve_trade_compliance",
+   "renegotiate_commercial",
+   "last_time_buy"
+  ],
+  "export_controlled": [
+   "yes",
+   "no"
+  ],
+  "counterfeit_suspect": [
+   "yes",
+   "no"
+  ],
+  "sole_source": [
+   "yes",
+   "no"
+  ],
+  "delay_bucket": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4"
+  ]
+ },
+ "types": {
+  "event_type": "choice",
+  "commodity": "choice",
+  "impact_severity": "score",
+  "line_stop_risk": "yesno",
+  "recommended_action": "choice",
+  "export_controlled": "yesno",
+  "counterfeit_suspect": "yesno",
+  "sole_source": "yesno",
+  "delay_bucket": "score"
+ },
+ "max_len": 512,
+ "pool": "mean",
+ "offsets": {
+  "event_type": [
+   0,
+   11
+  ],
+  "commodity": [
+   11,
+   21
+  ],
+  "impact_severity": [
+   21,
+   26
+  ],
+  "line_stop_risk": [
+   26,
+   28
+  ],
+  "recommended_action": [
+   28,
+   37
+  ],
+  "export_controlled": [
+   37,
+   39
+  ],
+  "counterfeit_suspect": [
+   39,
+   41
+  ],
+  "sole_source": [
+   41,
+   43
+  ],
+  "delay_bucket": [
+   43,
+   48
+  ]
+ },
+ "temperatures": {
+  "choice": 1.8,
+  "score": 2.0,
+  "yesno": 1.4
+ }
+}

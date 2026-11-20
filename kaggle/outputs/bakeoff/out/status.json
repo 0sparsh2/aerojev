@@ -1,0 +1,285 @@
+[
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/prune.py --drop top:8 --ffn 2560 --out /tmp/aerojev/pruned/d16w"
+  },
+  "rc": 0,
+  "seconds": 37
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/d16w",
+   "out": "runs/p-d16w-full-2e-5-seed1",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--full-ft",
+    "--lr",
+    "2e-5",
+    "--seed",
+    "1"
+   ]
+  },
+  "rc": 0,
+  "seconds": 579
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "/kaggle/working/out/runs/p-d16w-full-2e-5-seed1/best",
+   "out": "results/ft-p-d16w-full-2e-5-seed1",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 96
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+   "out": "runs/b-smollm2-135m-3e-5",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--full-ft",
+    "--lr",
+    "3e-5"
+   ]
+  },
+  "rc": 0,
+  "seconds": 752
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/kaggle/working/out/runs/b-smollm2-135m-3e-5/best",
+   "out": "results/ft-b-smollm2-135m-3e-5",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 218
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m aerojev.export --model {OUT}/runs/b-smollm2-135m-3e-5/best --out {OUT}/gguf --name b-smollm2-135m-3e-5 --quants q8_0 && rm -f {OUT}/runs/b-smollm2-135m-3e-5/best/model.safetensors"
+  },
+  "rc": 0,
+  "seconds": 134
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m aerojev.export --model {OUT}/runs/p-d16w-full-2e-5-seed1/best --out {OUT}/gguf --name p-d16w-full-2e-5-seed1 --quants f16,q8_0 && rm -f {OUT}/runs/p-d16w-full-2e-5-seed1/best/model.safetensors"
+  },
+  "rc": 0,
+  "seconds": 395
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/b-ettin-150m --results {OUT}/results/ft-b-ettin-150m --lr 5e-05 --epochs 2 --sets val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 461
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-68m --out {OUT}/runs/b-ettin-68m --results {OUT}/results/ft-b-ettin-68m --lr 8e-05 --epochs 2 --sets val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 248
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+   "out": "runs/b-smollm2-135m-1e-4",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--full-ft",
+    "--lr",
+    "1e-4"
+   ]
+  },
+  "rc": 0,
+  "seconds": 738
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-32m --out {OUT}/runs/b-ettin-32m --results {OUT}/results/ft-b-ettin-32m --lr 0.0001 --epochs 2 --sets val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 118
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/kaggle/working/out/runs/b-smollm2-135m-1e-4/best",
+   "out": "results/ft-b-smollm2-135m-1e-4",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 112
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m aerojev.export --model {OUT}/runs/b-smollm2-135m-1e-4/best --out {OUT}/gguf --name b-smollm2-135m-1e-4 --quants q8_0 && rm -f {OUT}/runs/b-smollm2-135m-1e-4/best/model.safetensors"
+  },
+  "rc": 0,
+  "seconds": 32
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "unsloth/gemma-3-270m-it",
+   "out": "runs/b-gemma3-270m-3e-5",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--full-ft",
+    "--lr",
+    "3e-5"
+   ]
+  },
+  "rc": 0,
+  "seconds": 833
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/kaggle/working/out/runs/b-gemma3-270m-3e-5/best",
+   "out": "results/ft-b-gemma3-270m-3e-5",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 104
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m aerojev.export --model {OUT}/runs/b-gemma3-270m-3e-5/best --out {OUT}/gguf --name b-gemma3-270m-3e-5 --quants q8_0 && rm -f {OUT}/runs/b-gemma3-270m-3e-5/best/model.safetensors"
+  },
+  "rc": 0,
+  "seconds": 43
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "unsloth/gemma-3-270m-it",
+   "out": "runs/b-gemma3-270m-1e-4",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--full-ft",
+    "--lr",
+    "1e-4"
+   ]
+  },
+  "rc": 0,
+  "seconds": 829
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/kaggle/working/out/runs/b-gemma3-270m-1e-4/best",
+   "out": "results/ft-b-gemma3-270m-1e-4",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 104
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m aerojev.export --model {OUT}/runs/b-gemma3-270m-1e-4/best --out {OUT}/gguf --name b-gemma3-270m-1e-4 --quants q8_0 && rm -f {OUT}/runs/b-gemma3-270m-1e-4/best/model.safetensors"
+  },
+  "rc": 0,
+  "seconds": 43
+ }
+]

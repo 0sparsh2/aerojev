@@ -1,0 +1,167 @@
+[
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "required": true,
+   "cmd": "{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out /tmp/smoke1 --results /tmp/smoke1r --max-steps 60 --eval-every 60 --val-limit 50 --sets gold --lr 3e-5"
+  },
+  "rc": 0,
+  "seconds": 46
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "required": true,
+   "cmd": "{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out /tmp/smoke0 --results /tmp/smoke0r --max-steps 60 --eval-every 60 --val-limit 50 --sets gold --lr 3e-5"
+  },
+  "rc": 0,
+  "seconds": 46
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr3e-5 --results {OUT}/results/ft-u150-ep8-lr3e-5 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 3e-05 --seed 0"
+  },
+  "rc": 0,
+  "seconds": 2096
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr1e-5 --results {OUT}/results/ft-u150-ep8-lr1e-5 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 1e-05 --seed 0"
+  },
+  "rc": 0,
+  "seconds": 2102
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr3e-5-seed1 --results {OUT}/results/ft-u150-ep8-lr3e-5-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 3e-05 --seed 1"
+  },
+  "rc": 0,
+  "seconds": 2095
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0",
+   "required": true
+  },
+  "rc": 0,
+  "seconds": 6
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr1e-5-seed1 --results {OUT}/results/ft-u150-ep8-lr1e-5-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 1e-05 --seed 1"
+  },
+  "rc": 0,
+  "seconds": 2098
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr3e-5/model --out {OUT}/onnx/u150-ep8-lr3e-5 --temps {OUT}/results/ft-u150-ep8-lr3e-5/metrics.json && {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr3e-5-int8"
+  },
+  "rc": 0,
+  "seconds": 870
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep8-seed1 --results {OUT}/results/ft-e150-ep8-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 5e-05 --seed 1"
+  },
+  "rc": 0,
+  "seconds": 1727
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr3e-5-seed1/model --out {OUT}/onnx/u150-ep8-lr3e-5-seed1 --temps {OUT}/results/ft-u150-ep8-lr3e-5-seed1/metrics.json && {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-int8"
+  },
+  "rc": 0,
+  "seconds": 862
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "for i in $(seq 360); do [ -f {OUT}/results/ft-e150-ep8-seed1/metrics.json ] && exit 0; sleep 30; done; exit 1"
+  },
+  "rc": 0,
+  "seconds": 0
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr1e-5/model --out {OUT}/onnx/u150-ep8-lr1e-5 --temps {OUT}/results/ft-u150-ep8-lr1e-5/metrics.json && {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr1e-5 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr1e-5-int8"
+  },
+  "rc": 0,
+  "seconds": 456
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr1e-5-seed1/model --out {OUT}/onnx/u150-ep8-lr1e-5-seed1 --temps {OUT}/results/ft-u150-ep8-lr1e-5-seed1/metrics.json && {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr1e-5-seed1 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr1e-5-seed1-int8"
+  },
+  "rc": 0,
+  "seconds": 457
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {OUT}/runs/e150-ep8-seed1/model --out {OUT}/onnx/e150-ep8-seed1 --temps {OUT}/results/ft-e150-ep8-seed1/metrics.json && {PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-e150-ep8-seed1-int8"
+  },
+  "rc": 0,
+  "seconds": 408
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl"
+  },
+  "rc": 0,
+  "seconds": 476
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr1e-5 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl"
+  },
+  "rc": 0,
+  "seconds": 518
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl"
+  },
+  "rc": 0,
+  "seconds": 477
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr1e-5 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl"
+  },
+  "rc": 0,
+  "seconds": 522
+ }
+]

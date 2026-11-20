@@ -1,0 +1,49 @@
+{
+ "best_val_acc": 0.9955555555555555,
+ "steps": 5000,
+ "records": 80000,
+ "elapsed_s": 2060.1076426506042,
+ "train_s": 2031.8296346664429,
+ "val_s": 28.278007984161377,
+ "cost": {
+  "q_tokens": 12032192,
+  "attn_pairs": 1983544864,
+  "useful_q_tokens": 12032192,
+  "useful_attn_pairs": 1983544864
+ },
+ "model_dims": {
+  "num_hidden_layers": 24,
+  "hidden_size": 768,
+  "intermediate_size": 1024,
+  "attn_width": 768,
+  "block_params": 113283840,
+  "full_ft": true,
+  "encoder": true
+ },
+ "device": "Tesla T4",
+ "args": {
+  "model": "dmis-lab/UltraBERT-150M",
+  "out": "/kaggle/working/out/runs/u150-ep8-lr3e-5-seed1",
+  "results": "/kaggle/working/out/results/ft-u150-ep8-lr3e-5-seed1",
+  "data": "data/processed_v2",
+  "epochs": 8.0,
+  "lr": 3e-05,
+  "head_lr": 0.001,
+  "batch": 16,
+  "max_len": 512,
+  "warmup_ratio": 0.06,
+  "weight_decay": 0.01,
+  "ordinal_weight": 0.5,
+  "pool": "mean",
+  "teacher": null,
+  "distill_weight": 1.0,
+  "distill_temp": 2.0,
+  "eval_every": 200,
+  "val_limit": 150,
+  "sets": "val,test,test_v2,gold,gold2,injection",
+  "limit": null,
+  "max_steps": null,
+  "seed": 1,
+  "device": "cuda"
+ }
+}

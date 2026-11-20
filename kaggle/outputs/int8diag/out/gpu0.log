@@ -1,0 +1,1229 @@
+
+$ /usr/bin/python3 -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0
+[exit 0 after 8s]
+
+$ /usr/bin/python3 scripts/export_encoder.py --model /kaggle/input/notebooks/sparshnagpal/aerojev-encoder/out/runs/e150-ep8/model --out /kaggle/working/out/onnx/e150-ep8 --keep-fp32 --temps /kaggle/input/notebooks/sparshnagpal/aerojev-encoder/out/results/ft-e150-ep8/metrics.json && /usr/bin/python3 scripts/int8_variants.py --dir /kaggle/working/out/onnx/e150-ep8
+/tmp/aerojev/proj/scripts/export_encoder.py:86: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(flat, (enc["input_ids"], enc["attention_mask"]), fp32, dynamo=False, opset_version=17,
+/usr/local/lib/python3.13/dist-packages/transformers/masking_utils.py:208: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if (padding_length := kv_length + kv_offset - attention_mask.shape[-1]) > 0:
+/usr/local/lib/python3.13/dist-packages/torch/onnx/_internal/torchscript_exporter/symbolic_opset11.py:954: UserWarning: Exporting aten::index operator of advanced indexing in opset 17 is achieved by combination of multiple ONNX operators, including Reshape, Transpose, Concat, and Gather. If indices include negative values, the exported graph will produce incorrect results.
+  return opset9.index(g, self, index)
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+fp32 ONNX vs PyTorch: max |logit diff| 1.72e-05 (padded batch of 8 + 8 single records)
+  decider.json              0.0 MB
+  model.int8.onnx         150.9 MB
+  model.onnx              596.8 MB
+  tokenizer.json            3.6 MB
+CPU: Intel(R) Xeon(R) CPU @ 2.20GHz | avx2=yes avx512f=no avx512bw=no avx512_vnni=no avx_vnni=no amx_int8=no
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8: 150.9 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-rr: 150.9 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+u8: 150.9 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-constb: 150.8 MB
+[exit 0 after 291s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-fp32
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.198s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.400s/record
+  100/800  0.373s/record
+  150/800  0.347s/record
+  200/800  0.335s/record
+  250/800  0.327s/record
+  300/800  0.328s/record
+  350/800  0.324s/record
+  400/800  0.316s/record
+  450/800  0.311s/record
+  500/800  0.308s/record
+  550/800  0.308s/record
+  600/800  0.305s/record
+  650/800  0.304s/record
+  700/800  0.302s/record
+  750/800  0.300s/record
+  800/800  0.299s/record
+== gold: core acc 0.929  macroF1 0.905  exact 0.625  ECE 0.045  0.20s/rec
+   event_type           acc=0.875 (maj 0.16) f1=0.873
+   commodity            acc=0.950 (maj 0.16) f1=0.911
+   impact_severity      acc=0.850 (maj 0.34) f1=0.853 mae=0.20
+   line_stop_risk       acc=0.900 (maj 0.60) f1=0.896 auroc=0.986
+   recommended_action   acc=0.925 (maj 0.26) f1=0.891
+   export_controlled    acc=1.000 (maj 0.82) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=0.988 (maj 0.96) f1=0.897 auroc=1.000
+   sole_source          acc=0.975 (maj 0.86) f1=0.947 auroc=0.999
+   delay_bucket         acc=0.900 (maj 0.38) f1=0.876 mae=0.20
+== gold2: core acc 0.926  macroF1 0.911  exact 0.583  ECE 0.051  0.18s/rec
+   event_type           acc=0.917 (maj 0.17) f1=0.906
+   commodity            acc=0.958 (maj 0.21) f1=0.883
+   impact_severity      acc=0.750 (maj 0.29) f1=0.740 mae=0.28
+   line_stop_risk       acc=0.938 (maj 0.62) f1=0.934 auroc=0.989
+   recommended_action   acc=0.875 (maj 0.21) f1=0.892
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.896 (maj 0.38) f1=0.847 mae=0.20
+== test: core acc 0.969  macroF1 0.972  exact 0.797  ECE 0.018  0.30s/rec
+   event_type           acc=0.984 (maj 0.16) f1=0.984
+   commodity            acc=0.949 (maj 0.12) f1=0.948
+   impact_severity      acc=0.926 (maj 0.42) f1=0.937 mae=0.09
+   line_stop_risk       acc=0.969 (maj 0.58) f1=0.968 auroc=0.996
+   recommended_action   acc=0.948 (maj 0.19) f1=0.962
+   export_controlled    acc=1.000 (maj 0.64) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.948 (maj 0.31) f1=0.945 mae=0.10
+[exit 0 after 279s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-s8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.122s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.214s/record
+  100/800  0.209s/record
+  150/800  0.212s/record
+  200/800  0.212s/record
+  250/800  0.212s/record
+  300/800  0.215s/record
+  350/800  0.217s/record
+  400/800  0.216s/record
+  450/800  0.215s/record
+  500/800  0.217s/record
+  550/800  0.220s/record
+  600/800  0.222s/record
+  650/800  0.225s/record
+  700/800  0.225s/record
+  750/800  0.223s/record
+  800/800  0.222s/record
+== gold: core acc 0.522  macroF1 0.366  exact 0.013  ECE 0.332  0.11s/rec
+   event_type           acc=0.188 (maj 0.16) f1=0.114
+   commodity            acc=0.375 (maj 0.16) f1=0.324
+   impact_severity      acc=0.362 (maj 0.34) f1=0.289 mae=1.01
+   line_stop_risk       acc=0.613 (maj 0.60) f1=0.408 auroc=0.729
+   recommended_action   acc=0.237 (maj 0.26) f1=0.150
+   export_controlled    acc=0.875 (maj 0.82) f1=0.755 auroc=0.904
+   counterfeit_suspect  acc=0.963 (maj 0.96) f1=0.490 auroc=0.805
+   sole_source          acc=0.863 (maj 0.86) f1=0.540 auroc=0.688
+   delay_bucket         acc=0.225 (maj 0.38) f1=0.222 mae=1.56
+== gold2: core acc 0.532  macroF1 0.353  exact 0.000  ECE 0.323  0.08s/rec
+   event_type           acc=0.146 (maj 0.17) f1=0.081
+   commodity            acc=0.542 (maj 0.21) f1=0.457
+   impact_severity      acc=0.292 (maj 0.29) f1=0.128 mae=1.03
+   line_stop_risk       acc=0.625 (maj 0.62) f1=0.385 auroc=0.578
+   recommended_action   acc=0.229 (maj 0.21) f1=0.119
+   export_controlled    acc=0.958 (maj 0.88) f1=0.888 auroc=0.937
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=0.826
+   sole_source          acc=0.875 (maj 0.88) f1=0.467 auroc=0.762
+   delay_bucket         acc=0.167 (maj 0.38) f1=0.161 mae=1.50
+== test: core acc 0.496  macroF1 0.342  exact 0.003  ECE 0.369  0.22s/rec
+   event_type           acc=0.201 (maj 0.16) f1=0.093
+   commodity            acc=0.410 (maj 0.12) f1=0.352
+   impact_severity      acc=0.422 (maj 0.42) f1=0.205 mae=0.96
+   line_stop_risk       acc=0.586 (maj 0.58) f1=0.386 auroc=0.721
+   recommended_action   acc=0.207 (maj 0.19) f1=0.103
+   export_controlled    acc=0.588 (maj 0.64) f1=0.581 auroc=0.881
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.517 auroc=0.702
+   sole_source          acc=0.766 (maj 0.73) f1=0.561 auroc=0.688
+   delay_bucket         acc=0.321 (maj 0.31) f1=0.279 mae=1.34
+[exit 0 after 202s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-s8-rr
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.120s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.209s/record
+  100/800  0.206s/record
+  150/800  0.207s/record
+  200/800  0.208s/record
+  250/800  0.208s/record
+  300/800  0.210s/record
+  350/800  0.211s/record
+  400/800  0.209s/record
+  450/800  0.208s/record
+  500/800  0.208s/record
+  550/800  0.209s/record
+  600/800  0.209s/record
+  650/800  0.209s/record
+  700/800  0.208s/record
+  750/800  0.208s/record
+  800/800  0.207s/record
+== gold: core acc 0.879  macroF1 0.863  exact 0.438  ECE 0.076  0.11s/rec
+   event_type           acc=0.887 (maj 0.16) f1=0.888
+   commodity            acc=0.925 (maj 0.16) f1=0.894
+   impact_severity      acc=0.650 (maj 0.34) f1=0.655 mae=0.39
+   line_stop_risk       acc=0.850 (maj 0.60) f1=0.835 auroc=0.947
+   recommended_action   acc=0.838 (maj 0.26) f1=0.813
+   export_controlled    acc=1.000 (maj 0.82) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.963 (maj 0.86) f1=0.910 auroc=0.912
+   delay_bucket         acc=0.800 (maj 0.38) f1=0.772 mae=0.39
+== gold2: core acc 0.868  macroF1 0.830  exact 0.417  ECE 0.077  0.08s/rec
+   event_type           acc=0.833 (maj 0.17) f1=0.828
+   commodity            acc=0.917 (maj 0.21) f1=0.873
+   impact_severity      acc=0.792 (maj 0.29) f1=0.793 mae=0.38
+   line_stop_risk       acc=0.854 (maj 0.62) f1=0.827 auroc=0.950
+   recommended_action   acc=0.771 (maj 0.21) f1=0.807
+   export_controlled    acc=0.979 (maj 0.88) f1=0.949 auroc=1.000
+   counterfeit_suspect  acc=0.979 (maj 0.96) f1=0.828 auroc=0.978
+   sole_source          acc=0.958 (maj 0.88) f1=0.888 auroc=0.861
+   delay_bucket         acc=0.729 (maj 0.38) f1=0.680 mae=0.46
+== test: core acc 0.925  macroF1 0.923  exact 0.556  ECE 0.049  0.21s/rec
+   event_type           acc=0.954 (maj 0.16) f1=0.950
+   commodity            acc=0.954 (maj 0.12) f1=0.953
+   impact_severity      acc=0.844 (maj 0.42) f1=0.865 mae=0.21
+   line_stop_risk       acc=0.854 (maj 0.58) f1=0.839 auroc=0.980
+   recommended_action   acc=0.914 (maj 0.19) f1=0.937
+   export_controlled    acc=0.998 (maj 0.64) f1=0.997 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.959 (maj 0.73) f1=0.944 auroc=0.999
+   delay_bucket         acc=0.848 (maj 0.31) f1=0.825 mae=0.28
+[exit 0 after 190s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-u8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.143s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.253s/record
+  100/800  0.249s/record
+  150/800  0.251s/record
+  200/800  0.252s/record
+  250/800  0.251s/record
+  300/800  0.255s/record
+  350/800  0.256s/record
+  400/800  0.254s/record
+  450/800  0.253s/record
+  500/800  0.253s/record
+  550/800  0.254s/record
+  600/800  0.254s/record
+  650/800  0.254s/record
+  700/800  0.253s/record
+  750/800  0.252s/record
+  800/800  0.252s/record
+== gold: core acc 0.897  macroF1 0.883  exact 0.487  ECE 0.060  0.13s/rec
+   event_type           acc=0.875 (maj 0.16) f1=0.872
+   commodity            acc=0.925 (maj 0.16) f1=0.887
+   impact_severity      acc=0.762 (maj 0.34) f1=0.763 mae=0.36
+   line_stop_risk       acc=0.887 (maj 0.60) f1=0.877 auroc=0.948
+   recommended_action   acc=0.863 (maj 0.26) f1=0.863
+   export_controlled    acc=1.000 (maj 0.82) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.963 (maj 0.86) f1=0.910 auroc=0.913
+   delay_bucket         acc=0.800 (maj 0.38) f1=0.774 mae=0.38
+== gold2: core acc 0.868  macroF1 0.827  exact 0.396  ECE 0.083  0.10s/rec
+   event_type           acc=0.792 (maj 0.17) f1=0.792
+   commodity            acc=0.938 (maj 0.21) f1=0.849
+   impact_severity      acc=0.729 (maj 0.29) f1=0.737 mae=0.42
+   line_stop_risk       acc=0.896 (maj 0.62) f1=0.881 auroc=0.965
+   recommended_action   acc=0.833 (maj 0.21) f1=0.850
+   export_controlled    acc=0.979 (maj 0.88) f1=0.949 auroc=1.000
+   counterfeit_suspect  acc=0.979 (maj 0.96) f1=0.828 auroc=0.967
+   sole_source          acc=0.958 (maj 0.88) f1=0.888 auroc=0.944
+   delay_bucket         acc=0.708 (maj 0.38) f1=0.672 mae=0.46
+== test: core acc 0.929  macroF1 0.929  exact 0.584  ECE 0.044  0.25s/rec
+   event_type           acc=0.964 (maj 0.16) f1=0.961
+   commodity            acc=0.953 (maj 0.12) f1=0.951
+   impact_severity      acc=0.839 (maj 0.42) f1=0.859 mae=0.21
+   line_stop_risk       acc=0.860 (maj 0.58) f1=0.846 auroc=0.984
+   recommended_action   acc=0.915 (maj 0.19) f1=0.938
+   export_controlled    acc=0.996 (maj 0.64) f1=0.996 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.966 (maj 0.73) f1=0.955 auroc=0.999
+   delay_bucket         acc=0.870 (maj 0.31) f1=0.856 mae=0.27
+[exit 0 after 228s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-s8-constb
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.113s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.216s/record
+  100/800  0.241s/record
+  150/800  0.246s/record
+  200/800  0.259s/record
+  250/800  0.265s/record
+  300/800  0.269s/record
+  350/800  0.275s/record
+  400/800  0.273s/record
+  450/800  0.270s/record
+  500/800  0.273s/record
+  550/800  0.272s/record
+  600/800  0.269s/record
+  650/800  0.266s/record
+  700/800  0.262s/record
+  750/800  0.257s/record
+  800/800  0.254s/record
+== gold: core acc 0.524  macroF1 0.380  exact 0.000  ECE 0.334  0.10s/rec
+   event_type           acc=0.188 (maj 0.16) f1=0.123
+   commodity            acc=0.388 (maj 0.16) f1=0.325
+   impact_severity      acc=0.388 (maj 0.34) f1=0.317 mae=0.99
+   line_stop_risk       acc=0.600 (maj 0.60) f1=0.375 auroc=0.773
+   recommended_action   acc=0.237 (maj 0.26) f1=0.158
+   export_controlled    acc=0.875 (maj 0.82) f1=0.770 auroc=0.915
+   counterfeit_suspect  acc=0.963 (maj 0.96) f1=0.490 auroc=0.823
+   sole_source          acc=0.887 (maj 0.86) f1=0.669 auroc=0.675
+   delay_bucket         acc=0.188 (maj 0.38) f1=0.188 mae=1.66
+== gold2: core acc 0.528  macroF1 0.346  exact 0.000  ECE 0.320  0.08s/rec
+   event_type           acc=0.146 (maj 0.17) f1=0.093
+   commodity            acc=0.583 (maj 0.21) f1=0.488
+   impact_severity      acc=0.271 (maj 0.29) f1=0.113 mae=1.02
+   line_stop_risk       acc=0.625 (maj 0.62) f1=0.385 auroc=0.656
+   recommended_action   acc=0.167 (maj 0.21) f1=0.070
+   export_controlled    acc=0.917 (maj 0.88) f1=0.810 auroc=0.937
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=0.815
+   sole_source          acc=0.875 (maj 0.88) f1=0.467 auroc=0.829
+   delay_bucket         acc=0.208 (maj 0.38) f1=0.199 mae=1.46
+== test: core acc 0.484  macroF1 0.320  exact 0.001  ECE 0.384  0.25s/rec
+   event_type           acc=0.190 (maj 0.16) f1=0.090
+   commodity            acc=0.384 (maj 0.12) f1=0.321
+   impact_severity      acc=0.420 (maj 0.42) f1=0.177 mae=0.97
+   line_stop_risk       acc=0.585 (maj 0.58) f1=0.380 auroc=0.723
+   recommended_action   acc=0.193 (maj 0.19) f1=0.075
+   export_controlled    acc=0.544 (maj 0.64) f1=0.530 auroc=0.867
+   counterfeit_suspect  acc=0.956 (maj 0.96) f1=0.489 auroc=0.705
+   sole_source          acc=0.765 (maj 0.73) f1=0.551 auroc=0.656
+   delay_bucket         acc=0.316 (maj 0.31) f1=0.265 mae=1.35
+[exit 0 after 227s]
+
+$ /usr/bin/python3 scripts/export_encoder.py --model /kaggle/input/notebooks/sparshnagpal/aerojev-ultra/out/runs/e150-ep8-seed1/model --out /kaggle/working/out/onnx/e150-ep8-seed1 --keep-fp32 --temps /kaggle/input/notebooks/sparshnagpal/aerojev-ultra/out/results/ft-e150-ep8-seed1/metrics.json && /usr/bin/python3 scripts/int8_variants.py --dir /kaggle/working/out/onnx/e150-ep8-seed1
+/tmp/aerojev/proj/scripts/export_encoder.py:86: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(flat, (enc["input_ids"], enc["attention_mask"]), fp32, dynamo=False, opset_version=17,
+/usr/local/lib/python3.13/dist-packages/transformers/masking_utils.py:208: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if (padding_length := kv_length + kv_offset - attention_mask.shape[-1]) > 0:
+/usr/local/lib/python3.13/dist-packages/torch/onnx/_internal/torchscript_exporter/symbolic_opset11.py:954: UserWarning: Exporting aten::index operator of advanced indexing in opset 17 is achieved by combination of multiple ONNX operators, including Reshape, Transpose, Concat, and Gather. If indices include negative values, the exported graph will produce incorrect results.
+  return opset9.index(g, self, index)
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+fp32 ONNX vs PyTorch: max |logit diff| 1.76e-05 (padded batch of 8 + 8 single records)
+  decider.json              0.0 MB
+  model.int8.onnx         150.9 MB
+  model.onnx              596.8 MB
+  tokenizer.json            3.6 MB
+CPU: Intel(R) Xeon(R) CPU @ 2.20GHz | avx2=yes avx512f=no avx512bw=no avx512_vnni=no avx_vnni=no amx_int8=no
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8: 150.9 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-rr: 150.9 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+u8: 150.9 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-constb: 150.8 MB
+[exit 0 after 255s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8-seed1 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-seed1-fp32
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.162s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.289s/record
+  100/800  0.283s/record
+  150/800  0.283s/record
+  200/800  0.283s/record
+  250/800  0.282s/record
+  300/800  0.285s/record
+  350/800  0.286s/record
+  400/800  0.283s/record
+  450/800  0.283s/record
+  500/800  0.286s/record
+  550/800  0.289s/record
+  600/800  0.288s/record
+  650/800  0.287s/record
+  700/800  0.286s/record
+  750/800  0.285s/record
+  800/800  0.284s/record
+== gold: core acc 0.933  macroF1 0.922  exact 0.637  ECE 0.048  0.14s/rec
+   event_type           acc=0.900 (maj 0.16) f1=0.894
+   commodity            acc=0.950 (maj 0.16) f1=0.914
+   impact_severity      acc=0.912 (maj 0.34) f1=0.912 mae=0.18
+   line_stop_risk       acc=0.925 (maj 0.60) f1=0.923 auroc=0.993
+   recommended_action   acc=0.912 (maj 0.26) f1=0.915
+   export_controlled    acc=0.988 (maj 0.82) f1=0.979 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.988 (maj 0.86) f1=0.973 auroc=0.992
+   delay_bucket         acc=0.825 (maj 0.38) f1=0.791 mae=0.41
+== gold2: core acc 0.917  macroF1 0.892  exact 0.583  ECE 0.060  0.12s/rec
+   event_type           acc=0.833 (maj 0.17) f1=0.843
+   commodity            acc=0.979 (maj 0.21) f1=0.889
+   impact_severity      acc=0.812 (maj 0.29) f1=0.801 mae=0.28
+   line_stop_risk       acc=0.979 (maj 0.62) f1=0.978 auroc=0.998
+   recommended_action   acc=0.854 (maj 0.21) f1=0.830
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.958 (maj 0.88) f1=0.888 auroc=0.996
+   delay_bucket         acc=0.833 (maj 0.38) f1=0.802 mae=0.34
+== test: core acc 0.958  macroF1 0.959  exact 0.736  ECE 0.023  0.28s/rec
+   event_type           acc=0.963 (maj 0.16) f1=0.960
+   commodity            acc=0.955 (maj 0.12) f1=0.954
+   impact_severity      acc=0.897 (maj 0.42) f1=0.901 mae=0.13
+   line_stop_risk       acc=0.970 (maj 0.58) f1=0.969 auroc=0.997
+   recommended_action   acc=0.912 (maj 0.19) f1=0.935
+   export_controlled    acc=0.964 (maj 0.64) f1=0.962 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.961 (maj 0.31) f1=0.953 mae=0.06
+[exit 0 after 259s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8-seed1/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-seed1-s8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.124s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.214s/record
+  100/800  0.212s/record
+  150/800  0.212s/record
+  200/800  0.212s/record
+  250/800  0.212s/record
+  300/800  0.218s/record
+  350/800  0.220s/record
+  400/800  0.218s/record
+  450/800  0.217s/record
+  500/800  0.217s/record
+  550/800  0.218s/record
+  600/800  0.218s/record
+  650/800  0.218s/record
+  700/800  0.219s/record
+  750/800  0.218s/record
+  800/800  0.218s/record
+== gold: core acc 0.606  macroF1 0.491  exact 0.013  ECE 0.215  0.11s/rec
+   event_type           acc=0.287 (maj 0.16) f1=0.239
+   commodity            acc=0.688 (maj 0.16) f1=0.655
+   impact_severity      acc=0.463 (maj 0.34) f1=0.445 mae=0.85
+   line_stop_risk       acc=0.700 (maj 0.60) f1=0.600 auroc=0.822
+   recommended_action   acc=0.475 (maj 0.26) f1=0.408
+   export_controlled    acc=0.613 (maj 0.82) f1=0.571 auroc=0.894
+   counterfeit_suspect  acc=0.963 (maj 0.96) f1=0.490 auroc=1.000
+   sole_source          acc=0.850 (maj 0.86) f1=0.624 auroc=0.843
+   delay_bucket         acc=0.412 (maj 0.38) f1=0.385 mae=1.11
+== gold2: core acc 0.558  macroF1 0.407  exact 0.000  ECE 0.257  0.08s/rec
+   event_type           acc=0.271 (maj 0.17) f1=0.233
+   commodity            acc=0.688 (maj 0.21) f1=0.642
+   impact_severity      acc=0.188 (maj 0.29) f1=0.112 mae=1.06
+   line_stop_risk       acc=0.667 (maj 0.62) f1=0.495 auroc=0.693
+   recommended_action   acc=0.354 (maj 0.21) f1=0.258
+   export_controlled    acc=0.729 (maj 0.88) f1=0.648 auroc=1.000
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=0.609
+   sole_source          acc=0.875 (maj 0.88) f1=0.591 auroc=0.710
+   delay_bucket         acc=0.292 (maj 0.38) f1=0.196 mae=1.24
+== test: core acc 0.591  macroF1 0.463  exact 0.021  ECE 0.229  0.22s/rec
+   event_type           acc=0.294 (maj 0.16) f1=0.261
+   commodity            acc=0.591 (maj 0.12) f1=0.576
+   impact_severity      acc=0.451 (maj 0.42) f1=0.272 mae=0.89
+   line_stop_risk       acc=0.598 (maj 0.58) f1=0.418 auroc=0.799
+   recommended_action   acc=0.410 (maj 0.19) f1=0.365
+   export_controlled    acc=0.686 (maj 0.64) f1=0.630 auroc=0.762
+   counterfeit_suspect  acc=0.956 (maj 0.96) f1=0.489 auroc=0.730
+   sole_source          acc=0.829 (maj 0.73) f1=0.767 auroc=0.817
+   delay_bucket         acc=0.500 (maj 0.31) f1=0.391 mae=0.98
+[exit 0 after 199s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8-seed1/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-seed1-s8-rr
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.123s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.217s/record
+  100/800  0.213s/record
+  150/800  0.214s/record
+  200/800  0.215s/record
+  250/800  0.216s/record
+  300/800  0.220s/record
+  350/800  0.222s/record
+  400/800  0.221s/record
+  450/800  0.220s/record
+  500/800  0.220s/record
+  550/800  0.229s/record
+  600/800  0.234s/record
+  650/800  0.242s/record
+  700/800  0.240s/record
+  750/800  0.238s/record
+  800/800  0.236s/record
+== gold: core acc 0.901  macroF1 0.875  exact 0.512  ECE 0.058  0.11s/rec
+   event_type           acc=0.887 (maj 0.16) f1=0.878
+   commodity            acc=0.938 (maj 0.16) f1=0.897
+   impact_severity      acc=0.825 (maj 0.34) f1=0.826 mae=0.25
+   line_stop_risk       acc=0.938 (maj 0.60) f1=0.933 auroc=0.988
+   recommended_action   acc=0.812 (maj 0.26) f1=0.819
+   export_controlled    acc=0.975 (maj 0.82) f1=0.957 auroc=0.999
+   counterfeit_suspect  acc=0.988 (maj 0.96) f1=0.897 auroc=1.000
+   sole_source          acc=0.975 (maj 0.86) f1=0.943 auroc=0.983
+   delay_bucket         acc=0.775 (maj 0.38) f1=0.726 mae=0.44
+== gold2: core acc 0.875  macroF1 0.821  exact 0.458  ECE 0.083  0.09s/rec
+   event_type           acc=0.750 (maj 0.17) f1=0.752
+   commodity            acc=0.938 (maj 0.21) f1=0.863
+   impact_severity      acc=0.729 (maj 0.29) f1=0.751 mae=0.41
+   line_stop_risk       acc=0.958 (maj 0.62) f1=0.954 auroc=0.996
+   recommended_action   acc=0.812 (maj 0.21) f1=0.787
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=0.979 (maj 0.96) f1=0.828 auroc=1.000
+   sole_source          acc=0.917 (maj 0.88) f1=0.727 auroc=0.897
+   delay_bucket         acc=0.792 (maj 0.38) f1=0.724 mae=0.33
+== test: core acc 0.936  macroF1 0.938  exact 0.619  ECE 0.033  0.24s/rec
+   event_type           acc=0.968 (maj 0.16) f1=0.967
+   commodity            acc=0.943 (maj 0.12) f1=0.941
+   impact_severity      acc=0.846 (maj 0.42) f1=0.864 mae=0.19
+   line_stop_risk       acc=0.956 (maj 0.58) f1=0.954 auroc=0.994
+   recommended_action   acc=0.897 (maj 0.19) f1=0.921
+   export_controlled    acc=0.921 (maj 0.64) f1=0.918 auroc=0.999
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.986 (maj 0.73) f1=0.982 auroc=0.999
+   delay_bucket         acc=0.909 (maj 0.31) f1=0.893 mae=0.16
+[exit 0 after 214s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8-seed1/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-seed1-u8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.147s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.270s/record
+  100/800  0.265s/record
+  150/800  0.266s/record
+  200/800  0.267s/record
+  250/800  0.268s/record
+  300/800  0.272s/record
+  350/800  0.273s/record
+  400/800  0.270s/record
+  450/800  0.270s/record
+  500/800  0.271s/record
+  550/800  0.272s/record
+  600/800  0.271s/record
+  650/800  0.270s/record
+  700/800  0.269s/record
+  750/800  0.267s/record
+  800/800  0.267s/record
+== gold: core acc 0.910  macroF1 0.880  exact 0.550  ECE 0.051  0.13s/rec
+   event_type           acc=0.912 (maj 0.16) f1=0.902
+   commodity            acc=0.938 (maj 0.16) f1=0.897
+   impact_severity      acc=0.812 (maj 0.34) f1=0.814 mae=0.24
+   line_stop_risk       acc=0.950 (maj 0.60) f1=0.948 auroc=0.984
+   recommended_action   acc=0.863 (maj 0.26) f1=0.865
+   export_controlled    acc=0.975 (maj 0.82) f1=0.957 auroc=0.999
+   counterfeit_suspect  acc=0.988 (maj 0.96) f1=0.897 auroc=1.000
+   sole_source          acc=0.963 (maj 0.86) f1=0.910 auroc=0.989
+   delay_bucket         acc=0.787 (maj 0.38) f1=0.727 mae=0.43
+== gold2: core acc 0.880  macroF1 0.820  exact 0.396  ECE 0.078  0.11s/rec
+   event_type           acc=0.771 (maj 0.17) f1=0.783
+   commodity            acc=0.979 (maj 0.21) f1=0.889
+   impact_severity      acc=0.708 (maj 0.29) f1=0.708 mae=0.44
+   line_stop_risk       acc=0.958 (maj 0.62) f1=0.954 auroc=1.000
+   recommended_action   acc=0.854 (maj 0.21) f1=0.825
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=0.979 (maj 0.96) f1=0.828 auroc=1.000
+   sole_source          acc=0.917 (maj 0.88) f1=0.727 auroc=0.964
+   delay_bucket         acc=0.750 (maj 0.38) f1=0.663 mae=0.40
+== test: core acc 0.935  macroF1 0.937  exact 0.604  ECE 0.033  0.27s/rec
+   event_type           acc=0.961 (maj 0.16) f1=0.960
+   commodity            acc=0.949 (maj 0.12) f1=0.948
+   impact_severity      acc=0.845 (maj 0.42) f1=0.866 mae=0.18
+   line_stop_risk       acc=0.955 (maj 0.58) f1=0.953 auroc=0.994
+   recommended_action   acc=0.892 (maj 0.19) f1=0.918
+   export_controlled    acc=0.909 (maj 0.64) f1=0.906 auroc=0.998
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.994 (maj 0.73) f1=0.992 auroc=0.999
+   delay_bucket         acc=0.907 (maj 0.31) f1=0.887 mae=0.16
+[exit 0 after 241s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/e150-ep8-seed1/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-e150-ep8-seed1-s8-constb
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.117s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.207s/record
+  100/800  0.203s/record
+  150/800  0.204s/record
+  200/800  0.204s/record
+  250/800  0.204s/record
+  300/800  0.207s/record
+  350/800  0.209s/record
+  400/800  0.207s/record
+  450/800  0.208s/record
+  500/800  0.209s/record
+  550/800  0.211s/record
+  600/800  0.211s/record
+  650/800  0.213s/record
+  700/800  0.214s/record
+  750/800  0.215s/record
+  800/800  0.216s/record
+== gold: core acc 0.596  macroF1 0.477  exact 0.037  ECE 0.226  0.10s/rec
+   event_type           acc=0.300 (maj 0.16) f1=0.265
+   commodity            acc=0.700 (maj 0.16) f1=0.642
+   impact_severity      acc=0.450 (maj 0.34) f1=0.434 mae=0.86
+   line_stop_risk       acc=0.688 (maj 0.60) f1=0.590 auroc=0.818
+   recommended_action   acc=0.475 (maj 0.26) f1=0.419
+   export_controlled    acc=0.562 (maj 0.82) f1=0.530 auroc=0.841
+   counterfeit_suspect  acc=0.963 (maj 0.96) f1=0.490 auroc=1.000
+   sole_source          acc=0.850 (maj 0.86) f1=0.624 auroc=0.785
+   delay_bucket         acc=0.375 (maj 0.38) f1=0.302 mae=1.19
+== gold2: core acc 0.604  macroF1 0.468  exact 0.000  ECE 0.213  0.08s/rec
+   event_type           acc=0.250 (maj 0.17) f1=0.195
+   commodity            acc=0.812 (maj 0.21) f1=0.750
+   impact_severity      acc=0.333 (maj 0.29) f1=0.303 mae=0.94
+   line_stop_risk       acc=0.708 (maj 0.62) f1=0.611 auroc=0.724
+   recommended_action   acc=0.417 (maj 0.21) f1=0.249
+   export_controlled    acc=0.729 (maj 0.88) f1=0.648 auroc=0.988
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=0.565
+   sole_source          acc=0.917 (maj 0.88) f1=0.727 auroc=0.853
+   delay_bucket         acc=0.312 (maj 0.38) f1=0.237 mae=1.25
+== test: core acc 0.569  macroF1 0.444  exact 0.014  ECE 0.251  0.22s/rec
+   event_type           acc=0.274 (maj 0.16) f1=0.228
+   commodity            acc=0.516 (maj 0.12) f1=0.499
+   impact_severity      acc=0.445 (maj 0.42) f1=0.257 mae=0.91
+   line_stop_risk       acc=0.603 (maj 0.58) f1=0.430 auroc=0.775
+   recommended_action   acc=0.360 (maj 0.19) f1=0.328
+   export_controlled    acc=0.671 (maj 0.64) f1=0.617 auroc=0.747
+   counterfeit_suspect  acc=0.956 (maj 0.96) f1=0.489 auroc=0.710
+   sole_source          acc=0.825 (maj 0.73) f1=0.770 auroc=0.810
+   delay_bucket         acc=0.475 (maj 0.31) f1=0.381 mae=1.04
+[exit 0 after 197s]
+
+$ /usr/bin/python3 scripts/export_encoder.py --model /kaggle/input/notebooks/sparshnagpal/aerojev-ultra/out/runs/u150-ep8-lr3e-5/model --out /kaggle/working/out/onnx/u150-ep8-lr3e-5 --keep-fp32 --temps /kaggle/input/notebooks/sparshnagpal/aerojev-ultra/out/results/ft-u150-ep8-lr3e-5/metrics.json && /usr/bin/python3 scripts/int8_variants.py --dir /kaggle/working/out/onnx/u150-ep8-lr3e-5
+/tmp/aerojev/proj/scripts/export_encoder.py:86: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(flat, (enc["input_ids"], enc["attention_mask"]), fp32, dynamo=False, opset_version=17,
+/usr/local/lib/python3.13/dist-packages/transformers/masking_utils.py:208: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if (padding_length := kv_length + kv_offset - attention_mask.shape[-1]) > 0:
+/usr/local/lib/python3.13/dist-packages/torch/onnx/_internal/torchscript_exporter/symbolic_opset11.py:954: UserWarning: Exporting aten::index operator of advanced indexing in opset 17 is achieved by combination of multiple ONNX operators, including Reshape, Transpose, Concat, and Gather. If indices include negative values, the exported graph will produce incorrect results.
+  return opset9.index(g, self, index)
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+fp32 ONNX vs PyTorch: max |logit diff| 1.30e-04 (padded batch of 8 + 8 single records)
+  decider.json              0.0 MB
+  model.int8.onnx         153.0 MB
+  model.onnx              604.9 MB
+  tokenizer.json            3.5 MB
+CPU: Intel(R) Xeon(R) CPU @ 2.20GHz | avx2=yes avx512f=no avx512bw=no avx512_vnni=no avx_vnni=no amx_int8=no
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8: 153.0 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-rr: 153.0 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+u8: 153.1 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-constb: 153.0 MB
+[exit 0 after 288s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-fp32
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.197s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.442s/record
+  100/800  0.397s/record
+  150/800  0.400s/record
+  200/800  0.397s/record
+  250/800  0.386s/record
+  300/800  0.386s/record
+  350/800  0.383s/record
+  400/800  0.376s/record
+  450/800  0.374s/record
+  500/800  0.377s/record
+  550/800  0.386s/record
+  600/800  0.384s/record
+  650/800  0.382s/record
+  700/800  0.380s/record
+  750/800  0.376s/record
+  800/800  0.373s/record
+== gold: core acc 0.942  macroF1 0.931  exact 0.675  ECE 0.043  0.18s/rec
+   event_type           acc=0.900 (maj 0.16) f1=0.910
+   commodity            acc=0.950 (maj 0.16) f1=0.911
+   impact_severity      acc=0.887 (maj 0.34) f1=0.870 mae=0.16
+   line_stop_risk       acc=0.975 (maj 0.60) f1=0.974 auroc=0.999
+   recommended_action   acc=0.912 (maj 0.26) f1=0.914
+   export_controlled    acc=1.000 (maj 0.82) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.975 (maj 0.86) f1=0.951 auroc=1.000
+   delay_bucket         acc=0.875 (maj 0.38) f1=0.847 mae=0.22
+== gold2: core acc 0.931  macroF1 0.914  exact 0.604  ECE 0.058  0.15s/rec
+   event_type           acc=0.896 (maj 0.17) f1=0.893
+   commodity            acc=0.979 (maj 0.21) f1=0.880
+   impact_severity      acc=0.812 (maj 0.29) f1=0.841 mae=0.21
+   line_stop_risk       acc=1.000 (maj 0.62) f1=1.000 auroc=1.000
+   recommended_action   acc=0.896 (maj 0.21) f1=0.908
+   export_controlled    acc=0.979 (maj 0.88) f1=0.956 auroc=0.996
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.979 (maj 0.88) f1=0.956 auroc=0.992
+   delay_bucket         acc=0.833 (maj 0.38) f1=0.796 mae=0.23
+== test: core acc 0.983  macroF1 0.984  exact 0.882  ECE 0.012  0.37s/rec
+   event_type           acc=0.998 (maj 0.16) f1=0.998
+   commodity            acc=0.961 (maj 0.12) f1=0.960
+   impact_severity      acc=0.941 (maj 0.42) f1=0.948 mae=0.06
+   line_stop_risk       acc=0.981 (maj 0.58) f1=0.981 auroc=0.999
+   recommended_action   acc=0.970 (maj 0.19) f1=0.981
+   export_controlled    acc=1.000 (maj 0.64) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.991 (maj 0.31) f1=0.986 mae=0.01
+[exit 0 after 336s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-s8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.133s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.240s/record
+  100/800  0.238s/record
+  150/800  0.244s/record
+  200/800  0.247s/record
+  250/800  0.254s/record
+  300/800  0.258s/record
+  350/800  0.260s/record
+  400/800  0.260s/record
+  450/800  0.259s/record
+  500/800  0.259s/record
+  550/800  0.259s/record
+  600/800  0.258s/record
+  650/800  0.258s/record
+  700/800  0.259s/record
+  750/800  0.257s/record
+  800/800  0.257s/record
+== gold: core acc 0.432  macroF1 0.292  exact 0.000  ECE 0.375  0.12s/rec
+   event_type           acc=0.037 (maj 0.16) f1=0.019
+   commodity            acc=0.163 (maj 0.16) f1=0.100
+   impact_severity      acc=0.237 (maj 0.34) f1=0.174 mae=1.01
+   line_stop_risk       acc=0.637 (maj 0.60) f1=0.524 auroc=0.547
+   recommended_action   acc=0.113 (maj 0.26) f1=0.043
+   export_controlled    acc=0.575 (maj 0.82) f1=0.533 auroc=0.694
+   counterfeit_suspect  acc=0.887 (maj 0.96) f1=0.470 auroc=0.260
+   sole_source          acc=0.800 (maj 0.86) f1=0.543 auroc=0.680
+   delay_bucket         acc=0.438 (maj 0.38) f1=0.219 mae=1.16
+== gold2: core acc 0.419  macroF1 0.263  exact 0.000  ECE 0.391  0.10s/rec
+   event_type           acc=0.042 (maj 0.17) f1=0.008
+   commodity            acc=0.104 (maj 0.21) f1=0.033
+   impact_severity      acc=0.250 (maj 0.29) f1=0.126 mae=1.10
+   line_stop_risk       acc=0.646 (maj 0.62) f1=0.514 auroc=0.496
+   recommended_action   acc=0.125 (maj 0.21) f1=0.041
+   export_controlled    acc=0.562 (maj 0.88) f1=0.500 auroc=0.778
+   counterfeit_suspect  acc=0.875 (maj 0.96) f1=0.467 auroc=0.533
+   sole_source          acc=0.792 (maj 0.88) f1=0.524 auroc=0.687
+   delay_bucket         acc=0.375 (maj 0.38) f1=0.153 mae=1.29
+== test: core acc 0.385  macroF1 0.278  exact 0.000  ECE 0.429  0.26s/rec
+   event_type           acc=0.079 (maj 0.16) f1=0.032
+   commodity            acc=0.099 (maj 0.12) f1=0.067
+   impact_severity      acc=0.235 (maj 0.42) f1=0.143 mae=1.06
+   line_stop_risk       acc=0.570 (maj 0.58) f1=0.512 auroc=0.557
+   recommended_action   acc=0.156 (maj 0.19) f1=0.090
+   export_controlled    acc=0.580 (maj 0.64) f1=0.517 auroc=0.563
+   counterfeit_suspect  acc=0.830 (maj 0.96) f1=0.461 auroc=0.271
+   sole_source          acc=0.619 (maj 0.73) f1=0.505 auroc=0.546
+   delay_bucket         acc=0.295 (maj 0.31) f1=0.172 mae=1.47
+[exit 0 after 233s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-s8-rr
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.212s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.439s/record
+  100/800  0.338s/record
+  150/800  0.310s/record
+  200/800  0.293s/record
+  250/800  0.282s/record
+  300/800  0.277s/record
+  350/800  0.274s/record
+  400/800  0.269s/record
+  450/800  0.266s/record
+  500/800  0.263s/record
+  550/800  0.263s/record
+  600/800  0.260s/record
+  650/800  0.259s/record
+  700/800  0.258s/record
+  750/800  0.255s/record
+  800/800  0.255s/record
+== gold: core acc 0.722  macroF1 0.622  exact 0.138  ECE 0.213  0.18s/rec
+   event_type           acc=0.450 (maj 0.16) f1=0.380
+   commodity            acc=0.775 (maj 0.16) f1=0.706
+   impact_severity      acc=0.562 (maj 0.34) f1=0.528 mae=0.75
+   line_stop_risk       acc=0.762 (maj 0.60) f1=0.741 auroc=0.838
+   recommended_action   acc=0.500 (maj 0.26) f1=0.406
+   export_controlled    acc=0.887 (maj 0.82) f1=0.835 auroc=0.962
+   counterfeit_suspect  acc=0.950 (maj 0.96) f1=0.487 auroc=0.896
+   sole_source          acc=0.950 (maj 0.86) f1=0.886 auroc=0.909
+   delay_bucket         acc=0.662 (maj 0.38) f1=0.628 mae=0.90
+== gold2: core acc 0.736  macroF1 0.630  exact 0.146  ECE 0.211  0.13s/rec
+   event_type           acc=0.458 (maj 0.17) f1=0.417
+   commodity            acc=0.833 (maj 0.21) f1=0.810
+   impact_severity      acc=0.604 (maj 0.29) f1=0.585 mae=0.55
+   line_stop_risk       acc=0.729 (maj 0.62) f1=0.700 auroc=0.804
+   recommended_action   acc=0.583 (maj 0.21) f1=0.527
+   export_controlled    acc=0.938 (maj 0.88) f1=0.881 auroc=0.992
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=0.891
+   sole_source          acc=0.896 (maj 0.88) f1=0.743 auroc=0.948
+   delay_bucket         acc=0.625 (maj 0.38) f1=0.519 mae=0.68
+== test: core acc 0.827  macroF1 0.804  exact 0.291  ECE 0.123  0.25s/rec
+   event_type           acc=0.679 (maj 0.16) f1=0.696
+   commodity            acc=0.819 (maj 0.12) f1=0.819
+   impact_severity      acc=0.721 (maj 0.42) f1=0.643 mae=0.40
+   line_stop_risk       acc=0.828 (maj 0.58) f1=0.808 auroc=0.958
+   recommended_action   acc=0.661 (maj 0.19) f1=0.644
+   export_controlled    acc=0.965 (maj 0.64) f1=0.963 auroc=0.992
+   counterfeit_suspect  acc=0.985 (maj 0.96) f1=0.893 auroc=0.991
+   sole_source          acc=0.981 (maj 0.73) f1=0.976 auroc=0.988
+   delay_bucket         acc=0.805 (maj 0.31) f1=0.791 mae=0.39
+[exit 0 after 237s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-u8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.164s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.303s/record
+  100/800  0.295s/record
+  150/800  0.301s/record
+  200/800  0.301s/record
+  250/800  0.300s/record
+  300/800  0.302s/record
+  350/800  0.303s/record
+  400/800  0.299s/record
+  450/800  0.298s/record
+  500/800  0.298s/record
+  550/800  0.299s/record
+  600/800  0.303s/record
+  650/800  0.306s/record
+  700/800  0.305s/record
+  750/800  0.303s/record
+  800/800  0.303s/record
+== gold: core acc 0.715  macroF1 0.631  exact 0.138  ECE 0.220  0.15s/rec
+   event_type           acc=0.487 (maj 0.16) f1=0.393
+   commodity            acc=0.750 (maj 0.16) f1=0.710
+   impact_severity      acc=0.537 (maj 0.34) f1=0.444 mae=0.70
+   line_stop_risk       acc=0.762 (maj 0.60) f1=0.741 auroc=0.840
+   recommended_action   acc=0.525 (maj 0.26) f1=0.442
+   export_controlled    acc=0.887 (maj 0.82) f1=0.835 auroc=0.979
+   counterfeit_suspect  acc=0.963 (maj 0.96) f1=0.690 auroc=0.926
+   sole_source          acc=0.950 (maj 0.86) f1=0.886 auroc=0.877
+   delay_bucket         acc=0.575 (maj 0.38) f1=0.534 mae=0.96
+== gold2: core acc 0.752  macroF1 0.658  exact 0.167  ECE 0.177  0.12s/rec
+   event_type           acc=0.521 (maj 0.17) f1=0.495
+   commodity            acc=0.812 (maj 0.21) f1=0.749
+   impact_severity      acc=0.625 (maj 0.29) f1=0.627 mae=0.55
+   line_stop_risk       acc=0.729 (maj 0.62) f1=0.708 auroc=0.798
+   recommended_action   acc=0.583 (maj 0.21) f1=0.589
+   export_controlled    acc=0.958 (maj 0.88) f1=0.916 auroc=0.988
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=0.924
+   sole_source          acc=0.917 (maj 0.88) f1=0.777 auroc=0.929
+   delay_bucket         acc=0.667 (maj 0.38) f1=0.573 mae=0.60
+== test: core acc 0.822  macroF1 0.797  exact 0.291  ECE 0.124  0.30s/rec
+   event_type           acc=0.688 (maj 0.16) f1=0.692
+   commodity            acc=0.799 (maj 0.12) f1=0.799
+   impact_severity      acc=0.715 (maj 0.42) f1=0.627 mae=0.39
+   line_stop_risk       acc=0.834 (maj 0.58) f1=0.816 auroc=0.958
+   recommended_action   acc=0.641 (maj 0.19) f1=0.628
+   export_controlled    acc=0.963 (maj 0.64) f1=0.960 auroc=0.990
+   counterfeit_suspect  acc=0.985 (maj 0.96) f1=0.893 auroc=0.984
+   sole_source          acc=0.979 (maj 0.73) f1=0.972 auroc=0.989
+   delay_bucket         acc=0.797 (maj 0.31) f1=0.786 mae=0.42
+[exit 0 after 272s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-s8-constb
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.122s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.230s/record
+  100/800  0.233s/record
+  150/800  0.233s/record
+  200/800  0.233s/record
+  250/800  0.231s/record
+  300/800  0.233s/record
+  350/800  0.234s/record
+  400/800  0.231s/record
+  450/800  0.230s/record
+  500/800  0.230s/record
+  550/800  0.231s/record
+  600/800  0.231s/record
+  650/800  0.231s/record
+  700/800  0.230s/record
+  750/800  0.229s/record
+  800/800  0.228s/record
+== gold: core acc 0.433  macroF1 0.288  exact 0.000  ECE 0.366  0.11s/rec
+   event_type           acc=0.075 (maj 0.16) f1=0.037
+   commodity            acc=0.125 (maj 0.16) f1=0.066
+   impact_severity      acc=0.250 (maj 0.34) f1=0.154 mae=1.00
+   line_stop_risk       acc=0.637 (maj 0.60) f1=0.508 auroc=0.526
+   recommended_action   acc=0.125 (maj 0.26) f1=0.084
+   export_controlled    acc=0.550 (maj 0.82) f1=0.505 auroc=0.693
+   counterfeit_suspect  acc=0.887 (maj 0.96) f1=0.470 auroc=0.260
+   sole_source          acc=0.825 (maj 0.86) f1=0.562 auroc=0.719
+   delay_bucket         acc=0.425 (maj 0.38) f1=0.205 mae=1.20
+== gold2: core acc 0.405  macroF1 0.254  exact 0.000  ECE 0.407  0.08s/rec
+   event_type           acc=0.083 (maj 0.17) f1=0.032
+   commodity            acc=0.104 (maj 0.21) f1=0.031
+   impact_severity      acc=0.250 (maj 0.29) f1=0.108 mae=1.10
+   line_stop_risk       acc=0.667 (maj 0.62) f1=0.556 auroc=0.583
+   recommended_action   acc=0.125 (maj 0.21) f1=0.041
+   export_controlled    acc=0.396 (maj 0.88) f1=0.383 auroc=0.889
+   counterfeit_suspect  acc=0.854 (maj 0.96) f1=0.461 auroc=0.565
+   sole_source          acc=0.792 (maj 0.88) f1=0.524 auroc=0.734
+   delay_bucket         acc=0.375 (maj 0.38) f1=0.153 mae=1.31
+== test: core acc 0.395  macroF1 0.280  exact 0.000  ECE 0.418  0.23s/rec
+   event_type           acc=0.076 (maj 0.16) f1=0.031
+   commodity            acc=0.109 (maj 0.12) f1=0.066
+   impact_severity      acc=0.226 (maj 0.42) f1=0.140 mae=1.06
+   line_stop_risk       acc=0.565 (maj 0.58) f1=0.489 auroc=0.549
+   recommended_action   acc=0.171 (maj 0.19) f1=0.098
+   export_controlled    acc=0.599 (maj 0.64) f1=0.521 auroc=0.574
+   counterfeit_suspect  acc=0.856 (maj 0.96) f1=0.478 auroc=0.301
+   sole_source          acc=0.651 (maj 0.73) f1=0.525 auroc=0.546
+   delay_bucket         acc=0.301 (maj 0.31) f1=0.169 mae=1.49
+[exit 0 after 208s]
+
+$ /usr/bin/python3 scripts/export_encoder.py --model /kaggle/input/notebooks/sparshnagpal/aerojev-ultra/out/runs/u150-ep8-lr3e-5-seed1/model --out /kaggle/working/out/onnx/u150-ep8-lr3e-5-seed1 --keep-fp32 --temps /kaggle/input/notebooks/sparshnagpal/aerojev-ultra/out/results/ft-u150-ep8-lr3e-5-seed1/metrics.json && /usr/bin/python3 scripts/int8_variants.py --dir /kaggle/working/out/onnx/u150-ep8-lr3e-5-seed1
+/tmp/aerojev/proj/scripts/export_encoder.py:86: DeprecationWarning: You are using the legacy TorchScript-based ONNX export. Starting in PyTorch 2.9, the new torch.export-based ONNX exporter has become the default. Learn more about the new export logic: https://docs.pytorch.org/docs/stable/onnx_export.html. For exporting control flow: https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+  torch.onnx.export(flat, (enc["input_ids"], enc["attention_mask"]), fp32, dynamo=False, opset_version=17,
+/usr/local/lib/python3.13/dist-packages/transformers/masking_utils.py:208: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if (padding_length := kv_length + kv_offset - attention_mask.shape[-1]) > 0:
+/usr/local/lib/python3.13/dist-packages/torch/onnx/_internal/torchscript_exporter/symbolic_opset11.py:954: UserWarning: Exporting aten::index operator of advanced indexing in opset 17 is achieved by combination of multiple ONNX operators, including Reshape, Transpose, Concat, and Gather. If indices include negative values, the exported graph will produce incorrect results.
+  return opset9.index(g, self, index)
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+fp32 ONNX vs PyTorch: max |logit diff| 3.81e-05 (padded batch of 8 + 8 single records)
+  decider.json              0.0 MB
+  model.int8.onnx         153.0 MB
+  model.onnx              604.9 MB
+  tokenizer.json            3.5 MB
+CPU: Intel(R) Xeon(R) CPU @ 2.20GHz | avx2=yes avx512f=no avx512bw=no avx512_vnni=no avx_vnni=no amx_int8=no
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8: 153.0 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-rr: 153.0 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+u8: 153.1 MB
+WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md 
+s8-constb: 153.0 MB
+[exit 0 after 260s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5-seed1 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-seed1-fp32
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.334s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.304s/record
+  100/800  0.303s/record
+  150/800  0.305s/record
+  200/800  0.307s/record
+  250/800  0.307s/record
+  300/800  0.310s/record
+  350/800  0.312s/record
+  400/800  0.308s/record
+  450/800  0.307s/record
+  500/800  0.307s/record
+  550/800  0.309s/record
+  600/800  0.308s/record
+  650/800  0.308s/record
+  700/800  0.307s/record
+  750/800  0.306s/record
+  800/800  0.306s/record
+== gold: core acc 0.935  macroF1 0.927  exact 0.688  ECE 0.054  0.28s/rec
+   event_type           acc=0.912 (maj 0.16) f1=0.919
+   commodity            acc=0.950 (maj 0.16) f1=0.911
+   impact_severity      acc=0.875 (maj 0.34) f1=0.860 mae=0.17
+   line_stop_risk       acc=0.925 (maj 0.60) f1=0.922 auroc=0.971
+   recommended_action   acc=0.863 (maj 0.26) f1=0.872
+   export_controlled    acc=1.000 (maj 0.82) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.988 (maj 0.86) f1=0.975 auroc=1.000
+   delay_bucket         acc=0.900 (maj 0.38) f1=0.888 mae=0.24
+== gold2: core acc 0.924  macroF1 0.912  exact 0.562  ECE 0.061  0.12s/rec
+   event_type           acc=0.917 (maj 0.17) f1=0.921
+   commodity            acc=0.958 (maj 0.21) f1=0.870
+   impact_severity      acc=0.833 (maj 0.29) f1=0.829 mae=0.23
+   line_stop_risk       acc=0.958 (maj 0.62) f1=0.956 auroc=0.994
+   recommended_action   acc=0.833 (maj 0.21) f1=0.862
+   export_controlled    acc=1.000 (maj 0.88) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=0.979 (maj 0.88) f1=0.956 auroc=0.996
+   delay_bucket         acc=0.833 (maj 0.38) f1=0.811 mae=0.31
+== test: core acc 0.981  macroF1 0.982  exact 0.869  ECE 0.013  0.31s/rec
+   event_type           acc=0.983 (maj 0.16) f1=0.980
+   commodity            acc=0.953 (maj 0.12) f1=0.951
+   impact_severity      acc=0.956 (maj 0.42) f1=0.964 mae=0.05
+   line_stop_risk       acc=0.985 (maj 0.58) f1=0.985 auroc=0.999
+   recommended_action   acc=0.966 (maj 0.19) f1=0.976
+   export_controlled    acc=1.000 (maj 0.64) f1=1.000 auroc=1.000
+   counterfeit_suspect  acc=1.000 (maj 0.96) f1=1.000 auroc=1.000
+   sole_source          acc=1.000 (maj 0.73) f1=1.000 auroc=1.000
+   delay_bucket         acc=0.990 (maj 0.31) f1=0.986 mae=0.01
+[exit 0 after 289s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5-seed1/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-seed1-s8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.128s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.233s/record
+  100/800  0.232s/record
+  150/800  0.236s/record
+  200/800  0.239s/record
+  250/800  0.240s/record
+  300/800  0.244s/record
+  350/800  0.246s/record
+  400/800  0.245s/record
+  450/800  0.244s/record
+  500/800  0.244s/record
+  550/800  0.248s/record
+  600/800  0.246s/record
+  650/800  0.246s/record
+  700/800  0.246s/record
+  750/800  0.245s/record
+  800/800  0.245s/record
+== gold: core acc 0.461  macroF1 0.338  exact 0.000  ECE 0.403  0.12s/rec
+   event_type           acc=0.125 (maj 0.16) f1=0.074
+   commodity            acc=0.138 (maj 0.16) f1=0.106
+   impact_severity      acc=0.250 (maj 0.34) f1=0.144 mae=1.35
+   line_stop_risk       acc=0.700 (maj 0.60) f1=0.675 auroc=0.743
+   recommended_action   acc=0.125 (maj 0.26) f1=0.081
+   export_controlled    acc=0.838 (maj 0.82) f1=0.726 auroc=0.817
+   counterfeit_suspect  acc=0.938 (maj 0.96) f1=0.484 auroc=0.688
+   sole_source          acc=0.700 (maj 0.86) f1=0.586 auroc=0.648
+   delay_bucket         acc=0.338 (maj 0.38) f1=0.167 mae=1.48
+== gold2: core acc 0.454  macroF1 0.296  exact 0.000  ECE 0.395  0.09s/rec
+   event_type           acc=0.083 (maj 0.17) f1=0.038
+   commodity            acc=0.062 (maj 0.21) f1=0.026
+   impact_severity      acc=0.229 (maj 0.29) f1=0.125 mae=1.28
+   line_stop_risk       acc=0.604 (maj 0.62) f1=0.531 auroc=0.494
+   recommended_action   acc=0.188 (maj 0.21) f1=0.067
+   export_controlled    acc=0.812 (maj 0.88) f1=0.600 auroc=0.714
+   counterfeit_suspect  acc=0.958 (maj 0.96) f1=0.489 auroc=0.674
+   sole_source          acc=0.771 (maj 0.88) f1=0.607 auroc=0.754
+   delay_bucket         acc=0.375 (maj 0.38) f1=0.180 mae=1.47
+== test: core acc 0.312  macroF1 0.223  exact 0.000  ECE 0.611  0.24s/rec
+   event_type           acc=0.066 (maj 0.16) f1=0.027
+   commodity            acc=0.106 (maj 0.12) f1=0.040
+   impact_severity      acc=0.163 (maj 0.42) f1=0.106 mae=1.58
+   line_stop_risk       acc=0.458 (maj 0.58) f1=0.441 auroc=0.493
+   recommended_action   acc=0.110 (maj 0.19) f1=0.049
+   export_controlled    acc=0.403 (maj 0.64) f1=0.356 auroc=0.570
+   counterfeit_suspect  acc=0.927 (maj 0.96) f1=0.481 auroc=0.437
+   sole_source          acc=0.367 (maj 0.73) f1=0.367 auroc=0.488
+   delay_bucket         acc=0.204 (maj 0.31) f1=0.142 mae=1.71
+[exit 0 after 223s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5-seed1/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-seed1-s8-rr
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.142s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.257s/record
+  100/800  0.246s/record
+  150/800  0.246s/record
+  200/800  0.245s/record
+  250/800  0.244s/record
+  300/800  0.247s/record
+  350/800  0.247s/record
+  400/800  0.244s/record
+  450/800  0.243s/record
+  500/800  0.242s/record
+  550/800  0.243s/record
+  600/800  0.242s/record
+  650/800  0.242s/record
+  700/800  0.242s/record
+  750/800  0.240s/record
+  800/800  0.240s/record
+== gold: core acc 0.739  macroF1 0.678  exact 0.125  ECE 0.218  0.12s/rec
+   event_type           acc=0.500 (maj 0.16) f1=0.462
+   commodity            acc=0.700 (maj 0.16) f1=0.692
+   impact_severity      acc=0.613 (maj 0.34) f1=0.598 mae=0.53
+   line_stop_risk       acc=0.812 (maj 0.60) f1=0.806 auroc=0.892
+   recommended_action   acc=0.550 (maj 0.26) f1=0.508
+   export_controlled    acc=0.875 (maj 0.82) f1=0.827 auroc=0.970
+   counterfeit_suspect  acc=0.975 (maj 0.96) f1=0.744 auroc=0.792
+   sole_source          acc=0.925 (maj 0.86) f1=0.812 auroc=0.754
+   delay_bucket         acc=0.700 (maj 0.38) f1=0.650 mae=0.62
+== gold2: core acc 0.794  macroF1 0.711  exact 0.188  ECE 0.166  0.09s/rec
+   event_type           acc=0.688 (maj 0.17) f1=0.662
+   commodity            acc=0.688 (maj 0.21) f1=0.633
+   impact_severity      acc=0.688 (maj 0.29) f1=0.711 mae=0.36
+   line_stop_risk       acc=0.875 (maj 0.62) f1=0.863 auroc=0.941
+   recommended_action   acc=0.708 (maj 0.21) f1=0.723
+   export_controlled    acc=0.938 (maj 0.88) f1=0.881 auroc=1.000
+   counterfeit_suspect  acc=0.938 (maj 0.96) f1=0.484 auroc=0.793
+   sole_source          acc=0.958 (maj 0.88) f1=0.888 auroc=0.841
+   delay_bucket         acc=0.667 (maj 0.38) f1=0.549 mae=0.45
+== test: core acc 0.823  macroF1 0.805  exact 0.261  ECE 0.135  0.24s/rec
+   event_type           acc=0.703 (maj 0.16) f1=0.713
+   commodity            acc=0.726 (maj 0.12) f1=0.719
+   impact_severity      acc=0.733 (maj 0.42) f1=0.725 mae=0.35
+   line_stop_risk       acc=0.887 (maj 0.58) f1=0.882 auroc=0.960
+   recommended_action   acc=0.684 (maj 0.19) f1=0.695
+   export_controlled    acc=0.931 (maj 0.64) f1=0.923 auroc=0.958
+   counterfeit_suspect  acc=0.984 (maj 0.96) f1=0.882 auroc=0.988
+   sole_source          acc=0.921 (maj 0.73) f1=0.889 auroc=0.965
+   delay_bucket         acc=0.834 (maj 0.31) f1=0.815 mae=0.34
+[exit 0 after 219s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5-seed1/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-seed1-u8
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.156s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.288s/record
+  100/800  0.285s/record
+  150/800  0.287s/record
+  200/800  0.288s/record
+  250/800  0.288s/record
+  300/800  0.291s/record
+  350/800  0.293s/record
+  400/800  0.290s/record
+  450/800  0.289s/record
+  500/800  0.290s/record
+  550/800  0.291s/record
+  600/800  0.291s/record
+  650/800  0.291s/record
+  700/800  0.291s/record
+  750/800  0.290s/record
+  800/800  0.291s/record
+== gold: core acc 0.739  macroF1 0.676  exact 0.138  ECE 0.215  0.14s/rec
+   event_type           acc=0.525 (maj 0.16) f1=0.492
+   commodity            acc=0.738 (maj 0.16) f1=0.723
+   impact_severity      acc=0.588 (maj 0.34) f1=0.590 mae=0.54
+   line_stop_risk       acc=0.787 (maj 0.60) f1=0.783 auroc=0.880
+   recommended_action   acc=0.525 (maj 0.26) f1=0.483
+   export_controlled    acc=0.863 (maj 0.82) f1=0.814 auroc=0.975
+   counterfeit_suspect  acc=0.975 (maj 0.96) f1=0.744 auroc=0.987
+   sole_source          acc=0.912 (maj 0.86) f1=0.770 auroc=0.794
+   delay_bucket         acc=0.738 (maj 0.38) f1=0.689 mae=0.52
+== gold2: core acc 0.775  macroF1 0.688  exact 0.146  ECE 0.179  0.10s/rec
+   event_type           acc=0.583 (maj 0.17) f1=0.534
+   commodity            acc=0.667 (maj 0.21) f1=0.647
+   impact_severity      acc=0.646 (maj 0.29) f1=0.672 mae=0.37
+   line_stop_risk       acc=0.875 (maj 0.62) f1=0.867 auroc=0.939
+   recommended_action   acc=0.708 (maj 0.21) f1=0.728
+   export_controlled    acc=0.938 (maj 0.88) f1=0.881 auroc=0.996
+   counterfeit_suspect  acc=0.938 (maj 0.96) f1=0.484 auroc=0.837
+   sole_source          acc=0.938 (maj 0.88) f1=0.816 auroc=0.810
+   delay_bucket         acc=0.688 (maj 0.38) f1=0.561 mae=0.39
+== test: core acc 0.821  macroF1 0.801  exact 0.256  ECE 0.136  0.29s/rec
+   event_type           acc=0.700 (maj 0.16) f1=0.714
+   commodity            acc=0.725 (maj 0.12) f1=0.719
+   impact_severity      acc=0.733 (maj 0.42) f1=0.712 mae=0.36
+   line_stop_risk       acc=0.889 (maj 0.58) f1=0.883 auroc=0.961
+   recommended_action   acc=0.670 (maj 0.19) f1=0.678
+   export_controlled    acc=0.921 (maj 0.64) f1=0.912 auroc=0.965
+   counterfeit_suspect  acc=0.984 (maj 0.96) f1=0.882 auroc=0.990
+   sole_source          acc=0.921 (maj 0.73) f1=0.888 auroc=0.958
+   delay_bucket         acc=0.848 (maj 0.31) f1=0.822 mae=0.28
+[exit 0 after 261s]
+
+$ /usr/bin/python3 -m eval.evaluate --onnx /kaggle/working/out/onnx/u150-ep8-lr3e-5-seed1/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out /kaggle/working/out/results/onnx-u150-ep8-lr3e-5-seed1-s8-constb
+model=None adapter=None mode=encoder device=cpu
+[gold] 80 records
+  50/80  0.124s/record
+[gold2] 48 records
+[test] 800 records
+  50/800  0.237s/record
+  100/800  0.228s/record
+  150/800  0.230s/record
+  200/800  0.230s/record
+  250/800  0.229s/record
+  300/800  0.232s/record
+  350/800  0.233s/record
+  400/800  0.231s/record
+  450/800  0.230s/record
+  500/800  0.230s/record
+  550/800  0.231s/record
+  600/800  0.230s/record
+  650/800  0.230s/record
+  700/800  0.229s/record
+  750/800  0.228s/record
+  800/800  0.228s/record
+== gold: core acc 0.440  macroF1 0.318  exact 0.000  ECE 0.426  0.11s/rec
+   event_type           acc=0.125 (maj 0.16) f1=0.074
+   commodity            acc=0.100 (maj 0.16) f1=0.055
+   impact_severity      acc=0.225 (maj 0.34) f1=0.125 mae=1.42
+   line_stop_risk       acc=0.625 (maj 0.60) f1=0.600 auroc=0.617
+   recommended_action   acc=0.125 (maj 0.26) f1=0.065
+   export_controlled    acc=0.812 (maj 0.82) f1=0.684 auroc=0.764
+   counterfeit_suspect  acc=0.925 (maj 0.96) f1=0.481 auroc=0.485
+   sole_source          acc=0.675 (maj 0.86) f1=0.567 auroc=0.700
+   delay_bucket         acc=0.350 (maj 0.38) f1=0.210 mae=1.50
+== gold2: core acc 0.444  macroF1 0.288  exact 0.000  ECE 0.405  0.08s/rec
+   event_type           acc=0.083 (maj 0.17) f1=0.037
+   commodity            acc=0.083 (maj 0.21) f1=0.037
+   impact_severity      acc=0.229 (maj 0.29) f1=0.127 mae=1.32
+   line_stop_risk       acc=0.542 (maj 0.62) f1=0.467 auroc=0.504
+   recommended_action   acc=0.271 (maj 0.21) f1=0.109
+   export_controlled    acc=0.792 (maj 0.88) f1=0.582 auroc=0.694
+   counterfeit_suspect  acc=0.917 (maj 0.96) f1=0.478 auroc=0.696
+   sole_source          acc=0.750 (maj 0.88) f1=0.590 auroc=0.810
+   delay_bucket         acc=0.333 (maj 0.38) f1=0.163 mae=1.65
+== test: core acc 0.316  macroF1 0.229  exact 0.000  ECE 0.604  0.23s/rec
+   event_type           acc=0.062 (maj 0.16) f1=0.025
+   commodity            acc=0.119 (maj 0.12) f1=0.053
+   impact_severity      acc=0.174 (maj 0.42) f1=0.115 mae=1.57
+   line_stop_risk       acc=0.459 (maj 0.58) f1=0.444 auroc=0.502
+   recommended_action   acc=0.114 (maj 0.19) f1=0.052
+   export_controlled    acc=0.422 (maj 0.64) f1=0.387 auroc=0.589
+   counterfeit_suspect  acc=0.915 (maj 0.96) f1=0.478 auroc=0.437
+   sole_source          acc=0.365 (maj 0.73) f1=0.365 auroc=0.472
+   delay_bucket         acc=0.212 (maj 0.31) f1=0.147 mae=1.73
+[exit 0 after 208s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/e150-ep8-seed1/v-s8 --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-s8", "weights": "int8", "file_mb": 150.9, "threads": 1, "load_s": 1.75, "ms_median": 378.1, "ms_p95": 570.0, "records": 300, "peak_rss_mb": 431, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-s8", "weights": "int8", "file_mb": 150.9, "threads": 4, "load_s": 1.07, "ms_median": 199.6, "ms_p95": 298.8, "records": 300, "peak_rss_mb": 431, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 175s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/e150-ep8-seed1/v-s8-rr --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-s8-rr", "weights": "int8", "file_mb": 150.9, "threads": 1, "load_s": 1.74, "ms_median": 388.2, "ms_p95": 597.5, "records": 300, "peak_rss_mb": 432, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-s8-rr", "weights": "int8", "file_mb": 150.9, "threads": 4, "load_s": 1.08, "ms_median": 188.5, "ms_p95": 278.8, "records": 300, "peak_rss_mb": 432, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 175s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/e150-ep8-seed1/v-u8 --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-u8", "weights": "int8", "file_mb": 150.9, "threads": 1, "load_s": 1.67, "ms_median": 444.0, "ms_p95": 662.5, "records": 300, "peak_rss_mb": 432, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-u8", "weights": "int8", "file_mb": 150.9, "threads": 4, "load_s": 1.06, "ms_median": 227.5, "ms_p95": 343.3, "records": 300, "peak_rss_mb": 432, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 203s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/e150-ep8-seed1/v-s8-constb --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-s8-constb", "weights": "int8", "file_mb": 150.8, "threads": 1, "load_s": 1.63, "ms_median": 368.6, "ms_p95": 548.8, "records": 300, "peak_rss_mb": 385, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1/v-s8-constb", "weights": "int8", "file_mb": 150.8, "threads": 4, "load_s": 1.08, "ms_median": 220.4, "ms_p95": 360.5, "records": 300, "peak_rss_mb": 385, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 179s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8 --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8", "weights": "int8", "file_mb": 153.0, "threads": 1, "load_s": 2.23, "ms_median": 402.3, "ms_p95": 661.0, "records": 300, "peak_rss_mb": 398, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8", "weights": "int8", "file_mb": 153.0, "threads": 4, "load_s": 1.24, "ms_median": 201.2, "ms_p95": 323.5, "records": 300, "peak_rss_mb": 398, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 189s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-rr --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-rr", "weights": "int8", "file_mb": 153.0, "threads": 1, "load_s": 1.87, "ms_median": 398.4, "ms_p95": 663.5, "records": 300, "peak_rss_mb": 385, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-rr", "weights": "int8", "file_mb": 153.0, "threads": 4, "load_s": 1.2, "ms_median": 205.4, "ms_p95": 333.6, "records": 300, "peak_rss_mb": 385, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 188s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-u8 --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-u8", "weights": "int8", "file_mb": 153.1, "threads": 1, "load_s": 1.99, "ms_median": 479.9, "ms_p95": 790.8, "records": 300, "peak_rss_mb": 393, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-u8", "weights": "int8", "file_mb": 153.1, "threads": 4, "load_s": 1.3, "ms_median": 251.4, "ms_p95": 406.2, "records": 300, "peak_rss_mb": 393, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 228s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-constb --weights int8 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-constb", "weights": "int8", "file_mb": 153.0, "threads": 1, "load_s": 1.82, "ms_median": 394.5, "ms_p95": 647.6, "records": 300, "peak_rss_mb": 364, "python_baseline_mb": 24, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5/v-s8-constb", "weights": "int8", "file_mb": 153.0, "threads": 4, "load_s": 1.25, "ms_median": 200.9, "ms_p95": 325.1, "records": 300, "peak_rss_mb": 364, "python_baseline_mb": 24, "torch_loaded": false}
+[exit 0 after 185s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/e150-ep8-seed1 --weights fp32 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1", "weights": "fp32", "file_mb": 596.8, "threads": 1, "load_s": 3.46, "ms_median": 478.3, "ms_p95": 719.7, "records": 300, "peak_rss_mb": 956, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/e150-ep8-seed1", "weights": "fp32", "file_mb": 596.8, "threads": 4, "load_s": 1.73, "ms_median": 258.5, "ms_p95": 392.4, "records": 300, "peak_rss_mb": 956, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 227s]
+
+$ /usr/bin/python3 scripts/bench_lite.py --model /kaggle/working/out/onnx/u150-ep8-lr3e-5 --weights fp32 --threads 1 4 --records 300 --out /kaggle/working/out/results/latency_variants.jsonl
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5", "weights": "fp32", "file_mb": 604.9, "threads": 1, "load_s": 2.91, "ms_median": 528.3, "ms_p95": 827.4, "records": 300, "peak_rss_mb": 907, "python_baseline_mb": 23, "torch_loaded": false}
+{"model": "/kaggle/working/out/onnx/u150-ep8-lr3e-5", "weights": "fp32", "file_mb": 604.9, "threads": 4, "load_s": 2.13, "ms_median": 274.4, "ms_p95": 424.1, "records": 300, "peak_rss_mb": 907, "python_baseline_mb": 23, "torch_loaded": false}
+[exit 0 after 253s]

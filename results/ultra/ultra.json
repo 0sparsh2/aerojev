@@ -1,0 +1,152 @@
+[
+ {
+  "run": "e150-ep8",
+  "level": "E",
+  "what": "Ettin-150M, 8 epochs, LR 5e-5 (shipped, from the encoder round)",
+  "acc": {
+   "val": 0.9868888888888888,
+   "test": 0.9693055555555556,
+   "test_v2": 0.959861111111111,
+   "gold": 0.9291666666666667,
+   "gold2": 0.925925925925926,
+   "injection": 0.9588888888888888
+  },
+  "block_params_m": 110.331648,
+  "records": 80000,
+  "gpu_train_min": 27.737619694073995,
+  "gpu_val_min": 0.44046538273493446,
+  "gflop_per_record": 91.10961867386881,
+  "tokens_per_record": 131.8092,
+  "padding_overhead": 0.0,
+  "best_val": 0.9948148148148148,
+  "cpu_hours": {
+   "regular CPU": 22.752257313015168,
+   "M4": 4.899619767901781
+  }
+ },
+ {
+  "run": "e150-ep8-seed1",
+  "level": "E",
+  "what": "the same, second seed",
+  "acc": {
+   "val": 0.9857777777777778,
+   "test": 0.9580555555555557,
+   "test_v2": 0.9526388888888887,
+   "gold": 0.9347222222222222,
+   "gold2": 0.9166666666666666,
+   "injection": 0.9572222222222221
+  },
+  "block_params_m": 110.331648,
+  "records": 80000,
+  "gpu_train_min": 27.62248448530833,
+  "gpu_val_min": 0.43282628059387207,
+  "gflop_per_record": 91.10961867386881,
+  "tokens_per_record": 131.8092,
+  "padding_overhead": 0.0,
+  "best_val": 0.9918518518518519,
+  "cpu_hours": {
+   "regular CPU": 22.752257313015168,
+   "M4": 4.899619767901781
+  }
+ },
+ {
+  "run": "u150-ep8-lr1e-5",
+  "level": "U1",
+  "what": "UltraBERT-150M, 8 epochs, LR 1e-5 (its card's MNLI best)",
+  "acc": {
+   "val": 0.990888888888889,
+   "test": 0.98,
+   "test_v2": 0.9781944444444446,
+   "gold": 0.9416666666666667,
+   "gold2": 0.925925925925926,
+   "injection": 0.9772222222222222
+  },
+  "block_params_m": 113.28384,
+  "records": 80000,
+  "gpu_train_min": 33.98821856180827,
+  "gpu_val_min": 0.4723914980888367,
+  "gflop_per_record": 107.7130733432832,
+  "tokens_per_record": 150.4024,
+  "padding_overhead": 0.0,
+  "best_val": 0.9918518518518519,
+  "cpu_hours": {
+   "regular CPU": 26.898538226293176,
+   "M4": 5.792506994276004
+  }
+ },
+ {
+  "run": "u150-ep8-lr1e-5-seed1",
+  "level": "U1",
+  "what": "the same, second seed",
+  "acc": {
+   "val": 0.9897777777777778,
+   "test": 0.9788888888888887,
+   "test_v2": 0.9798611111111111,
+   "gold": 0.9472222222222223,
+   "gold2": 0.9305555555555556,
+   "injection": 0.9794444444444443
+  },
+  "block_params_m": 113.28384,
+  "records": 80000,
+  "gpu_train_min": 33.9060135046641,
+  "gpu_val_min": 0.47108927567799885,
+  "gflop_per_record": 107.7130733432832,
+  "tokens_per_record": 150.4024,
+  "padding_overhead": 0.0,
+  "best_val": 0.9925925925925926,
+  "cpu_hours": {
+   "regular CPU": 26.898538226293176,
+   "M4": 5.792506994276004
+  }
+ },
+ {
+  "run": "u150-ep8-lr3e-5",
+  "level": "U3",
+  "what": "UltraBERT-150M, 8 epochs, LR 3e-5",
+  "acc": {
+   "val": 0.9937777777777779,
+   "test": 0.9825000000000002,
+   "test_v2": 0.9797222222222222,
+   "gold": 0.9416666666666667,
+   "gold2": 0.9305555555555556,
+   "injection": 0.9822222222222222
+  },
+  "block_params_m": 113.28384,
+  "records": 80000,
+  "gpu_train_min": 33.87938589652379,
+  "gpu_val_min": 0.471840778986613,
+  "gflop_per_record": 107.7130733432832,
+  "tokens_per_record": 150.4024,
+  "padding_overhead": 0.0,
+  "best_val": 0.9955555555555555,
+  "cpu_hours": {
+   "regular CPU": 26.898538226293176,
+   "M4": 5.792506994276004
+  }
+ },
+ {
+  "run": "u150-ep8-lr3e-5-seed1",
+  "level": "U3",
+  "what": "the same, second seed",
+  "acc": {
+   "val": 0.9933333333333333,
+   "test": 0.9812500000000001,
+   "test_v2": 0.9808333333333334,
+   "gold": 0.9347222222222222,
+   "gold2": 0.9236111111111112,
+   "injection": 0.9827777777777776
+  },
+  "block_params_m": 113.28384,
+  "records": 80000,
+  "gpu_train_min": 33.863827244440714,
+  "gpu_val_min": 0.4713001330693563,
+  "gflop_per_record": 107.7130733432832,
+  "tokens_per_record": 150.4024,
+  "padding_overhead": 0.0,
+  "best_val": 0.9955555555555555,
+  "cpu_hours": {
+   "regular CPU": 26.898538226293176,
+   "M4": 5.792506994276004
+  }
+ }
+]

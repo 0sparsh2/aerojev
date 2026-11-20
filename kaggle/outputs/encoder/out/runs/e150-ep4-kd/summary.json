@@ -1,0 +1,49 @@
+{
+ "best_val_acc": 0.9740740740740741,
+ "steps": 2500,
+ "records": 40000,
+ "elapsed_s": 834.2085511684418,
+ "train_s": 820.9061377048492,
+ "val_s": 13.30241346359253,
+ "cost": {
+  "q_tokens": 5272368,
+  "attn_pairs": 760191984,
+  "useful_q_tokens": 5272368,
+  "useful_attn_pairs": 760191984
+ },
+ "model_dims": {
+  "num_hidden_layers": 22,
+  "hidden_size": 768,
+  "intermediate_size": 1152,
+  "attn_width": 768,
+  "block_params": 110331648,
+  "full_ft": true,
+  "encoder": true
+ },
+ "device": "Tesla T4",
+ "args": {
+  "model": "jhu-clsp/ettin-encoder-150m",
+  "out": "/kaggle/working/out/runs/e150-ep4-kd",
+  "results": "/kaggle/working/out/results/ft-e150-ep4-kd",
+  "data": "data/processed_v2",
+  "epochs": 4.0,
+  "lr": 5e-05,
+  "head_lr": 0.001,
+  "batch": 16,
+  "max_len": 512,
+  "warmup_ratio": 0.06,
+  "weight_decay": 0.01,
+  "ordinal_weight": 0.5,
+  "pool": "mean",
+  "teacher": "/kaggle/working/out/results/teacher-ref0/preds_train.jsonl,/kaggle/working/out/results/teacher-ref1/preds_train.jsonl",
+  "distill_weight": 1.0,
+  "distill_temp": 2.0,
+  "eval_every": 200,
+  "val_limit": 150,
+  "sets": "val,test,test_v2,gold,gold2,injection",
+  "limit": null,
+  "max_steps": null,
+  "seed": 0,
+  "device": "cuda"
+ }
+}

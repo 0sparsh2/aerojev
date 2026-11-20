@@ -1,0 +1,318 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0",
+   "required": true
+  },
+  "rc": 0,
+  "seconds": 8
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {GGUF:runs/e150-ep8/model} --out {OUT}/onnx/e150-ep8 --keep-fp32 --temps {GGUF:results/ft-e150-ep8/metrics.json} && {PY} scripts/int8_variants.py --dir {OUT}/onnx/e150-ep8"
+  },
+  "rc": 0,
+  "seconds": 300
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-fp32"
+  },
+  "rc": 0,
+  "seconds": 279
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-s8"
+  },
+  "rc": 0,
+  "seconds": 202
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-s8-rr"
+  },
+  "rc": 0,
+  "seconds": 190
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-u8"
+  },
+  "rc": 0,
+  "seconds": 228
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-s8-constb"
+  },
+  "rc": 0,
+  "seconds": 227
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {GGUF:runs/e150-ep8-seed1/model} --out {OUT}/onnx/e150-ep8-seed1 --keep-fp32 --temps {GGUF:results/ft-e150-ep8-seed1/metrics.json} && {PY} scripts/int8_variants.py --dir {OUT}/onnx/e150-ep8-seed1"
+  },
+  "rc": 0,
+  "seconds": 255
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-fp32"
+  },
+  "rc": 0,
+  "seconds": 259
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-s8"
+  },
+  "rc": 0,
+  "seconds": 199
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-s8-rr"
+  },
+  "rc": 0,
+  "seconds": 214
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-u8"
+  },
+  "rc": 0,
+  "seconds": 241
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-s8-constb"
+  },
+  "rc": 0,
+  "seconds": 197
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {GGUF:runs/u150-ep8-lr3e-5/model} --out {OUT}/onnx/u150-ep8-lr3e-5 --keep-fp32 --temps {GGUF:results/ft-u150-ep8-lr3e-5/metrics.json} && {PY} scripts/int8_variants.py --dir {OUT}/onnx/u150-ep8-lr3e-5"
+  },
+  "rc": 0,
+  "seconds": 288
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-fp32"
+  },
+  "rc": 0,
+  "seconds": 336
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-s8"
+  },
+  "rc": 0,
+  "seconds": 233
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-s8-rr"
+  },
+  "rc": 0,
+  "seconds": 237
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-u8"
+  },
+  "rc": 0,
+  "seconds": 272
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-s8-constb"
+  },
+  "rc": 0,
+  "seconds": 208
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/export_encoder.py --model {GGUF:runs/u150-ep8-lr3e-5-seed1/model} --out {OUT}/onnx/u150-ep8-lr3e-5-seed1 --keep-fp32 --temps {GGUF:results/ft-u150-ep8-lr3e-5-seed1/metrics.json} && {PY} scripts/int8_variants.py --dir {OUT}/onnx/u150-ep8-lr3e-5-seed1"
+  },
+  "rc": 0,
+  "seconds": 261
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-fp32"
+  },
+  "rc": 0,
+  "seconds": 289
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-s8"
+  },
+  "rc": 0,
+  "seconds": 223
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-s8-rr"
+  },
+  "rc": 0,
+  "seconds": 219
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-u8"
+  },
+  "rc": 0,
+  "seconds": 261
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-s8-constb"
+  },
+  "rc": 0,
+  "seconds": 208
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-s8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 175
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-s8-rr --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 175
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-u8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 203
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-s8-constb --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 179
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-s8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 189
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-s8-rr --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 188
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-u8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 228
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-s8-constb --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 185
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1 --weights fp32 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 227
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5 --weights fp32 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl"
+  },
+  "rc": 0,
+  "seconds": 253
+ }
+]

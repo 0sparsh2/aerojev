@@ -1,0 +1,276 @@
+[
+ {
+  "run": "l4-nocat-12k",
+  "level": "R",
+  "what": "reference: Qwen2.5-0.5B (494M), catalogue-free, LoRA",
+  "acc": {
+   "val": 0.969111111111111,
+   "test": 0.9441666666666665,
+   "test_v2": 0.9422222222222223,
+   "gold": 0.9277777777777777,
+   "gold2": 0.9050925925925927,
+   "injection": 0.9444444444444444
+  },
+  "records": 12000,
+  "gpu_train_min": 16.542361736297607,
+  "gpu_val_min": 2.073078755537669,
+  "gflop_per_record": 309.000803147776,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9696296296296296,
+  "cpu_hours": {
+   "regular CPU": 11.57473692483408,
+   "M4": 2.4925794862885273
+  }
+ },
+ {
+  "run": "l4-nocat-12k-seed1",
+  "level": "R",
+  "what": "the reference, second seed",
+  "acc": {
+   "val": 0.9635555555555556,
+   "test": 0.9541666666666667,
+   "test_v2": 0.9526388888888889,
+   "gold": 0.9402777777777777,
+   "gold2": 0.9189814814814815,
+   "injection": 0.9455555555555555
+  },
+  "block_params_m": 357.897216,
+  "records": 12000,
+  "gpu_train_min": 17.78744881550471,
+  "gpu_val_min": 2.3464587926864624,
+  "gflop_per_record": 308.519518758912,
+  "tokens_per_record": 205.7625,
+  "padding_overhead": 0.24716116882327932,
+  "best_val": 0.9614814814814815,
+  "cpu_hours": {
+   "regular CPU": 11.556708686297542,
+   "M4": 2.4886971675937772
+  }
+ },
+ {
+  "run": "p-d16w-full-2e-5",
+  "level": "Q",
+  "what": "Qwen2.5-0.5B pruned to 16 blocks + FFN 2560 (276M), full fine-tuning",
+  "acc": {
+   "val": 0.9811111111111112,
+   "test": 0.9508333333333334,
+   "test_v2": 0.9426388888888889,
+   "gold": 0.9138888888888889,
+   "gold2": 0.9166666666666666,
+   "injection": 0.952777777777778
+  },
+  "block_params_m": 139.507712,
+  "records": 12000,
+  "gpu_train_min": 8.780281734466552,
+  "gpu_val_min": 0.9809324502944946,
+  "gflop_per_record": 181.818532739072,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9829629629629629,
+  "cpu_hours": {
+   "regular CPU": 6.8106673609765265,
+   "M4": 1.4666536148637566
+  }
+ },
+ {
+  "run": "p-d16w-full-2e-5-seed1",
+  "level": "Q",
+  "what": "the pruned model, second seed",
+  "acc": {
+   "val": 0.9733333333333333,
+   "test": 0.9525,
+   "test_v2": 0.9468055555555556,
+   "gold": 0.8986111111111111,
+   "gold2": 0.9097222222222222,
+   "injection": 0.9416666666666667
+  },
+  "block_params_m": 139.507712,
+  "records": 12000,
+  "gpu_train_min": 8.58347483476003,
+  "gpu_val_min": 0.8763121128082275,
+  "gflop_per_record": 181.534210295808,
+  "tokens_per_record": 205.7625,
+  "padding_overhead": 0.24716116882327932,
+  "best_val": 0.9740740740740741,
+  "cpu_hours": {
+   "regular CPU": 6.800017040818515,
+   "M4": 1.4643601053247792
+  }
+ },
+ {
+  "run": "b-gemma3-270m-3e-5",
+  "level": "D",
+  "what": "Gemma 3 270M (268M, 168M of it vocabulary), full fine-tuning, LR 3e-5",
+  "acc": {
+   "val": 0.9551111111111111,
+   "test": 0.8823611111111112,
+   "test_v2": 0.8623611111111111,
+   "gold": 0.8486111111111111,
+   "gold2": 0.8472222222222222,
+   "injection": 0.8688888888888889
+  },
+  "block_params_m": 100.325376,
+  "records": 12000,
+  "gpu_train_min": 12.375547170639038,
+  "gpu_val_min": 1.1958735903104147,
+  "gflop_per_record": 153.545590950912,
+  "tokens_per_record": 230.13608333333335,
+  "padding_overhead": 0.25735027065507987,
+  "best_val": 0.96,
+  "cpu_hours": {
+   "regular CPU": 5.751602594945496,
+   "M4": 1.2385876875253914
+  }
+ },
+ {
+  "run": "b-gemma3-270m-1e-4",
+  "level": "D",
+  "what": "Gemma 3 270M, LR 1e-4",
+  "acc": {
+   "val": 0.9268888888888888,
+   "test": 0.8383333333333334,
+   "test_v2": 0.8427777777777777,
+   "gold": 0.7958333333333334,
+   "gold2": 0.8194444444444443,
+   "injection": 0.8366666666666667
+  },
+  "block_params_m": 100.325376,
+  "records": 12000,
+  "gpu_train_min": 12.396125729878744,
+  "gpu_val_min": 1.200071899096171,
+  "gflop_per_record": 153.545590950912,
+  "tokens_per_record": 230.13608333333335,
+  "padding_overhead": 0.25735027065507987,
+  "best_val": 0.9303703703703704,
+  "cpu_hours": {
+   "regular CPU": 5.751602594945496,
+   "M4": 1.2385876875253914
+  }
+ },
+ {
+  "run": "b-smollm2-135m-3e-5",
+  "level": "D",
+  "what": "SmolLM2-135M (135M), full fine-tuning, LR 3e-5",
+  "acc": {
+   "val": 0.9162222222222223,
+   "test": 0.86,
+   "test_v2": 0.8631944444444445,
+   "gold": 0.8388888888888889,
+   "gold2": 0.8217592592592592,
+   "injection": 0.8538888888888889
+  },
+  "block_params_m": 106.20288,
+  "records": 12000,
+  "gpu_train_min": 10.769218957424163,
+  "gpu_val_min": 1.4229097604751586,
+  "gflop_per_record": 160.06534996608,
+  "tokens_per_record": 229.60758333333334,
+  "padding_overhead": 0.2674639448247027,
+  "best_val": 0.9066666666666666,
+  "cpu_hours": {
+   "regular CPU": 5.995823628176257,
+   "M4": 1.2911798407211246
+  }
+ },
+ {
+  "run": "b-smollm2-135m-1e-4",
+  "level": "D",
+  "what": "SmolLM2-135M, LR 1e-4",
+  "acc": {
+   "val": 0.959111111111111,
+   "test": 0.9120833333333334,
+   "test_v2": 0.9122222222222223,
+   "gold": 0.8708333333333333,
+   "gold2": 0.8819444444444444,
+   "injection": 0.9111111111111112
+  },
+  "block_params_m": 106.20288,
+  "records": 12000,
+  "gpu_train_min": 10.83522649606069,
+  "gpu_val_min": 1.2753323634465537,
+  "gflop_per_record": 160.06534996608,
+  "tokens_per_record": 229.60758333333334,
+  "padding_overhead": 0.2674639448247027,
+  "best_val": 0.9629629629629629,
+  "cpu_hours": {
+   "regular CPU": 5.995823628176257,
+   "M4": 1.2911798407211246
+  }
+ },
+ {
+  "run": "b-ettin-150m",
+  "level": "E",
+  "what": "Ettin encoder 150M + 9 heads, 2 epochs, LR 5e-5",
+  "acc": {
+   "val": 0.9686666666666667,
+   "test": 0.9447222222222221,
+   "test_v2": 0.9380555555555554,
+   "gold": 0.9097222222222222,
+   "gold2": 0.9120370370370371,
+   "injection": 0.9394444444444444
+  },
+  "block_params_m": 110.331648,
+  "records": 20000,
+  "gpu_train_min": 6.891252716382344,
+  "gpu_val_min": 0.12315665483474732,
+  "gflop_per_record": 91.10961867386881,
+  "tokens_per_record": 131.8092,
+  "padding_overhead": 0.0,
+  "best_val": 0.9733333333333334,
+  "cpu_hours": {
+   "regular CPU": 5.688064328253792,
+   "M4": 1.2249049419754452
+  }
+ },
+ {
+  "run": "b-ettin-68m",
+  "level": "E",
+  "what": "Ettin encoder 68M + 9 heads, 2 epochs, LR 8e-5",
+  "acc": {
+   "val": 0.9637777777777777,
+   "test": 0.9333333333333333,
+   "test_v2": 0.9273611111111111,
+   "gold": 0.9236111111111112,
+   "gold2": 0.9004629629629629,
+   "injection": 0.9277777777777779
+  },
+  "block_params_m": 42.356224,
+  "records": 20000,
+  "gpu_train_min": 3.596449685096741,
+  "gpu_val_min": 0.06801033814748128,
+  "gflop_per_record": 35.7161842888704,
+  "tokens_per_record": 131.8092,
+  "padding_overhead": 0.0,
+  "best_val": 0.965925925925926,
+  "cpu_hours": {
+   "regular CPU": 2.2297969934663935,
+   "M4": 0.48017905552370355
+  }
+ },
+ {
+  "run": "b-ettin-32m",
+  "level": "E",
+  "what": "Ettin encoder 32M + 9 heads, 2 epochs, LR 1e-4",
+  "acc": {
+   "val": 0.9462222222222222,
+   "test": 0.9149999999999999,
+   "test_v2": 0.9040277777777779,
+   "gold": 0.8805555555555555,
+   "gold2": 0.8634259259259259,
+   "injection": 0.8955555555555557
+  },
+  "block_params_m": 12.541824,
+  "records": 20000,
+  "gpu_train_min": 1.5902141372362772,
+  "gpu_val_min": 0.030293230215708414,
+  "gflop_per_record": 10.794507893452801,
+  "tokens_per_record": 131.8092,
+  "padding_overhead": 0.0,
+  "best_val": 0.9511111111111111,
+  "cpu_hours": {
+   "regular CPU": 0.6739118896939581,
+   "M4": 0.14512459010736226
+  }
+ }
+]

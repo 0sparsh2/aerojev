@@ -1,0 +1,174 @@
+[{"stream_name":"stdout","time":9336.805830997,"data":"[\n"}
+,{"stream_name":"stdout","time":9336.805885478,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.805891381,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.805895773,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.805899399,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.805903761,"data":"   \"required\": true,\n"}
+,{"stream_name":"stdout","time":9336.805907801,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out /tmp/smoke1 --results /tmp/smoke1r --max-steps 60 --eval-every 60 --val-limit 50 --sets gold --lr 3e-5\"\n"}
+,{"stream_name":"stdout","time":9336.805912432,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.805916649,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.805920389,"data":"  \"seconds\": 46\n"}
+,{"stream_name":"stdout","time":9336.805924033,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.805927579,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.805930819,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":9336.805934476,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.805937879,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.805941669,"data":"   \"required\": true,\n"}
+,{"stream_name":"stdout","time":9336.805945223,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out /tmp/smoke0 --results /tmp/smoke0r --max-steps 60 --eval-every 60 --val-limit 50 --sets gold --lr 3e-5\"\n"}
+,{"stream_name":"stdout","time":9336.805949646,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.805953262,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.805956786,"data":"  \"seconds\": 46\n"}
+,{"stream_name":"stdout","time":9336.805960414,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.805964012,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.805967765,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.805971782,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.805975197,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.805978945,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr3e-5 --results {OUT}/results/ft-u150-ep8-lr3e-5 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 3e-05 --seed 0\"\n"}
+,{"stream_name":"stdout","time":9336.805985137,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.805988643,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.805991829,"data":"  \"seconds\": 2096\n"}
+,{"stream_name":"stdout","time":9336.805995545,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.805999183,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.80600272,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806006639,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.80601039,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806014224,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr1e-5 --results {OUT}/results/ft-u150-ep8-lr1e-5 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 1e-05 --seed 0\"\n"}
+,{"stream_name":"stdout","time":9336.806018941,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806022381,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806025767,"data":"  \"seconds\": 2102\n"}
+,{"stream_name":"stdout","time":9336.806029117,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806032503,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.80603557,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806049298,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.80605296,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806057161,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr3e-5-seed1 --results {OUT}/results/ft-u150-ep8-lr3e-5-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 3e-05 --seed 1\"\n"}
+,{"stream_name":"stdout","time":9336.806061562,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806064727,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806067999,"data":"  \"seconds\": 2095\n"}
+,{"stream_name":"stdout","time":9336.806071278,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806075006,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806079295,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806083023,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806086553,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806090362,"data":"   \"cmd\": \"{PY} -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0\",\n"}
+,{"stream_name":"stdout","time":9336.806094467,"data":"   \"required\": true\n"}
+,{"stream_name":"stdout","time":9336.806098097,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806101133,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806104724,"data":"  \"seconds\": 6\n"}
+,{"stream_name":"stdout","time":9336.806108229,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806111788,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806115421,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":9336.80611908,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806122588,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806126032,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model dmis-lab/UltraBERT-150M --out {OUT}/runs/u150-ep8-lr1e-5-seed1 --results {OUT}/results/ft-u150-ep8-lr1e-5-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 1e-05 --seed 1\"\n"}
+,{"stream_name":"stdout","time":9336.806130604,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806134363,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806137913,"data":"  \"seconds\": 2098\n"}
+,{"stream_name":"stdout","time":9336.80614144,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806144599,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806147758,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806154689,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806158119,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806164911,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr3e-5/model --out {OUT}/onnx/u150-ep8-lr3e-5 --temps {OUT}/results/ft-u150-ep8-lr3e-5/metrics.json \u0026\u0026 {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr3e-5-int8\"\n"}
+,{"stream_name":"stdout","time":9336.806170389,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806174475,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806177981,"data":"  \"seconds\": 870\n"}
+,{"stream_name":"stdout","time":9336.806181789,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806185066,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806188796,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806192651,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806196536,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806204981,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep8-seed1 --results {OUT}/results/ft-e150-ep8-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 8 --lr 5e-05 --seed 1\"\n"}
+,{"stream_name":"stdout","time":9336.80621092,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806215005,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806218637,"data":"  \"seconds\": 1727\n"}
+,{"stream_name":"stdout","time":9336.806222363,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806225924,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806229318,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806233007,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806236867,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806240775,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr3e-5-seed1/model --out {OUT}/onnx/u150-ep8-lr3e-5-seed1 --temps {OUT}/results/ft-u150-ep8-lr3e-5-seed1/metrics.json \u0026\u0026 {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-int8\"\n"}
+,{"stream_name":"stdout","time":9336.806270952,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806278569,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806282263,"data":"  \"seconds\": 862\n"}
+,{"stream_name":"stdout","time":9336.806286087,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806289827,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806293328,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806297053,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806300696,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806304478,"data":"   \"cmd\": \"for i in $(seq 360); do [ -f {OUT}/results/ft-e150-ep8-seed1/metrics.json ] \u0026\u0026 exit 0; sleep 30; done; exit 1\"\n"}
+,{"stream_name":"stdout","time":9336.806309319,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806312862,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806317199,"data":"  \"seconds\": 0\n"}
+,{"stream_name":"stdout","time":9336.806320871,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806324847,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806328279,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806332075,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806335531,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806339491,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr1e-5/model --out {OUT}/onnx/u150-ep8-lr1e-5 --temps {OUT}/results/ft-u150-ep8-lr1e-5/metrics.json \u0026\u0026 {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr1e-5 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr1e-5-int8\"\n"}
+,{"stream_name":"stdout","time":9336.806344655,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806348253,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806351923,"data":"  \"seconds\": 456\n"}
+,{"stream_name":"stdout","time":9336.806355547,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806359185,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806362835,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806366526,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806370425,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806379816,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {OUT}/runs/u150-ep8-lr1e-5-seed1/model --out {OUT}/onnx/u150-ep8-lr1e-5-seed1 --temps {OUT}/results/ft-u150-ep8-lr1e-5-seed1/metrics.json \u0026\u0026 {PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr1e-5-seed1 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-u150-ep8-lr1e-5-seed1-int8\"\n"}
+,{"stream_name":"stdout","time":9336.806385102,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806388323,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806392179,"data":"  \"seconds\": 457\n"}
+,{"stream_name":"stdout","time":9336.806395962,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806400195,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806403814,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806407388,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806410925,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.80641515,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {OUT}/runs/e150-ep8-seed1/model --out {OUT}/onnx/e150-ep8-seed1 --temps {OUT}/results/ft-e150-ep8-seed1/metrics.json \u0026\u0026 {PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1 --weights int8 --threads 4 --data data/processed_v2 --sets val,test,test_v2,gold,gold2,injection --out {OUT}/results/onnx-e150-ep8-seed1-int8\"\n"}
+,{"stream_name":"stdout","time":9336.806420021,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806423769,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806427391,"data":"  \"seconds\": 408\n"}
+,{"stream_name":"stdout","time":9336.806431296,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806434996,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806438667,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806442463,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806445888,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806449861,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl\"\n"}
+,{"stream_name":"stdout","time":9336.80645447,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806458357,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806461937,"data":"  \"seconds\": 476\n"}
+,{"stream_name":"stdout","time":9336.806465657,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806469281,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.80647299,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806476305,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806480247,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806484192,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr1e-5 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl\"\n"}
+,{"stream_name":"stdout","time":9336.806488469,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.80649176,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806495487,"data":"  \"seconds\": 518\n"}
+,{"stream_name":"stdout","time":9336.80649926,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806503013,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806506469,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806510199,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806513922,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806517609,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl\"\n"}
+,{"stream_name":"stdout","time":9336.806534345,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806538319,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806542391,"data":"  \"seconds\": 477\n"}
+,{"stream_name":"stdout","time":9336.80654604,"data":" },\n"}
+,{"stream_name":"stdout","time":9336.806549784,"data":" {\n"}
+,{"stream_name":"stdout","time":9336.806553395,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":9336.806556998,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":9336.806561091,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":9336.806565105,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr1e-5 --weights int8 --threads 1 2 4 --out {OUT}/results/latency_kaggle_cpu.jsonl\"\n"}
+,{"stream_name":"stdout","time":9336.806569299,"data":"  },\n"}
+,{"stream_name":"stdout","time":9336.806573283,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":9336.806577271,"data":"  \"seconds\": 522\n"}
+,{"stream_name":"stdout","time":9336.806581186,"data":" }\n"}
+,{"stream_name":"stdout","time":9336.806584883,"data":"]\n"}
+,{"stream_name":"stderr","time":9339.124550106,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":9339.124585136,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":9339.391426677,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":9339.391453515,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":9340.240589476,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":9341.398509039,"data":"[NbConvertApp] Writing 323360 bytes to __results__.html\n"}
+]

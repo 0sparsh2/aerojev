@@ -1,0 +1,5 @@
+{"model": "models/aerojev-ettin-150m", "weights": "int8", "file_mb": 150.8, "threads": 1, "load_s": 0.3, "ms_median": 46.9, "ms_p95": 72.2, "records": 880, "peak_rss_mb": 402, "python_baseline_mb": 15, "torch_loaded": false}
+{"model": "models/aerojev-ettin-150m", "weights": "int8", "file_mb": 150.8, "threads": 2, "load_s": 0.3, "ms_median": 36.1, "ms_p95": 59.8, "records": 880, "peak_rss_mb": 430, "python_baseline_mb": 15, "torch_loaded": false}
+{"model": "models/aerojev-ettin-150m", "weights": "int8", "file_mb": 150.8, "threads": 4, "load_s": 0.3, "ms_median": 27.8, "ms_p95": 46.7, "records": 880, "peak_rss_mb": 479, "python_baseline_mb": 15, "torch_loaded": false}
+{"model": "pruned Qwen2.5-0.5B d16w Q8_0 (preset small)", "threads": 1, "load_s": 0.83, "ms_median": 153.0, "ms_p95": 192.8, "records": 880, "peak_rss_mb": 1027, "file_mb": 299.0}
+{"model": "pruned Qwen2.5-0.5B d16w Q8_0 (preset small)", "threads": 4, "load_s": 0.71, "ms_median": 82.6, "ms_p95": 100.3, "records": 880, "peak_rss_mb": 1023, "file_mb": 299.0}

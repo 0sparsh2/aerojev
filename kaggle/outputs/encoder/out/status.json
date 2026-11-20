@@ -1,0 +1,111 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter_input": "runs/l4-nocat-12k/best",
+   "out": "results/teacher-ref0",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "train"
+  },
+  "rc": 0,
+  "seconds": 776
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "adapter_input": "runs/l4-nocat-12k-seed1/best",
+   "out": "results/teacher-ref1",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "train"
+  },
+  "rc": 0,
+  "seconds": 806
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-seed1 --results {OUT}/results/ft-e150-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 2 --seed 1"
+  },
+  "rc": 0,
+  "seconds": 460
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4 --results {OUT}/results/ft-e150-ep4 --sets val,test,test_v2,gold,gold2,injection --epochs 4"
+  },
+  "rc": 0,
+  "seconds": 871
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "for i in $(seq 120); do [ -f {OUT}/results/teacher-ref1/metrics.json ] && exit 0; sleep 30; done; exit 1"
+  },
+  "rc": 0,
+  "seconds": 0
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-lr1e-4 --results {OUT}/results/ft-e150-ep4-lr1e-4 --sets val,test,test_v2,gold,gold2,injection --epochs 4 --lr 1e-4"
+  },
+  "rc": 0,
+  "seconds": 881
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-kd --results {OUT}/results/ft-e150-ep4-kd --sets val,test,test_v2,gold,gold2,injection --epochs 4 --teacher {OUT}/results/teacher-ref0/preds_train.jsonl,{OUT}/results/teacher-ref1/preds_train.jsonl"
+  },
+  "rc": 0,
+  "seconds": 869
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-attn --results {OUT}/results/ft-e150-ep4-attn --sets val,test,test_v2,gold,gold2,injection --epochs 4 --pool attn"
+  },
+  "rc": 0,
+  "seconds": 881
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-attn-kd --results {OUT}/results/ft-e150-ep4-attn-kd --sets val,test,test_v2,gold,gold2,injection --epochs 4 --pool attn --teacher {OUT}/results/teacher-ref0/preds_train.jsonl,{OUT}/results/teacher-ref1/preds_train.jsonl"
+  },
+  "rc": 0,
+  "seconds": 870
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-seed1 --results {OUT}/results/ft-e150-ep4-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 4 --seed 1"
+  },
+  "rc": 0,
+  "seconds": 856
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep8 --results {OUT}/results/ft-e150-ep8 --sets val,test,test_v2,gold,gold2,injection --epochs 8"
+  },
+  "rc": 0,
+  "seconds": 1723
+ }
+]

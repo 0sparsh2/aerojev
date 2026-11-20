@@ -1,0 +1,118 @@
+[{"stream_name":"stdout","time":4809.964603129,"data":"[\n"}
+,{"stream_name":"stdout","time":4809.964665432,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.964670377,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964673973,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.964677282,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":4809.964688716,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":4809.964691249,"data":"   \"adapter_input\": \"runs/l4-nocat-12k/best\",\n"}
+,{"stream_name":"stdout","time":4809.964693648,"data":"   \"out\": \"results/teacher-ref0\",\n"}
+,{"stream_name":"stdout","time":4809.964695917,"data":"   \"layout\": \"nocat\",\n"}
+,{"stream_name":"stdout","time":4809.964698122,"data":"   \"data\": \"data/processed_v2\",\n"}
+,{"stream_name":"stdout","time":4809.964700887,"data":"   \"sets\": \"train\"\n"}
+,{"stream_name":"stdout","time":4809.964722513,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.964726145,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964729978,"data":"  \"seconds\": 776\n"}
+,{"stream_name":"stdout","time":4809.964733719,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.964738275,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.964741866,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":4809.964745102,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.964748365,"data":"   \"kind\": \"eval\",\n"}
+,{"stream_name":"stdout","time":4809.9647516,"data":"   \"model\": \"Qwen/Qwen2.5-0.5B-Instruct\",\n"}
+,{"stream_name":"stdout","time":4809.964754971,"data":"   \"adapter_input\": \"runs/l4-nocat-12k-seed1/best\",\n"}
+,{"stream_name":"stdout","time":4809.964758384,"data":"   \"out\": \"results/teacher-ref1\",\n"}
+,{"stream_name":"stdout","time":4809.964761792,"data":"   \"layout\": \"nocat\",\n"}
+,{"stream_name":"stdout","time":4809.964765163,"data":"   \"data\": \"data/processed_v2\",\n"}
+,{"stream_name":"stdout","time":4809.964768509,"data":"   \"sets\": \"train\"\n"}
+,{"stream_name":"stdout","time":4809.964771877,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.964774927,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964778101,"data":"  \"seconds\": 806\n"}
+,{"stream_name":"stdout","time":4809.964781314,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.964784325,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.964787382,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":4809.964790515,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.964793733,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.964798856,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-seed1 --results {OUT}/results/ft-e150-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 2 --seed 1\"\n"}
+,{"stream_name":"stdout","time":4809.964817437,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.964843864,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.96484794,"data":"  \"seconds\": 460\n"}
+,{"stream_name":"stdout","time":4809.964851232,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.964854265,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.964857278,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964860355,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.964863565,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.96486682,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4 --results {OUT}/results/ft-e150-ep4 --sets val,test,test_v2,gold,gold2,injection --epochs 4\"\n"}
+,{"stream_name":"stdout","time":4809.964877134,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.964880429,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964883612,"data":"  \"seconds\": 871\n"}
+,{"stream_name":"stdout","time":4809.964886844,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.964889903,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.96489302,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4809.96489781,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.964904702,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.964907874,"data":"   \"cmd\": \"for i in $(seq 120); do [ -f {OUT}/results/teacher-ref1/metrics.json ] \u0026\u0026 exit 0; sleep 30; done; exit 1\"\n"}
+,{"stream_name":"stdout","time":4809.964923197,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.96492693,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964930939,"data":"  \"seconds\": 0\n"}
+,{"stream_name":"stdout","time":4809.964935096,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.964938809,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.964941839,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":4809.964945024,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.964948227,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.964951633,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-lr1e-4 --results {OUT}/results/ft-e150-ep4-lr1e-4 --sets val,test,test_v2,gold,gold2,injection --epochs 4 --lr 1e-4\"\n"}
+,{"stream_name":"stdout","time":4809.964955462,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.964958589,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.96496167,"data":"  \"seconds\": 881\n"}
+,{"stream_name":"stdout","time":4809.964964931,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.964967952,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.964971036,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964974143,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.964977308,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.964981107,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-kd --results {OUT}/results/ft-e150-ep4-kd --sets val,test,test_v2,gold,gold2,injection --epochs 4 --teacher {OUT}/results/teacher-ref0/preds_train.jsonl,{OUT}/results/teacher-ref1/preds_train.jsonl\"\n"}
+,{"stream_name":"stdout","time":4809.96498527,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.964988329,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.964991562,"data":"  \"seconds\": 869\n"}
+,{"stream_name":"stdout","time":4809.964999501,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.965002702,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.965017007,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":4809.96502075,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.965024417,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.96502997,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-attn --results {OUT}/results/ft-e150-ep4-attn --sets val,test,test_v2,gold,gold2,injection --epochs 4 --pool attn\"\n"}
+,{"stream_name":"stdout","time":4809.965034646,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.96503773,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.965040927,"data":"  \"seconds\": 881\n"}
+,{"stream_name":"stdout","time":4809.96504782,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.965051016,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.965054095,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4809.965057232,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.965060393,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.965063734,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-attn-kd --results {OUT}/results/ft-e150-ep4-attn-kd --sets val,test,test_v2,gold,gold2,injection --epochs 4 --pool attn --teacher {OUT}/results/teacher-ref0/preds_train.jsonl,{OUT}/results/teacher-ref1/preds_train.jsonl\"\n"}
+,{"stream_name":"stdout","time":4809.965068015,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.96507112,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.965074316,"data":"  \"seconds\": 870\n"}
+,{"stream_name":"stdout","time":4809.965077558,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.965080625,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.965083703,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":4809.965086872,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.965091673,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.965098547,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep4-seed1 --results {OUT}/results/ft-e150-ep4-seed1 --sets val,test,test_v2,gold,gold2,injection --epochs 4 --seed 1\"\n"}
+,{"stream_name":"stdout","time":4809.965113157,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.965116658,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.965120371,"data":"  \"seconds\": 856\n"}
+,{"stream_name":"stdout","time":4809.965124048,"data":" },\n"}
+,{"stream_name":"stdout","time":4809.965127692,"data":" {\n"}
+,{"stream_name":"stdout","time":4809.965131047,"data":"  \"gpu\": 1,\n"}
+,{"stream_name":"stdout","time":4809.965134303,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":4809.965137524,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":4809.965140776,"data":"   \"cmd\": \"{PY} -m train.train_encoder --model jhu-clsp/ettin-encoder-150m --out {OUT}/runs/e150-ep8 --results {OUT}/results/ft-e150-ep8 --sets val,test,test_v2,gold,gold2,injection --epochs 8\"\n"}
+,{"stream_name":"stdout","time":4809.965144586,"data":"  },\n"}
+,{"stream_name":"stdout","time":4809.965147651,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":4809.96515077,"data":"  \"seconds\": 1723\n"}
+,{"stream_name":"stdout","time":4809.965154067,"data":" }\n"}
+,{"stream_name":"stdout","time":4809.965157085,"data":"]\n"}
+,{"stream_name":"stderr","time":4812.196731685,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":4812.196761781,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":4812.475219373,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":4812.475246992,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":4813.280926076,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":4814.367976996,"data":"[NbConvertApp] Writing 318683 bytes to __results__.html\n"}
+]

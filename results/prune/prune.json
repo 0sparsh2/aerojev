@@ -1,0 +1,254 @@
+[
+ {
+  "run": "l4-nocat-12k",
+  "level": "P0",
+  "what": "reference: full Qwen2.5-0.5B, catalogue-free, 12k records, LoRA",
+  "acc": {
+   "val": 0.969111111111111,
+   "test": 0.9441666666666665,
+   "test_v2": 0.9422222222222223,
+   "gold": 0.9277777777777777,
+   "gold2": 0.9050925925925927,
+   "injection": 0.9444444444444444
+  },
+  "records": 12000,
+  "gpu_train_min": 16.542361736297607,
+  "gpu_val_min": 2.073078755537669,
+  "gflop_per_record": 309.000803147776,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9696296296296296,
+  "cpu_hours": {
+   "regular CPU": 11.57473692483408,
+   "M4": 2.4925794862885273
+  }
+ },
+ {
+  "run": "l4-nocat-12k-seed1",
+  "level": "P0",
+  "what": "the reference again with another seed (run-to-run noise)",
+  "acc": {
+   "val": 0.9635555555555556,
+   "test": 0.9541666666666667,
+   "test_v2": 0.9526388888888889,
+   "gold": 0.9402777777777777,
+   "gold2": 0.9189814814814815,
+   "injection": 0.9455555555555555
+  },
+  "block_params_m": 357.897216,
+  "records": 12000,
+  "gpu_train_min": 17.78744881550471,
+  "gpu_val_min": 2.3464587926864624,
+  "gflop_per_record": 308.519518758912,
+  "tokens_per_record": 205.7625,
+  "padding_overhead": 0.24716116882327932,
+  "best_val": 0.9614814814814815,
+  "cpu_hours": {
+   "regular CPU": 11.556708686297542,
+   "M4": 2.4886971675937772
+  }
+ },
+ {
+  "run": "p-d16top",
+  "level": "P1",
+  "what": "16 blocks: the top 8 removed; LoRA, 12k records",
+  "acc": {
+   "val": 0.978,
+   "test": 0.9586111111111113,
+   "test_v2": 0.9561111111111111,
+   "gold": 0.9069444444444444,
+   "gold2": 0.9004629629629629,
+   "injection": 0.9577777777777777
+  },
+  "block_params_m": 238.598144,
+  "records": 12000,
+  "gpu_train_min": 11.632742007573446,
+  "gpu_val_min": 1.5810719768206278,
+  "gflop_per_record": 206.00053543185066,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9785185185185186,
+  "cpu_hours": {
+   "regular CPU": 7.716491283222722,
+   "M4": 1.661719657525685
+  }
+ },
+ {
+  "run": "p-d16auto",
+  "level": "P1",
+  "what": "16 blocks: the 8 most alike consecutive blocks removed (final block kept); LoRA, 12k",
+  "acc": {
+   "val": 0.9359999999999999,
+   "test": 0.8977777777777778,
+   "test_v2": 0.8830555555555555,
+   "gold": 0.8597222222222222,
+   "gold2": 0.875,
+   "injection": 0.8955555555555557
+  },
+  "block_params_m": 238.598144,
+  "records": 12000,
+  "gpu_train_min": 12.653295079867044,
+  "gpu_val_min": 1.7569934765497843,
+  "gflop_per_record": 206.00053543185066,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9377777777777778,
+  "cpu_hours": {
+   "regular CPU": 7.716491283222722,
+   "M4": 1.661719657525685
+  }
+ },
+ {
+  "run": "p-w2560",
+  "level": "P2",
+  "what": "24 blocks, FFN narrowed 4864 -> 2560 (activation x weight scores); LoRA, 12k",
+  "acc": {
+   "val": 0.9722222222222222,
+   "test": 0.9523611111111112,
+   "test_v2": 0.946388888888889,
+   "gold": 0.875,
+   "gold2": 0.8958333333333334,
+   "injection": 0.9449999999999998
+  },
+  "block_params_m": 209.261568,
+  "records": 12000,
+  "gpu_train_min": 16.3038867354393,
+  "gpu_val_min": 2.144969308376312,
+  "gflop_per_record": 186.48113213439999,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9740740740740741,
+  "cpu_hours": {
+   "regular CPU": 6.98532179823701,
+   "M4": 1.504264842689653
+  }
+ },
+ {
+  "run": "p-d16w",
+  "level": "P3",
+  "what": "16 blocks (top 8 removed) + FFN 2560; LoRA, 12k",
+  "acc": {
+   "val": 0.9744444444444444,
+   "test": 0.9488888888888888,
+   "test_v2": 0.9395833333333332,
+   "gold": 0.8930555555555555,
+   "gold2": 0.8842592592592592,
+   "injection": 0.9466666666666667
+  },
+  "block_params_m": 139.507712,
+  "records": 12000,
+  "gpu_train_min": 10.534854781627654,
+  "gpu_val_min": 1.7522710680961608,
+  "gflop_per_record": 124.32075475626667,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9785185185185186,
+  "cpu_hours": {
+   "regular CPU": 4.656881198824673,
+   "M4": 1.0028432284597686
+  }
+ },
+ {
+  "run": "p-d16w-full-2e-5",
+  "level": "P3",
+  "what": "16 blocks + FFN 2560; full fine-tuning, LR 2e-5, 12k",
+  "acc": {
+   "val": 0.9811111111111112,
+   "test": 0.9508333333333334,
+   "test_v2": 0.9426388888888889,
+   "gold": 0.9138888888888889,
+   "gold2": 0.9166666666666666,
+   "injection": 0.952777777777778
+  },
+  "block_params_m": 139.507712,
+  "records": 12000,
+  "gpu_train_min": 8.780281734466552,
+  "gpu_val_min": 0.9809324502944946,
+  "gflop_per_record": 181.818532739072,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.9829629629629629,
+  "cpu_hours": {
+   "regular CPU": 6.8106673609765265,
+   "M4": 1.4666536148637566
+  }
+ },
+ {
+  "run": "p-d16w-full-6e-5",
+  "level": "P3",
+  "what": "16 blocks + FFN 2560; full fine-tuning, LR 6e-5, 12k",
+  "acc": {
+   "val": 0.9391111111111111,
+   "test": 0.9155555555555556,
+   "test_v2": 0.9115277777777777,
+   "gold": 0.8722222222222222,
+   "gold2": 0.8703703703703703,
+   "injection": 0.9077777777777778
+  },
+  "block_params_m": 139.507712,
+  "records": 12000,
+  "gpu_train_min": 8.396592756112417,
+  "gpu_val_min": 0.8805351853370667,
+  "gflop_per_record": 181.818532739072,
+  "tokens_per_record": 206.07383333333334,
+  "padding_overhead": 0.24596281429875866,
+  "best_val": 0.942962962962963,
+  "cpu_hours": {
+   "regular CPU": 6.8106673609765265,
+   "M4": 1.4666536148637566
+  }
+ },
+ {
+  "run": "t-d16-noheal",
+  "level": "T1",
+  "what": "the trained reference with its top 8 blocks removed, no retraining",
+  "eval_only": true,
+  "acc": {
+   "val": 0.5468888888888889,
+   "test": 0.5497222222222223,
+   "test_v2": 0.5476388888888889,
+   "gold": 0.5611111111111111,
+   "gold2": 0.5509259259259259,
+   "injection": 0.5261111111111112
+  }
+ },
+ {
+  "run": "t-d16w-noheal",
+  "level": "T2",
+  "what": "the trained reference, top 8 blocks removed + FFN 2560, no retraining",
+  "eval_only": true,
+  "acc": {
+   "val": 0.41711111111111115,
+   "test": 0.40208333333333335,
+   "test_v2": 0.40333333333333343,
+   "gold": 0.4236111111111111,
+   "gold2": 0.39120370370370366,
+   "injection": 0.40444444444444444
+  }
+ },
+ {
+  "run": "t-d16w-heal3k",
+  "level": "T3",
+  "what": "T2 retrained ('healed') with 3k records of LoRA (cost on top of the reference run)",
+  "acc": {
+   "val": 0.963111111111111,
+   "test": 0.942361111111111,
+   "test_v2": 0.9362499999999999,
+   "gold": 0.8736111111111111,
+   "gold2": 0.8449074074074073,
+   "injection": 0.9433333333333334
+  },
+  "block_params_m": 139.507712,
+  "records": 3000,
+  "gpu_train_min": 2.434545687834422,
+  "gpu_val_min": 0.46076589028040565,
+  "gflop_per_record": 124.605505282048,
+  "tokens_per_record": 206.528,
+  "padding_overhead": 0.2400045837206901,
+  "best_val": 0.9622222222222222,
+  "cpu_hours": {
+   "regular CPU": 1.1668868885884234,
+   "M4": 0.25128504779008126
+  }
+ }
+]

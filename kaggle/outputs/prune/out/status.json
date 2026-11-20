@@ -1,0 +1,410 @@
+[
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/prune.py --drop top:8 --out /tmp/aerojev/pruned/d16top && mkdir -p {OUT}/pruned/d16top && cp /tmp/aerojev/pruned/d16top/prune_info.json {OUT}/pruned/d16top/"
+  },
+  "rc": 0,
+  "seconds": 25
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/d16top",
+   "out": "runs/p-d16top",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2"
+   ]
+  },
+  "rc": 0,
+  "seconds": 807
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/tmp/aerojev/pruned/d16top",
+   "out": "results/ft-p-d16top",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection",
+   "adapter": "runs/p-d16top/best"
+  },
+  "rc": 0,
+  "seconds": 135
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/prune.py --drop top:8 --ffn 2560 --out /tmp/aerojev/pruned/d16w && mkdir -p {OUT}/pruned/d16w && cp /tmp/aerojev/pruned/d16w/prune_info.json {OUT}/pruned/d16w/"
+  },
+  "rc": 0,
+  "seconds": 33
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "runs/l4-nocat-12k-seed1",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--seed",
+    "1"
+   ]
+  },
+  "rc": 0,
+  "seconds": 1230
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "Qwen/Qwen2.5-0.5B-Instruct",
+   "out": "results/ft-l4-nocat-12k-seed1",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection",
+   "adapter": "runs/l4-nocat-12k-seed1/best"
+  },
+  "rc": 0,
+  "seconds": 207
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/prune.py --drop auto:8 --out /tmp/aerojev/pruned/d16auto && mkdir -p {OUT}/pruned/d16auto && cp /tmp/aerojev/pruned/d16auto/prune_info.json {OUT}/pruned/d16auto/"
+  },
+  "rc": 0,
+  "seconds": 44
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/d16w",
+   "out": "runs/p-d16w",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2"
+   ]
+  },
+  "rc": 0,
+  "seconds": 752
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/tmp/aerojev/pruned/d16w",
+   "out": "results/ft-p-d16w",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection",
+   "adapter": "runs/p-d16w/best"
+  },
+  "rc": 0,
+  "seconds": 98
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/d16auto",
+   "out": "runs/p-d16auto",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2"
+   ]
+  },
+  "rc": 0,
+  "seconds": 879
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/d16w",
+   "out": "runs/p-d16w-full-2e-5",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--lr",
+    "2e-5",
+    "--full-ft"
+   ]
+  },
+  "rc": 0,
+  "seconds": 599
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "/tmp/aerojev/pruned/d16auto",
+   "out": "results/ft-p-d16auto",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection",
+   "adapter": "runs/p-d16auto/best"
+  },
+  "rc": 0,
+  "seconds": 146
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/kaggle/working/out/runs/p-d16w-full-2e-5/best",
+   "out": "results/ft-p-d16w-full-2e-5",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 89
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/prune.py --ffn 2560 --out /tmp/aerojev/pruned/w2560 && mkdir -p {OUT}/pruned/w2560 && cp /tmp/aerojev/pruned/w2560/prune_info.json {OUT}/pruned/w2560/"
+  },
+  "rc": 0,
+  "seconds": 41
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m aerojev.export --model {OUT}/runs/p-d16w-full-2e-5/best --out {OUT}/gguf --name aerojev-p-d16w-full-2e-5 --quants q8_0 && rm -f {OUT}/runs/p-d16w-full-2e-5/best/model.safetensors"
+  },
+  "rc": 0,
+  "seconds": 341
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/d16w",
+   "out": "runs/p-d16w-full-6e-5",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2",
+    "--lr",
+    "6e-5",
+    "--full-ft"
+   ]
+  },
+  "rc": 0,
+  "seconds": 568
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "eval",
+   "model": "/kaggle/working/out/runs/p-d16w-full-6e-5/best",
+   "out": "results/ft-p-d16w-full-6e-5",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 91
+ },
+ {
+  "gpu": 0,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} -m aerojev.export --model {OUT}/runs/p-d16w-full-6e-5/best --out {OUT}/gguf --name aerojev-p-d16w-full-6e-5 --quants q8_0 && rm -f {OUT}/runs/p-d16w-full-6e-5/best/model.safetensors"
+  },
+  "rc": 0,
+  "seconds": 39
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/w2560",
+   "out": "runs/p-w2560",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "1.2"
+   ]
+  },
+  "rc": 0,
+  "seconds": 1120
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "/tmp/aerojev/pruned/w2560",
+   "out": "results/ft-p-w2560",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection",
+   "adapter": "runs/p-w2560/best"
+  },
+  "rc": 0,
+  "seconds": 128
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/prune.py --adapter {GGUF:runs/l4-nocat-12k/best/adapter_model.safetensors} --drop top:8 --out /tmp/aerojev/pruned/t-d16 && mkdir -p {OUT}/pruned/t-d16 && cp /tmp/aerojev/pruned/t-d16/prune_info.json {OUT}/pruned/t-d16/"
+  },
+  "rc": 0,
+  "seconds": 27
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "/tmp/aerojev/pruned/t-d16",
+   "out": "results/t-d16-noheal",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 142
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "cmd",
+   "cmd": "{PY} scripts/prune.py --adapter {GGUF:runs/l4-nocat-12k/best/adapter_model.safetensors} --drop top:8 --ffn 2560 --out /tmp/aerojev/pruned/t-d16w && mkdir -p {OUT}/pruned/t-d16w && cp /tmp/aerojev/pruned/t-d16w/prune_info.json {OUT}/pruned/t-d16w/"
+  },
+  "rc": 0,
+  "seconds": 36
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "/tmp/aerojev/pruned/t-d16w",
+   "out": "results/t-d16w-noheal",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection"
+  },
+  "rc": 0,
+  "seconds": 96
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "train",
+   "model": "/tmp/aerojev/pruned/t-d16w",
+   "out": "runs/t-d16w-heal3k",
+   "args": [
+    "--layout",
+    "nocat",
+    "--shared-catalogue",
+    "--min-q",
+    "9",
+    "--lora-dropout",
+    "0",
+    "--cached-val",
+    "--data",
+    "data/processed_v2",
+    "--epochs",
+    "0.3"
+   ]
+  },
+  "rc": 0,
+  "seconds": 186
+ },
+ {
+  "gpu": 1,
+  "job": {
+   "kind": "eval",
+   "model": "/tmp/aerojev/pruned/t-d16w",
+   "out": "results/ft-t-d16w-heal3k",
+   "layout": "nocat",
+   "data": "data/processed_v2",
+   "sets": "val,test,test_v2,gold,gold2,injection",
+   "adapter": "runs/t-d16w-heal3k/best"
+  },
+  "rc": 0,
+  "seconds": 96
+ }
+]

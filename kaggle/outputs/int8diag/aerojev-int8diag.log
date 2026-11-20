@@ -1,0 +1,325 @@
+[{"stream_name":"stdout","time":7932.848649645,"data":"[\n"}
+,{"stream_name":"stdout","time":7932.849043639,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849058318,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849070112,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849073118,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849159599,"data":"   \"cmd\": \"{PY} -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0\",\n"}
+,{"stream_name":"stdout","time":7932.849162775,"data":"   \"required\": true\n"}
+,{"stream_name":"stdout","time":7932.849165672,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849168399,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849171147,"data":"  \"seconds\": 8\n"}
+,{"stream_name":"stdout","time":7932.849173958,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849176682,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849179335,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849181997,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849184784,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849187772,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {GGUF:runs/e150-ep8/model} --out {OUT}/onnx/e150-ep8 --keep-fp32 --temps {GGUF:results/ft-e150-ep8/metrics.json} \u0026\u0026 {PY} scripts/int8_variants.py --dir {OUT}/onnx/e150-ep8\"\n"}
+,{"stream_name":"stdout","time":7932.849193441,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849196076,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849199558,"data":"  \"seconds\": 300\n"}
+,{"stream_name":"stdout","time":7932.849202431,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849205115,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.84920777,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849210402,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849213132,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849221134,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-fp32\"\n"}
+,{"stream_name":"stdout","time":7932.849224392,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849227103,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849229747,"data":"  \"seconds\": 279\n"}
+,{"stream_name":"stdout","time":7932.849232524,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.84923531,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849237904,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849240605,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.84924333,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849246067,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-s8\"\n"}
+,{"stream_name":"stdout","time":7932.849249091,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849251748,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849254495,"data":"  \"seconds\": 202\n"}
+,{"stream_name":"stdout","time":7932.849257186,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849259775,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849262789,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849265431,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849268088,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849270836,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-s8-rr\"\n"}
+,{"stream_name":"stdout","time":7932.849281851,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849284874,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849287651,"data":"  \"seconds\": 190\n"}
+,{"stream_name":"stdout","time":7932.849290324,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849292916,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849295578,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849301364,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.8493041,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849307107,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-u8\"\n"}
+,{"stream_name":"stdout","time":7932.849310132,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849312714,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849315357,"data":"  \"seconds\": 228\n"}
+,{"stream_name":"stdout","time":7932.84931816,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849320775,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849323367,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849326035,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849328948,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.84933168,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-s8-constb\"\n"}
+,{"stream_name":"stdout","time":7932.849334735,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849337326,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849340044,"data":"  \"seconds\": 227\n"}
+,{"stream_name":"stdout","time":7932.849342705,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849346221,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849348936,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849351604,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849354404,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849360595,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {GGUF:runs/e150-ep8-seed1/model} --out {OUT}/onnx/e150-ep8-seed1 --keep-fp32 --temps {GGUF:results/ft-e150-ep8-seed1/metrics.json} \u0026\u0026 {PY} scripts/int8_variants.py --dir {OUT}/onnx/e150-ep8-seed1\"\n"}
+,{"stream_name":"stdout","time":7932.849363943,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849366626,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849369353,"data":"  \"seconds\": 255\n"}
+,{"stream_name":"stdout","time":7932.849372026,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849374678,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849377255,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849379981,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849382721,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849385614,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-fp32\"\n"}
+,{"stream_name":"stdout","time":7932.849388876,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849391478,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849397547,"data":"  \"seconds\": 259\n"}
+,{"stream_name":"stdout","time":7932.849400392,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849403007,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849405624,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849408305,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849410967,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849413704,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-s8\"\n"}
+,{"stream_name":"stdout","time":7932.849416743,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849419359,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849422007,"data":"  \"seconds\": 199\n"}
+,{"stream_name":"stdout","time":7932.849424754,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849427423,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849430205,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849432928,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849435797,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849438552,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-s8-rr\"\n"}
+,{"stream_name":"stdout","time":7932.849441661,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849444501,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849447215,"data":"  \"seconds\": 214\n"}
+,{"stream_name":"stdout","time":7932.84945119,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.84945383,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.84945649,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849459156,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.84946187,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849464606,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-u8\"\n"}
+,{"stream_name":"stdout","time":7932.849467714,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849470321,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849473034,"data":"  \"seconds\": 241\n"}
+,{"stream_name":"stdout","time":7932.849475697,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.84947829,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849480867,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849483512,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849486168,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849488905,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/e150-ep8-seed1/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-e150-ep8-seed1-s8-constb\"\n"}
+,{"stream_name":"stdout","time":7932.849491952,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849494527,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849497282,"data":"  \"seconds\": 197\n"}
+,{"stream_name":"stdout","time":7932.849499945,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849502541,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849505107,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849507772,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849510455,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849515844,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {GGUF:runs/u150-ep8-lr3e-5/model} --out {OUT}/onnx/u150-ep8-lr3e-5 --keep-fp32 --temps {GGUF:results/ft-u150-ep8-lr3e-5/metrics.json} \u0026\u0026 {PY} scripts/int8_variants.py --dir {OUT}/onnx/u150-ep8-lr3e-5\"\n"}
+,{"stream_name":"stdout","time":7932.849519238,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849521834,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849524478,"data":"  \"seconds\": 288\n"}
+,{"stream_name":"stdout","time":7932.849527301,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849529941,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849532541,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849535388,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849538065,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849540802,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-fp32\"\n"}
+,{"stream_name":"stdout","time":7932.849543864,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849546487,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849549567,"data":"  \"seconds\": 336\n"}
+,{"stream_name":"stdout","time":7932.849552345,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849554957,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.84955757,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.84956023,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849562903,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849565668,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-s8\"\n"}
+,{"stream_name":"stdout","time":7932.84956871,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849571316,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849631142,"data":"  \"seconds\": 233\n"}
+,{"stream_name":"stdout","time":7932.849635671,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.84964035,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849644669,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849648826,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849652842,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849657508,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-s8-rr\"\n"}
+,{"stream_name":"stdout","time":7932.849661928,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849665757,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849669811,"data":"  \"seconds\": 237\n"}
+,{"stream_name":"stdout","time":7932.849678756,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849681712,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.84968437,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849687024,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849689744,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849692519,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-u8\"\n"}
+,{"stream_name":"stdout","time":7932.849700588,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849703301,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.84970604,"data":"  \"seconds\": 272\n"}
+,{"stream_name":"stdout","time":7932.84970869,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.84971689,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849719784,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849722422,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849725165,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849727907,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-s8-constb\"\n"}
+,{"stream_name":"stdout","time":7932.849731025,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849733641,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849736282,"data":"  \"seconds\": 208\n"}
+,{"stream_name":"stdout","time":7932.849738964,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849741627,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849744217,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849746867,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849749533,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849753127,"data":"   \"cmd\": \"{PY} scripts/export_encoder.py --model {GGUF:runs/u150-ep8-lr3e-5-seed1/model} --out {OUT}/onnx/u150-ep8-lr3e-5-seed1 --keep-fp32 --temps {GGUF:results/ft-u150-ep8-lr3e-5-seed1/metrics.json} \u0026\u0026 {PY} scripts/int8_variants.py --dir {OUT}/onnx/u150-ep8-lr3e-5-seed1\"\n"}
+,{"stream_name":"stdout","time":7932.849756627,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.84975921,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849761854,"data":"  \"seconds\": 261\n"}
+,{"stream_name":"stdout","time":7932.849764525,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849767119,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849769695,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849772395,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849775127,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849777921,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1 --weights fp32 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-fp32\"\n"}
+,{"stream_name":"stdout","time":7932.849781406,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849784001,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849786627,"data":"  \"seconds\": 289\n"}
+,{"stream_name":"stdout","time":7932.84978935,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849791924,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849794491,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849797184,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849799821,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849802518,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-s8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-s8\"\n"}
+,{"stream_name":"stdout","time":7932.849805622,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849808192,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849810875,"data":"  \"seconds\": 223\n"}
+,{"stream_name":"stdout","time":7932.849813562,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849819571,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849823726,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849826464,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849829107,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849831838,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-s8-rr --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-s8-rr\"\n"}
+,{"stream_name":"stdout","time":7932.849834892,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849837492,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849840131,"data":"  \"seconds\": 219\n"}
+,{"stream_name":"stdout","time":7932.849842781,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849845397,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849849444,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849852172,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849854918,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849857609,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-u8 --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-u8\"\n"}
+,{"stream_name":"stdout","time":7932.84986076,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849863407,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.84986609,"data":"  \"seconds\": 261\n"}
+,{"stream_name":"stdout","time":7932.84986876,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849871396,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.84987396,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849876613,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849879262,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849882025,"data":"   \"cmd\": \"{PY} -m eval.evaluate --onnx {OUT}/onnx/u150-ep8-lr3e-5-seed1/v-s8-constb --weights int8 --threads 4 --data data/processed_v2 --sets gold,gold2,test --out {OUT}/results/onnx-u150-ep8-lr3e-5-seed1-s8-constb\"\n"}
+,{"stream_name":"stdout","time":7932.849885081,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849887681,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849890304,"data":"  \"seconds\": 208\n"}
+,{"stream_name":"stdout","time":7932.849893101,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.84989569,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849898283,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849900916,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849903544,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849906264,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-s8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.849909254,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849911855,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849914493,"data":"  \"seconds\": 175\n"}
+,{"stream_name":"stdout","time":7932.849917171,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849919934,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849922511,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849925133,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849927776,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849930607,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-s8-rr --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.849936683,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849939413,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849942081,"data":"  \"seconds\": 175\n"}
+,{"stream_name":"stdout","time":7932.849944752,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849947357,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.84994995,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.84995258,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849955226,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849957944,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-u8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.849960894,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849963477,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849966109,"data":"  \"seconds\": 203\n"}
+,{"stream_name":"stdout","time":7932.849968762,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849971357,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.849973935,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849976577,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.849979237,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.849981952,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1/v-s8-constb --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.84998493,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.849987541,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.849990165,"data":"  \"seconds\": 179\n"}
+,{"stream_name":"stdout","time":7932.849992809,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.849995395,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.84999796,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850000688,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.850003384,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.850006671,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-s8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.850009634,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.850012218,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850014855,"data":"  \"seconds\": 189\n"}
+,{"stream_name":"stdout","time":7932.850017512,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.850020086,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.850022783,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850025421,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.850028052,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.850030754,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-s8-rr --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.850033713,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.850036331,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.85003905,"data":"  \"seconds\": 188\n"}
+,{"stream_name":"stdout","time":7932.850041692,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.850044335,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.850049518,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850052275,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.850054933,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.85005766,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-u8 --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.85006064,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.850063216,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850065844,"data":"  \"seconds\": 228\n"}
+,{"stream_name":"stdout","time":7932.850068483,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.850071061,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.850080034,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850082988,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.850085637,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.85008837,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5/v-s8-constb --weights int8 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.850091335,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.850093916,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850096552,"data":"  \"seconds\": 185\n"}
+,{"stream_name":"stdout","time":7932.850099206,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.850101793,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.850104363,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850107004,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.850109764,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.850112474,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/e150-ep8-seed1 --weights fp32 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.850115433,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.850118009,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.85012063,"data":"  \"seconds\": 227\n"}
+,{"stream_name":"stdout","time":7932.850123279,"data":" },\n"}
+,{"stream_name":"stdout","time":7932.850125855,"data":" {\n"}
+,{"stream_name":"stdout","time":7932.850128432,"data":"  \"gpu\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850131084,"data":"  \"job\": {\n"}
+,{"stream_name":"stdout","time":7932.850133713,"data":"   \"kind\": \"cmd\",\n"}
+,{"stream_name":"stdout","time":7932.850136416,"data":"   \"cmd\": \"{PY} scripts/bench_lite.py --model {OUT}/onnx/u150-ep8-lr3e-5 --weights fp32 --threads 1 4 --records 300 --out {OUT}/results/latency_variants.jsonl\"\n"}
+,{"stream_name":"stdout","time":7932.850139509,"data":"  },\n"}
+,{"stream_name":"stdout","time":7932.850142098,"data":"  \"rc\": 0,\n"}
+,{"stream_name":"stdout","time":7932.850144747,"data":"  \"seconds\": 253\n"}
+,{"stream_name":"stdout","time":7932.850147427,"data":" }\n"}
+,{"stream_name":"stdout","time":7932.850150037,"data":"]\n"}
+,{"stream_name":"stderr","time":7935.936815068,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":7935.936854967,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":7936.298171013,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":7936.298248306,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":7939.001766886,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":7940.796952328,"data":"[NbConvertApp] Writing 331267 bytes to __results__.html\n"}
+]
