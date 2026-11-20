@@ -21,6 +21,9 @@ through the catalogue once at the end of the step.
 
 --layout nocat: no catalogue in the prompt; each question id has fixed labels in
 canonical option order (see aerojev.prompt).
+
+--full-ft: train every transformer block's weights (and the final norm) instead of LoRA adapters; the tied
+embeddings / lm_head stay frozen. Meant for pruned models (scripts/prune.py), which are small enough for it.
 """
 
 import argparse
@@ -146,7 +149,7 @@ def record_loss(model, p, device, ordinal_weight, teacher=None, distill_weight=0
 
 def shared_step(model, g, device, args, autocast, scaler, teacher=None):
     """Forward + backward for one --shared-catalogue group. Returns (per-record losses, correct flags, cost)."""
-    base = model.get_base_model()
+    base = model.get_base_model() if hasattr(model, "get_base_model") else model  # LoRA or --full-ft
     body, head = base.model, base.lm_head
     S = len(g["static_ids"])
     with autocast():
@@ -238,6 +241,25 @@ def quick_eval(model, tok, think, rows, device, amp_dtype, layout="branch", cach
     return hits / n
 
 
+def copy_sentencepiece(src, dst):
+    """SentencePiece models (e.g. Gemma) need the original tokenizer.model for the GGUF converter, and the fast
+    tokenizer's save_pretrained does not write it. Copy it from the base model when it has one."""
+    import shutil
+    if os.path.isdir(src):
+        f = os.path.join(src, "tokenizer.model")
+    else:
+        try:
+            from huggingface_hub import hf_hub_download
+            f = hf_hub_download(src, "tokenizer.model")
+        except Exception:
+            return  # BPE tokenizers (Qwen, SmolLM2) have none
+    if os.path.exists(f):  # copyfile, not copy: the HF cache's read-only mode must not come along
+        out = os.path.join(dst, "tokenizer.model")
+        if os.path.exists(out):
+            os.remove(out)
+        shutil.copyfile(f, out)
+
+
 def load_teacher(path):
     """eval.evaluate preds file -> {(record id, question id): {option key: logit}}."""
     t = {}
@@ -288,6 +310,8 @@ def main():
     ap.add_argument("--base-dtype", choices=["float32", "float16", "bfloat16"], default="float32",
                     help="dtype of the frozen base weights (LoRA weights stay fp32); float16 halves GPU memory")
     ap.add_argument("--grad-checkpointing", action="store_true", help="recompute activations in backward to save memory")
+    ap.add_argument("--full-ft", action="store_true",
+                    help="train all transformer block weights instead of LoRA (embeddings / lm_head stay frozen)")
     args = ap.parse_args()
     if args.shared_catalogue and args.layout not in ("catalogue", "nocat"):
         ap.error("--shared-catalogue needs --layout catalogue or nocat")
@@ -305,13 +329,35 @@ def main():
     if args.grad_checkpointing:
         model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
     n_layers = model.config.num_hidden_layers
-    cfg = LoraConfig(r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=args.lora_dropout, bias="none",
-                     target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
-                     layers_to_transform=list(range(n_layers - args.top_layers, n_layers)) if args.top_layers else None,
-                     task_type="CAUSAL_LM")
-    model = get_peft_model(model, cfg)  # adapter weights are created in fp32 whatever the base dtype
-    model.print_trainable_parameters()
+    if args.full_ft:
+        for p in model.parameters():
+            p.requires_grad = False
+        for p in list(model.model.layers.parameters()) + list(model.model.norm.parameters()):
+            p.requires_grad = True
+        n_train = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        print(f"full fine-tuning: {n_train:,} trainable parameters (blocks + final norm)", flush=True)
+    else:
+        cfg = LoraConfig(r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=args.lora_dropout, bias="none",
+                         target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+                         layers_to_transform=list(range(n_layers - args.top_layers, n_layers)) if args.top_layers else None,
+                         task_type="CAUSAL_LM")
+        model = get_peft_model(model, cfg)  # adapter weights are created in fp32 whatever the base dtype
+        model.print_trainable_parameters()
     model.to(args.device).train()
+    base_cfg = (model.get_base_model() if hasattr(model, "get_base_model") else model).config
+    inner = model.get_base_model().model if hasattr(model, "get_base_model") else model.model
+    # what the cost log is measured against: matmul parameters in the blocks, and attention width
+    model_dims = {"num_hidden_layers": base_cfg.num_hidden_layers, "hidden_size": base_cfg.hidden_size,
+                  "intermediate_size": base_cfg.intermediate_size, "attn_width": base_cfg.num_attention_heads *
+                  getattr(base_cfg, "head_dim", base_cfg.hidden_size // base_cfg.num_attention_heads),
+                  "block_params": sum(p.numel() for n, p in inner.layers.named_parameters() if "lora_" not in n),
+                  "full_ft": args.full_ft}
+
+    def save(path):
+        model.save_pretrained(path)
+        if args.full_ft:  # a full checkpoint is evaluated and exported on its own, so it carries the tokenizer
+            tok.save_pretrained(path)
+            copy_sentencepiece(args.model, path)
 
     train = [json.loads(l) for l in open(os.path.join(args.data, "train.jsonl"))]
     if args.limit:
@@ -415,12 +461,13 @@ def main():
             log.write(json.dumps(rec) + "\n")
             if acc > best:
                 best = acc
-                model.save_pretrained(os.path.join(args.out, "best"))
+                save(os.path.join(args.out, "best"))
                 json.dump({"step": step, "val_acc": acc}, open(os.path.join(args.out, "best", "info.json"), "w"))
-    model.save_pretrained(os.path.join(args.out, "last"))
+    if not args.full_ft:  # a second full checkpoint is not worth the disk; "best" is what gets evaluated
+        save(os.path.join(args.out, "last"))
     elapsed = time.time() - t0
     json.dump({"best_val_acc": best, "steps": step, "records": seen, "elapsed_s": elapsed,
-               "train_s": elapsed - val_s, "val_s": val_s, "cost": cost,
+               "train_s": elapsed - val_s, "val_s": val_s, "cost": cost, "model_dims": model_dims,
                "device": torch.cuda.get_device_name() if dev_type == "cuda" else args.device, "args": vars(args)},
               open(os.path.join(args.out, "summary.json"), "w"), indent=1)
     print(f"done. best val acc {best:.3f}", flush=True)

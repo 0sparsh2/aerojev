@@ -294,6 +294,47 @@ class GGUFEngine(BaseEngine):
         return res
 
 
+class EncoderEngine(BaseEngine):
+    """Encoder + one classification head per trained question (train/train_encoder.py), CPU, PyTorch.
+
+    One forward pass over the record text answers every question: the token states are pooled (mean, or one learned
+    attention per question) and each head scores its question's options in schema order. Like a nocat model it knows
+    only its trained questions. For the small, torch-free runtime see aerojev.lite (ONNX Runtime, int8)."""
+
+    def __init__(self, path, temperatures=None):
+        import os
+        from transformers import AutoModel
+        meta = json.load(open(os.path.join(path, "decider.json")))
+        self.tok = AutoTokenizer.from_pretrained(path)
+        self.enc = AutoModel.from_pretrained(path, dtype=torch.float32).eval()
+        heads = {k: v.float() for k, v in torch.load(os.path.join(path, "heads.pt"), map_location="cpu").items()}
+        self.qids = list(meta["keys"])
+        self.heads = {q: (heads[f"{q}.weight"], heads[f"{q}.bias"]) for q in self.qids}
+        self.attn = (heads["_attn.weight"], heads["_attn.bias"]) if meta.get("pool") == "attn" else None
+        self.max_len = meta["max_len"]
+        self.catalogue = [materialize(q)[0] for q in schema.TRAIN_QUESTIONS]
+        self.temperatures = temperatures or {}
+        self.layout, self.mode = "encoder", "encoder"
+
+    def _check_nocat(self, qdicts):
+        if not self._matches_catalogue(qdicts):
+            raise ValueError("this encoder model answers only its trained questions, with options in schema order: "
+                             + ", ".join(q["id"] for q in self.catalogue))
+
+    @torch.no_grad()
+    def readout_logits(self, state, qdicts):
+        self._check_nocat(qdicts)
+        text = state if isinstance(state, str) else json.dumps(state, ensure_ascii=False, indent=1)
+        enc = self.tok(text, truncation=True, max_length=self.max_len, return_tensors="pt")
+        hs = self.enc(**enc).last_hidden_state[0]  # one record, no padding
+        if self.attn is None:
+            pooled = dict.fromkeys(self.qids, hs.mean(0))
+        else:
+            w = (hs @ self.attn[0].T + self.attn[1]).softmax(0)  # [tokens, questions]
+            pooled = {q: w[:, i] @ hs for i, q in enumerate(self.qids)}
+        return [pooled[q["id"]] @ self.heads[q["id"]][0].T + self.heads[q["id"]][1] for q in qdicts]
+
+
 def _default_catalogue(layout):
     """catalogue layout: every question, held-out ones included; nocat: only the trained questions exist."""
     return schema.TRAIN_QUESTIONS if layout == "nocat" else schema.CATALOGUE

@@ -35,13 +35,17 @@ def ensure_llama_cpp(llama_dir=DEFAULT_LLAMA_DIR):
 
 
 def export_gguf(model, tokenizer, out_dir, name, llama_dir=DEFAULT_LLAMA_DIR, quants=("q8_0", "q4_k_m")):
-    """Write <out_dir>/<name>-<quant>.gguf for a merged (no adapter) transformers model; returns {quant: path}."""
+    """Write <out_dir>/<name>-<quant>.gguf for a merged (no adapter) transformers model; returns {quant: path}.
+    "f16" in quants keeps the f16 file (the source for later requantization)."""
     os.makedirs(out_dir, exist_ok=True)
     qbin = ensure_llama_cpp(llama_dir)
     convert = os.path.join(llama_dir, "convert_hf_to_gguf.py")
     hf_dir = os.path.join(out_dir, f".{name}-hf")  # temporary safetensors copy the converter reads
     model.save_pretrained(hf_dir)
     tokenizer.save_pretrained(hf_dir)
+    sp = os.path.join(getattr(tokenizer, "name_or_path", "") or "", "tokenizer.model")
+    if os.path.isfile(sp):  # SentencePiece models (Gemma): the converter needs the original tokenizer.model
+        shutil.copyfile(sp, os.path.join(hf_dir, "tokenizer.model"))
     quiet = {"check": True, "stdout": subprocess.DEVNULL, "stderr": subprocess.DEVNULL}
     f16 = os.path.join(out_dir, f"{name}-f16.gguf")
     paths = {}
@@ -49,6 +53,9 @@ def export_gguf(model, tokenizer, out_dir, name, llama_dir=DEFAULT_LLAMA_DIR, qu
         subprocess.run([sys.executable, convert, hf_dir, "--outtype", "f16", "--outfile", f16], **quiet)
         for q in quants:
             path = os.path.join(out_dir, f"{name}-{q}.gguf")
+            if q == "f16":
+                paths[q] = f16
+                continue
             if q == "q8_0":
                 subprocess.run([sys.executable, convert, hf_dir, "--outtype", "q8_0", "--outfile", path], **quiet)
             else:
@@ -56,7 +63,7 @@ def export_gguf(model, tokenizer, out_dir, name, llama_dir=DEFAULT_LLAMA_DIR, qu
             paths[q] = path
     finally:
         shutil.rmtree(hf_dir, ignore_errors=True)
-        if os.path.exists(f16):
+        if os.path.exists(f16) and "f16" not in quants:
             os.remove(f16)
     return paths
 
@@ -64,7 +71,7 @@ def export_gguf(model, tokenizer, out_dir, name, llama_dir=DEFAULT_LLAMA_DIR, qu
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True, help="base model id or path")
-    ap.add_argument("--adapter", required=True, help="LoRA adapter directory (e.g. runs/<run>/best)")
+    ap.add_argument("--adapter", help="LoRA adapter directory (e.g. runs/<run>/best); omit for a full checkpoint")
     ap.add_argument("--out", default="models")
     ap.add_argument("--name", required=True, help="file name prefix, e.g. aerojev-qwen3-0.6b")
     ap.add_argument("--llama-dir", default=DEFAULT_LLAMA_DIR)
@@ -76,7 +83,8 @@ def main():
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     model = AutoModelForCausalLM.from_pretrained(args.model, dtype=torch.float32)
-    model = PeftModel.from_pretrained(model, args.adapter).merge_and_unload()
+    if args.adapter:
+        model = PeftModel.from_pretrained(model, args.adapter).merge_and_unload()
     paths = export_gguf(model, AutoTokenizer.from_pretrained(args.model), args.out, args.name, args.llama_dir,
                         tuple(args.quants.split(",")))
     for q, p in paths.items():

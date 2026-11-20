@@ -18,7 +18,7 @@ import time
 import torch
 
 from aerojev import schema
-from aerojev.engine import DecisionEngine, GGUFEngine
+from aerojev.engine import DecisionEngine, EncoderEngine, GGUFEngine
 from aerojev.metrics import fit_temperatures, summarize
 from aerojev.prompt import materialize
 
@@ -64,6 +64,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", help="HF model id (also the tokenizer for --gguf)")
     ap.add_argument("--gguf", help="evaluate a GGUF file with llama.cpp on CPU instead of HF")
+    ap.add_argument("--encoder", help="evaluate an encoder decision model directory (train/train_encoder.py), CPU")
+    ap.add_argument("--onnx", help="evaluate an ONNX encoder export (scripts/export_encoder.py) with aerojev.lite, CPU")
+    ap.add_argument("--weights", choices=["int8", "int4", "fp32"], help="--onnx: which file (default by CPU: int8 on ARM; int4, then fp32, on x86)")
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--layout", choices=["branch", "catalogue", "nocat"], default="branch")
     ap.add_argument("--adapter")
@@ -79,7 +82,15 @@ def main():
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
 
-    if args.gguf:
+    if args.encoder or args.onnx:
+        torch.set_num_threads(args.threads)
+        if args.onnx:
+            from aerojev.lite import LiteEngine
+            eng = LiteEngine(args.onnx, threads=args.threads, weights=args.weights)
+        else:
+            eng = EncoderEngine(args.encoder)
+        args.layout, args.no_perm = "nocat", True  # trained questions only, options never shown
+    elif args.gguf:
         eng = GGUFEngine(args.gguf, args.model, n_threads=args.threads, layout=args.layout)
     else:
         eng = DecisionEngine(args.model, device=args.device, dtype=getattr(torch, args.dtype),

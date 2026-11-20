@@ -17,6 +17,12 @@ models/
 kaggle/dataset/*.tar.gz
 results/notebook/
 results/notebook-nocat/
+results/notebook-encoder/
 # GPU smoke-test outputs (plumbing checks, not results) and the distillation teacher's logits (28 MB, regenerable)
 kaggle/outputs/ladder-smoke/
 kaggle/outputs/ladder/out/results/teacher-qwen3-1.7b/preds_train.jsonl
+# copies of public tokenizers and encoder heads saved next to (git-ignored) weights: useless on their own
+kaggle/outputs/**/runs/**/tokenizer.json
+kaggle/outputs/**/runs/**/heads.pt
+# teacher logits over the training set (regenerable by the encoder kernel)
+kaggle/outputs/**/results/teacher-*/preds_train.jsonl

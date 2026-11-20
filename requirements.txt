@@ -17,5 +17,12 @@ matplotlib
 #   CMAKE_ARGS="-DGGML_METAL=OFF" pip install --no-cache-dir llama-cpp-python==0.3.16
 llama-cpp-python==0.3.16
 
+# encoder model export (scripts/export_encoder.py) and its torch-free runtime (aerojev.lite; see requirements-lite.txt).
+# Tested: onnx 1.23.2, onnxscript 0.7.2, onnxruntime 1.32.0 (also on Kaggle). The 4-bit x86 file (--int4) needs
+# onnxruntime's MatMulNBitsQuantizer with accuracy_level (1.20+).
+onnx
+onnxscript
+onnxruntime>=1.20
+
 # optional baseline (sentence-embedding + logistic regression)
 sentence-transformers

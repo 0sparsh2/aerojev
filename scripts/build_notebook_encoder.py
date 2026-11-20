@@ -1,0 +1,458 @@
+"""Build notebooks/aerojev_ettin-150m_encoder.ipynb (and its Markdown copy): the smallest accurate AeroJev model.
+
+  python scripts/build_notebook_encoder.py
+
+An Ettin-150M encoder with one classification head per question, trained in the notebook, checked, exported to
+int8 ONNX and served without PyTorch. Background and measurements: docs/ENCODER.md, results/encoder/encoder.md.
+"""
+
+import os
+import textwrap
+
+import nbformat as nbf
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+NAME = "aerojev_ettin-150m_encoder"
+cells = []
+
+
+def md(s):
+    cells.append(nbf.v4.new_markdown_cell(textwrap.dedent(s).strip()))
+
+
+def code(s):
+    cells.append(nbf.v4.new_code_cell(textwrap.dedent(s).strip()))
+
+
+# =====================================================================================================
+md("""
+# AeroJev, smallest model: Ettin-150M encoder + 9 heads, int8 on ONNX Runtime
+
+This notebook trains, checks, exports and serves the smallest AeroJev model that keeps the Qwen models' accuracy.
+It is a companion to `aerojev_qwen2.5-0.5b_lora.ipynb`, which explains the project from scratch: the question
+schema, how the dataset is generated, and the logit readout. Read that one first if AeroJev is new to you.
+
+**The idea.** For a fixed set of nine questions, the task is classification: read a record, pick one option per
+question. The Qwen recipes do this with a 0.5–0.6B text generator. Here a 150M *encoder*, a model built to read text
+rather than write it, reads the record once. Nine small output layers ("heads"), one per question, each score that
+question's options.
+
+| | Qwen2.5-0.5B + LoRA (catalogue-free) | This notebook |
+|---|---|---|
+| Model | 494M decoder, LoRA adapters | 150M encoder, every weight trained |
+| Input | system line + record + one readout per question | the record text only |
+| Output | label-token logits at the readouts | 9 heads over the pooled record |
+| Training data | 12,000 records (1.2 passes) | 80,000 records (8 passes over 10,000) |
+| File for CPU serving | GGUF Q8_0, 531 MB | **ONNX int8, 151 MB** |
+| CPU runtime | llama.cpp (the engine also loads PyTorch and transformers) | **onnxruntime + tokenizers, no PyTorch** |
+| Answers | its 9 trained questions only | its 9 trained questions only |
+
+**Measured results** (`docs/ENCODER.md`). Mean accuracy over the nine questions; CPU time on an Apple M4, one record
+at a time, median over the gold + test records:
+
+| Model | Gold (80) | Gold2 (48) | Test (800) | ms/record, 4 threads | Peak RAM |
+|---|---|---|---|---|---|
+| **This recipe, 8 epochs, int8** | 0.932 | 0.928 | **0.969** | **28** | **0.48 GB** |
+| Qwen2.5-0.5B + LoRA, catalogue-free (two runs) | 0.928 / 0.940 | 0.905 / 0.919 | 0.944 / 0.954 | – | – |
+| Qwen2.5-0.5B pruned, GGUF Q8_0 (`--preset small`) | 0.914 | 0.917 | 0.951 | 83 | 1.0 GB |
+
+**How long it takes.**
+* On a T4-class GPU: ~30 min for 8 epochs, or ~15 min for 4 epochs, which is nearly as good.
+* On an Apple M4 CPU: 0.20 s per training record, so 4.5 h for 8 epochs or 2.2 h for 4 (measured).
+* On a regular 2-core CPU: about 5× slower than the M4 (estimated).
+
+**How to run it.**
+* **On a CUDA GPU** the full recipe runs.
+* **On a CPU** the notebook switches to FAST mode, the same steps on a few dozen records, to check that everything
+  works. Set `AEROJEV_NB_FAST=0` to train for real on a CPU.
+* **Other overrides:**
+  * `AEROJEV_NB_EPOCHS`: passes over the 10,000 training records. The default is 8; 4 halves the time.
+  * `AEROJEV_NB_MODEL`: the base encoder.
+  * `AEROJEV_ROOT`: the repository location, if Jupyter starts elsewhere.
+
+**The limit.** Like the catalogue-free Qwen model, the encoder knows only its nine trained questions, each with its
+options in a fixed order. A new question or a new option means retraining. Ad-hoc questions are refused.
+""")
+
+md("## 0. Setup")
+code('''
+# Standard library first; everything else is in requirements.txt (training) or requirements-lite.txt (serving).
+import json, math, os, random, subprocess, sys, time
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def find_repo_root():
+    """The notebook lives in <repo>/notebooks/. Walk up from the working directory until we find the repo
+    (the folder that contains aerojev/engine.py), or use $AEROJEV_ROOT if it is set."""
+    if os.environ.get("AEROJEV_ROOT"):
+        return os.path.abspath(os.environ["AEROJEV_ROOT"])
+    d = os.path.abspath(os.getcwd())
+    while d != os.path.dirname(d):
+        if os.path.exists(os.path.join(d, "aerojev", "engine.py")):
+            return d
+        d = os.path.dirname(d)
+    raise RuntimeError("Start Jupyter inside the AeroJev repository, or set AEROJEV_ROOT.")
+
+
+ROOT = find_repo_root()
+os.chdir(ROOT)               # every path below is relative to the repository
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)  # makes the project's packages importable: aerojev, train, eval
+pd.set_option("display.max_colwidth", 100)
+print("repository:", ROOT)
+''')
+code('''
+import torch
+import transformers
+import onnxruntime
+
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+FAST = os.environ.get("AEROJEV_NB_FAST", "0" if DEVICE == "cuda" else "1") == "1"
+
+MODEL = os.environ.get("AEROJEV_NB_MODEL", "jhu-clsp/ettin-encoder-150m")  # MIT licence, ModernBERT architecture
+DATA = os.path.join(ROOT, "data", "processed_v2")            # the data v2 splits shipped with the repository
+OUT = os.path.join(ROOT, "results", "notebook-encoder")     # everything this notebook writes goes here
+os.makedirs(OUT, exist_ok=True)
+
+CFG = dict(
+    epochs=float(os.environ.get("AEROJEV_NB_EPOCHS", "8")),  # passes over the 10,000 training records. 2 was 1-2
+                         # points short of the Qwen reference, 4 matched it, 8 was a little better again
+    lr=5e-5,             # encoder learning rate; 1e-4 was no better
+    head_lr=1e-3,        # the heads start from random weights, so they learn 20x faster than the encoder
+    batch=16,            # records per optimizer step
+    max_len=512,         # longest record in tokens (records here are at most ~260; Ettin itself reads up to 8k)
+    warmup_ratio=0.06,   # share of the steps with a linear warm-up, then a cosine decay to zero
+    weight_decay=0.01,
+    ordinal_weight=0.5,  # weight of the distance penalty on score questions (section 4)
+    eval_every=200,      # optimizer steps between quick validations; the best one is kept
+    val_limit=150,       # records in each quick validation
+    limit=None,          # cap on training records (None = all 10,000)
+    max_steps=None,      # cap on optimizer steps (None = epochs x records / batch)
+    eval_limit=None,     # cap on records per evaluation set (None = all)
+    bench_records=None,  # records timed in the CPU latency section (None = all 880 gold + test records)
+)
+if FAST:  # a quick end-to-end check: same code path, a few dozen records
+    CFG.update(limit=64, max_steps=8, eval_every=4, val_limit=16, eval_limit=24, bench_records=40)
+
+random.seed(0); np.random.seed(0); torch.manual_seed(0)
+print(f"device={DEVICE}  FAST={FAST}  model={MODEL}  epochs={CFG['epochs']}")
+print(f"torch {torch.__version__} · transformers {transformers.__version__} · onnxruntime {onnxruntime.__version__}")
+''')
+
+# =====================================================================================================
+md("""
+## 1. The data: what the model sees
+
+Each record is a supplier email, ERP row, chat message or similar, plus the playbook's answer to every question.
+The encoder sees **only the record text**. The questions are never written out: each one has its own head, and
+the head's outputs are that question's options in a fixed (schema) order.
+""")
+code('''
+from transformers import AutoTokenizer
+from train.train_encoder import KEYS, TYPES  # question id -> option keys in head order; question id -> type
+
+load = lambda name, limit=None: [json.loads(l) for l in open(os.path.join(DATA, f"{name}.jsonl"))][:limit]
+train_rows = load("train", CFG["limit"])
+val_rows = load("val")
+print(f"{len(train_rows)} training records, {len(val_rows)} validation records\\n")
+
+r = train_rows[0]
+print(r["state"], "\\n")
+pd.DataFrame([{"question": q, "type": TYPES[q], "options (head outputs, in order)": ", ".join(k),
+               "this record": r["labels"][q]} for q, k in KEYS.items()])
+''')
+code('''
+tok = AutoTokenizer.from_pretrained(MODEL)
+lengths = {s: [len(tok(x["state"])["input_ids"]) for x in load(s, 400)] for s in ["train", "test", "gold", "gold2"]}
+pd.DataFrame({s: {"median tokens": int(np.median(v)), "max tokens": max(v)} for s, v in lengths.items()}).T
+''')
+md("""
+The records are short, so nothing is cut at 512 tokens. The hand-written gold records are shorter and terser than
+the synthetic ones: that difference in style is why gold is the harder test.
+""")
+
+# =====================================================================================================
+md("""
+## 2. The model: encoder + pooling + 9 heads
+
+`EncoderDecider` (in `train/train_encoder.py`) has three parts:
+
+1. **The encoder.** Ettin-150M turns every token of the record into a 768-number vector. Every token can look at
+   every other token (bidirectional attention), unlike a decoder, which reads left to right.
+2. **Pooling.** The token vectors are averaged into one vector for the record (mean pooling). A learned attention
+   pooling per question (`--pool attn`) was also tried and did not help.
+3. **Heads.** One linear layer per question maps that vector to a score per option: 768 × (number of options)
+   weights each.
+""")
+code('''
+from train.train_encoder import EncoderDecider, batch_loss, predict, accuracy, save_decider
+
+model = EncoderDecider(MODEL).to(DEVICE).train()
+n_enc = sum(p.numel() for p in model.encoder.parameters())
+n_emb = model.encoder.get_input_embeddings().weight.numel()
+n_heads = sum(p.numel() for p in model.heads.parameters())
+print(f"encoder {n_enc / 1e6:.1f}M parameters ({n_emb / 1e6:.1f}M of them the token embedding table)")
+print(f"heads   {n_heads:,} parameters for {len(KEYS)} questions")
+
+# one forward pass on two records: one row of scores per record for every question
+enc = tok([x["state"] for x in train_rows[:2]], padding=True, return_tensors="pt").to(DEVICE)
+with torch.no_grad():
+    out = model(enc["input_ids"], enc["attention_mask"])
+{q: tuple(v.shape) for q, v in out.items()}
+''')
+
+# =====================================================================================================
+md("""
+## 3. The loss
+
+For each record and question: **cross-entropy** of the head's scores against the playbook's answer. Score
+questions (impact_severity, delay_bucket: ordered levels) also get an **ordinal penalty**, the expected distance
+between the predicted level and the true one. Calling level 4 when the answer is 3 then costs less than calling 0.
+The loss is averaged over questions and records. This is the same objective as the Qwen recipes, applied to heads
+instead of label tokens.
+""")
+code('''
+loss, correct = batch_loss(out, train_rows[:2], CFG["ordinal_weight"])
+print(f"loss on two records before training: {loss.item():.3f}; {correct} of {2 * len(KEYS)} answers right by chance")
+''')
+
+# =====================================================================================================
+md("""
+## 4. Training
+
+A standard fine-tuning loop:
+* every weight trains, with AdamW: one learning rate for the encoder and a higher one for the new heads;
+* warm-up, then cosine decay;
+* gradient clipping;
+* fp16 autocast on a GPU.
+
+Every `eval_every` steps a quick validation runs, and the best weights so far are kept.
+`python -m train.train_encoder` runs the same loop from the command line.
+""")
+code('''
+total_steps = CFG["max_steps"] or math.ceil(len(train_rows) * CFG["epochs"] / CFG["batch"])
+warmup = max(1, int(total_steps * CFG["warmup_ratio"]))
+opt = torch.optim.AdamW([{"params": model.encoder.parameters(), "lr": CFG["lr"]},
+                         {"params": model.head_params(), "lr": CFG["head_lr"]}], weight_decay=CFG["weight_decay"])
+sched = torch.optim.lr_scheduler.LambdaLR(
+    opt, lambda s: min(1.0, (s + 1) / warmup) * 0.5 * (1 + math.cos(math.pi * min(1.0, s / total_steps))))
+use_amp = DEVICE == "cuda"
+scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
+
+rng, order, log = random.Random(0), [], []
+best, best_state, t0, val_s = -1.0, None, time.time(), 0.0
+print(f"{total_steps} optimizer steps of {CFG['batch']} records")
+for step in range(1, total_steps + 1):
+    if len(order) < CFG["batch"]:  # a fresh shuffle of the training records for every pass
+        order += rng.sample(range(len(train_rows)), len(train_rows))
+    rows = [train_rows[order.pop()] for _ in range(CFG["batch"])]
+    enc = tok([x["state"] for x in rows], padding=True, truncation=True, max_length=CFG["max_len"],
+              return_tensors="pt").to(DEVICE)
+    with torch.autocast(device_type="cuda", dtype=torch.float16, enabled=use_amp):
+        logits = model(enc["input_ids"], enc["attention_mask"])
+    loss, correct = batch_loss(logits, rows, CFG["ordinal_weight"])
+    scaler.scale(loss).backward()
+    scaler.unscale_(opt)
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    scaler.step(opt)
+    scaler.update()
+    opt.zero_grad(set_to_none=True)
+    sched.step()
+    log.append({"step": step, "loss": loss.item(), "train_acc": correct / (len(rows) * len(KEYS))})
+    if step % CFG["eval_every"] == 0 or step == total_steps:
+        t = time.time()
+        acc = accuracy(predict(model, tok, val_rows[: CFG["val_limit"]], DEVICE, CFG["max_len"])[0])
+        val_s += time.time() - t
+        log[-1]["val_acc"] = acc
+        print(f"step {step:5d}/{total_steps}  loss {np.mean([x['loss'] for x in log[-50:]]):.3f}  val acc {acc:.3f}"
+              f"  {(time.time() - t0) / 60:.1f} min", flush=True)
+        if acc > best:  # keep the best weights (on the CPU, so the GPU memory stays free)
+            best = acc
+            best_state = {k: v.detach().to("cpu", copy=True) for k, v in model.state_dict().items()}
+train_min = (time.time() - t0 - val_s) / 60
+per_record = 60 * train_min / (total_steps * CFG["batch"])
+model.load_state_dict(best_state)
+print(f"training: {train_min:.1f} min ({per_record:.3f} s per training record on {DEVICE}); best val acc {best:.3f}")
+''')
+
+md("## 5. Training curves")
+code('''
+lg = pd.DataFrame(log)
+fig, ax = plt.subplots(1, 2, figsize=(11, 3.2))
+lg["loss"].rolling(max(1, len(lg) // 50)).mean().plot(ax=ax[0], title="training loss (rolling mean)")
+lg.dropna(subset=["val_acc"]).plot(x="step", y="val_acc", ax=ax[1], marker="o", title="quick validation accuracy",
+                                   legend=False)
+ax[0].set_xlabel("step"); plt.tight_layout(); plt.show()
+''')
+
+# =====================================================================================================
+md("""
+## 6. Evaluation
+
+Accuracy on every set, averaged over the nine questions. **Exact** is the share of records with all nine answers
+right. **Temperatures** (one per question type) are fitted on validation. They rescale the scores so that a stated
+confidence of 0.9 is right about 90% of the time; they change confidence, never the answer.
+""")
+code('''
+from aerojev.metrics import fit_temperatures, summarize
+
+EVAL_SETS = ["val", "test", "gold", "gold2"]
+core = list(KEYS)
+preds = {name: predict(model, tok, load(name, CFG["eval_limit"]), DEVICE, CFG["max_len"])[0] for name in EVAL_SETS}
+temps = fit_temperatures(preds["val"])
+summ = {name: summarize(p, core) for name, p in preds.items()}
+table = pd.DataFrame({name: {"accuracy": s["core_mean_accuracy"], "exact (all 9 right)": s["record_exact_match"]}
+                      for name, s in summ.items()}).T
+print("temperatures:", temps)
+table.round(3)
+''')
+code('''
+# per question on the hand-written gold records: event_type and delay_bucket were the encoder's weak spots
+pd.DataFrame({name: {q: m["accuracy"] for q, m in summ[name]["per_question"].items()} for name in ["test", "gold"]}).round(3)
+''')
+
+# =====================================================================================================
+md("""
+## 7. Save, export and quantise to int8
+
+1. **Save.** `save_decider` writes the checkpoint: fp16 encoder weights, heads, tokenizer, and `decider.json` (the
+   question ids and option keys in head order).
+2. **Export.** `scripts/export_encoder.py` traces the whole model (encoder, pooling, heads) into one ONNX graph,
+   checks it against PyTorch, then stores the encoder's weight matrices and the token embeddings as **int8**: one
+   byte per weight, with a scale per output channel.
+
+On the M4 (ARM) this cost no accuracy, and it made the file 4× smaller and CPU inference faster.
+
+**On x86 CPUs, use `--int4` as well.** Without VNNI (most Intel CPUs before Ice Lake, AMD before Zen 4), ONNX
+Runtime's int8 kernels saturate and the int8 file loses 30-45 points. `--int4` writes `model.int4.onnx`, with 4-bit
+weights in blocks of 32 and int8 compute per block. It is lossless on x86, 109 MB, and `aerojev.lite` picks it
+automatically there (`results/int8diag/int8_x86.md`).
+""")
+code('''
+MDIR, EXPORT = os.path.join(OUT, "model"), os.path.join(OUT, "onnx")
+save_decider(model, tok, MDIR, MODEL, CFG["max_len"])
+json.dump({"temperatures": temps}, open(os.path.join(OUT, "temperatures.json"), "w"))
+
+r = subprocess.run([sys.executable, "scripts/export_encoder.py", "--model", MDIR, "--out", EXPORT,
+                    "--temps", os.path.join(OUT, "temperatures.json")], capture_output=True, text=True)
+print("\\n".join(l for l in r.stdout.splitlines() if "MB" in l or "ONNX" in l))
+assert r.returncode == 0, r.stderr[-3000:]
+''')
+
+# =====================================================================================================
+md("""
+## 8. The int8 model, without PyTorch
+
+`aerojev.lite.LiteEngine` runs the exported directory with onnxruntime, tokenizers and numpy only. Here it scores
+the same records as section 6, to show that int8 kept the accuracy.
+""")
+code('''
+from aerojev.lite import LiteEngine
+
+lite = LiteEngine(EXPORT, threads=4)  # model.int8.onnx; temperatures come from decider.json
+
+
+def lite_preds(rows):
+    out = []
+    for x in rows:
+        lg = lite.all_logits(x["state"])
+        out += [{"rid": x["id"], "qid": q, "type": TYPES[q], "keys": KEYS[q], "logits": lg[q].tolist(),
+                 "gold": x["labels"][q]} for q in KEYS]
+    return out
+
+
+int8 = {name: summarize(lite_preds(load(name, CFG["eval_limit"])), core)["core_mean_accuracy"] for name in EVAL_SETS}
+pd.DataFrame({"PyTorch (training precision)": table["accuracy"], "ONNX int8": pd.Series(int8)}).round(3)
+''')
+
+# =====================================================================================================
+md("""
+## 9. CPU speed and memory
+
+`scripts/bench_lite.py` times one record at a time (all nine questions) in a fresh process and reports the
+process's peak memory. A fresh process is used because peak memory cannot be measured from inside this notebook,
+which has PyTorch and the training model loaded.
+""")
+code('''
+rows = []
+for th in [1, 4]:
+    cmd = [sys.executable, "scripts/bench_lite.py", "--model", EXPORT, "--threads", str(th)]
+    if CFG["bench_records"]:
+        cmd += ["--records", str(CFG["bench_records"])]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr[-2000:]
+    rows += [json.loads(l) for l in r.stdout.splitlines() if l.startswith("{")]
+latency = pd.DataFrame(rows)[["threads", "file_mb", "load_s", "ms_median", "ms_p95", "peak_rss_mb", "torch_loaded"]]
+latency.set_index("threads")
+''')
+md("""
+On an Apple M4 the shipped model takes 47 ms per record with 1 thread and 28 ms with 4, at a 0.40–0.48 GB peak.
+The pruned Qwen GGUF takes 153 and 83 ms at about 1 GB.
+""")
+
+# =====================================================================================================
+md("## 10. Using the model")
+code('''
+record = """From: ops@kestrel-forge.example
+Kestrel says the 718 disks for the HPT stage slip 6 weeks past the PO date. 2 weeks of stock on hand.
+They are our only qualified source."""
+answers = lite.decide(record)
+pd.DataFrame([{"question": q, "answer": a["answer"], "confidence": round(a["confidence"], 3)}
+              for q, a in answers.items()])
+''')
+md("""
+**Serving.** On the machine that serves decisions, only the exported directory and three packages are needed:
+
+```bash
+pip install -r requirements-lite.txt                    # numpy, onnxruntime, tokenizers
+cp -r results/notebook-encoder/onnx models/aerojev-ettin-150m
+python server.py --preset tiny                          # test page + POST /v1/decide, no PyTorch
+```
+
+```python
+from aerojev import schema
+from aerojev.lite import LiteEngine
+eng = LiteEngine("models/aerojev-ettin-150m", threads=2)
+eng.decide(record_text)            # all nine questions
+eng.decide(record_text, [schema.DELAY_BUCKET])   # or a subset (schema Question objects)
+```
+""")
+
+md("## 11. Summary")
+code('''
+summary = {"model": MODEL, "fast_mode": FAST, "device": DEVICE, "config": CFG, "temperatures": temps,
+           "train_minutes": train_min, "sec_per_training_record_measured": per_record,
+           "accuracy": table["accuracy"].to_dict(), "accuracy_int8": int8,
+           "latency_cpu": latency.to_dict(orient="records")}
+json.dump(summary, open(os.path.join(OUT, "summary.json"), "w"), indent=1, default=float)
+print(f"saved {OUT}/summary.json")
+pd.DataFrame({"PyTorch": table["accuracy"], "int8": pd.Series(int8)}).round(3).T
+''')
+md("""
+* The checkpoint (`model/`), the int8 export (`onnx/`) and this summary are in `results/notebook-encoder/`.
+* Every variant tried while building this recipe is in `results/encoder/encoder.md`: 2 / 4 / 8 epochs, learning rate,
+  attention pooling, distillation from the Qwen models and repeat runs. The background is in `docs/ENCODER.md`.
+* If the questions change often, use a Qwen recipe with the question catalogue in its prompt. Those models read the
+  questions, so they can take new ones without retraining.
+""")
+
+nb = nbf.v4.new_notebook(cells=cells, metadata={
+    "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
+    "language_info": {"name": "python"}})
+os.makedirs(os.path.join(ROOT, "notebooks"), exist_ok=True)
+path = os.path.join(ROOT, "notebooks", f"{NAME}.ipynb")
+nbf.write(nb, path)
+print(f"wrote {path} ({len(cells)} cells)")
+
+# A Markdown copy for reading on GitHub or in any editor: prose stays prose, code cells become ```python blocks.
+from nbconvert import MarkdownExporter
+
+body, _ = MarkdownExporter().from_notebook_node(nb)
+note = (f"_Markdown copy of [`{NAME}.ipynb`]({NAME}.ipynb), generated by `scripts/build_notebook_encoder.py`. "
+        "Edit the builder, not this file._\n\n")
+md_path = path[: -len(".ipynb")] + ".md"
+open(md_path, "w").write(note + body)
+print(f"wrote {md_path}")

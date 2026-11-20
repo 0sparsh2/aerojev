@@ -3,6 +3,9 @@
   python server.py --preset best      # Qwen3-0.6B LoRA (data v2), GGUF Q8_0, catalogue layout
   python server.py --preset fast      # Qwen2.5-0.5B LoRA, GGUF Q8_0, catalogue layout
   python server.py --preset large     # Qwen3-1.7B LoRA (data v2), GGUF Q8_0: most robust, ~2.4x slower
+  python server.py --preset small     # Qwen2.5-0.5B pruned (16 blocks, FFN 2560), catalogue-free, Q8_0: 299 MB
+  python server.py --preset tiny      # Ettin-150M encoder + 9 heads, ONNX (151 MB int8): no PyTorch, lowest RAM;
+                                      # on x86 put the 4-bit file next to it (docs/ENCODER.md), it is picked automatically
   open http://127.0.0.1:8080          # the test page (ui/index.html)
 
   python server.py --gguf models/aerojev-qwen3-0.6b-cat-v2-q8_0.gguf --tokenizer Qwen/Qwen3-0.6B --layout catalogue
@@ -14,10 +17,12 @@
         "text": "Should a buyer call the supplier today?"}]}'
 
   python server.py --gguf <nocat model>.gguf --tokenizer Qwen/Qwen2.5-0.5B-Instruct --layout nocat
+  python server.py --onnx <scripts/export_encoder.py output dir> [--weights int8|int4|fp32]
 
 Questions are catalogue ids or ad-hoc question objects ({id, type, text, options:[{key, description}]}).
 Ad-hoc questions work with the branch and catalogue layouts; in the catalogue layout they bypass the static KV
-cache. A nocat model (trained without the question list in its prompt) answers only its 9 trained questions.
+cache. A nocat model (trained without the question list in its prompt) and the encoder model answer only their 9
+trained questions. With --onnx / --preset tiny the server runs on onnxruntime + tokenizers and never imports PyTorch.
 """
 
 import argparse
@@ -40,6 +45,12 @@ PRESETS = {  # weights come from training + `python -m aerojev.export` (they are
                  temps="models/temps-qwen3-0.6b-cat-v2.json", label="Qwen3-0.6B + LoRA (data v2), Q8_0"),
     "fast": dict(gguf="models/aerojev-qwen2.5-0.5b-cat-q8_0.gguf", tokenizer="Qwen/Qwen2.5-0.5B-Instruct",
                  temps="models/temps-qwen2.5-0.5b-cat.json", label="Qwen2.5-0.5B + LoRA, Q8_0"),
+    # the 9 trained questions only (nocat layout); ~2x faster and ~0.3 GB less RAM than "fast" (results/prune/prune.md)
+    "small": dict(gguf="models/aerojev-qwen2.5-0.5b-nocat-d16w-full-q8_0.gguf", tokenizer="Qwen/Qwen2.5-0.5B-Instruct",
+                  temps="models/temps-qwen2.5-0.5b-nocat-d16w-full.json", layout="nocat",
+                  label="Qwen2.5-0.5B pruned (16 blocks, FFN 2560), catalogue-free, Q8_0"),
+    # the 9 trained questions only; torch-free (aerojev.lite), temperatures inside the model directory
+    "tiny": dict(onnx="models/aerojev-ettin-150m", label="Ettin-150M encoder + 9 heads, ONNX int8"),
     "large": dict(gguf="models/aerojev-qwen3-1.7b-cat-v2-q8_0.gguf", tokenizer="Qwen/Qwen3-1.7B",
                   temps="models/temps-qwen3-1.7b-cat-v2.json", label="Qwen3-1.7B + LoRA (data v2), Q8_0"),
 }
@@ -61,7 +72,7 @@ def to_question(q):
 
 def default_questions():
     """What /v1/decide asks when the request names no questions: everything the loaded model can answer."""
-    return schema.TRAIN_QUESTIONS if ENGINE.layout == "nocat" else schema.CATALOGUE
+    return schema.TRAIN_QUESTIONS if ENGINE.layout in ("nocat", "encoder") else schema.CATALOGUE
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -78,7 +89,7 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, open(UI, "rb").read(), "text/html; charset=utf-8")
         if self.path == "/health":
             return self._send(200, {"ok": True, "model": MODEL_NAME, "layout": ENGINE.layout, "mode": ENGINE.mode,
-                                    "engine": "llama.cpp" if ENGINE.mode == "gguf" else "torch",
+                                    "engine": {"gguf": "llama.cpp", "encoder": "onnxruntime"}.get(ENGINE.mode, "torch"),
                                     "calibrated": bool(ENGINE.temperatures)})
         if self.path == "/v1/questions":
             return self._send(200, [materialize(q)[0] for q in default_questions()])
@@ -119,6 +130,9 @@ def main():
     ap.add_argument("--tokenizer")
     ap.add_argument("--adapter")
     ap.add_argument("--gguf")
+    ap.add_argument("--onnx", help="an encoder export directory (scripts/export_encoder.py): torch-free runtime")
+    ap.add_argument("--weights", choices=["int8", "int4", "fp32"],
+                    help="--onnx: which weights file (default by CPU: int8 on ARM; int4, then fp32, on x86)")
     ap.add_argument("--layout", choices=["branch", "catalogue", "nocat"], default="branch")
     ap.add_argument("--temps", help="fitted temperatures: an eval metrics.json or a {type: T} file")
     ap.add_argument("--threads", type=int, default=4)
@@ -126,21 +140,32 @@ def main():
     args = ap.parse_args()
     if args.preset:
         p = PRESETS[args.preset]
-        args.gguf, args.tokenizer, args.temps, args.layout = p["gguf"], p["tokenizer"], p["temps"], "catalogue"
-        if not os.path.exists(args.gguf):
-            raise SystemExit(f"{args.gguf} not found: train and export a model first (see README, steps 3-5)")
-    import torch
-    torch.set_num_threads(args.threads)
-    if args.gguf:
+        if "onnx" in p:
+            args.onnx = p["onnx"]
+        else:
+            args.gguf, args.tokenizer, args.temps = p["gguf"], p["tokenizer"], p["temps"]
+            args.layout = p.get("layout", "catalogue")
+        if not os.path.exists(args.onnx or args.gguf):
+            raise SystemExit(f"{args.onnx or args.gguf} not found: train and export a model first (see README)")
+    if args.onnx:  # torch is never imported on this path
+        from aerojev.lite import LiteEngine
+        ENGINE = LiteEngine(args.onnx, threads=args.threads, weights=args.weights)
+        args.layout = "encoder"
+    elif args.gguf:
+        import torch
+        torch.set_num_threads(args.threads)
         from aerojev.engine import GGUFEngine
         ENGINE = GGUFEngine(args.gguf, args.tokenizer or args.model, n_threads=args.threads, layout=args.layout)
     else:
+        import torch
+        torch.set_num_threads(args.threads)
         from aerojev.engine import DecisionEngine
         ENGINE = DecisionEngine(args.model, adapter=args.adapter, layout=args.layout)
     if args.temps:
         t = json.load(open(args.temps))
         ENGINE.temperatures = t.get("temperatures", t)
-    MODEL_NAME = PRESETS[args.preset]["label"] if args.preset else os.path.basename(args.gguf or args.adapter or args.model)
+    MODEL_NAME = PRESETS[args.preset]["label"] if args.preset else \
+        os.path.basename((args.onnx or args.gguf or args.adapter or args.model).rstrip("/"))
     print(f"AeroJev ({MODEL_NAME}, {args.layout} layout) on http://127.0.0.1:{args.port}", flush=True)
     ThreadingHTTPServer(("127.0.0.1", args.port), Handler).serve_forever()
 

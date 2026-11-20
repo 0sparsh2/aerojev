@@ -1,0 +1,20 @@
+{
+ "id": "sparshnagpal/aerojev-int8diag",
+ "title": "aerojev-int8diag",
+ "code_file": "aerojev-int8diag.py",
+ "language": "python",
+ "kernel_type": "script",
+ "is_private": true,
+ "enable_gpu": false,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [
+  "sparshnagpal/aerojev-bundle"
+ ],
+ "kernel_sources": [
+  "sparshnagpal/aerojev-encoder",
+  "sparshnagpal/aerojev-ultra"
+ ],
+ "competition_sources": [],
+ "model_sources": []
+}

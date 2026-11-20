@@ -10,6 +10,8 @@ import json
 import os
 import re
 
+from report import kernel_files  # same kernels as REPORT.md: experiment rounds have their own tables
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "results/dashboard")
 CORE = ["event_type", "commodity", "impact_severity", "line_stop_risk", "recommended_action",
@@ -113,7 +115,7 @@ def main():
     with open(os.path.join(OUT, "training.csv"), "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["run", "label", "records", "val_acc"])
-        for sumf in sorted(glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/runs/*/summary.json"))):
+        for sumf in kernel_files("out/runs/*/summary.json"):
             run = os.path.basename(os.path.dirname(sumf))
             accum = json.load(open(sumf))["args"]["grad_accum"]
             for line in open(os.path.join(os.path.dirname(sumf), "train_log.jsonl")):

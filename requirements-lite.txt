@@ -1,0 +1,6 @@
+# Lite CPU runtime only: serve or evaluate an exported encoder model (aerojev.lite, server.py --onnx / --preset tiny).
+# No PyTorch or transformers: ~100 MB of packages instead of ~1 GB. Training and export need requirements.txt.
+# Tested with onnxruntime 1.32.0 and tokenizers 0.23.3 (Apple M4, and Kaggle's x86 CPUs).
+numpy
+onnxruntime>=1.20
+tokenizers>=0.21

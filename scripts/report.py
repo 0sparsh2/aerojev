@@ -21,10 +21,35 @@ NAMES = {
     "ft-qwen3-0.6b": ("Qwen3-0.6B", "LoRA decision-trained", "branch"),
     "ft-qwen2.5-0.5b-cat": ("Qwen2.5-0.5B-Instruct", "LoRA decision-trained", "catalogue"),
     "ft-qwen3-0.6b-cat": ("Qwen3-0.6B", "LoRA decision-trained", "catalogue"),
+    "ft-qwen3-0.6b-cat-v2": ("Qwen3-0.6B", "LoRA decision-trained, data v2", "catalogue"),
+    "ft-qwen3-1.7b-cat-v2": ("Qwen3-1.7B", "LoRA decision-trained, data v2", "catalogue"),
+    "ft-qwen2.5-0.5b-cat-v2-4800": ("Qwen2.5-0.5B-Instruct", "LoRA, data v2, 4,800 records", "catalogue"),
+    "ft-qwen2.5-0.5b-cat-v2-top8": ("Qwen2.5-0.5B-Instruct", "LoRA on the top 8 blocks only, data v2", "catalogue"),
+    "ft-qwen2.5-0.5b-cat-v2-top8-4800": ("Qwen2.5-0.5B-Instruct", "LoRA on the top 8 blocks, 4,800 records",
+                                         "catalogue"),
+    "onnx-ettin-150m-ep8-int8": ("Ettin-150M encoder + 9 heads", "full fine-tune, ONNX int8", "encoder"),
     "jev-plain": ("Jev (TypeSafe API)", "hosted, zero-shot", "questions as-is"),
     "jev-playbook": ("Jev (TypeSafe API)", "hosted, zero-shot", "+ playbook rules"),
     "jev-playbook-export": ("Jev (TypeSafe API)", "hosted, zero-shot", "+ playbook + export definition"),
 }
+
+# Kaggle kernels whose runs are experiments with their own tables (scripts/ladder_report.py -> results/<kernel>/),
+# or diagnostics (results/int8diag/int8_x86.md). They are left out of REPORT.md.
+OWN_REPORT = {"ladder", "ladder-floor", "ladder-smoke", "prune", "bakeoff", "encoder", "ultra", "int8diag", "int8fix"}
+
+
+def kernel_files(pattern):
+    """glob kaggle/outputs/<kernel>/<pattern>, skipping the kernels in OWN_REPORT."""
+    return sorted(f for f in glob.glob(os.path.join(ROOT, "kaggle/outputs/*", pattern))
+                  if os.path.relpath(f, os.path.join(ROOT, "kaggle/outputs")).split(os.sep)[0] not in OWN_REPORT)
+
+
+def gguf_method(key):
+    """results/gguf-<model>-<variant>-<quant>/ -> a readable method label."""
+    quant = key.rsplit("-", 1)[1].upper()
+    extra = [s for k, s in (("-v2-", "data v2"), ("d16w-full", "pruned to 16 blocks + FFN 2560, full fine-tune"),
+                            ("d16top", "top 8 blocks removed")) if k in key]
+    return ", ".join([f"decision-trained, GGUF {quant}"] + extra)
 
 
 def load_llm_results():
@@ -33,7 +58,7 @@ def load_llm_results():
     # downloaded from remote GPU jobs; separate gold2-only runs (<run>-gold2) are merged into their system's row
     local = [f for f in sorted(glob.glob(os.path.join(ROOT, "results/*/metrics.json")))
              if not os.path.basename(os.path.dirname(f)).startswith(("gen-", "classical", "notebook", "dashboard"))]
-    files = sorted(glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/results/*/metrics.json"))) + local
+    files = kernel_files("out/results/*/metrics.json") + local
     plain = [f for f in files if not f.endswith("-gold2/metrics.json")]
     gold2 = [f for f in files if f.endswith("-gold2/metrics.json")]  # merged last, once every row exists
     for f in plain + gold2:
@@ -45,7 +70,8 @@ def load_llm_results():
                 for s, r in m["sets"].items():
                     out[key]["sets"][s] = _set_row(r)
                 continue
-        model, method, layout = NAMES.get(key, (m.get("model"), "gguf" if m.get("gguf") else "?", m.get("layout")))
+        model, method, layout = NAMES.get(key, (m.get("model"), gguf_method(key) if m.get("gguf") else "?",
+                                                m.get("layout")))
         row = {"key": key, "model": model, "method": method, "layout": layout,
                "temperatures": m.get("temperatures"), "permutation": m.get("gold_permutation"), "sets": {},
                "api": m.get("api")}
@@ -71,10 +97,9 @@ def _set_row(r):
 def load_latency():
     """Unified latency records (eval.latency_suite) from every host."""
     rows = []
-    for f in sorted(glob.glob(os.path.join(ROOT, "results/latency_*.jsonl")) +
-                    glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/latency_*.jsonl"))):
-        if os.path.basename(f).startswith("latency_length"):
-            continue  # eval.bench_length (time vs record length) is a separate experiment, not a system
+    for f in sorted(glob.glob(os.path.join(ROOT, "results/latency_*.jsonl"))) + kernel_files("out/latency_*.jsonl"):
+        if os.path.basename(f).startswith(("latency_length", "latency_lite")):
+            continue  # time vs record length (eval.bench_length) and the encoder's bench_lite: other formats
         rows += [json.loads(l) for l in open(f) if l.strip()]
     return rows
 
@@ -116,8 +141,7 @@ def load_generative():
 
 def load_bench():
     rows = []
-    for f in glob.glob(os.path.join(ROOT, "results/bench_cpu*.jsonl")) + \
-            glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/bench_cpu*.jsonl")):
+    for f in glob.glob(os.path.join(ROOT, "results/bench_cpu*.jsonl")) + kernel_files("out/bench_cpu*.jsonl"):
         host = "kaggle-x86" if "kaggle/outputs" in f else "mac-m4"
         for l in open(f):
             r = json.loads(l)
@@ -128,7 +152,7 @@ def load_bench():
 
 def load_training():
     out = {}
-    for f in glob.glob(os.path.join(ROOT, "kaggle/outputs/*/out/runs/*/summary.json")):
+    for f in kernel_files("out/runs/*/summary.json"):
         run = os.path.basename(os.path.dirname(f))
         s = json.load(open(f))
         logf = os.path.join(os.path.dirname(f), "train_log.jsonl")

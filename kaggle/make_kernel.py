@@ -77,6 +77,215 @@ def _ladder_floor():
             "1": level("l4-nocat-6k-seed1", ["--epochs", "0.6", "--seed", "1"])}
 
 
+def _prune_study():
+    """Prune-then-tune (scripts/prune.py) on Qwen2.5-0.5B with the catalogue-free 12k recipe: depth only (two ways of
+    choosing blocks), FFN width only, both (LoRA vs full fine-tuning), plus pruning the already trained model with and
+    without retraining. Pruned bases live in /tmp (rebuildable from the prune_info.json copied to the output)."""
+    m, P, W = MODELS["qwen2.5-0.5b"], "/tmp/aerojev/pruned", "/kaggle/working/out"
+    recipe = ["--layout", "nocat", "--shared-catalogue", "--min-q", "9", "--lora-dropout", "0", "--cached-val",
+              "--data", "data/processed_v2"]
+    sets = "val,test,test_v2,gold,gold2,injection"
+    tuned = "{GGUF:runs/l4-nocat-12k/best/adapter_model.safetensors}"  # the trained reference, from aerojev-ladder
+
+    def prune(name, args):
+        return [{"kind": "cmd", "cmd": f"{{PY}} scripts/prune.py {args} --out {P}/{name} && mkdir -p {{OUT}}/pruned/{name} "
+                                       f"&& cp {P}/{name}/prune_info.json {{OUT}}/pruned/{name}/"}]
+
+    def score(name, model, adapter=None):
+        return [{"kind": "eval", "model": model, "out": f"results/{name}", "layout": "nocat", "data": "data/processed_v2",
+                 "sets": sets, **({"adapter": adapter} if adapter else {})}]
+
+    def run(name, model, extra, full=False):
+        jobs = [{"kind": "train", "model": model, "out": f"runs/{name}", "args": recipe + extra + (["--full-ft"] if full else [])}]
+        if not full:
+            return jobs + score(f"ft-{name}", model, f"runs/{name}/best")
+        # a full checkpoint is 1.1 GB: score it, export a Q8_0 GGUF for CPU tests, then drop the weights
+        return jobs + score(f"ft-{name}", f"{W}/runs/{name}/best") + [
+            {"kind": "cmd", "cmd": f"{{PY}} -m aerojev.export --model {{OUT}}/runs/{name}/best --out {{OUT}}/gguf "
+                                   f"--name aerojev-{name} --quants q8_0 && rm -f {{OUT}}/runs/{name}/best/model.safetensors"}]
+
+    e12 = ["--epochs", "1.2"]
+    return {
+        "_kernel_sources": [f"{USER}/aerojev-ladder"],
+        "0": prune("d16top", "--drop top:8") + run("p-d16top", f"{P}/d16top", e12)
+             + prune("d16w", "--drop top:8 --ffn 2560") + run("p-d16w", f"{P}/d16w", e12)
+             + run("p-d16w-full-2e-5", f"{P}/d16w", e12 + ["--lr", "2e-5"], full=True)
+             + run("p-d16w-full-6e-5", f"{P}/d16w", e12 + ["--lr", "6e-5"], full=True),
+        "1": run("l4-nocat-12k-seed1", m, e12 + ["--seed", "1"])
+             + prune("d16auto", "--drop auto:8") + run("p-d16auto", f"{P}/d16auto", e12)
+             + prune("w2560", "--ffn 2560") + run("p-w2560", f"{P}/w2560", e12)
+             + prune("t-d16", f"--adapter {tuned} --drop top:8") + score("t-d16-noheal", f"{P}/t-d16")
+             + prune("t-d16w", f"--adapter {tuned} --drop top:8 --ffn 2560") + score("t-d16w-noheal", f"{P}/t-d16w")
+             + run("t-d16w-heal3k", f"{P}/t-d16w", ["--epochs", "0.3"]),
+    }
+
+
+def _bakeoff():
+    """Smallest accurate decision model: small decoders (full fine-tuning, catalogue-free 12k recipe), encoders with one
+    head per question (train/train_encoder.py), and a second seed of the pruned Qwen winner. Decoder checkpoints are
+    exported to GGUF and their weights dropped; encoders keep fp16 weights for CPU tests."""
+    W = "/kaggle/working/out"
+    recipe = ["--layout", "nocat", "--shared-catalogue", "--min-q", "9", "--lora-dropout", "0", "--cached-val",
+              "--data", "data/processed_v2", "--epochs", "1.2", "--full-ft"]
+    sets = "val,test,test_v2,gold,gold2,injection"
+
+    def decoder(name, model, extra, quants="q8_0"):
+        return [{"kind": "train", "model": model, "out": f"runs/{name}", "args": recipe + extra},
+                {"kind": "eval", "model": f"{W}/runs/{name}/best", "out": f"results/ft-{name}", "layout": "nocat",
+                 "data": "data/processed_v2", "sets": sets},
+                {"kind": "cmd", "cmd": f"{{PY}} -m aerojev.export --model {{OUT}}/runs/{name}/best --out {{OUT}}/gguf "
+                                       f"--name {name} --quants {quants} && rm -f {{OUT}}/runs/{name}/best/model.safetensors"}]
+
+    def encoder(name, model, lr, epochs):
+        return [{"kind": "cmd", "cmd": f"{{PY}} -m train.train_encoder --model {model} --out {{OUT}}/runs/{name} "
+                                       f"--results {{OUT}}/results/ft-{name} --lr {lr} --epochs {epochs} --sets {sets}"}]
+
+    smol, gemma = "HuggingFaceTB/SmolLM2-135M-Instruct", "unsloth/gemma-3-270m-it"
+    return {
+        "0": decoder("b-smollm2-135m-3e-5", smol, ["--lr", "3e-5"]) + decoder("b-smollm2-135m-1e-4", smol, ["--lr", "1e-4"])
+             + decoder("b-gemma3-270m-3e-5", gemma, ["--lr", "3e-5"]) + decoder("b-gemma3-270m-1e-4", gemma, ["--lr", "1e-4"]),
+        "1": [{"kind": "cmd", "cmd": "{PY} scripts/prune.py --drop top:8 --ffn 2560 --out /tmp/aerojev/pruned/d16w"}]
+             + decoder("p-d16w-full-2e-5-seed1", "/tmp/aerojev/pruned/d16w", ["--lr", "2e-5", "--seed", "1"], "f16,q8_0")
+             + encoder("b-ettin-150m", "jhu-clsp/ettin-encoder-150m", 5e-5, 2)
+             + encoder("b-ettin-68m", "jhu-clsp/ettin-encoder-68m", 8e-5, 2)
+             + encoder("b-ettin-32m", "jhu-clsp/ettin-encoder-32m", 1e-4, 2),
+    }
+
+
+def _encoder_round():
+    """Ettin-150M encoder (train/train_encoder.py): close the gap to the Qwen reference. One change at a time against
+    the bake-off recipe (2 epochs, LR 5e-5, mean pooling): longer training, a higher LR, one attention pooling per
+    question, distillation from the two reference Qwen runs (averaged), plus second seeds for run-to-run noise.
+    The teachers score the 10k training records with the reference adapters from aerojev-ladder / aerojev-prune."""
+    m, sets = "jhu-clsp/ettin-encoder-150m", "val,test,test_v2,gold,gold2,injection"
+    q = MODELS["qwen2.5-0.5b"]
+    kd = "{OUT}/results/teacher-ref0/preds_train.jsonl,{OUT}/results/teacher-ref1/preds_train.jsonl"
+
+    def teacher(name, adapter):
+        return [{"kind": "eval", "model": q, "adapter_input": adapter, "out": f"results/{name}", "layout": "nocat",
+                 "data": "data/processed_v2", "sets": "train"}]
+
+    def enc(name, *args):
+        return [{"kind": "cmd", "cmd": f"{{PY}} -m train.train_encoder --model {m} --out {{OUT}}/runs/{name} "
+                                       f"--results {{OUT}}/results/ft-{name} --sets {sets} " + " ".join(args)}]
+
+    # the other GPU's teacher must be finished before a distillation run starts (its metrics.json is written last)
+    wait = [{"kind": "cmd", "cmd": "for i in $(seq 120); do [ -f {OUT}/results/teacher-ref1/metrics.json ] && exit 0; "
+                                   "sleep 30; done; exit 1"}]
+    e4 = ("--epochs", "4")
+    return {
+        "_kernel_sources": [f"{USER}/aerojev-ladder", f"{USER}/aerojev-prune"],
+        "0": teacher("teacher-ref0", "runs/l4-nocat-12k/best")
+             + enc("e150-ep4", *e4)
+             + wait
+             + enc("e150-ep4-kd", *e4, "--teacher", kd)
+             + enc("e150-ep4-attn-kd", *e4, "--pool", "attn", "--teacher", kd)
+             + enc("e150-ep4-seed1", *e4, "--seed", "1"),
+        "1": teacher("teacher-ref1", "runs/l4-nocat-12k-seed1/best")
+             + enc("e150-seed1", "--epochs", "2", "--seed", "1")
+             + enc("e150-ep4-lr1e-4", *e4, "--lr", "1e-4")
+             + enc("e150-ep4-attn", *e4, "--pool", "attn")
+             + enc("e150-ep8", "--epochs", "8"),
+    }
+
+
+def _ultra_round():
+    """UltraBERT-150M (dmis-lab, Oct 2026, Apache-2.0) against Ettin-150M at the same size and the shipped recipe:
+    8 epochs, mean pooling, the same heads, loss, data and evaluation. Only the learning rate is per model: UltraBERT's
+    card says it prefers LRs up to 10x lower than other encoders (MNLI best 1e-5), so it gets 1e-5 and 3e-5, two seeds
+    each; Ettin keeps 5e-5 and gets a second 8-epoch seed, so both sides are two-seed means.
+    Decision rule, fixed before the run: UltraBERT's LR = the one with the higher two-seed mean val accuracy; it
+    replaces Ettin only if its two-seed int8 mean of (gold, gold2, test) is >= 1 point higher and its CPU latency is
+    <= 1.3x Ettin's. Every run is exported to ONNX int8 and scored again; latency is timed on the kernel's CPU after
+    all training has stopped (Kaggle's Xeon, not the M4: a relative comparison)."""
+    sets = "val,test,test_v2,gold,gold2,injection"
+    U, E = "dmis-lab/UltraBERT-150M", "jhu-clsp/ettin-encoder-150m"
+
+    def enc(name, model, lr, seed):
+        return [{"kind": "cmd", "cmd": f"{{PY}} -m train.train_encoder --model {model} --out {{OUT}}/runs/{name} "
+                                       f"--results {{OUT}}/results/ft-{name} --sets {sets} --epochs 8 --lr {lr} "
+                                       f"--seed {seed}"}]
+
+    def int8(*names):
+        return [{"kind": "cmd", "cmd": f"{{PY}} scripts/export_encoder.py --model {{OUT}}/runs/{n}/model "
+                                       f"--out {{OUT}}/onnx/{n} --temps {{OUT}}/results/ft-{n}/metrics.json && "
+                                       f"{{PY}} -m eval.evaluate --onnx {{OUT}}/onnx/{n} --weights int8 --threads 4 "
+                                       f"--data data/processed_v2 --sets {sets} --out {{OUT}}/results/onnx-{n}-int8"}
+                for n in names]
+
+    pip = [{"kind": "cmd", "cmd": "{PY} -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0",
+            "required": True}]
+    wait = [{"kind": "cmd", "cmd": "for i in $(seq 360); do [ -f {OUT}/results/ft-e150-ep8-seed1/metrics.json ] "
+                                   "&& exit 0; sleep 30; done; exit 1"}]
+    bench = [{"kind": "cmd", "cmd": f"{{PY}} scripts/bench_lite.py --model {{OUT}}/onnx/{n} --weights int8 "
+                                    f"--threads 1 2 4 --out {{OUT}}/results/latency_kaggle_cpu.jsonl"}
+             for n in ("e150-ep8-seed1", "u150-ep8-lr1e-5", "e150-ep8-seed1", "u150-ep8-lr1e-5")]  # twice, interleaved
+    # 60 steps on the new architecture first: a load / fp16 failure stops both queues within minutes, not hours
+    smoke = lambda g: [{"kind": "cmd", "required": True,
+                        "cmd": f"{{PY}} -m train.train_encoder --model {U} --out /tmp/smoke{g} --results /tmp/smoke{g}r "
+                               f"--max-steps 60 --eval-every 60 --val-limit 50 --sets gold --lr 3e-5"}]
+    return {
+        "0": smoke(0) + enc("u150-ep8-lr1e-5", U, 1e-5, 0) + enc("u150-ep8-lr1e-5-seed1", U, 1e-5, 1)
+             + enc("e150-ep8-seed1", E, 5e-5, 1),
+        "1": smoke(1) + enc("u150-ep8-lr3e-5", U, 3e-5, 0) + enc("u150-ep8-lr3e-5-seed1", U, 3e-5, 1)
+             + pip + int8("u150-ep8-lr3e-5", "u150-ep8-lr3e-5-seed1")
+             + wait + int8("u150-ep8-lr1e-5", "u150-ep8-lr1e-5-seed1", "e150-ep8-seed1") + bench,
+    }
+
+
+def _int8_diag():
+    """Why did every int8 file built in aerojev-ultra lose 30-55 points, when the M4-built Ettin file lost nothing?
+    That kernel's CPU (Skylake Xeon) has AVX-512 but no VNNI, where ONNX Runtime's u8 x s8 kernels can saturate.
+    CPU only: for both Ettin 8-epoch seeds and both UltraBERT LR-3e-5 seeds (the LR the val rule picked), score
+    the fp32 ONNX graph (rules out a shape fixed at export) and four int8 recipes on gold, gold2 and test, then time
+    every recipe. Weights come from the aerojev-encoder and aerojev-ultra outputs."""
+    sets, variants = "gold,gold2,test", ["s8", "s8-rr", "u8", "s8-constb"]
+    models = ["e150-ep8", "e150-ep8-seed1", "u150-ep8-lr3e-5", "u150-ep8-lr3e-5-seed1"]
+    ev = lambda d, w, out: (f"{{PY}} -m eval.evaluate --onnx {d} --weights {w} --threads 4 --data data/processed_v2 "
+                            f"--sets {sets} --out {{OUT}}/results/{out}")
+    jobs = [{"kind": "cmd", "cmd": "{PY} -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0",
+             "required": True}]
+    for m in models:
+        d = f"{{OUT}}/onnx/{m}"
+        jobs += [{"kind": "cmd", "cmd": f"{{PY}} scripts/export_encoder.py --model {{GGUF:runs/{m}/model}} --out {d} "
+                                        f"--keep-fp32 --temps {{GGUF:results/ft-{m}/metrics.json}} && "
+                                        f"{{PY}} scripts/int8_variants.py --dir {d}"},
+                 {"kind": "cmd", "cmd": ev(d, "fp32", f"onnx-{m}-fp32")}]
+        jobs += [{"kind": "cmd", "cmd": ev(f"{d}/v-{v}", "int8", f"onnx-{m}-{v}")} for v in variants]
+    jobs += [{"kind": "cmd", "cmd": f"{{PY}} scripts/bench_lite.py --model {{OUT}}/onnx/{m}/v-{v} --weights int8 "
+                                    f"--threads 1 4 --records 300 --out {{OUT}}/results/latency_variants.jsonl"}
+             for m in ("e150-ep8-seed1", "u150-ep8-lr3e-5") for v in variants]
+    jobs += [{"kind": "cmd", "cmd": f"{{PY}} scripts/bench_lite.py --model {{OUT}}/onnx/{m} --weights fp32 "
+                                    f"--threads 1 4 --records 300 --out {{OUT}}/results/latency_variants.jsonl"}
+             for m in ("e150-ep8-seed1", "u150-ep8-lr3e-5")]
+    return {"_gpu": False, "_kernel_sources": [f"{USER}/aerojev-encoder", f"{USER}/aerojev-ultra"], "0": jobs}
+
+
+def _int8_fix():
+    """Follow-up to int8diag: an int8 recipe that is accurate on x86 CPUs without VNNI. CPU only. Starts from the
+    fp32 graphs int8diag left in its output (no re-export). Variants: weight-only 8-bit (fp32 compute, and int8
+    compute with per-block activation scales), weight-only 4-bit, and u8 with the FFN down-projections in fp32. Also
+    scores the shipped M4-built int8 file (dataset aerojev-shipped-ettin) on this CPU."""
+    sets, variants = "gold,gold2,test", ["mnb8", "mnb8-a4", "mnb4-a4", "u8-keepdown"]
+    models = ["e150-ep8", "e150-ep8-seed1", "u150-ep8-lr3e-5", "u150-ep8-lr3e-5-seed1"]
+    ev = lambda d, out: (f"{{PY}} -m eval.evaluate --onnx {d} --weights int8 --threads 4 --data data/processed_v2 "
+                         f"--sets {sets} --out {{OUT}}/results/{out}")
+    jobs = [{"kind": "cmd", "cmd": "{PY} -m pip install -q onnx==1.23.2 onnxscript==0.7.2 onnxruntime==1.32.0",
+             "required": True},
+            {"kind": "cmd", "cmd": ev("{GGUF:aerojev-shipped-ettin}", "onnx-shipped-m4-int8")}]
+    for m in models:
+        jobs += [{"kind": "cmd", "cmd": f"{{PY}} scripts/int8_variants.py --dir {{GGUF:onnx/{m}}} "
+                                        f"--out {{OUT}}/onnx/{m} --variants {','.join(variants)}"}]
+        jobs += [{"kind": "cmd", "cmd": ev(f"{{OUT}}/onnx/{m}/v-{v}", f"onnx-{m}-{v}")} for v in variants]
+    jobs += [{"kind": "cmd", "cmd": f"{{PY}} scripts/bench_lite.py --model {{OUT}}/onnx/{m}/v-{v} --weights int8 "
+                                    f"--threads 1 4 --records 300 --out {{OUT}}/results/latency_fix.jsonl"}
+             for m in ("e150-ep8", "u150-ep8-lr3e-5") for v in variants]
+    jobs += [{"kind": "cmd", "cmd": "{PY} scripts/bench_lite.py --model {GGUF:aerojev-shipped-ettin} --weights int8 "
+                                    "--threads 1 4 --records 300 --out {OUT}/results/latency_fix.jsonl"}]
+    return {"_gpu": False, "_kernel_sources": [f"{USER}/aerojev-int8diag"],
+            "_datasets": [f"{USER}/aerojev-shipped-ettin"], "0": jobs}
+
+
 KERNELS = {
     # zero-shot logit readout, no training: the JEV-CPU / SemIf setting
     "baselines": {
@@ -184,6 +393,18 @@ KERNELS = {
     "ladder": _ladder(),
     # the catalogue-free recipe's floor: fewer records, and a second seed of the 6k run to size run-to-run noise
     "ladder-floor": _ladder_floor(),
+    # pruning study: fewer blocks and/or narrower FFNs, healed by training, each level scored (Qwen2.5-0.5B only)
+    "prune": _prune_study(),
+    # smallest accurate model: SmolLM2-135M, Gemma 3 270M, Ettin encoders, pruned Qwen second seed
+    "bakeoff": _bakeoff(),
+    # Ettin-150M encoder round: epochs, LR, attention pooling, distillation from the Qwen reference, seeds
+    "encoder": _encoder_round(),
+    # UltraBERT-150M against the shipped Ettin-150M: two LRs x two seeds, plus an Ettin second seed (rule fixed before)
+    "ultra": _ultra_round(),
+    # CPU kernel: why int8 ONNX is wrong on Kaggle's x86 CPUs (no VNNI); four int8 recipes against fp32
+    "int8diag": _int8_diag(),
+    # CPU kernel: weight-only (MatMulNBits) recipes that are lossless on x86, and the shipped M4-built file itself
+    "int8fix": _int8_fix(),
     "ladder-smoke": _ladder(smoke=True),
     # x86 CPU latency suite (no GPU); inputs are the training kernels' outputs (adapters + GGUFs)
     "cpu-bench": {
@@ -216,13 +437,14 @@ def kernel(name):
     spec = dict(KERNELS[name])
     gpu = spec.pop("_gpu", True)
     sources = spec.pop("_kernel_sources", [])
+    datasets = [DATASET] + spec.pop("_datasets", [])
     src = src.replace("JOBS = {}  # filled in by make_kernel.py", f"JOBS = {spec!r}  # generated")
     slug = f"aerojev-{name}"
     open(os.path.join(kdir, f"{slug}.py"), "w").write(src)
     json.dump({
         "id": f"{USER}/{slug}", "title": slug, "code_file": f"{slug}.py", "language": "python",
         "kernel_type": "script", "is_private": True, "enable_gpu": gpu, "enable_tpu": False,
-        "enable_internet": True, "dataset_sources": [DATASET], "kernel_sources": sources,
+        "enable_internet": True, "dataset_sources": datasets, "kernel_sources": sources,
         "competition_sources": [], "model_sources": [], **({"machine_shape": "NvidiaTeslaT4"} if gpu else {}),
     }, open(os.path.join(kdir, "kernel-metadata.json"), "w"), indent=1)
     print(f"kernel -> {kdir}")

@@ -1,0 +1,20 @@
+{
+ "id": "sparshnagpal/aerojev-prune",
+ "title": "aerojev-prune",
+ "code_file": "aerojev-prune.py",
+ "language": "python",
+ "kernel_type": "script",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [
+  "sparshnagpal/aerojev-bundle"
+ ],
+ "kernel_sources": [
+  "sparshnagpal/aerojev-ladder"
+ ],
+ "competition_sources": [],
+ "model_sources": [],
+ "machine_shape": "NvidiaTeslaT4"
+}

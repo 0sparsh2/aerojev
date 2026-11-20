@@ -17,8 +17,6 @@ each (PREFIX + BRANCH) separately.
 import json
 import random
 
-import torch
-
 SYSTEM = (
     "You are AeroJev, a decision engine for an aerospace supply chain analytics team. "
     "Read the record, then answer the question by choosing exactly one label. "
@@ -37,8 +35,10 @@ def think_block(tokenizer):
         [{"role": "user", "content": "x"}], tokenize=False, add_generation_prompt=True,
         enable_thinking=False,
     )
+    if "<|im_start|>assistant\n" not in probe:
+        return ""  # not a ChatML model (e.g. Gemma): our ChatML-style prompt is learned as plain text in fine-tuning
     tail = probe.split("<|im_start|>assistant\n", 1)[1]
-    return tail  # "" for Qwen2.5, "<think>\n\n</think>\n\n" for Qwen3 / 3.5
+    return tail  # "" for Qwen2.5 / SmolLM2, "<think>\n\n</think>\n\n" for Qwen3 / 3.5
 
 
 MAX_RECORD_TOKENS = 2048  # catalogue (~1.1k tokens) + record + readouts stay inside a 4k context
@@ -152,6 +152,7 @@ def pack_ids(prefix_ids, branch_ids, label_ids, offset=0):
     the cached tokens. Returns input_ids [L], position_ids [L] (starting at
     offset), mask (bool, True = may attend), readout positions and label ids.
     """
+    import torch  # imported here so the torch-free runtime (aerojev.lite, server --onnx) can use this module
     P = len(prefix_ids)
     ids, pos, spans, readouts = list(prefix_ids), list(range(offset, offset + P)), [], []
     for b in branch_ids:
@@ -260,6 +261,7 @@ def render_readout(question):
 
 def to_4d(mask_bool, dtype):
     """bool [L,L] -> additive float mask [1,1,L,L] (0 = attend, -inf-ish = blocked)."""
+    import torch
     m = torch.zeros(mask_bool.shape, dtype=dtype)
     m.masked_fill_(~mask_bool, torch.finfo(dtype).min)
     return m[None, None]

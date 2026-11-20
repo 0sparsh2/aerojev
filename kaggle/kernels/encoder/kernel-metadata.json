@@ -1,0 +1,21 @@
+{
+ "id": "sparshnagpal/aerojev-encoder",
+ "title": "aerojev-encoder",
+ "code_file": "aerojev-encoder.py",
+ "language": "python",
+ "kernel_type": "script",
+ "is_private": true,
+ "enable_gpu": true,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [
+  "sparshnagpal/aerojev-bundle"
+ ],
+ "kernel_sources": [
+  "sparshnagpal/aerojev-ladder",
+  "sparshnagpal/aerojev-prune"
+ ],
+ "competition_sources": [],
+ "model_sources": [],
+ "machine_shape": "NvidiaTeslaT4"
+}
