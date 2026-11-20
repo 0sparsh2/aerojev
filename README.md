@@ -490,7 +490,9 @@ eval/             evaluate.py (any model on any split, temperatures, per-questio
 scripts/          make_data.sh · report.py · ladder_report.py · export_dashboard.py · build_notebook*.py ·
                   prune.py (structured pruning) · probe.py (frozen-model probes) · bench_train_cpu.py ·
                   export_encoder.py (ONNX int8 / 4-bit) · int8_variants.py (quantization recipes) · bench_lite.py
-tests/            tree packing, catalogue cache, shared-prefix gradients, GGUF parity
+general/          general (domain-agnostic) decision data: domain specs, renderer, counterfactual pairs, Jev-format
+                  inputs, NIM client (general/README.md)
+tests/            tree packing, catalogue cache, shared-prefix gradients, GGUF parity, general data
 notebooks/        three end-to-end notebooks + Markdown copies; executed/ holds an executed run
 docs/             guides and research notes (section 16)
 results/          every metric, prediction and latency file behind the docs (results/README.md)
@@ -549,6 +551,7 @@ python tests/test_tree_pack.py           # tree-packed forward == each question 
 python tests/test_catalogue_cache.py     # cached catalogue KV + record == uncached packed forward
 python tests/test_shared_prefix.py       # shared-prefix training gradients == per-record gradients
 python tests/test_gguf_parity.py models/base/Qwen3-0.6B-Q8_0.gguf Qwen/Qwen3-0.6B   # llama.cpp == HF readout
+python tests/test_general_data.py        # general data: valid specs, reproducible builds, labels follow the rules
 ```
 
 `scripts/export_encoder.py` also checks the ONNX graph against PyTorch on real records of several lengths before it
@@ -566,6 +569,10 @@ Jev on domains it never saw. The plan is in
 * reuse of existing published Jev benchmarks, so that few new Jev calls are needed;
 * Kaggle-only training;
 * a go/no-go gate after the pilot.
+
+**Phase 0 has started.** The data tooling lives in [`general/`](general/README.md): domain specs with rule
+variants, a renderer, counterfactual pairs, the Jev-format input contract, build checks and a NIM client. Three of
+the twenty pilot domains are written, and the whole pipeline dry-runs on a CPU in seconds.
 
 ## 15. Limitations
 

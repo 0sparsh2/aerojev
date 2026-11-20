@@ -1,7 +1,20 @@
 # General decision models: research and plan
 
-Status: plan only (revised 2026-11-20). Nothing in this document has been built or run yet. Every hour, size and cost
-below is an estimate unless it cites a measurement from this repo or a published source.
+Status (2026-11-20): **Phase 0 started** (`general/`, see `general/README.md`).
+
+**Built and dry-run on CPU:**
+* the domain-spec format with validation;
+* the renderer (7 formats, hash-split wording);
+* counterfactual pairs and option variation;
+* the Jev / arm A / arm B input contract;
+* build checks (facts present in text, shortcut check, 8-gram leakage);
+* the NIM client with a cache;
+* 3 of the 20 pilot domains.
+
+A 600-record-per-domain build takes about 2 s and passes every check (`tests/test_general_data.py`).
+
+Nothing has been trained, and no NIM or Jev call has been made yet. Every hour, size and cost below is an estimate
+unless it cites a measurement from this repo or a published source.
 
 Decisions taken so far:
 
