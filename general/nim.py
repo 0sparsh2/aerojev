@@ -5,8 +5,9 @@
   nim.models()                                   # what this key can call (check the generator is live)
   nim.chat([{"role": "user", "content": "..."}], temperature=0.8, seed=1)
 
-* Key: the NVIDIA_API_KEY environment variable (a Kaggle Secret inside kernels). It is never written to the cache,
-  logs or outputs. Without a key, only cached responses are served; anything else raises.
+* Key: NVIDIA_API_KEY from the environment, a Kaggle Secret (inside kernels) or the git-ignored .env (secret()). It
+  is never written to the cache, logs or outputs. Without a key, only cached responses are served; anything else
+  raises.
 * Cache: every successful response is appended to a JSONL file keyed by a hash of (model, messages, sampling
   settings), so a rerun or a resumed kernel pays only for requests it has not made yet.
 * Rate: at most `rpm` requests a minute (the free tier is reported, unofficially, at about 40), with retries and
@@ -25,12 +26,33 @@ import urllib.error
 import urllib.request
 
 BASE_URL = "https://integrate.api.nvidia.com/v1"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def secret(name):
+    """An API key: the environment first, then a Kaggle Secret (inside kernels), then the repo's .env file
+    (`name = value`, git-ignored). Returns None if none has it. The value is never printed or logged."""
+    if os.environ.get(name):
+        return os.environ[name]
+    try:
+        from kaggle_secrets import UserSecretsClient
+        return UserSecretsClient().get_secret(name)
+    except Exception:
+        pass
+    path = os.path.join(ROOT, ".env")
+    if os.path.exists(path):
+        for line in open(path):
+            k, _, v = line.partition("=")
+            if k.strip().lower() == name.lower() and v.strip():
+                return v.strip().strip("\"'")
+    return None
 
 
 class NIMClient:
-    def __init__(self, model, cache, base_url=BASE_URL, rpm=35, timeout=120, max_retries=6):
+    def __init__(self, model, cache, base_url=BASE_URL, rpm=35, timeout=120, max_retries=6, key=None):
+        """key: None looks it up (secret("NVIDIA_API_KEY")); "" means no key (cache only)."""
         self.model, self.base_url, self.timeout, self.max_retries = model, base_url.rstrip("/"), timeout, max_retries
-        self.key = os.environ.get("NVIDIA_API_KEY")
+        self.key = secret("NVIDIA_API_KEY") if key is None else key
         self.interval, self.last, self.lock = 60.0 / rpm, 0.0, threading.Lock()
         self.cache_path, self.cache = cache, {}
         if cache and os.path.exists(cache):
@@ -74,16 +96,24 @@ class NIMClient:
         req = urllib.request.Request(self.base_url + "/models", headers={"Authorization": f"Bearer {self.key}"})
         return sorted(m["id"] for m in self._send(req)["data"])
 
-    def chat(self, messages, temperature=0.7, top_p=0.95, max_tokens=1024, seed=None):
+    def chat(self, messages, temperature=0.7, top_p=0.95, max_tokens=1024, seed=None, extra=None):
+        """extra: model-specific body fields, e.g. {"chat_template_kwargs": {"enable_thinking": False}} to switch a
+        reasoning model's thinking off (otherwise its reasoning can use up max_tokens and leave no answer)."""
         body = {"model": self.model, "messages": messages, "temperature": temperature, "top_p": top_p,
-                "max_tokens": max_tokens, **({"seed": seed} if seed is not None else {})}
+                "max_tokens": max_tokens, **({"seed": seed} if seed is not None else {}), **(extra or {})}
         key = hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
         if key in self.cache:
             self.hits += 1
             return self.cache[key]
         out = self._post("/chat/completions", body)
-        content = out["choices"][0]["message"]["content"]
+        choice = out["choices"][0]
+        content = choice["message"].get("content")
         self.calls += 1
+        if not content:  # never cache an empty answer
+            why = choice.get("finish_reason")
+            raise RuntimeError(f"empty answer from {self.model} (finish_reason={why}"
+                               + (", reasoning used the token budget" if choice["message"].get("reasoning_content")
+                                  else "") + ")")
         with self.lock:
             self.cache[key] = content
             if self.cache_path:

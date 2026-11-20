@@ -61,11 +61,16 @@ def _examples(rng, q, facts, rule_names, meta, split, with_rule):
     return out
 
 
-def record_examples(rng, dom, split, rid, p_rules=0.5, p_pair=0.5):
-    """All examples for one sampled record: one per question, plus counterfactual partners."""
-    facts = dom.sample(rng)
+def record_examples(rng, dom, split, rid, p_rules=0.5, p_pair=0.5, facts=None, written=None):
+    """All examples for one sampled record: one per question, plus counterfactual partners.
+    facts / written: a record written elsewhere (the NIM prose route): its facts and (text, format). By default the
+    facts are sampled here and the text comes from general/render.py."""
+    facts = facts or dom.sample(rng)
     needed = {n for q in dom.questions for n in q.needs}
-    state, fmt, stated, injected = render.render(rng, dom, facts, needed, split)
+    if written:
+        (state, fmt), injected = written, False
+    else:
+        state, fmt, stated, injected = render.render(rng, dom, facts, needed, split)
     meta = {"domain": dom.name, "split": split, "rid": rid, "state": state, "format": fmt, "injected": injected,
             "facts": {k: v for k, v in facts.items() if not k.startswith("_")}}
     out = []

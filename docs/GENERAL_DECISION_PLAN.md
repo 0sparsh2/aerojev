@@ -383,14 +383,17 @@ the Mac.
 * Commercial use: yes.
 * Generator: NVIDIA NIM API with an open model.
 
+* **Generator** (2026-11-20): `nvidia/nemotron-3.5-lightning-30b-a3b`, under OpenMDW-1.1, which allows commercial
+  use. gpt-oss is not offered to this key, and GLM-5.3-Flash (MIT) timed out on the free tier.
+* **Keys:** Kaggle Secrets, attached per kernel. Both keys were verified on 2026-11-20: NIM lists 33 models, and Jev
+  answers as jev-1.14.0.
+
 **Still needed:**
 
 1. **Production generation:** a NIM paid subscription, another provider for the same open model, or self-hosting on
    Kaggle. The free trial covers the pilot only, per the terms above.
-2. **Generator model:** gpt-oss (Apache-2.0) is the default proposal, subject to what is live on NIM with your key.
-3. **Keys:** add the NIM key (and, for tier B only, `jev_api_key`) as Kaggle Secrets.
-4. **Tier B Jev run:** about 1,000 calls, for the rule-following test only. Or skip it and rely on tiers A, C and D.
-5. **Domains:** any real use case you want in the held-out set.
+2. **Tier B Jev run:** about 1,000 calls, for the rule-following test only. Or skip it and rely on tiers A, C and D.
+3. **Domains:** any real use case you want in the held-out set.
 
 ## Sources
 

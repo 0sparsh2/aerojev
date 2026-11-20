@@ -10,13 +10,47 @@ small decision models that take **any record, any question and any options**, wi
 | `compose.py` | records → examples: rule text in the instructions, counterfactual pairs, option shuffling / opaque keys / keys only / subsets, paraphrased questions |
 | `contract.py` | one example → the Jev question object, arm A input (`[OPT]` markers) and arm B input (lettered options + `[MASK]`) |
 | `build.py` | CLI: validate specs, build train / val / test, then run the checks (needed numbers present in text, bag-of-words shortcut check, 8-gram leakage) |
-| `nim.py` | NVIDIA NIM client (OpenAI-compatible) with a response cache, pacing and retries; the key comes from `NVIDIA_API_KEY` |
+| `nim.py` | NVIDIA NIM client (OpenAI-compatible) with a response cache, pacing and retries; keys via `secret()`: environment, Kaggle Secret, or the git-ignored `.env` |
+| `gen_banks.py` | grows every domain's wording through NIM: generate → rule checks → a judge call per bank; `build.py --banks` uses the result |
+| `gen_prose.py` | whole records written by the model from a fact sheet, kept only if every number appears verbatim, a judge reads every other fact back correctly, and no decision is stated; `build.py --prose` adds them |
 | `domains/` | one module per domain; `DOMAINS` finds them all |
 
 ```bash
 python -m general.build --check-only                         # validate every domain spec
 python -m general.build --records 600 --out /tmp/general-dry # template-only build plus all checks (~2 s)
 python tests/test_general_data.py                            # reproducibility, labels, pairs, contract, NIM cache
+```
+
+## Generated wording (NIM)
+
+**The generator is `nvidia/nemotron-3.5-lightning-30b-a3b`.**
+* **Licence:** OpenMDW-1.1, which allows commercial use.
+* **Speed:** about 1 s a call, with reasoning switched off.
+
+Other models checked on 2026-11-20:
+* **gpt-oss, Qwen and DeepSeek** are not offered to this key.
+* **GLM-5.3-Flash** (MIT) timed out on the free tier.
+* **Mistral Large 4** has a modified MIT licence with a hosting restriction.
+* **Gemma and Meta models** are excluded by the plan.
+
+**Each bank goes through three steps:**
+1. **Generate:** n new items, given the spec's own items as examples.
+2. **Rule checks:** allowed slots only, `{v}` exactly once where a value goes in, length, duplicates.
+3. **Judge:** one call labels every candidate.
+
+**The judge drops:**
+* wordings that state the wrong value;
+* any that state a decision instead of a fact (the first prompt version wrote "no receipt, so we have to deny
+  this"; that leaks the label);
+* situations that imply an outcome;
+* paraphrases that change the question.
+
+Generation runs on Kaggle (kernel `aerojev-general-gen`). Its key is the Kaggle Secret `NVIDIA_API_KEY`, attached to
+that kernel, and every response is cached in the kernel's output.
+
+```bash
+python -m general.gen_banks --domains all --n 12 --out banks/            # needs NVIDIA_API_KEY
+python -m general.build --banks banks/ --records 2000 --out data/
 ```
 
 ## Adding a domain
@@ -46,14 +80,14 @@ NIM, whose trial terms let NVIDIA use prompts.
 
 Built:
 * the spec format, renderer, composer, input contract and build checks;
-* the NIM client;
+* the NIM client, and the NIM bank generator with rule checks and a judge;
 * 3 of the pilot's 20 domains: `it_incident`, `ap_invoice`, `retail_returns`;
 * tests.
 
 Next, in plan order:
 1. 12 more training domains and 5 held-out ones.
-2. NIM-written phrase banks and prose records, run on a Kaggle CPU kernel. This needs a NIM key as a Kaggle Secret,
-   and a check that the generator is live.
+2. A pilot-size run of banks and prose on Kaggle (kernel `general-gen`), then a review of samples. In a 6-record
+   local smoke test, 5 prose records passed the check and 1 was dropped for stating a decision.
 3. Loaders for the reused Jev benchmarks: system-one-benchmark and elcronos.
 4. A public-dataset converter.
 5. Checkpoint and resume in `train/train_encoder.py`.

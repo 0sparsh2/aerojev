@@ -18,6 +18,7 @@ Writes <out>/<split>.jsonl (train / val / test; one example per line, general/co
 import argparse
 import json
 import os
+import random
 import re
 from collections import Counter, defaultdict
 
@@ -88,10 +89,15 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--p-rules", type=float, default=0.5, help="P(default rule stated in the instructions)")
     ap.add_argument("--p-pair", type=float, default=0.5, help="P(a question with variants is asked as a pair)")
+    ap.add_argument("--banks", help="directory of generated wording (general/gen_banks.py) to add to the specs")
+    ap.add_argument("--prose", help="directory of model-written records (general/gen_prose.py) to add to each split")
     ap.add_argument("--check-only", action="store_true")
     ap.add_argument("--force", action="store_true", help="build even if a spec has problems")
     args = ap.parse_args()
 
+    if args.banks:
+        from .gen_banks import load_banks
+        load_banks(args.banks)
     names = sorted(DOMAINS) if args.domains == "all" else args.domains.split(",")
     doms = [DOMAINS[n] for n in names]
     stats = {"spec": {}}
@@ -117,6 +123,14 @@ def main():
         for d in doms:
             rows += compose.build_domain(d, max(1, round(args.records * frac)), split, args.seed,
                                          p_rules=args.p_rules, p_pair=args.p_pair)
+            path = os.path.join(args.prose or "", f"{d.name}.{split}.jsonl")
+            if args.prose and os.path.exists(path):
+                rng = random.Random(f"prose|{d.name}|{split}|{args.seed}")
+                for i, line in enumerate(open(path)):
+                    r = json.loads(line)
+                    rows += compose.record_examples(rng, d, split, f"{d.name}-{split}-prose-{i:05d}",
+                                                    p_rules=args.p_rules, p_pair=args.p_pair, facts=r["facts"],
+                                                    written=(r["state"], "prose-" + r["format"]))
         data[split] = rows
         with open(os.path.join(args.out, f"{split}.jsonl"), "w") as f:
             for e in rows:

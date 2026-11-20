@@ -44,6 +44,7 @@ class Fact:
     avoid: tuple = ()
     phrases: object = ()
     fmt: Callable = None
+    about: str = ""  # what the fact means, in a few words; used in generation prompts (general/gen_banks.py)
 
     def sample(self, rng):
         for _ in range(100):

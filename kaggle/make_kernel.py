@@ -286,6 +286,27 @@ def _int8_fix():
             "_datasets": [f"{USER}/aerojev-shipped-ettin"], "0": jobs}
 
 
+def _general_gen():
+    """General decision data, Phase 0 (docs/GENERAL_DECISION_PLAN.md). CPU only. Grows every domain's wording with
+    Nemotron 3.5 Lightning (OpenMDW-1.1) through NVIDIA NIM (general/gen_banks.py), then builds and checks pilot-size
+    data with and without the new wording, plus model-written prose records that pass a fact check
+    (general/gen_prose.py). The NIM key is the Kaggle Secret NVIDIA_API_KEY attached to this kernel;
+    the first job stops the run if it is missing. Every NIM response is cached in the output."""
+    check = ("{PY} -c \"import sys; from general.nim import secret; ok = bool(secret('NVIDIA_API_KEY')); "
+             "print('NVIDIA_API_KEY', 'found' if ok else 'MISSING: attach the Kaggle Secret to this kernel'); "
+             "sys.exit(0 if ok else 1)\"")
+    return {"_gpu": False, "0": [
+        {"kind": "cmd", "cmd": check, "required": True},
+        {"kind": "cmd", "cmd": "{PY} tests/test_general_data.py", "required": True},
+        {"kind": "cmd", "cmd": "{PY} -m general.gen_banks --domains all --n 12 --out {OUT}/banks", "required": True},
+        {"kind": "cmd", "cmd": "{PY} -m general.gen_prose --domains all --records train=200,val=25,test=25 "
+                               "--out {OUT}/prose"},
+        {"kind": "cmd", "cmd": "{PY} -m general.build --banks {OUT}/banks --prose {OUT}/prose --records 2000 "
+                               "--out {OUT}/data"},
+        {"kind": "cmd", "cmd": "{PY} -m general.build --records 2000 --out {OUT}/data-nobanks"},
+    ]}
+
+
 KERNELS = {
     # zero-shot logit readout, no training: the JEV-CPU / SemIf setting
     "baselines": {
@@ -405,6 +426,8 @@ KERNELS = {
     "int8diag": _int8_diag(),
     # CPU kernel: weight-only (MatMulNBits) recipes that are lossless on x86, and the shipped M4-built file itself
     "int8fix": _int8_fix(),
+    # CPU kernel: general decision data, Phase 0: NIM-grown wording, then pilot-size builds with all checks
+    "general-gen": _general_gen(),
     "ladder-smoke": _ladder(smoke=True),
     # x86 CPU latency suite (no GPU); inputs are the training kernels' outputs (adapters + GGUFs)
     "cpu-bench": {
@@ -422,9 +445,9 @@ def bundle():
     os.makedirs(os.path.join(ROOT, "kaggle/dataset"), exist_ok=True)
     path = os.path.join(ROOT, "kaggle/dataset/aerojev_bundle.tar.gz")
     with tarfile.open(path, "w:gz") as t:
-        for d in ["aerojev", "eval", "train", "data", "notebooks", "scripts"]:
+        for d in ["aerojev", "eval", "train", "data", "notebooks", "scripts", "general", "tests"]:
             t.add(os.path.join(ROOT, d), arcname=d,
-                  filter=lambda ti: None if "__pycache__" in ti.name else ti)
+                  filter=lambda ti: None if "__pycache__" in ti.name or "data/general" in ti.name else ti)
     json.dump({"title": "aerojev-bundle", "id": DATASET, "licenses": [{"name": "CC0-1.0"}]},
               open(os.path.join(ROOT, "kaggle/dataset/dataset-metadata.json"), "w"), indent=1)
     print(f"bundle -> {path} ({os.path.getsize(path) / 1e6:.1f} MB)")

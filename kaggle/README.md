@@ -91,6 +91,7 @@ All are private, under `sparshnagpal/aerojev-<name>`. The rounds are described i
 | `ultra` | 2× T4 | UltraBERT-150M against Ettin-150M; int8 export and CPU bench | – | `results/ultra/ultra.md` |
 | `int8diag` | x86 CPU | why int8 fails on x86 without VNNI | `encoder`, `ultra` | `results/int8diag/int8_x86.md` |
 | `int8fix` | x86 CPU | lossless weight-only recipes; the shipped int8 file | `int8diag`; dataset `aerojev-shipped-ettin` | `results/int8diag/int8_x86.md` |
+| `general-gen` | x86 CPU | general decision data: NIM-grown wording (`general/gen_banks.py`), then pilot builds and checks | Kaggle Secret `NVIDIA_API_KEY` | `general/banks/`, kernel output |
 
 **Private datasets:**
 * `sparshnagpal/aerojev-bundle`: code + data, rebuilt per round.
@@ -134,6 +135,11 @@ and the distillation teachers' logits over the training set (regenerable).
   * 20 GB of output per kernel.
 
   Long rounds are split across two GPU queues and balanced on smoke-run speeds.
-* **Secrets.** API keys go in as Kaggle Secrets, never in the bundle: the hosted Jev key, and the NVIDIA NIM key
-  planned for the general models. `.env` is git-ignored, and the bundle holds only `aerojev/`, `eval/`, `train/`, `data/`,
+* **Secrets.** API keys go in as Kaggle Secrets, never in the bundle: the hosted Jev key and the NVIDIA NIM key.
+  * **Account-wide but attached per kernel:** a secret is stored once in your account, and each kernel needs it
+    attached once in the editor (Add-ons → Secrets).
+  * **Whether attachments survive** new versions pushed with `kaggle kernels push` is not yet confirmed here. If a
+    run reports the key missing, re-attach it.
+  * **Code reads them through `general.nim.secret(name)`.** It tries the environment, then the Kaggle Secret, then
+    the local `.env`. `.env` is git-ignored, and the bundle holds only `aerojev/`, `eval/`, `train/`, `data/`,
   `notebooks/` and `scripts/`.
