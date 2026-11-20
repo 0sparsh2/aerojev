@@ -11,6 +11,7 @@ Checks, for every domain in general/domains/:
   * the NIM client serves cached responses without a key and refuses uncached ones
 """
 
+import hashlib
 import json
 import os
 import sys
@@ -64,23 +65,17 @@ for name, dom in DOMAINS.items():
         assert wx == wy and x["rule"] != y["rule"] and x["label"] != y["label"], pid
     print(f"{name:16s} ok: {len(rows)} examples, {len(pairs)} counterfactual pairs")
 
+# key="" turns off every key source (environment, Kaggle Secret, .env), so nothing here can reach the network
 with tempfile.TemporaryDirectory() as d:
     cache = os.path.join(d, "cache.jsonl")
-    key = os.environ.pop("NVIDIA_API_KEY", None)
     try:
-        nim = NIMClient("some/model", cache=cache)
-        try:
-            nim.chat([{"role": "user", "content": "hi"}])
-            raise AssertionError("an uncached request ran without a key")
-        except RuntimeError:
-            pass
-        import hashlib
-        body = {"model": "some/model", "messages": [{"role": "user", "content": "hi"}], "temperature": 0.7,
-                "top_p": 0.95, "max_tokens": 1024}
-        h = hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
-        open(cache, "w").write(json.dumps({"key": h, "model": "some/model", "content": "cached"}) + "\n")
-        assert NIMClient("some/model", cache=cache).chat([{"role": "user", "content": "hi"}]) == "cached"
-    finally:
-        if key:
-            os.environ["NVIDIA_API_KEY"] = key
+        NIMClient("some/model", cache=cache, key="").chat([{"role": "user", "content": "hi"}])
+        raise AssertionError("an uncached request ran without a key")
+    except RuntimeError:
+        pass
+    body = {"model": "some/model", "messages": [{"role": "user", "content": "hi"}], "temperature": 0.7,
+            "top_p": 0.95, "max_tokens": 1024}
+    h = hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
+    open(cache, "w").write(json.dumps({"key": h, "model": "some/model", "content": "cached"}) + "\n")
+    assert NIMClient("some/model", cache=cache, key="").chat([{"role": "user", "content": "hi"}]) == "cached"
 print("OK general data")
