@@ -292,10 +292,8 @@ def _general_gen():
     data with and without the new wording, plus model-written prose records that pass a fact check
     (general/gen_prose.py). The NIM key is the Kaggle Secret NVIDIA_API_KEY attached to this kernel;
     the first job stops the run if it is missing. Every NIM response is cached in the output."""
-    check = ("{PY} -c \"import sys; from general.nim import secret; ok = bool(secret('NVIDIA_API_KEY')); "
-             "print('NVIDIA_API_KEY', 'found' if ok else 'MISSING: attach the Kaggle Secret to this kernel'); "
-             "sys.exit(0 if ok else 1)\"")
-    return {"_gpu": False, "0": [
+    check = "{PY} -m general.nim --check NVIDIA_API_KEY jev_api_key"  # names found or Kaggle's error; never values
+    return {"_gpu": False, "_secrets": ["NVIDIA_API_KEY", "jev_api_key"], "0": [
         {"kind": "cmd", "cmd": check, "required": True},
         {"kind": "cmd", "cmd": "{PY} tests/test_general_data.py", "required": True},
         {"kind": "cmd", "cmd": "{PY} -m general.gen_banks --domains all --n 12 --out {OUT}/banks", "required": True},
@@ -461,7 +459,9 @@ def kernel(name):
     gpu = spec.pop("_gpu", True)
     sources = spec.pop("_kernel_sources", [])
     datasets = [DATASET] + spec.pop("_datasets", [])
+    secrets = spec.pop("_secrets", [])
     src = src.replace("JOBS = {}  # filled in by make_kernel.py", f"JOBS = {spec!r}  # generated")
+    src = src.replace("SECRETS = []  # filled in by make_kernel.py", f"SECRETS = {secrets!r}  # generated")
     slug = f"aerojev-{name}"
     open(os.path.join(kdir, f"{slug}.py"), "w").write(src)
     json.dump({

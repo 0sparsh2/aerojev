@@ -18,6 +18,7 @@ import threading
 import time
 
 JOBS = {}  # filled in by make_kernel.py: {"0": [job, ...], "1": [job, ...]}
+SECRETS = []  # filled in by make_kernel.py: Kaggle Secret names to load into the jobs' environment
 
 WORK = "/kaggle/working"
 PROJ = "/tmp/aerojev/proj"
@@ -36,6 +37,29 @@ def sh(cmd, log, env=None, cwd=PROJ):
     return p.returncode
 
 
+def load_secrets(log):
+    """Read the attached Kaggle Secrets once, in this (main) process, and pass them to every job through the
+    environment. Only names and outcomes are logged, never values."""
+    if not SECRETS:
+        return
+    try:
+        from kaggle_secrets import UserSecretsClient
+        client = UserSecretsClient()
+    except Exception as e:
+        log.write(f"kaggle_secrets unavailable: {type(e).__name__}: {e}\n")
+        return
+    for name in SECRETS:
+        try:
+            value = client.get_secret(name)
+        except Exception as e:
+            log.write(f"secret {name}: not readable: {type(e).__name__}: {str(e)[:300]}\n")
+            continue
+        if value:
+            os.environ[name] = value
+        log.write(f"secret {name}: {'loaded' if value else 'empty'}\n")
+    log.flush()
+
+
 def setup():
     os.makedirs(PROJ, exist_ok=True)
     os.makedirs(OUT, exist_ok=True)
@@ -49,6 +73,7 @@ def setup():
         with tarfile.open(bundle) as t:
             t.extractall(PROJ)
     with open(os.path.join(OUT, "setup.log"), "w") as log:
+        load_secrets(log)
         sh("nvidia-smi", log)
         sh(f"{sys.executable} -m pip install -q 'transformers==5.20.2' 'peft==0.21.2' accelerate sentencepiece "
            "sentence-transformers scikit-learn", log)

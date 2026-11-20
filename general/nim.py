@@ -120,3 +120,27 @@ class NIMClient:
                 with open(self.cache_path, "a") as f:
                     f.write(json.dumps({"key": key, "model": self.model, "content": content}) + "\n")
         return content
+
+
+if __name__ == "__main__":  # python -m general.nim --check NAME [NAME ...]: is each secret readable here? (no values)
+    import sys
+    names = [a for a in sys.argv[1:] if a != "--check"]
+    try:
+        from kaggle_secrets import UserSecretsClient
+        client = UserSecretsClient()
+    except Exception as e:
+        client = None
+        print(f"kaggle_secrets unavailable: {type(e).__name__}: {e}")
+    ok = True
+    for n in names:
+        where = "environment" if os.environ.get(n) else None
+        if not where and client:
+            try:
+                where = "Kaggle Secret" if client.get_secret(n) else None
+            except Exception as e:
+                print(f"{n}: Kaggle Secret not readable: {type(e).__name__}: {str(e)[:300]}")
+        if not where and secret(n):
+            where = ".env"
+        print(f"{n}: {'found in ' + where if where else 'MISSING'}")
+        ok &= bool(where) or n != names[0]  # only the first name is required
+    sys.exit(0 if ok else 1)

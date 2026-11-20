@@ -138,8 +138,15 @@ and the distillation teachers' logits over the training set (regenerable).
 * **Secrets.** API keys go in as Kaggle Secrets, never in the bundle: the hosted Jev key and the NVIDIA NIM key.
   * **Account-wide but attached per kernel:** a secret is stored once in your account, and each kernel needs it
     attached once in the editor (Add-ons → Secrets).
-  * **Whether attachments survive** new versions pushed with `kaggle kernels push` is not yet confirmed here. If a
-    run reports the key missing, re-attach it.
+  * **CLI pushes lose them.** A version pushed with `kaggle kernels push` cannot read secrets. On 2026-11-20, three
+    pushes of `general-gen` all got `ConnectionError` from `UserSecretsClient`, with internet on. A third-party
+    script reports the same: bindings are not kept across CLI or API pushes.
+  * **So a run that needs a key must start from the editor:**
+    1. Push the code with the CLI.
+    2. In the editor, check the secrets are attached.
+    3. Click **Save Version → Save & Run All**.
+  * **Where the secrets are read:** at start-up, in the kernel's main process (`runner.py`, the kernel's `_secrets`).
+    `setup.log` shows each name as loaded or not readable; values are never logged.
   * **Code reads them through `general.nim.secret(name)`.** It tries the environment, then the Kaggle Secret, then
     the local `.env`. `.env` is git-ignored, and the bundle holds only `aerojev/`, `eval/`, `train/`, `data/`,
   `notebooks/` and `scripts/`.
