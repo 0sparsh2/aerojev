@@ -84,12 +84,17 @@ def prompt(dom, kind, d, have, n):
         f, v = d["fact"], d["value"]
         reg = REGISTERS[d["informal"]]
         if v == "n":
-            what = (f"Each item states {f.about}. The value is filled in at the slot {{v}} (for example "
-                    f"\"{f.text(d['sample'])}\"); use {{v}} exactly once and no other braces.")
+            what = (f"Each item states {f.about}. The value is inserted later at the placeholder {{v}}: every item "
+                    f"must contain the three characters {{v}} exactly once and no concrete number, amount or value. "
+                    f"The inserted value already carries its unit or symbol (it looks like \"{f.text(d['sample'])}\"),"
+                    f" so add no unit, currency or percent sign around {{v}}. No other braces.")
+        elif f.kind == "bool":
+            fact = f.claim() if v else f"it is NOT the case that {f.claim()}"
+            what = (f"Each item states, as a plain fact, that {fact}. It must mean exactly what the existing items "
+                    f"mean, in different words. Do not use any braces.")
         else:
-            val = ("YES" if v else "NO") if f.kind == "bool" else f"\"{v}\""
-            what = (f"The fact is: {f.about}. Every existing item states the same value of it ({val}). Each new item "
-                    f"must mean exactly what the existing items mean, in different words. Do not use any braces.")
+            what = (f"Each item states that {f.about} is \"{v}\". It must mean exactly what the existing items mean, "
+                    f"in different words. Do not use any braces.")
         return head + f"{what} {NO_OUTCOME} Register: {reg}. One sentence, at most 20 words.\n" + tail
     if kind == "situations":
         slots = ", ".join("{" + s + "}" for s in sorted({m for t in have for m in SLOT.findall(t)}))
@@ -103,12 +108,19 @@ def prompt(dom, kind, d, have, n):
 
 
 def parse_list(text):
-    text = re.sub(r"<think>.*?</think>", "", text, flags=re.S)
+    """A JSON list of strings from a model answer. Falls back to every double-quoted string, because the model
+    sometimes wraps its list in { } or adds a key."""
+    text = re.sub(r"<think>.*?</think>", "", text or "", flags=re.S)
     m = re.search(r"\[.*\]", text, flags=re.S)
-    try:
-        out = json.loads(m.group(0)) if m else []
-    except json.JSONDecodeError:
-        return []
+    out = None
+    if m:
+        try:
+            out = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            out = None
+    if not isinstance(out, list):
+        out = [json.loads(f'"{q}"') for q in re.findall(r'"((?:[^"\\]|\\.)*)"', text)]
+        out = [q for q in out if q.lower() not in ("strings", "items", "templates", "labels", "answers")]
     return [s.strip() for s in out if isinstance(s, str) and s.strip()]
 
 
@@ -126,6 +138,10 @@ def rule_check(dom, kind, d, cand, seen):
         return "slots"
     if kind == "fact" and d["value"] == "n" and slots.count("v") != 1:
         return "no {v}"
+    if kind == "fact" and d["value"] == "n":
+        shown = cand.replace("{v}", d["fact"].text(d["sample"]))
+        if re.search(r"%\s*(percent|per ?cent|%)|\$\s*\$|\$[\d,.]+\s*(dollars|usd)\b", shown, flags=re.I):
+            return "unit doubled"
     if len(cand.split()) > 25:
         return "too long"
     norm = re.sub(r"\W+", " ", cand.lower()).strip()
@@ -154,9 +170,9 @@ def judge(nim, dom, kind, d, cands):
                  f"nothing else, \"no\" otherwise.")
             want = "yes"
         elif f.kind == "bool":
-            q = (f"Fact: {f.about}. For each sentence, answer \"true\" if the sentence says yes to this fact, "
-                 f"\"false\" if it says no, or \"unclear\".")
-            want = "true" if v else "false"
+            q = (f"For each sentence, answer \"yes\" if, according to the sentence, {f.claim()}; \"no\" if the "
+                 f"sentence says that is not the case; or \"unclear\" if it does not say.")
+            want = "yes" if v else "no"
         else:
             q = (f"For each sentence, say which value of \"{f.about}\" it states: one of "
                  f"{[str(x) for x in f.values] + ['unclear']}.")
@@ -183,31 +199,44 @@ def judge(nim, dom, kind, d, cands):
     return [str(o).strip().lower() == want for o in out]
 
 
-def grow(nim, judge_nim, dom, key, kind, d, n):
+def grow(nim, judge_nim, dom, key, kind, d, n, attempts=3):
+    """Generate, check and judge; retry with a new seed (up to `attempts` calls) while fewer than n // 2 survive."""
     have = existing(dom, key, kind, d)
     seen = {re.sub(r"\W+", " ", t.lower()).strip() for t in have}
-    raw = parse_list(nim.chat([{"role": "user", "content": prompt(dom, kind, d, have, n)}], temperature=0.9,
-                              max_tokens=1200, seed=0, extra=thinking_off(nim.model)))
-    reasons, cands = {}, []
-    for c in raw:
-        r = rule_check(dom, kind, d, c, seen)
-        if r:
-            reasons[r] = reasons.get(r, 0) + 1
-        else:
-            cands.append(c)
-    keep = judge(judge_nim, dom, kind, d, cands)
-    kept = [c for c, k in zip(cands, keep) if k]
-    return key, kept, {"asked": n, "returned": len(raw), "rule_rejected": reasons,
-                       "judge_rejected": len(cands) - len(kept), "kept": len(kept)}
+    kept, reasons, returned, judged_out = [], {}, 0, 0
+    for seed in range(attempts):
+        raw = parse_list(nim.chat([{"role": "user", "content": prompt(dom, kind, d, have, n)}], temperature=0.9,
+                                  max_tokens=1200, seed=seed, extra=thinking_off(nim.model)))
+        returned += len(raw)
+        cands = []
+        for c in raw:
+            r = rule_check(dom, kind, d, c, seen)
+            if r:
+                reasons[r] = reasons.get(r, 0) + 1
+            else:
+                cands.append(c)
+        keep = judge(judge_nim, dom, kind, d, cands)
+        kept += [c for c, k in zip(cands, keep) if k]
+        judged_out += sum(not k for k in keep)
+        if len(kept) >= n // 2:
+            break
+    return key, kept, {"asked": n, "calls": seed + 1, "returned": returned, "rule_rejected": reasons,
+                       "judge_rejected": judged_out, "kept": len(kept)}
 
 
-def apply_banks(dom, banks):
-    """Add generated wording to a domain in place (render.py and spec.py then use it like the spec's own)."""
+def apply_banks(dom, banks, balance=True):
+    """Add generated wording to a domain in place (render.py and spec.py then use it like the spec's own).
+    balance: for a yes / no or categorical fact, every value gets the same number of new items in each register
+    (the smallest count). Otherwise unfamiliar wording would be more common for one value, and a model could learn
+    "new phrasing means yes" instead of reading the fact."""
     for f in dom.facts:
         ph, reg = f.phrases, has_registers(f)
         for informal in (False, True):
-            for v in fact_values(f):
-                extra = banks.get(f"fact|{f.name}|{v}|{int(informal)}", [])
+            values = fact_values(f)
+            cap = min(len(banks.get(f"fact|{f.name}|{v}|{int(informal)}", [])) for v in values) \
+                if balance and values != ["n"] else None
+            for v in values:
+                extra = banks.get(f"fact|{f.name}|{v}|{int(informal)}", [])[:cap]
                 if not extra:
                     continue
                 if reg:

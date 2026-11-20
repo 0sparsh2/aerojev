@@ -65,6 +65,17 @@ for name, dom in DOMAINS.items():
         assert wx == wy and x["rule"] != y["rule"] and x["label"] != y["label"], pid
     print(f"{name:16s} ok: {len(rows)} examples, {len(pairs)} counterfactual pairs")
 
+# generated wording is balanced across the values of a yes / no fact, so new phrasing never signals the answer
+import copy  # noqa: E402
+from general.gen_banks import apply_banks, parse_list  # noqa: E402
+dom = copy.deepcopy(DOMAINS["it_incident"])
+before = {v: len(dom.fact("outage").templates(v)) for v in (True, False)}
+apply_banks(dom, {"fact|outage|True|0": ["a", "b", "c"], "fact|outage|False|0": ["d"],
+                  "fact|users_affected|n|0": ["x {v}", "y {v}"]})
+added = {v: len(dom.fact("outage").templates(v)) - before[v] for v in (True, False)}
+assert added == {True: 1, False: 1}, added
+assert parse_list('{ "a b", "c d" }') == ["a b", "c d"] and parse_list('```json\n["x"]\n```') == ["x"]
+
 # key="" turns off every key source (environment, Kaggle Secret, .env), so nothing here can reach the network
 with tempfile.TemporaryDirectory() as d:
     cache = os.path.join(d, "cache.jsonl")

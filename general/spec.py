@@ -66,6 +66,10 @@ class Fact:
             x = rng.uniform(lo, hi)
         return int(round(x)) if self.kind == "int" else round(x, 2)
 
+    def claim(self):
+        """A bool fact as a plain statement: about "whether X" -> "X" (used to ask yes / no without ambiguity)."""
+        return self.about[len("whether "):] if self.about.startswith("whether ") else self.about
+
     def text(self, v):
         if self.fmt:
             return self.fmt(v)

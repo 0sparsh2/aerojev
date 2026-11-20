@@ -58,7 +58,7 @@ def judge_prompt(dom, text):
     qs, keys = [], []
     for f in dom.facts:
         if f.kind == "bool":
-            qs.append(f"{f.about[:1].upper()}{f.about[1:]}? Answer yes, no or not stated.")
+            qs.append(f"According to the record, is it the case that {f.claim()}? Answer yes, no or not stated.")
             keys.append(f.name)
         elif f.kind == "cat":
             qs.append(f"{f.about[:1].upper()}{f.about[1:]}? Answer one of {[f.text(v) for v in f.values]} or "
