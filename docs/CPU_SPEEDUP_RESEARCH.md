@@ -5,6 +5,27 @@ October 2026. This is desk research: nothing here was trained or benchmarked for
 count over 400 training records). Numbers marked **est.** are FLOP arithmetic. Accuracy effects are unknown until a
 run is made. Sources are listed at the end.
 
+> **Outcome (measured since, on Kaggle T4s; `results/ladder/ladder.md`, `results/prune/prune.md`,
+> `results/bakeoff/bakeoff.md`, `results/encoder/encoder.md`).** Each row of the ladder below was then trained and
+> scored. Compute ratios are against today's recipe, from logged token counts; all runs use 12,000 records unless
+> noted.
+>
+> * **Row 1, one catalogue per 8 records:** 3.6× less compute, exact gradients (`tests/test_shared_prefix.py`), gold
+>   0.925 against 0.922.
+> * **Row 3, fewer records:** with the catalogue, 6,000 records lost 2–8 points at every learning rate tried.
+>   Distillation did not rescue it, and 1e-3 diverged. Catalogue-free, 6,000 records was level in one run and 3–4
+>   points down in a second: too noisy to rely on.
+> * **Row 4, no catalogue in the prompt:** 6× less compute at the same accuracy (gold 0.928 / 0.940 over two runs).
+>   It is the recipe in `notebooks/aerojev_qwen2.5-0.5b_nocat.ipynb`.
+> * **Row 5, a smaller base:** Gemma 3 270M and SmolLM2-135M lost 2–13 points.
+> * **Row 6, frozen probes:** lost about 12 points.
+> * **Beyond the ladder:**
+>   * **Pruning** to 16 blocks with narrower FFNs: 1.7× less compute than row 4 (the `small` preset).
+>   * **An Ettin-150M encoder with one head per question:** 0.20 s per training record on the M4 and level accuracy
+>     (the `tiny` preset, `docs/ENCODER.md`).
+>
+> The rest of this page is the original desk research, unchanged.
+
 The starting point (`docs/TRAIN_ON_CPU.md`): Qwen2.5-0.5B-Instruct + LoRA r16 on all 24 blocks, catalogue layout,
 fp32, 12,000 records. That is **20.2 s per record and 67 h** on the regular CPU (2-core Xeon, 2.2 GHz), 4.35 s and
 14.5 h on the M4, and 68 min on a T4.

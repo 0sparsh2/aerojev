@@ -95,6 +95,20 @@ It prints seconds per record and the projected hours for 2,400, 4,800, 7,200 and
 With LoRA on only the top blocks, the loss plateaued around 0.87, against about 0.2 with LoRA on every block. In
 this prompt layout the lower blocks also have to adapt.
 
+## A cheaper model to train: the encoder
+
+The Ettin-150M encoder (`train/train_encoder.py`, see [`ENCODER.md`](ENCODER.md)) trains every weight, yet takes only
+**0.20 s per training record on the M4** (measured). For comparison, the catalogue Qwen recipe takes 4.4 s and the
+catalogue-free one 0.74 s. The encoder is small and reads only the record (~140 tokens), but it needs several passes
+over the data.
+
+* **4 epochs over the 10,000 training records:** 2.2 h on the M4. This is level with the reference within noise.
+* **8 epochs:** 4.5 h on the M4 (the shipped model).
+* **Peak RAM:** 6.1 GB at batch 16.
+* **Regular 2-core CPU:** about 11 h for 4 epochs. This is a FLOP projection, not a measurement.
+
+That is about the same training cost as the catalogue-free Qwen recipe. The encoder's advantage is at decision time.
+
 ## When a GPU is the better choice
 
 A single T4 runs the full recipe about 60× faster than the regular CPU (68 minutes against roughly 3 days) and reaches

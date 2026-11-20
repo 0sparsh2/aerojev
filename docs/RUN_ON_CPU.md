@@ -1,8 +1,11 @@
 # Running AeroJev on a CPU
 
-AeroJev answers nine supply-chain questions about a record (event type, commodity, severity, line-stop risk,
-recommended action, export control, counterfeit, sole source, delay) in about **0.3–0.5 s on a laptop CPU**, using
-**1.4–2 GB of RAM** and no GPU. This guide covers the fastest way to run it and the measurements behind each choice.
+AeroJev answers nine supply-chain questions about a record: event type, commodity, severity, line-stop risk,
+recommended action, export control, counterfeit, sole source and delay. On a laptop CPU, with no GPU:
+* the smallest model (`tiny`) takes **28 ms** and **under 0.5 GB of RAM**;
+* the most accurate (`best`) takes **0.5 s** and **2 GB**.
+
+This guide covers how to run each model, and the measurements behind each choice.
 
 All timings are the median for one record at a time, in a warm process, with four threads, on short records like
 the hand-written gold set (about 100 tokens each). They come from an Apple M4 laptop and a 4-vCPU x86 cloud VM
@@ -22,22 +25,46 @@ the hand-written gold set (about 100 tokens each). They come from an Apple M4 la
 That is exactly what this command runs:
 
 ```bash
-python server.py --preset best      # or --preset fast / --preset large
+python server.py --preset best      # or fast / large; tiny and small answer the 9 trained questions only
 open http://127.0.0.1:8080          # test page; the same server answers POST /v1/decide
 ```
 
 ### Which model
 
-| Goal | Model | File | M4 s/record | RAM | Gold acc | Gold2 acc |
-|---|---|---|---|---|---|---|
-| **Fastest** (`--preset fast`) | Qwen2.5-0.5B + LoRA, catalogue, Q8_0 | 531 MB | **0.32** | 1.4 GB | 0.931 | 0.938 |
-| **Most accurate** (`--preset best`) | Qwen3-0.6B + LoRA, data v2, catalogue, Q8_0 | 639 MB | 0.49 | 2.0 GB | **0.950** | 0.931 |
-| Smallest | Qwen2.5-0.5B + LoRA, catalogue, Q4_K_M | 398 MB | 0.38 | 1.3 GB | 0.932 | 0.942 |
-| **Most robust** (`--preset large`) | Qwen3-1.7B + LoRA, data v2, catalogue, Q8_0 | 1.8 GB | 1.17 | 2.6 GB | 0.943 | **0.949** |
+| Goal | Model | File | M4 s/record | RAM | Gold acc | Gold2 acc | Ad-hoc questions |
+|---|---|---|---|---|---|---|---|
+| **Smallest and fastest** (`--preset tiny`) | Ettin-150M encoder + 9 heads, ONNX int8 (4-bit on x86) | **151 MB** | **0.028**ᵃ | **0.4–0.5 GB** | 0.932 | 0.928 | no |
+| Small Qwen (`--preset small`) | Qwen2.5-0.5B pruned to 16 blocks + FFN 2560, catalogue-free, Q8_0 | 299 MB | 0.083ᵃ | 1.0 GB | 0.915 | 0.914 | no |
+| Fast Qwen (`--preset fast`) | Qwen2.5-0.5B + LoRA, catalogue, Q8_0 | 531 MB | 0.32 | 1.4 GB | 0.931 | 0.938 | yes |
+| **Most accurate** (`--preset best`) | Qwen3-0.6B + LoRA, data v2, catalogue, Q8_0 | 639 MB | 0.49 | 2.0 GB | **0.950** | 0.931 | yes |
+| Smallest Qwen file | Qwen2.5-0.5B + LoRA, catalogue, Q4_K_M | 398 MB | 0.38 | 1.3 GB | 0.932 | 0.942 | yes |
+| **Most robust** (`--preset large`) | Qwen3-1.7B + LoRA, data v2, catalogue, Q8_0 | 1.8 GB | 1.17 | 2.6 GB | 0.943 | **0.949** | yes |
+
+ᵃ Median over 880 gold + test records with the whole record in one call (`results/latency_lite.jsonl`). The other
+rows used 40 gold records (`results/REPORT.md`).
 
 The 1.7B model has the best test accuracy (0.965) and is the least sensitive to the order of a question's options
 (0.95 of choice answers unchanged when options are shuffled, against 0.87 for the 0.6B model), at about 2.4× the CPU
 time per record.
+
+**Smallest and fastest (`--preset tiny`).** An Ettin-150M encoder with one output layer per question, stored in int8
+and run with ONNX Runtime instead of PyTorch or llama.cpp:
+* a 151 MB file;
+* 28 ms per record with 4 threads and 47 ms with 1, on the M4;
+* 0.40–0.48 GB peak RAM;
+* gold 0.932, gold2 0.928, test 0.969.
+
+**On x86, use the 4-bit file (`model.int4.onnx`), not the int8 one.**
+* **The problem:** the int8 file is accurate on Apple Silicon. On x86 CPUs without VNNI (Intel before Ice Lake /
+  Cascade Lake servers, AMD before Zen 4) its answers are badly wrong: gold fell to 0.52-0.61 on Kaggle Xeons.
+* **The 4-bit file is lossless there:** weight-only, 109 MB, 0.33 GB peak. On a 2.2 GHz Xeon it takes 584 ms per
+  record with 1 thread and 320 ms with 4. fp32 is about 1.2× faster but 597 MB and about 1 GB of RAM.
+* **Automatic choice:** `aerojev/lite.py` picks the 4-bit file on x86 when it is present, and warns if only the
+  int8 file is there on an affected CPU.
+* **Details:** `results/int8diag/int8_x86.md`. How to get the file: `docs/ENCODER.md`.
+
+It needs only `pip install -r requirements-lite.txt` (numpy, onnxruntime, tokenizers). It answers only the 9 trained
+questions. Details and measurements: [`ENCODER.md`](ENCODER.md).
 
 On a 4-vCPU x86 server the same models take 1.3–2.8 s per record (see the measurements below). The hosted Jev API,
 which runs on GPUs, scored 0.918 on the same gold set.
@@ -82,9 +109,14 @@ Weights are not in git. The server's presets expect these files in `models/`:
 
 | Preset | Files |
 |---|---|
+| `tiny` | `aerojev-ettin-150m/` with `model.int8.onnx` (ARM) and/or `model.int4.onnx` (x86), `tokenizer.json`, `decider.json` |
+| `small` | `aerojev-qwen2.5-0.5b-nocat-d16w-full-q8_0.gguf`, `temps-qwen2.5-0.5b-nocat-d16w-full.json` |
 | `best` | `aerojev-qwen3-0.6b-cat-v2-q8_0.gguf`, `temps-qwen3-0.6b-cat-v2.json` |
 | `fast` | `aerojev-qwen2.5-0.5b-cat-q8_0.gguf`, `temps-qwen2.5-0.5b-cat.json` |
 | `large` | `aerojev-qwen3-1.7b-cat-v2-q8_0.gguf`, `temps-qwen3-1.7b-cat-v2.json` |
+
+The `tiny` files come from `scripts/export_encoder.py` (`docs/ENCODER.md`), and `small` from the pruning study
+(`results/prune/prune.md`). The rest are made as follows.
 
 To make them, train the adapter (README, step 3; on a GPU in about an hour, or on a CPU as in `docs/TRAIN_ON_CPU.md`), then merge and export:
 
