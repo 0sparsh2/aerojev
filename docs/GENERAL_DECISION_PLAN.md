@@ -13,7 +13,14 @@ Status (2026-11-20): **Phase 0 started** (`general/`, see `general/README.md`).
 
 A 600-record-per-domain build takes about 2 s and passes every check (`tests/test_general_data.py`).
 
-Nothing has been trained, and no NIM or Jev call has been made yet. Every hour, size and cost below is an estimate
+**First generation on Kaggle (2026-11-21, 3 domains, Nemotron 3.5 Lightning):**
+* **Data:** 736 new wordings, 701 fact-checked prose records, and 26,100 examples with 1,535 counterfactual pairs.
+* **Checks:** every one passes.
+* **Details:** `general/README.md`.
+* **Where it is kept:** generated text stays in the private kernel output. The repository is public, and the trial
+  terms forbid distributing generated content.
+
+Nothing has been trained yet. Every hour, size and cost below is an estimate
 unless it cites a measurement from this repo or a published source.
 
 Decisions taken so far:

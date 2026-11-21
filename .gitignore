@@ -15,8 +15,13 @@ models/
 
 # regenerable build artifacts
 kaggle/dataset/*.tar.gz
-# generated general-decision data and NIM response caches (built on Kaggle; python -m general.build)
+# generated general-decision data and NIM response caches (built on Kaggle; python -m general.build).
+# NIM-generated text (banks, prose) must not be committed: this repo is public and the NIM trial terms forbid
+# distributing generated content. It stays in the private Kaggle kernel output (aerojev-general-gen).
 data/general/
+general/banks/
+general/prose/
+**/nim_cache.jsonl
 results/notebook/
 results/notebook-nocat/
 results/notebook-encoder/

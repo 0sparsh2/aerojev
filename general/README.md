@@ -45,8 +45,39 @@ Other models checked on 2026-11-20:
 * situations that imply an outcome;
 * paraphrases that change the question.
 
-Generation runs on Kaggle (kernel `aerojev-general-gen`). Its key is the Kaggle Secret `NVIDIA_API_KEY`, attached to
-that kernel, and every response is cached in the kernel's output.
+Generation runs on Kaggle (kernel `aerojev-general-gen`). Its key is the Kaggle Secret `NVIDIA_API_KEY`, attached
+to that kernel, and every response is cached in the kernel's output.
+
+**Never commit generated text (banks, prose).** This repository is public, and the NIM trial terms forbid
+distributing generated content. It stays in the private kernel output, and later Kaggle jobs mount it from there
+(`_kernel_sources`). `.gitignore` blocks `general/banks/`, `general/prose/` and NIM caches.
+
+**Runs** (2026-11-20/21, 3 domains):
+
+| | Run 1 | Run 2 (fixed judge and prompts) |
+|---|---|---|
+| New wordings kept | 445 | **736** |
+| Empty banks | 22 | 2 |
+| Prose records passing the fact check | 697 / 750 | 701 / 750 |
+| Examples (train / val / test) | 20,857 / 2,635 / 2,594 | 20,866 / 2,613 / 2,623 |
+| Counterfactual pairs (train) | 1,214 | 1,219 |
+| Test 8-gram overlap with train | 0.048 | 0.051 (0.021 without banks or prose) |
+| Shortcut flags / needed numbers missing | none / none | none / none |
+
+**Run 1 found four bugs, all fixed:**
+* **The judge read yes / no backwards.** It labelled "bank details unchanged" as true for *bank details changed*.
+  Yes / no facts are now asked as plain claims.
+* **Concrete values instead of the placeholder.** The model wrote real values in place of `{v}`, so every amount
+  and tier template was rejected.
+* **Answers wrapped in `{ }` were parsed as empty.**
+* **New wording was unbalanced between yes and no.**
+
+**Known weaknesses that remain:**
+* **Loose paraphrases:** a few still drift, for example "logged for pattern analysis?" for the abuse question.
+* **Echoed fact sheets:** prose sometimes repeats the fact sheet's wording.
+* **Placeholders:** one email ended with "[Your Name]".
+
+None of these changes a label, because labels come from the facts.
 
 ```bash
 python -m general.gen_banks --domains all --n 12 --out banks/            # needs NVIDIA_API_KEY
@@ -86,8 +117,7 @@ Built:
 
 Next, in plan order:
 1. 12 more training domains and 5 held-out ones.
-2. A pilot-size run of banks and prose on Kaggle (kernel `general-gen`), then a review of samples. In a 6-record
-   local smoke test, 5 prose records passed the check and 1 was dropped for stating a decision.
+2. Done: banks and prose for 3 domains (runs above).
 3. Loaders for the reused Jev benchmarks: system-one-benchmark and elcronos.
 4. A public-dataset converter.
 5. Checkpoint and resume in `train/train_encoder.py`.

@@ -91,7 +91,7 @@ All are private, under `sparshnagpal/aerojev-<name>`. The rounds are described i
 | `ultra` | 2× T4 | UltraBERT-150M against Ettin-150M; int8 export and CPU bench | – | `results/ultra/ultra.md` |
 | `int8diag` | x86 CPU | why int8 fails on x86 without VNNI | `encoder`, `ultra` | `results/int8diag/int8_x86.md` |
 | `int8fix` | x86 CPU | lossless weight-only recipes; the shipped int8 file | `int8diag`; dataset `aerojev-shipped-ettin` | `results/int8diag/int8_x86.md` |
-| `general-gen` | x86 CPU | general decision data: NIM-grown wording (`general/gen_banks.py`), then pilot builds and checks | Kaggle Secret `NVIDIA_API_KEY` | `general/banks/`, kernel output |
+| `general-gen` | x86 CPU | general decision data: NIM-grown wording (`general/gen_banks.py`), prose (`general/gen_prose.py`), pilot builds and checks | Kaggle Secret `NVIDIA_API_KEY`; started from the editor | kernel output only (generated text is not redistributed); `general/README.md` |
 
 **Private datasets:**
 * `sparshnagpal/aerojev-bundle`: code + data, rebuilt per round.
