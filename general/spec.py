@@ -28,7 +28,8 @@ class Fact:
 
     kind:    "int" | "float" | "bool" | "cat"
     values:  cat: the categories; int / float: (low, high)
-    p:       bool: P(True); cat: optional weights (same length as values)
+    p:       bool: P(True); cat: optional weights (same length as values); int: optional weights for each value
+             from low to high (for small counts such as prior claims)
     log:     int / float: sample log-uniformly (counts and amounts)
     avoid:   ((threshold, half_width), ...): resample values inside a band around a rule threshold, so labels are
              never decided by a hair
@@ -60,6 +61,8 @@ class Fact:
         if self.kind == "cat":
             return rng.choices(self.values, weights=self.p if isinstance(self.p, (list, tuple)) else None)[0]
         lo, hi = self.values
+        if self.kind == "int" and isinstance(self.p, (list, tuple)):
+            return rng.choices(range(lo, hi + 1), weights=self.p)[0]
         if self.log:
             x = math.exp(rng.uniform(math.log(max(lo, 1e-9)), math.log(hi)))
         else:
@@ -142,6 +145,8 @@ class Domain:
     distractors: list = field(default_factory=list)
     formats: tuple = ()       # document formats this domain uses (general/render.py); empty = all of them
     derived: Callable = None  # facts -> extra derived values available to templates (e.g. a computed date)
+    heldout: str = ""         # "" = training domain; "dev" / "test" = the whole domain is kept out of training
+                              # (plan, section 6.4): dev-unseen for choices during the project, test-unseen scored once
 
     def fact(self, name):
         return next(f for f in self.facts if f.name == name)
@@ -158,6 +163,8 @@ class Domain:
         """Check the spec; returns {"ok": bool, "problems": [...], "stats": {...}}."""
         problems, stats = [], {}
         names = {f.name for f in self.facts}
+        if self.heldout not in ("", "dev", "test"):
+            problems.append(f"heldout {self.heldout!r} not in ('', 'dev', 'test')")
         for q in self.questions:
             if q.type not in TYPES:
                 problems.append(f"{q.id}: type {q.type!r} not in {TYPES}")
@@ -171,6 +178,8 @@ class Domain:
         for f in self.facts:
             if not f.phrases:
                 problems.append(f"fact {f.name}: no phrases")
+            if f.kind == "int" and isinstance(f.p, (list, tuple)) and len(f.p) != f.values[1] - f.values[0] + 1:
+                problems.append(f"fact {f.name}: {len(f.p)} weights for {f.values[1] - f.values[0] + 1} values")
         if problems:
             return {"ok": False, "problems": problems, "stats": stats}
 

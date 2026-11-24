@@ -8,6 +8,7 @@ Checks, for every domain in general/domains/:
   * every label is one of the shown option keys, and recomputing it from the facts under the example's rule agrees
   * counterfactual partners share record, wording and options, state different rules and have different labels
   * score options keep their order; the Jev request and both encoder inputs are well formed
+  * held-out domains (dev-unseen, test-unseen) never reach train / val / test, and render with all their wording
   * the NIM client serves cached responses without a key and refuses uncached ones
 """
 
@@ -18,7 +19,8 @@ import sys
 import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from general import compose, contract  # noqa: E402
+from general import compose, contract, render  # noqa: E402
+from general.build import plan_splits  # noqa: E402
 from general.domains import DOMAINS  # noqa: E402
 from general.nim import NIMClient  # noqa: E402
 
@@ -64,6 +66,26 @@ for name, dom in DOMAINS.items():
         wx, wy = (e["question"]["instructions"].split("\nRules: ")[0] for e in (x, y))
         assert wx == wy and x["rule"] != y["rule"] and x["label"] != y["label"], pid
     print(f"{name:16s} ok: {len(rows)} examples, {len(pairs)} counterfactual pairs")
+
+# held-out domains: only in their own unseen split; training domains: never there
+plan = plan_splits(list(DOMAINS.values()), 100, 50)
+held = {n for n, d in DOMAINS.items() if d.heldout}
+assert held, "no held-out domains"
+for split, items in plan.items():
+    names = {d.name for d, _ in items}
+    if split in ("train", "val", "test"):
+        assert not names & held, (split, names & held)
+    else:
+        assert names <= held and all(d.heldout == split.split("_")[0] for d, _ in items), split
+assert {d.heldout for d in DOMAINS.values()} == {"", "dev", "test"}, "need training, dev-unseen and test-unseen domains"
+for name in sorted(held):
+    dom = DOMAINS[name]
+    rows = compose.build_domain(dom, 60, f"{dom.heldout}_unseen", seed=1)
+    assert all(e["split"] == f"{dom.heldout}_unseen" for e in rows)
+    assert "call_notes" in {e["format"] for e in rows}, f"{name}: unseen splits use every format"
+
+assert render.singular("1 users are affected, open 1 days") == "1 user is affected, open 1 day"
+assert render.singular("21 days, 1.5 days, $1,200 claims") == "21 days, 1.5 days, $1,200 claims"
 
 # generated wording is balanced across the values of a yes / no fact, so new phrasing never signals the answer
 import copy  # noqa: E402

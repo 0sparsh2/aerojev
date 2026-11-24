@@ -1,7 +1,7 @@
 """Domain specs (general/spec.py). Each module defines DOMAIN; this registry finds them all.
 
-The pilot needs 15 training domains and 5 held-out ones (docs/GENERAL_DECISION_PLAN.md, section 6.4). The aerospace
-domain is never used for training: it is a held-out test domain through its own data (data/processed_v2).
+The pilot has 15 training domains, 3 dev-unseen and 4 test-unseen ones (Domain.heldout; docs/GENERAL_DECISION_PLAN.md,
+section 6.4). Aerospace is the fifth test-unseen domain, scored on its own data (data/processed_v2) and never trained on.
 """
 
 import importlib

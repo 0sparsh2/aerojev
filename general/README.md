@@ -17,9 +17,58 @@ small decision models that take **any record, any question and any options**, wi
 
 ```bash
 python -m general.build --check-only                         # validate every domain spec
-python -m general.build --records 600 --out /tmp/general-dry # template-only build plus all checks (~2 s)
+python -m general.build --records 600 --out /tmp/general-dry # template-only build plus all checks (~3 s)
 python tests/test_general_data.py                            # reproducibility, labels, pairs, contract, NIM cache
 ```
+
+## Domains
+
+22 domains, all fictional:
+* **15 training domains** fill `train`, `val` and `test`.
+* **3 dev-unseen domains** fill `dev_unseen`. They are for choices made during the project.
+* **4 test-unseen domains** fill `test_unseen`. They are scored once, at the end.
+
+Aerospace is the fifth test-unseen domain and is scored on its own data. Held-out domains (`Domain.heldout`) never
+reach a training file. They use all of their wording and every format, call notes included.
+
+| Domain | Split | Setting | Facts | Questions (type) | Rule variants |
+|---|---|---|---|---|---|
+| `ap_invoice` | training | Accounts payable invoice exceptions | 6 | action (choice), variance_band (score), fraud_review (noul), needs_approval (noul) | 4 |
+| `appointment_booking` | training | Outpatient clinic appointment booking | 6 | booking (choice), slot_length (score), reminder_call (noul) | 2 |
+| `cloud_cost` | training | Cloud spend anomaly alerts | 6 | action (choice), severity (score), finance_review (noul) | 3 |
+| `content_moderation` | training | Community content moderation queue | 6 | action (choice), severity (score), notify_lead (noul) | 3 |
+| `expense_report` | training | Employee expense claims | 6 | decision (choice), audit (noul) | 2 |
+| `hr_leave` | training | Employee leave requests | 7 | decision (choice), second_signoff (noul), staffing_risk (score) | 3 |
+| `insurance_claim` | training | Auto insurance claim intake and triage | 7 | route (choice), severity (score), siu_referral (noul) | 2 |
+| `it_incident` | training | IT service desk incident triage | 7 | priority (score), route_to (choice), sla_breached (noul), notify_ciso (noul) | 3 |
+| `kyc_onboarding` | training | Know-your-customer review at account opening | 7 | decision (choice), risk_rating (score), senior_signoff (noul) | 2 |
+| `loan_application` | training | Personal loan application pre-screening | 7 | decision (choice), risk_tier (score), verify_income (noul) | 3 |
+| `maintenance_request` | training | Building maintenance work orders | 6 | priority (score), trade (choice), root_cause_review (noul) | 2 |
+| `purchase_request` | training | Internal purchase requests | 6 | approver (score), next_step (choice), competitive_bid (noul) | 3 |
+| `retail_returns` | training | Retail return and refund requests | 6 | resolution (choice), abuse_flag (noul), handling_priority (score) | 2 |
+| `shipment_exception` | training | Parcel delivery exceptions | 6 | action (choice), compensation (score), carrier_claim (noul) | 3 |
+| `subscription_retention` | training | Subscription cancellation requests | 6 | offer (choice), churn_risk (score), csm_alert (noul) | 3 |
+| `coursework_extension` | dev-unseen | University coursework extension requests | 6 | decision (choice), notify_tutor (noul) | 2 |
+| `hotel_front_desk` | dev-unseen | Hotel check-in and room assignment | 6 | room_action (choice), compensation (score), manager_welcome (noul) | 2 |
+| `power_outage` | dev-unseen | Electric utility outage dispatch | 7 | priority (score), dispatch (choice), regulator_report (noul) | 2 |
+| `food_inspection` | test-unseen | Food safety inspections | 7 | outcome (choice), risk_band (score), warning_letter (noul) | 3 |
+| `grant_screening` | test-unseen | Charitable grant application screening | 7 | decision (choice), review_level (score), site_visit (noul) | 3 |
+| `pharmacy_refill` | test-unseen | Pharmacy refill requests | 6 | action (choice), counselling (noul) | 2 |
+| `release_gate` | test-unseen | Software release go / no-go | 7 | decision (choice), blast_radius (score), notify_support (noul) | 2 |
+
+**What the rules exercise:**
+* **Threshold ladders:** approval limits, severity bands, priorities.
+* **Ordered "otherwise" chains,** where the first matching condition wins.
+* **Comparisons between two facts:** days requested against the balance; a grant request against the budget.
+* **Lookups:** a trade by fault type; the earliest refill day by supply length.
+* **Rules that read another question's answer:** dispatch uses the outage priority; compensation uses the room
+  decision.
+
+Each question reads only some of a record's facts, and three domains add facts no rule reads at all: a loan's
+purpose, an after-hours flag and a venue type. A model has to pick out the facts that matter.
+
+**Variants change the policy** in different ways: a threshold, an extra condition, a removed branch, or a level bump
+for one group. Each variant changes 6–50% of labels.
 
 ## Generated wording (NIM)
 
@@ -103,6 +152,8 @@ Copy a module in `domains/` and keep the three-step order: **facts → rules →
    * a phrase is missing.
 4. **Build and look.** Build a few hundred records, then read a sample of each format. Check `stats.json`: no
    `facts_missing_from_text`, and no `shortcut` flags.
+5. **Held-out domains** set `heldout="dev"` or `heldout="test"`. Write them for settings unlike any training domain,
+   so they test transfer rather than recall.
 
 All names in specs are fictional. Do not put confidential data in specs or prompts: generated wording goes through
 NIM, whose trial terms let NVIDIA use prompts.
@@ -112,13 +163,12 @@ NIM, whose trial terms let NVIDIA use prompts.
 Built:
 * the spec format, renderer, composer, input contract and build checks;
 * the NIM client, and the NIM bank generator with rule checks and a judge;
-* 3 of the pilot's 20 domains: `it_incident`, `ap_invoice`, `retail_returns`;
+* all 22 pilot domains (table above): 15 training, 3 dev-unseen and 4 test-unseen;
 * tests.
 
 Next, in plan order:
-1. 12 more training domains and 5 held-out ones.
-2. Done: banks and prose for 3 domains (runs above).
-3. Loaders for the reused Jev benchmarks: system-one-benchmark and elcronos.
-4. A public-dataset converter.
-5. Checkpoint and resume in `train/train_encoder.py`.
-6. Confirm the Jev Decision Index submission rules.
+1. Generate wording and prose for all 22 domains on Kaggle. The 3 first domains are done (runs above).
+2. Loaders for the reused Jev benchmarks: system-one-benchmark and elcronos.
+3. A public-dataset converter.
+4. Checkpoint and resume in `train/train_encoder.py`.
+5. Confirm the Jev Decision Index submission rules.

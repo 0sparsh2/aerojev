@@ -4,7 +4,9 @@
   python -m general.build --records 300 --out /tmp/general-dry  # dry run: template-only data for every domain
   python -m general.build --domains it_incident,ap_invoice --records 2000 --out data/general/v0
 
-Writes <out>/<split>.jsonl (train / val / test; one example per line, general/compose.py) and <out>/stats.json:
+Writes <out>/<split>.jsonl (one example per line, general/compose.py) and <out>/stats.json. Training domains fill
+train / val / test (80 / 10 / 10 of --records); a held-out domain (Domain.heldout) fills only dev_unseen or
+test_unseen (--unseen-records), so nothing from it reaches training. stats.json:
   spec      Domain.validate() for each domain (the build stops if any spec has problems, unless --force)
   labels    label shares per domain, question and rule
   pairs     counterfactual pairs per split
@@ -12,34 +14,40 @@ Writes <out>/<split>.jsonl (train / val / test; one example per line, general/co
   shortcut  per domain and question, bag-of-words logistic regression from the record text alone (default rule,
             rule not stated). Near-perfect accuracy means the label leaks through wording rather than the facts,
             and that question needs more varied phrasing.
-  leakage   share of test 8-grams that also occur in train text
+  leakage   share of test (and unseen) 8-grams that also occur in train text
 """
 
 import argparse
 import json
 import os
 import random
-import re
 from collections import Counter, defaultdict
 
 from . import compose
 from .domains import DOMAINS
+from .render import number_in_text
 
 SPLITS = {"train": 0.8, "val": 0.1, "test": 0.1}
+UNSEEN = ("dev_unseen", "test_unseen")
+
+
+def plan_splits(doms, records, unseen_records):
+    """-> {split: [(domain, number of records)]}, only splits that get records."""
+    out = {s: [] for s in (*SPLITS, *UNSEEN)}
+    for d in doms:
+        if d.heldout:
+            out[f"{d.heldout}_unseen"].append((d, unseen_records))
+        else:
+            for s, frac in SPLITS.items():
+                out[s].append((d, max(1, round(records * frac))))
+    return {s: v for s, v in out.items() if v}
 
 
 def numbers_present(e, dom):
     """Every int / float fact a label needs is written somewhere in the text (digits, ignoring separators)."""
-    text = re.sub(r"[,$%]", "", e["state"])
     needs = next(q for q in dom.questions if q.id == e["question"]["id"]).needs
-    missing = []
-    for n in needs:
-        f = dom.fact(n)
-        if f.kind in ("int", "float"):
-            s = f.text(e["facts"][n])
-            if re.sub(r"[,$%]", "", s) not in text:
-                missing.append(n)
-    return missing
+    return [n for n in needs if dom.fact(n).kind in ("int", "float")
+            and not number_in_text(dom.fact(n).text(e["facts"][n]), e["state"])]
 
 
 def ngrams(text, n=8):
@@ -84,7 +92,8 @@ def _canon(e):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--domains", default="all", help="comma-separated names, or all")
-    ap.add_argument("--records", type=int, default=300, help="records per domain (split 80/10/10)")
+    ap.add_argument("--records", type=int, default=300, help="records per training domain (split 80/10/10)")
+    ap.add_argument("--unseen-records", type=int, default=300, help="records per held-out domain")
     ap.add_argument("--out", help="output directory")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--p-rules", type=float, default=0.5, help="P(default rule stated in the instructions)")
@@ -118,11 +127,10 @@ def main():
 
     os.makedirs(args.out, exist_ok=True)
     data = {}
-    for split, frac in SPLITS.items():
+    for split, plan in plan_splits(doms, args.records, args.unseen_records).items():
         rows = []
-        for d in doms:
-            rows += compose.build_domain(d, max(1, round(args.records * frac)), split, args.seed,
-                                         p_rules=args.p_rules, p_pair=args.p_pair)
+        for d, n in plan:
+            rows += compose.build_domain(d, n, split, args.seed, p_rules=args.p_rules, p_pair=args.p_pair)
             path = os.path.join(args.prose or "", f"{d.name}.{split}.jsonl")
             if args.prose and os.path.exists(path):
                 rng = random.Random(f"prose|{d.name}|{split}|{args.seed}")
@@ -136,6 +144,8 @@ def main():
             for e in rows:
                 f.write(json.dumps(e, ensure_ascii=False) + "\n")
 
+    data.setdefault("train", [])
+    data.setdefault("test", [])
     labels = defaultdict(Counter)
     for e in data["train"]:
         labels[f"{e['domain']}/{e['question']['id']}/{e['rule']}"][_canon(e)] += 1
@@ -145,15 +155,17 @@ def main():
     stats["formats"] = {s: dict(Counter(e["format"] for e in r if e["id"].endswith(":0"))) for s, r in data.items()}
     miss = Counter(n for r in data.values() for e in r for n in numbers_present(e, DOMAINS[e["domain"]]))
     stats["facts_missing_from_text"] = dict(miss)
-    train_ng = set().union(*(ngrams(e["state"]) for e in data["train"] if e["id"].endswith(":0")))
-    test_ng = [ngrams(e["state"]) for e in data["test"] if e["id"].endswith(":0")]
-    stats["leakage_test_8gram_overlap"] = round(sum(len(g & train_ng) for g in test_ng) /
-                                                max(1, sum(len(g) for g in test_ng)), 3)
+    train_ng = set().union(set(), *(ngrams(e["state"]) for e in data["train"] if e["id"].endswith(":0")))
+    for split in ("test", *UNSEEN):
+        if data.get(split):
+            grams = [ngrams(e["state"]) for e in data[split] if e["id"].endswith(":0")]
+            stats[f"leakage_{split}_8gram_overlap"] = round(sum(len(g & train_ng) for g in grams) /
+                                                            max(1, sum(len(g) for g in grams)), 3)
     stats["shortcut"] = shortcut_check(data["train"], data["test"])
     json.dump(stats, open(os.path.join(args.out, "stats.json"), "w"), indent=1)
 
-    print(f"examples {stats['examples']}  pairs {stats['pairs']}  test 8-gram overlap "
-          f"{stats['leakage_test_8gram_overlap']}")
+    overlap = {k[len("leakage_"):-len("_8gram_overlap")]: v for k, v in stats.items() if k.startswith("leakage_")}
+    print(f"examples {stats['examples']}  pairs {stats['pairs']}  8-gram overlap with train {overlap}")
     print(f"numbers missing from text: {stats['facts_missing_from_text'] or 'none'}")
     flagged = [k for k, v in stats["shortcut"].items() if isinstance(v, dict) and v.get("flag")]
     print(f"shortcut flags: {flagged or 'none'}")

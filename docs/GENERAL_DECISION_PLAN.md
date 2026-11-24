@@ -1,6 +1,6 @@
 # General decision models: research and plan
 
-Status (2026-11-20): **Phase 0 started** (`general/`, see `general/README.md`).
+Status (2026-11-24): **Phase 0 under way** (`general/`, see `general/README.md`).
 
 **Built and dry-run on CPU:**
 * the domain-spec format with validation;
@@ -9,9 +9,9 @@ Status (2026-11-20): **Phase 0 started** (`general/`, see `general/README.md`).
 * the Jev / arm A / arm B input contract;
 * build checks (facts present in text, shortcut check, 8-gram leakage);
 * the NIM client with a cache;
-* 3 of the 20 pilot domains.
+* all 22 pilot domains: 15 training, 3 dev-unseen and 4 test-unseen. Aerospace is the fifth test-unseen domain.
 
-A 600-record-per-domain build takes about 2 s and passes every check (`tests/test_general_data.py`).
+A 600-record build of every domain takes about 3 s and passes every check (`tests/test_general_data.py`).
 
 **First generation on Kaggle (2026-11-21, 3 domains, Nemotron 3.5 Lightning):**
 * **Data:** 736 new wordings, 701 fact-checked prose records, and 26,100 examples with 1,535 counterfactual pairs.
@@ -224,7 +224,7 @@ Labels come from facts, never from text, and every fact a label needs must appea
     are dropped.
 * **Throughput:** the free tier is reported (not officially) at about 40 requests a minute per key. That is about
   57k requests a day, enough for the pilot (about 2k bank requests and 3k prose requests) in a few hours.
-* **Domain specs:** written by hand for the pilot (15 + 5 domains). For phase 2, drafted as code through NIM, then
+* **Domain specs:** written by hand for the pilot (15 training + 7 held-out domains). For phase 2, drafted as code through NIM, then
   checked automatically: every option reachable, labels balanced, a fixed seed reproduces the labels, every fact
   rendered. A sample is reviewed by hand.
 
@@ -349,7 +349,7 @@ the Mac.
 
 | Phase | What | GPU h | Ends with |
 |---|---|---|---|
-| 0. Groundwork | spec format and renderer; 15 + 5 pilot specs; public-mix converter; reused-benchmark loaders (verify prompts and samples); NIM client with caching; checkpoint resume; confirm Decision Index submission rules | 0 | dry run on CPU |
+| 0. Groundwork | spec format and renderer; 15 + 7 pilot specs; public-mix converter; reused-benchmark loaders (verify prompts and samples); NIM client with caching; checkpoint resume; confirm Decision Index submission rules | 0 | dry run on CPU |
 | 1. Pilot | generate pilot data (NIM trial = evaluation); train both arms on both backbones plus controls; tiers A and C, plus B on dev-unseen | 10-15 | **Gate 1** |
 | 2. Scale | regenerate under a production-licensed endpoint; 40-60 domains; packing (option F) if worthwhile; winning arm × 2 backbones × 2 seeds | 25-30 | tiers A-C final; Index submission (tier D) |
 | 3. Adaptation | label-budget curves on aerospace and two other domains | 3-5 | labels needed to reach Jev and our specialised model |

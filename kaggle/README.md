@@ -149,4 +149,4 @@ and the distillation teachers' logits over the training set (regenerable).
     `setup.log` shows each name as loaded or not readable; values are never logged.
   * **Code reads them through `general.nim.secret(name)`.** It tries the environment, then the Kaggle Secret, then
     the local `.env`. `.env` is git-ignored, and the bundle holds only `aerojev/`, `eval/`, `train/`, `data/`,
-  `notebooks/` and `scripts/`.
+  `notebooks/`, `scripts/`, `general/` and `tests/`.

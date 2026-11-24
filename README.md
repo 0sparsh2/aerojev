@@ -571,8 +571,12 @@ Jev on domains it never saw. The plan is in
 * a go/no-go gate after the pilot.
 
 **Phase 0 has started.** The data tooling lives in [`general/`](general/README.md): domain specs with rule
-variants, a renderer, counterfactual pairs, the Jev-format input contract, build checks and a NIM client. Three of
-the twenty pilot domains are written, and the whole pipeline dry-runs on a CPU in seconds.
+variants, a renderer, counterfactual pairs, the Jev-format input contract, build checks and a NIM client. All 22
+pilot domains are written:
+* 15 for training;
+* 3 dev-unseen and 4 test-unseen, which are never trained on.
+
+The whole pipeline dry-runs on a CPU in seconds.
 
 ## 15. Limitations
 

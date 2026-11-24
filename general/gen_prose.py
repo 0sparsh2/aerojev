@@ -12,6 +12,7 @@ the generator, with free structure. For each record:
              answers every yes / no and categorical fact, plus whether the record states a decision or outcome.
              Any mismatch, "not stated" or stated decision drops the record.
 Writes <out>/<domain>.<split>.jsonl ({"facts", "state", "format"} per kept record) and <out>/report.json.
+A held-out domain (Domain.heldout) gets one split, dev_unseen or test_unseen, with twice the test count.
 """
 
 import argparse
@@ -24,6 +25,7 @@ from concurrent.futures import ThreadPoolExecutor
 from .domains import DOMAINS
 from .gen_banks import parse_list, thinking_off
 from .nim import NIMClient
+from .render import number_in_text
 
 FORMATS = {
     "email": "an email between colleagues, with a subject line, greeting and sign-off",
@@ -49,9 +51,16 @@ def write_prompt(dom, facts, fmt):
 
 
 def numbers_ok(dom, facts, text):
-    plain = re.sub(r"[,$%]", "", text)
+    """-> the int / float facts whose number is not written in the text."""
     return [f.name for f in dom.facts if f.kind in ("int", "float")
-            and re.sub(r"[,$%]", "", f.text(facts[f.name])) not in plain]
+            and not number_in_text(f.text(facts[f.name]), text)]
+
+
+def norm(answer):
+    """Judge answers are compared without case, quotes, end punctuation or a leading article
+    ("Environment." matches "the environment")."""
+    a = re.sub(r"^[\s\"']+|[\s\"'.]+$", "", str(answer).lower())
+    return re.sub(r"^(the|a|an) ", "", a)
 
 
 def judge_prompt(dom, text):
@@ -74,7 +83,7 @@ def judge_prompt(dom, text):
 def one(nim, judge_nim, dom, split, i, seed):
     rng = random.Random(f"prose|{dom.name}|{split}|{seed}|{i}")
     facts = dom.sample(rng)
-    fmts = [f for f in FORMATS if f not in TEST_ONLY or split == "test"]
+    fmts = [f for f in FORMATS if f not in TEST_ONLY or split == "test" or split.endswith("_unseen")]
     fmt = rng.choice(fmts)
     try:
         text = nim.chat([{"role": "user", "content": write_prompt(dom, facts, fmt)}], temperature=0.9,
@@ -93,11 +102,11 @@ def one(nim, judge_nim, dom, split, i, seed):
     if len(ans) != len(keys) + 1:
         return None, "judge unaligned"
     for k, a in zip(keys, ans):
-        f, a = dom.fact(k), str(a).strip().lower()
-        want = ("yes" if facts[k] else "no") if f.kind == "bool" else f.text(facts[k]).lower()
+        f, a = dom.fact(k), norm(a)
+        want = ("yes" if facts[k] else "no") if f.kind == "bool" else norm(f.text(facts[k]))
         if a != want:
             return None, "fact mismatch" if a != "not stated" else "fact not stated"
-    if str(ans[-1]).strip().lower() != "no":
+    if norm(ans[-1]) != "no":
         return None, "states a decision"
     return {"facts": facts, "state": text, "format": fmt}, "kept"
 
@@ -122,7 +131,8 @@ def main():
     report = {"model": args.model, "judge": args.judge_model or args.model, "domains": {}}
     for name in names:
         dom = DOMAINS[name]
-        for split, n in plan.items():
+        splits = {f"{dom.heldout}_unseen": 2 * plan.get("test", 25)} if dom.heldout else plan
+        for split, n in splits.items():
             with ThreadPoolExecutor(args.workers) as ex:
                 res = list(ex.map(lambda i: one(nim, judge_nim, dom, split, i, args.seed), range(n)))
             kept = [r for r, _ in res if r]

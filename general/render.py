@@ -2,7 +2,8 @@
 
 Same split discipline as data/gen/render.py (its Bank is reused): every phrase list is split by a stable hash of the
 template index, so about a quarter of each list's wording appears only in test, and the call_notes format is
-test-only. Every fact a question needs is stated; other facts are stated with probability 0.6. About a third of
+test-only. Held-out domains (Domain.heldout) are rendered into the splits dev_unseen / test_unseen with all of their
+wording and every format, since the whole domain is unseen. Every fact a question needs is stated; other facts are stated with probability 0.6. About a third of
 records get a distractor sentence and a few percent a prompt-injection line (labels unchanged).
 
 Templates are Python format strings. Slots: {v} (the fact's value), any entity ({org}, {person}, ...), any fact by
@@ -11,11 +12,13 @@ name (its text), and any value from Domain.derived. A missing slot raises KeyErr
 
 import json
 import random
+import re
 
 from data.gen.render import Bank
 
 FORMATS_TRAIN = ["email", "ticket", "chat", "log", "form", "report"]
 FORMATS_TEST = FORMATS_TRAIN + ["call_notes"]
+UNSEEN = ("dev_unseen", "test_unseen")  # the splits of held-out domains
 
 GREETINGS = ["Hi {first},", "Hello {first},", "Dear {first},", "{first},", "Good morning {first},", "Hi team,"]
 SIGNOFFS = ["Thanks,", "Regards,", "Best,", "Thank you,", "Cheers,", "Kind regards,"]
@@ -36,6 +39,44 @@ INJECTIONS = [
 ]
 
 
+class AllWording:
+    """Held-out domains: no wording is reserved, because no record of the domain is ever trained on."""
+
+    def pick(self, rng, name, items):
+        return rng.choice(list(items))
+
+
+def bank_for(split):
+    return AllWording() if split in UNSEEN else Bank(split)
+
+
+SINGULAR = {
+    "days": "day", "hours": "hour", "hrs": "hr", "weeks": "week", "months": "month", "years": "year", "yrs": "yr",
+    "nights": "night", "times": "time", "people": "person", "users": "user", "customers": "customer",
+    "occupants": "occupant", "services": "service", "svcs": "svc", "crews": "crew", "refills": "refill",
+    "quotes": "quote", "bids": "bid", "claims": "claim", "tickets": "ticket", "strikes": "strike", "reports": "report",
+    "flags": "flag", "returns": "return", "items": "item", "extensions": "extension", "violations": "violation",
+    "issues": "issue", "breaches": "breach", "bugs": "bug", "criticals": "critical", "minors": "minor",
+    "meters": "meter", "fills": "fill", "supplies": "supply", "appointments": "appointment", "appts": "appt",
+    "no-shows": "no-show", "things": "thing",
+}
+VERB = {"are": "is", "were": "was", "have": "has"}
+_ONE = re.compile(r"\b1 ((?:[A-Za-z-]+ ){0,2}?)(" + "|".join(map(re.escape, SINGULAR)) + r")\b(?: (are|were|have)\b)?")
+
+
+def singular(text):
+    """Templates are written for plural values: "1 days ago" -> "1 day ago", "1 users are" -> "1 user is"."""
+    return _ONE.sub(lambda m: f"1 {m.group(1)}{SINGULAR[m.group(2)]}" + (f" {VERB[m.group(3)]}" if m.group(3) else ""),
+                    text)
+
+
+def number_in_text(value_text, text):
+    """Is the number in a fact's value text ("$1,461.14", "9.9 °C", "42%") written in text? Digits only, ignoring
+    thousands separators, units and symbols; "26" does not match inside "2026"."""
+    num = re.sub(r"[^\d.]", "", value_text).strip(".")
+    return bool(num) and re.search(r"(?<![\d.])" + re.escape(num) + r"(?!\.?\d)", text.replace(",", "")) is not None
+
+
 def _ctx(dom, facts):
     ctx = dict(facts["_entities"])
     ctx.update({f.name: f.text(facts[f.name]) for f in dom.facts})
@@ -48,7 +89,7 @@ def fact_sentence(rng, bank, dom, fact, facts, informal):
     v = facts[fact.name]
     key = v if fact.kind in ("bool", "cat") else "n"
     tpl = bank.pick(rng, f"{dom.name}:{fact.name}:{key}:{int(informal)}", fact.templates(v, informal))
-    return tpl.format_map({**_ctx(dom, facts), "v": fact.text(v)})
+    return singular(tpl.format_map({**_ctx(dom, facts), "v": fact.text(v)}))
 
 
 def body_parts(rng, bank, dom, facts, needed, informal):
@@ -79,9 +120,9 @@ def _end(s):
 
 def render(rng, dom, facts, needed, split, fmt=None):
     """-> (text, format, stated fact names, injected?)"""
-    bank = Bank(split)
+    bank = bank_for(split)
     allowed = [f for f in FORMATS_TRAIN if not dom.formats or f in dom.formats]
-    if split == "test" and rng.random() < 0.2:
+    if split in UNSEEN or (split == "test" and rng.random() < 0.2):
         allowed = allowed + ["call_notes"]  # the test-only format
     fmt = fmt or rng.choice(allowed)
     informal = fmt in ("chat", "call_notes") or (fmt == "email" and rng.random() < 0.3)
@@ -125,5 +166,5 @@ def render(rng, dom, facts, needed, split, fmt=None):
 def ask(rng, q, split):
     """The question wording: the canonical text or a paraphrase (paraphrases are hash-split like phrases)."""
     if q.paraphrases and rng.random() < 0.5:
-        return Bank(split).pick(rng, f"q:{q.id}", list(q.paraphrases))
+        return bank_for(split).pick(rng, f"q:{q.id}", list(q.paraphrases))
     return q.text
