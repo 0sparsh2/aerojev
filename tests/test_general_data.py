@@ -9,6 +9,7 @@ Checks, for every domain in general/domains/:
   * counterfactual partners share record, wording and options, state different rules and have different labels
   * score options keep their order; the Jev request and both encoder inputs are well formed
   * held-out domains (dev-unseen, test-unseen) never reach train / val / test, and render with all their wording
+  * reused-benchmark questions and scoring (general/benchmarks.py, offline parts)
   * the NIM client serves cached responses without a key and refuses uncached ones
 """
 
@@ -86,6 +87,17 @@ for name in sorted(held):
 
 assert render.singular("1 users are affected, open 1 days") == "1 user is affected, open 1 day"
 assert render.singular("21 days, 1.5 days, $1,200 claims") == "21 days, 1.5 days, $1,200 claims"
+
+# reused benchmarks (general/benchmarks.py): offline parts only; `python -m general.benchmarks --check` covers the
+# downloads and reproduces every published accuracy
+from general import benchmarks  # noqa: E402
+instr, opts = benchmarks.s1_question("banking77", ["card_arrival", "lost_or_stolen_card"])
+assert instr.startswith("Which banking") and opts == [("card_arrival", "card arrival"),
+                                                       ("lost_or_stolen_card", "lost or stolen card")]
+toy = [benchmarks.example("x/y", i, "t", "q?", [("a", ""), ("b", "")], g, {}) for i, g in enumerate("aabb")]
+s = benchmarks.score(toy, {"x/y:0": ("a", 0.9), "x/y:1": ("b", 0.6), "x/y:2": ("b", 0.8)})  # x/y:3 unanswered
+assert s["accuracy"] == 0.5 and s["n"] == 4, s
+assert contract.letters(toy[0]).split("\n")[1] == "A) a", "an option without a description shows its key only"
 
 # generated wording is balanced across the values of a yes / no fact, so new phrasing never signals the answer
 import copy  # noqa: E402

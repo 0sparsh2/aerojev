@@ -19,6 +19,7 @@ kaggle/dataset/*.tar.gz
 # NIM-generated text (banks, prose) must not be committed: this repo is public and the NIM trial terms forbid
 # distributing generated content. It stays in the private Kaggle kernel output (aerojev-general-gen).
 data/general/
+data/bench/
 general/banks/
 general/prose/
 **/nim_cache.jsonl

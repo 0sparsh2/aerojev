@@ -24,6 +24,9 @@ A 600-record build of every domain takes about 3 s and passes every check (`test
 * **Checks:** every one passes.
 * **How it ran:** the NIM calls ran from the Mac with the `.env` key, the text went to a private Kaggle dataset, and
   the keyless build ran on Kaggle.
+
+**Tier C loaders (2026-11-25):** `general/benchmarks.py` rebuilds all 16 reused tasks (system-one-benchmark and
+elcronos). It reproduces every published accuracy to 4 decimals, so the rows, labels and scoring code match.
 * **Where it is kept:** generated text stays in the private kernel output. The repository is public, and the trial
   terms forbid distributing generated content.
 

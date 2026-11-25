@@ -461,7 +461,8 @@ def bundle():
     with tarfile.open(path, "w:gz") as t:
         for d in ["aerojev", "eval", "train", "data", "notebooks", "scripts", "general", "tests"]:
             t.add(os.path.join(ROOT, d), arcname=d,
-                  filter=lambda ti: None if "__pycache__" in ti.name or "data/general" in ti.name else ti)
+                  filter=lambda ti: None if "__pycache__" in ti.name or "data/general" in ti.name
+                  or "data/bench" in ti.name else ti)
     json.dump({"title": "aerojev-bundle", "id": DATASET, "licenses": [{"name": "CC0-1.0"}]},
               open(os.path.join(ROOT, "kaggle/dataset/dataset-metadata.json"), "w"), indent=1)
     print(f"bundle -> {path} ({os.path.getsize(path) / 1e6:.1f} MB)")

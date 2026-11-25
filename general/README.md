@@ -13,6 +13,7 @@ small decision models that take **any record, any question and any options**, wi
 | `nim.py` | NVIDIA NIM client (OpenAI-compatible) with a response cache, pacing and retries; keys via `secret()`: environment, Kaggle Secret, or the git-ignored `.env` |
 | `gen_banks.py` | grows every domain's wording through NIM: generate → rule checks → a judge call per bank; `build.py --banks` uses the result |
 | `gen_prose.py` | whole records written by the model from a fact sheet, kept only if every number appears verbatim, a judge reads every other fact back correctly, and no decision is stated; `build.py --prose` adds them |
+| `benchmarks.py` | tier C: loaders for the two public benchmarks that publish Jev's answers (system-one-benchmark, elcronos), the same rows and question wording, every published system's answer per row, and one scoring function for all systems |
 | `domains/` | one module per domain; `DOMAINS` finds them all |
 
 ```bash
@@ -164,6 +165,62 @@ python -m general.gen_banks --domains all --n 12 --out banks/            # needs
 python -m general.build --banks banks/ --records 2000 --out data/
 ```
 
+## Reused benchmarks (tier C)
+
+`general/benchmarks.py` loads two public benchmarks that already publish Jev 1.13's answer on every row, so we
+compare against Jev without new Jev calls.
+
+```bash
+python -m general.benchmarks --check                  # rebuild all 16 tasks, recompute every published accuracy
+python -m general.benchmarks --out data/bench/tasks   # write the tasks as examples for the eval jobs
+```
+
+**Sources**, each pinned to a commit and fetched at run time into `data/bench/`, which is git-ignored and left out of
+the Kaggle bundle:
+* **[system-one-benchmark](https://github.com/yanng981/system-one-benchmark)** (MIT). Fixed samples drawn with seed
+  42: SST-2, TREC and Banking77 (300 each), and MASSIVE (the same 150 utterances in 8 languages).
+* **[jev-vs-open-decision-models](https://github.com/elcronos/jev-vs-open-decision-models)** (elcronos). It has no
+  licence file, so its files are read at run time and never copied into this repository. It covers the full
+  evaluation splits of four datasets; emotion comes in two variants, bare labels and labels with definitions.
+
+**What each task gives:**
+* **Examples** in the same format as the generated data, so every system reads them through `contract.py`.
+* **Questions** rebuilt exactly as each benchmark asked them: instruction, option keys, descriptions and order.
+* **`refs`:** every published system's answer on each row.
+
+**Verification.** `--check` recomputes each published system's accuracy from its per-row answers. It reproduces all
+of them (Jev, Kev, Von, Laya, GLiNER, PrismNLI) to 4 decimals, and elcronos's published macro-F1 as well. So the
+rows, labels and our scoring code match the benchmarks'.
+
+| Task | Rows | Options | Jev 1.13 accuracy | Jev 1.13 macro-F1 | Best open model (accuracy) |
+|---|---|---|---|---|---|
+| `s1/sst2` | 300 | 2 | 0.963 | 0.963 | Von 1.2 0.940 |
+| `s1/trec` | 300 | 6 | 0.927 | 0.916 | Kev-0.8B 0.953 * |
+| `s1/banking77` | 300 | 77 | 0.813 | 0.783 | Kev-0.8B 0.823 * |
+| `s1/massive_en` | 150 | 18 | 0.913 | 0.917 | GLiNER2.5-Decide 0.773 |
+| `s1/massive_zh-CN` | 150 | 18 | 0.873 | 0.878 | Kev-0.8B 0.767 |
+| `s1/massive_ja` | 150 | 18 | 0.907 | 0.908 | Kev-0.8B 0.753 |
+| `s1/massive_ko` | 150 | 18 | 0.860 | 0.866 | Kev-0.8B 0.693 |
+| `s1/massive_es` | 150 | 18 | 0.867 | 0.866 | GLiNER2.5-Decide 0.653 |
+| `s1/massive_de` | 150 | 18 | 0.907 | 0.911 | Kev-0.8B 0.707 |
+| `s1/massive_ar` | 150 | 18 | 0.807 | 0.731 | Kev-0.8B 0.560 |
+| `s1/massive_hi` | 150 | 18 | 0.887 | 0.887 | Kev-0.8B 0.493 |
+| `el/emotion` | 2,000 | 6 | 0.587 | 0.500 | PrismNLI-0.4B 0.725 * |
+| `el/emotion-defined` | 2,000 | 6 | 0.599 | 0.519 | PrismNLI-0.4B 0.702 * |
+| `el/tweet_topic` | 1,693 | 6 | 0.793 | 0.694 | PrismNLI-0.4B 0.633 |
+| `el/fin_topic` | 4,117 | 20 | 0.670 | 0.630 | PrismNLI-0.4B 0.352 |
+| `el/daily_dialog` | 7,740 | 7 | 0.710 | 0.385 | PrismNLI-0.4B 0.765 |
+
+\* **Not zero-shot,** as the benchmarks themselves report:
+* Kev-0.8B lists TREC, Banking77 and SST-5 (the same sentences as SST-2) as training data.
+* The emotion dataset is in PrismNLI-0.4B's training lineage.
+
+**Limits:**
+* **Arm B handles at most 26 options.** It letters them A–Z, so Banking77's 77 options need grouped passes; arm A
+  has no limit.
+* **The MASSIVE question is in English** for every language, as the benchmark asked it.
+* **These are published Jev 1.13 answers.** A Jev 1.14 spot check (about 300 calls) is optional and not run.
+
 ## Adding a domain
 
 Copy a module in `domains/` and keep the three-step order: **facts → rules → text**. Labels are never read from text.
@@ -199,7 +256,7 @@ Built:
 
 Next, in plan order:
 1. Done: wording and prose for all 22 domains (run 3 above).
-2. Loaders for the reused Jev benchmarks: system-one-benchmark and elcronos.
+2. Done: loaders for the reused Jev benchmarks, system-one-benchmark and elcronos (section above).
 3. A public-dataset converter.
 4. Checkpoint and resume in `train/train_encoder.py`.
 5. Confirm the Jev Decision Index submission rules.

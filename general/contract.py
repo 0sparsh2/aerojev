@@ -30,11 +30,13 @@ def jev_request(examples):
 
 
 def _opt_text(o, qtype=None):
-    """How an option is shown: score levels by description (their keys are just 0..k-1), keys-only options by key,
-    everything else as key: description."""
+    """How an option is shown: score levels by description (their keys are just 0..k-1), keys-only options and
+    options without a description by key, everything else as key: description."""
     if qtype == "score":
         return o["description"]
-    return o["key"] if o["description"] == o["key"].replace("_", " ") else f"{o['key']}: {o['description']}"
+    if not o["description"] or o["description"] == o["key"].replace("_", " "):
+        return o["key"]
+    return f"{o['key']}: {o['description']}"
 
 
 def markers(example, mask_token=None):
