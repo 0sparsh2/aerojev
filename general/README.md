@@ -128,6 +128,37 @@ distributing generated content. It stays in the private kernel output, and later
 
 None of these changes a label, because labels come from the facts.
 
+**Run 3** (2026-11-24, all 22 domains).
+* **Where the calls ran:** on the Mac, with the key from `.env`. A CLI-pushed `general-gen` cannot read Kaggle
+  Secrets, and nobody was at the editor to start it.
+* **Where the text went:** straight to the private dataset `aerojev-general-text`.
+* **Where it was built:** on Kaggle, by the kernel `general-build`, which needs no key.
+
+| | Run 3 |
+|---|---|
+| NIM calls | 9,839: 1,451 for wording, the rest for prose and its re-checks (4 h 19 min, plus 25 min of re-checks) |
+| New wordings kept | 4,767 in 512 banks; 13 banks empty |
+| Prose records kept | 3,454 / 4,100 (84%); 21 domains keep 60-98%, `appointment_booking` 38% |
+| Examples (train / val / test) | 86,700 / 10,798 / 10,865 |
+| Examples (dev-unseen / test-unseen) | 2,887 / 4,076 |
+| Counterfactual pairs (train) | 5,312 |
+| 8-gram overlap with train | test 0.045, dev-unseen 0.006, test-unseen 0.007 |
+| Shortcut flags / needed numbers missing | none / none |
+
+**Run 3 found two prose-check bugs, both fixed:**
+* **Counts written in words were dropped.** "Four competing quotes" or "zero life-support customers" failed the digit
+  check. Now the judge reads small counts back, and the record is kept only if the answer is exact.
+  `purchase_request` went from 101 to 196 kept records.
+* **Some judge answers were read as empty.** Bare numbers (`[1]`) and objects keyed by question number were
+  misparsed.
+
+**Known weaknesses of run 3:**
+* **`appointment_booking` keeps 38% of prose.** The decision check is strict on purpose:
+  * Some drops are real leaks, such as "Scheduling for 9 days out" or "Good to go".
+  * Others are false alarms, such as a subject line reading "Booking appointment".
+* **A few vague wordings passed the judge.** One "no status" hotel line reads "sits at the entry-level of the loyalty
+  scheme", and one maintenance distractor mentions HVAC.
+
 ```bash
 python -m general.gen_banks --domains all --n 12 --out banks/            # needs NVIDIA_API_KEY
 python -m general.build --banks banks/ --records 2000 --out data/
@@ -167,7 +198,7 @@ Built:
 * tests.
 
 Next, in plan order:
-1. Generate wording and prose for all 22 domains on Kaggle. The 3 first domains are done (runs above).
+1. Done: wording and prose for all 22 domains (run 3 above).
 2. Loaders for the reused Jev benchmarks: system-one-benchmark and elcronos.
 3. A public-dataset converter.
 4. Checkpoint and resume in `train/train_encoder.py`.

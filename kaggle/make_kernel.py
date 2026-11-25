@@ -305,6 +305,21 @@ def _general_gen():
     ]}
 
 
+def _general_build():
+    """General decision data built from wording and prose generated elsewhere, mounted from the private dataset
+    aerojev-general-text (banks/ and prose/, each with its report.json). Needs no API key, so a CLI push can run it.
+    Run 3 (2026-11-24) made its NIM calls from the Mac with the local .env key, because a CLI-pushed general-gen
+    cannot read Kaggle Secrets; the text went straight to that private dataset."""
+    find = "$(dirname $(find /kaggle/input -path '*/{d}/report.json' | head -1))"
+    banks, prose = find.format(d="banks"), find.format(d="prose")
+    return {"_gpu": False, "_datasets": [f"{USER}/aerojev-general-text"], "0": [
+        {"kind": "cmd", "cmd": "{PY} tests/test_general_data.py", "required": True},
+        {"kind": "cmd", "cmd": f"{{PY}} -m general.build --banks {banks} --prose {prose} --records 2000 "
+                               f"--out {{OUT}}/data", "required": True},
+        {"kind": "cmd", "cmd": "{PY} -m general.build --records 2000 --out {OUT}/data-nobanks"},
+    ]}
+
+
 KERNELS = {
     # zero-shot logit readout, no training: the JEV-CPU / SemIf setting
     "baselines": {
@@ -426,6 +441,7 @@ KERNELS = {
     "int8fix": _int8_fix(),
     # CPU kernel: general decision data, Phase 0: NIM-grown wording, then pilot-size builds with all checks
     "general-gen": _general_gen(),
+    "general-build": _general_build(),
     "ladder-smoke": _ladder(smoke=True),
     # x86 CPU latency suite (no GPU); inputs are the training kernels' outputs (adapters + GGUFs)
     "cpu-bench": {

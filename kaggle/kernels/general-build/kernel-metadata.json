@@ -1,0 +1,18 @@
+{
+ "id": "sparshnagpal/aerojev-general-build",
+ "title": "aerojev-general-build",
+ "code_file": "aerojev-general-build.py",
+ "language": "python",
+ "kernel_type": "script",
+ "is_private": true,
+ "enable_gpu": false,
+ "enable_tpu": false,
+ "enable_internet": true,
+ "dataset_sources": [
+  "sparshnagpal/aerojev-bundle",
+  "sparshnagpal/aerojev-general-text"
+ ],
+ "kernel_sources": [],
+ "competition_sources": [],
+ "model_sources": []
+}

@@ -97,6 +97,9 @@ apply_banks(dom, {"fact|outage|True|0": ["a", "b", "c"], "fact|outage|False|0": 
 added = {v: len(dom.fact("outage").templates(v)) - before[v] for v in (True, False)}
 assert added == {True: 1, False: 1}, added
 assert parse_list('{ "a b", "c d" }') == ["a b", "c d"] and parse_list('```json\n["x"]\n```') == ["x"]
+from general.gen_prose import norm, parse_answers  # noqa: E402
+assert parse_answers('[1, "no"]') == ["1", "no"] and parse_answers('{"1": "3", "2": "2"}') == ["3", "2"]
+assert norm("The environment.") == "environment" and norm(0) == "0"
 
 # key="" turns off every key source (environment, Kaggle Secret, .env), so nothing here can reach the network
 with tempfile.TemporaryDirectory() as d:

@@ -91,11 +91,14 @@ All are private, under `sparshnagpal/aerojev-<name>`. The rounds are described i
 | `ultra` | 2× T4 | UltraBERT-150M against Ettin-150M; int8 export and CPU bench | – | `results/ultra/ultra.md` |
 | `int8diag` | x86 CPU | why int8 fails on x86 without VNNI | `encoder`, `ultra` | `results/int8diag/int8_x86.md` |
 | `int8fix` | x86 CPU | lossless weight-only recipes; the shipped int8 file | `int8diag`; dataset `aerojev-shipped-ettin` | `results/int8diag/int8_x86.md` |
+| `general-build` | x86 CPU | builds and checks the pilot data from wording and prose made elsewhere; no API key | dataset `aerojev-general-text` | kernel output only; `general/README.md` |
 | `general-gen` | x86 CPU | general decision data: NIM-grown wording (`general/gen_banks.py`), prose (`general/gen_prose.py`), pilot builds and checks | Kaggle Secret `NVIDIA_API_KEY`; started from the editor | kernel output only (generated text is not redistributed); `general/README.md` |
 
 **Private datasets:**
 * `sparshnagpal/aerojev-bundle`: code + data, rebuilt per round.
 * `sparshnagpal/aerojev-shipped-ettin`: the shipped `tiny` model's int8 file, uploaded so it could be scored on x86.
+* `sparshnagpal/aerojev-general-text`: NIM-generated wording and prose for the general data. Kept private, because
+  the trial terms forbid distributing generated content.
 
 ## What stays on Kaggle
 
@@ -145,6 +148,12 @@ and the distillation teachers' logits over the training set (regenerable).
     1. Push the code with the CLI.
     2. In the editor, check the secrets are attached.
     3. Click **Save Version → Save & Run All**.
+  * **Without the editor:** make the API calls elsewhere, and keep the keyless steps on Kaggle. Run 3 did this
+    on 2026-11-24:
+    1. The NIM calls (`gen_banks`, `gen_prose`) ran on the Mac with the key from `.env`. They only need the network,
+       and the output is a few tens of MB.
+    2. The generated text went to the private dataset `aerojev-general-text`.
+    3. The kernel `general-build`, which needs no key, was pushed and run from the CLI.
   * **Where the secrets are read:** at start-up, in the kernel's main process (`runner.py`, the kernel's `_secrets`).
     `setup.log` shows each name as loaded or not readable; values are never logged.
   * **Code reads them through `general.nim.secret(name)`.** It tries the environment, then the Kaggle Secret, then

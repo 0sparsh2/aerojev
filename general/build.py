@@ -25,7 +25,7 @@ from collections import Counter, defaultdict
 
 from . import compose
 from .domains import DOMAINS
-from .render import number_in_text
+from .render import number_in_text, small_count
 
 SPLITS = {"train": 0.8, "val": 0.1, "test": 0.1}
 UNSEEN = ("dev_unseen", "test_unseen")
@@ -44,9 +44,12 @@ def plan_splits(doms, records, unseen_records):
 
 
 def numbers_present(e, dom):
-    """Every int / float fact a label needs is written somewhere in the text (digits, ignoring separators)."""
+    """Every int / float fact a label needs is written somewhere in the text (digits, ignoring separators). In
+    model-written prose a small count may be in words; gen_prose.py had the judge read those back, so they are not
+    checked here."""
     needs = next(q for q in dom.questions if q.id == e["question"]["id"]).needs
-    return [n for n in needs if dom.fact(n).kind in ("int", "float")
+    prose = e["format"].startswith("prose-")
+    return [n for n in needs if dom.fact(n).kind in ("int", "float") and not (prose and small_count(dom.fact(n)))
             and not number_in_text(dom.fact(n).text(e["facts"][n]), e["state"])]
 
 

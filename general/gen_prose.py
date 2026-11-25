@@ -8,9 +8,11 @@ the generator, with free structure. For each record:
   1. facts   sampled exactly as for templated records (Domain.sample), so labels follow the same rules
   2. write   the generator gets a fact sheet (every fact in plain words, plus fictional names) and a document format,
              and writes a record that states every fact and no decision
-  3. check   numbers: every int / float value appears verbatim. judge: a second call reads only the record and
-             answers every yes / no and categorical fact, plus whether the record states a decision or outcome.
-             Any mismatch, "not stated" or stated decision drops the record.
+  3. check   numbers: every int / float value appears as digits. A small count (an int fact capped at 20) may be
+             written in words ("no quotes", "four crews"): when its digits are missing, the judge reads the count back
+             and must answer exactly. judge: a second call reads only the record and answers every yes / no and
+             categorical fact, plus whether the record states a decision or outcome. Any mismatch, "not stated" or
+             stated decision drops the record.
 Writes <out>/<domain>.<split>.jsonl ({"facts", "state", "format"} per kept record) and <out>/report.json.
 A held-out domain (Domain.heldout) gets one split, dev_unseen or test_unseen, with twice the test count.
 """
@@ -25,7 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from .domains import DOMAINS
 from .gen_banks import parse_list, thinking_off
 from .nim import NIMClient
-from .render import number_in_text
+from .render import number_in_text, small_count
 
 FORMATS = {
     "email": "an email between colleagues, with a subject line, greeting and sign-off",
@@ -54,6 +56,38 @@ def numbers_ok(dom, facts, text):
     """-> the int / float facts whose number is not written in the text."""
     return [f.name for f in dom.facts if f.kind in ("int", "float")
             and not number_in_text(f.text(facts[f.name]), text)]
+
+
+def parse_answers(text):
+    """Judge answers as strings, in order. Accepts a JSON list of strings or numbers ([1, "no"]) and a JSON object
+    keyed by question number ({"1": "3", "2": "2"}); falls back to gen_banks.parse_list."""
+    body = re.sub(r"<think>.*?</think>", "", text or "", flags=re.S)
+    m = re.search(r"[\[{].*[\]}]", body, flags=re.S)
+    if m:
+        try:
+            out = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            out = None
+        if isinstance(out, dict):
+            out = [v for _, v in sorted(out.items(), key=lambda kv: int(kv[0]) if str(kv[0]).isdigit() else 0)]
+        if isinstance(out, list) and all(isinstance(a, (str, int, float)) for a in out):
+            return [str(a) for a in out]
+    return parse_list(text)
+
+
+def counts_read(judge_nim, dom, facts, text, names):
+    """Small counts the record writes in words: the judge reads each back as digits; all must match exactly."""
+    qs = [f"{dom.fact(n).about[:1].upper()}{dom.fact(n).about[1:]}? Answer with a number in digits, or not stated."
+          for n in names]
+    listing = "\n".join(f"{i + 1}. {q}" for i, q in enumerate(qs))
+    try:
+        ans = parse_answers(judge_nim.chat([{"role": "user", "content": (
+            f"Read this record and answer each question from the record alone.\n\nRecord:\n{text}\n\nQuestions:\n"
+            f"{listing}\n\nOutput a JSON list with one answer per question, in order, and nothing else.")}],
+            temperature=0.0, max_tokens=200, extra=thinking_off(judge_nim.model)))
+    except RuntimeError:
+        return False
+    return len(ans) == len(names) and all(norm(a) == str(facts[n]) for n, a in zip(names, ans))
 
 
 def norm(answer):
@@ -91,11 +125,14 @@ def one(nim, judge_nim, dom, split, i, seed):
     except RuntimeError as e:
         return None, f"write failed: {str(e)[:60]}"
     missing = numbers_ok(dom, facts, text)
-    if missing:
+    words = [n for n in missing if small_count(dom.fact(n))]
+    if len(words) < len(missing):
         return None, "number missing"
+    if words and not counts_read(judge_nim, dom, facts, text, words):
+        return None, "count not read back"
     prompt, keys = judge_prompt(dom, text)
     try:
-        ans = parse_list(judge_nim.chat([{"role": "user", "content": prompt}], temperature=0.0, max_tokens=400,
+        ans = parse_answers(judge_nim.chat([{"role": "user", "content": prompt}], temperature=0.0, max_tokens=400,
                                         extra=thinking_off(judge_nim.model)))
     except RuntimeError:
         return None, "judge failed"

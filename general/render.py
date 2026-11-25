@@ -70,6 +70,12 @@ def singular(text):
                     text)
 
 
+def small_count(f):
+    """An int fact capped at 20 (prior claims, crews, nights). Model-written prose may state it in words ("no quotes",
+    "four crews"); general/gen_prose.py then has the judge read it back instead of matching digits."""
+    return f.kind == "int" and f.values[1] <= 20
+
+
 def number_in_text(value_text, text):
     """Is the number in a fact's value text ("$1,461.14", "9.9 °C", "42%") written in text? Digits only, ignoring
     thousands separators, units and symbols; "26" does not match inside "2026"."""

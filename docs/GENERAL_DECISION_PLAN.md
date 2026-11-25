@@ -17,6 +17,13 @@ A 600-record build of every domain takes about 3 s and passes every check (`test
 * **Data:** 736 new wordings, 701 fact-checked prose records, and 26,100 examples with 1,535 counterfactual pairs.
 * **Checks:** every one passes.
 * **Details:** `general/README.md`.
+
+**Run 3 (2026-11-24, all 22 domains):**
+* **Data:** 4,767 new wordings, 3,454 of 4,100 prose records kept (84%), 86,700 training examples with 5,312
+  counterfactual pairs, plus 2,887 dev-unseen and 4,076 test-unseen examples.
+* **Checks:** every one passes.
+* **How it ran:** the NIM calls ran from the Mac with the `.env` key, the text went to a private Kaggle dataset, and
+  the keyless build ran on Kaggle.
 * **Where it is kept:** generated text stays in the private kernel output. The repository is public, and the trial
   terms forbid distributing generated content.
 
